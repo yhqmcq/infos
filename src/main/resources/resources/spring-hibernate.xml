@@ -44,7 +44,7 @@
 
 	<!-- 加入JdbcDaoSupport支持 -->
 	<bean id="jdbcDaoSupportUtil" class="com.infox.common.dao.JdbcDaoSupportUtil">
-		<property name="dataSource" ref="c3p0_dataSource" />
+		<property name="dataSource" ref="druid_dataSource" />
 	</bean>
 
 </beans>

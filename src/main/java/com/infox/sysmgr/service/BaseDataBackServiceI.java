@@ -18,8 +18,6 @@ public interface BaseDataBackServiceI {
 	
 	public String getDefaultCatalog()throws SQLException;
 	
-	public void setDefaultCatalog(String catalog) throws SQLException;
-
 	public List<Object[]> createTableData(String tablename);
 	
 	public Boolean executeSQL(String sql);

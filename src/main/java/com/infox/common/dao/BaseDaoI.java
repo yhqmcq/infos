@@ -257,4 +257,6 @@ public interface BaseDaoI<T> {
 	 */
 	public BigInteger countBySql(String sql, Map<String, Object> params);
 
+	List<String> findBySqlList(String sql) throws RuntimeException;
+
 }

@@ -22,6 +22,13 @@ public class BaseField implements Serializable {
 	private java.lang.String nullable;
 	
 	private java.lang.String extra;
+	
+	
+
+	@Override
+	public String toString() {
+		return "BaseField [hashCode=" + hashCode + ", name=" + name + ", fieldType=" + fieldType + ", fieldDefault=" + fieldDefault + ", fieldProperty=" + fieldProperty + ", comment=" + comment + ", nullable=" + nullable + ", extra=" + extra + "]";
+	}
 
 	public int getHashCode() {
 		return hashCode;

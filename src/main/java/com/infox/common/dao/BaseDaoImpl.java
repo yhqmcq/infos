@@ -228,9 +228,20 @@ public class BaseDaoImpl<T> implements BaseDaoI<T> {
 		}
 		
 	}
-
+	
 	@Override
 	public List<Object[]> findBySql(String sql) throws RuntimeException {
+		try {
+			SQLQuery q = this.getCurrentSession().createSQLQuery(sql);
+			return q.list();
+		} catch(RuntimeException e) {
+			logger.error("执行本地SQL异常，SQL={"+sql+"}，异常={"+e+"}") ;
+			throw new RuntimeException("执行本地SQL异常：" + e.getMessage()) ;
+		}
+	}
+
+	@Override
+	public List<String> findBySqlList(String sql) throws RuntimeException {
 		try {
 			SQLQuery q = this.getCurrentSession().createSQLQuery(sql);
 			return q.list();
