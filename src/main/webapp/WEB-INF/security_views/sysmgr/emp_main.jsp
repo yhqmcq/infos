@@ -22,28 +22,28 @@
 			pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: 'ID(id)', width: 80, sortable: true }
+			    { field: 'id', title: 'ID', width: 80, sortable: true },
+			    { field: 'truename', title: '姓名', width: 120, sortable: true }
 			]],
 			columns: [[
-			    { field: 'account', title: '账号(account)', width: 150, sortable: true },
-			    { field: 'truename', title: '姓名(truename)', width: 150, sortable: true },
-			    { field: 'onlineState', title: '在线状态', width: 120, sortable: true, formatter:function(value,row){
+			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
+			    	if(value == "male"){return "男";}else{return "女";}
+			    }},
+			    { field: 'account', title: '账号', width: 120, sortable: true },
+			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
+			    { field: 'onlineState', title: '在线状态', width: 100, sortable: true, formatter:function(value,row){
 			    	if(undefined != value && "" != value && value == 1) {
 			    		return $.string.format("<a href='javascript:;'>{0}</a>", "<font color='green'>在线</font>");
 			    	} else {
 			    		return "下线";
 			    	}
 			    }},
-			    { field: 'status', title: '状态(status)', width: 120, sortable: true, formatter:function(value,row){
+			    { field: 'status', title: '账号状态', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
 			    }},
-			    { field: 'sex', title: '性别(sex)', width:100, sortable: true, formatter:function(value,row){
-			    	if(value == "male"){return "男";}else{return "女";}
-			    }},
-			    { field: 'email', title: '邮箱地址(email)', width: 180, sortable: true },
-			    { field: 'tel', title: '联系电话(tel)', width: 180, sortable: true },
-			    { field: 'orgname', title: '机构名称', width: 180, sortable: true },
-			    { field: 'created', title: '日期(date)', width: 140, sortable: true }
+			    { field: 'tel', title: '联系电话', width: 180, sortable: true },
+			    { field: 'orgname', title: '机构部门', width: 180, sortable: true },
+			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]],
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单

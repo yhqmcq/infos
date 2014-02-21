@@ -55,10 +55,26 @@ public class EmployeeEntity implements Serializable{
 	
 	private String onlineState = "0" ;
 	
+	/** 员工角色名称 */
+	private String empjonsName ;
+	
 	private OrganizationEntity org ;
 	
 	private Set<RoleEntity> roles = new HashSet<RoleEntity>(0) ;
 	
+	/** 员工职位角色 */
+	private Set<EmpJobEntity> empjobs = new HashSet<EmpJobEntity>() ;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "INFOX_SYSMGR_EMP_JOB", joinColumns = { @JoinColumn(name = "EMP_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "EMPJOB_ID", nullable = false, updatable = false) })
+	public Set<EmpJobEntity> getEmpjobs() {
+		return empjobs;
+	}
+
+	public void setEmpjobs(Set<EmpJobEntity> empjobs) {
+		this.empjobs = empjobs;
+	}
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "INFOX_SYSMGR_EMP_ROLE", joinColumns = { @JoinColumn(name = "EMP_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID", nullable = false, updatable = false) })
 	public Set<RoleEntity> getRoles() {
@@ -71,6 +87,14 @@ public class EmployeeEntity implements Serializable{
 
 	public String getOnlineState() {
 		return onlineState;
+	}
+
+	public String getEmpjonsName() {
+		return empjonsName;
+	}
+
+	public void setEmpjonsName(String empjonsName) {
+		this.empjonsName = empjonsName;
 	}
 
 	public void setOnlineState(String onlineState) {
