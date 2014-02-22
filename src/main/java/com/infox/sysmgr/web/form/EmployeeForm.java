@@ -46,6 +46,27 @@ public class EmployeeForm extends PageHelper{
 	private String ip ;
 	
 	private String onlineState ;
+	
+	private String jobids ;
+	
+	private String empjobsName ;
+
+	public String getJobids() {
+		return jobids;
+	}
+
+	public void setJobids(String jobids) {
+		this.jobids = jobids;
+	}
+
+
+	public String getEmpjobsName() {
+		return empjobsName;
+	}
+
+	public void setEmpjobsName(String empjobsName) {
+		this.empjobsName = empjobsName;
+	}
 
 	public String getOnlineState() {
 		return onlineState;

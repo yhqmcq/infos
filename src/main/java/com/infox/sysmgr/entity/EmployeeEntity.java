@@ -56,7 +56,7 @@ public class EmployeeEntity implements Serializable{
 	private String onlineState = "0" ;
 	
 	/** 员工角色名称 */
-	private String empjonsName ;
+	private String empjobsName ;
 	
 	private OrganizationEntity org ;
 	
@@ -89,12 +89,12 @@ public class EmployeeEntity implements Serializable{
 		return onlineState;
 	}
 
-	public String getEmpjonsName() {
-		return empjonsName;
+	public String getEmpjobsName() {
+		return empjobsName;
 	}
 
-	public void setEmpjonsName(String empjonsName) {
-		this.empjonsName = empjonsName;
+	public void setEmpjobsName(String empjobsName) {
+		this.empjobsName = empjobsName;
 	}
 
 	public void setOnlineState(String onlineState) {

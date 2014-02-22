@@ -1,10 +1,9 @@
 package com.infox.sysmgr.web.form;
 
 import java.util.Date;
+import java.util.List;
 
-import com.infox.common.web.page.Tree;
-
-public class EmpJobForm extends Tree<EmpJobForm> {
+public class EmpJobForm {
 
 	private String id;
 
@@ -21,6 +20,70 @@ public class EmpJobForm extends Tree<EmpJobForm> {
 	private String description;
 
 	private Date created = new Date();
+	
+	private String text;
+	private String state ;// open,closed
+	private boolean checked = false;
+	private Object attributes;
+	private List<EmpJobForm> children;
+	private String iconCls;
+	private String pid;
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	public Object getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(Object attributes) {
+		this.attributes = attributes;
+	}
+
+	public List<EmpJobForm> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<EmpJobForm> children) {
+		this.children = children;
+	}
+
+	public String getIconCls() {
+		return iconCls;
+	}
+
+	public void setIconCls(String iconCls) {
+		this.iconCls = iconCls;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
 
 	public String getId() {
 		return id;

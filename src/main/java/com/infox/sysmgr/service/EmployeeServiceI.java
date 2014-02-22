@@ -27,4 +27,7 @@ public interface EmployeeServiceI {
 	public List<String> MyPermission(String id, String username) throws Exception ;
 	
 	public boolean editCurrentUserPwd(LoginInfoSession sessionInfo, String oldPwd, String pwd) throws Exception ;
+	
+	public void set_empjobs(EmployeeForm form) throws Exception ;
+	
 }

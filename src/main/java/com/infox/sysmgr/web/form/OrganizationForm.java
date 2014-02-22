@@ -5,7 +5,7 @@ import java.util.List;
 
 public class OrganizationForm {
 	
-private String id ;
+	private String id ;
 	
 	/** 组织名称 */
 	private String fullname ;

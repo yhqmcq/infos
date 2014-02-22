@@ -17,6 +17,7 @@ import com.infox.common.dao.BaseDaoI;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.LoginInfoSession;
+import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.MenuEntity;
 import com.infox.sysmgr.entity.OrganizationEntity;
@@ -27,9 +28,12 @@ import com.infox.sysmgr.web.form.EmployeeForm;
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeServiceI {
-
+	
 	@Autowired
 	private BaseDaoI<EmployeeEntity> basedaoEmployee;
+
+	@Autowired
+	private BaseDaoI<EmpJobEntity> basedaoEmpJob;
 
 	@Autowired
 	private BaseDaoI<OrganizationEntity> basedaoOrg;
@@ -47,6 +51,15 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		entity.setId(RandomUtils.generateNumber(6)) ;
 		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 			entity.setOrg(this.basedaoOrg.get(OrganizationEntity.class, form.getOrgid()));
+		}
+		String jobs = form.getJobids() ;
+		if (jobs != null && !"".equalsIgnoreCase(jobs)) {
+			String[] split = jobs.split(",") ;
+			Set<EmpJobEntity> empjobs = new HashSet<EmpJobEntity>() ;
+			for (String jobid : split) {
+				empjobs.add(this.basedaoEmpJob.get(EmpJobEntity.class, jobid)) ;
+			}
+			entity.setEmpjobs(empjobs) ;
 		}
 		this.basedaoEmployee.save(entity);
 	}
@@ -164,6 +177,42 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 	@Override
 	public void set_grant(EmployeeForm form) throws Exception {
+		
+		if (form.getIds() != null && !"".equalsIgnoreCase(form.getIds())) {
+			List<RoleEntity> roles = new ArrayList<RoleEntity>();
+			if (form.getRoleIds() != null && form.getRoleIds().length() > 0) {
+				for (String roleId : form.getRoleIds().split(",")) {
+					roles.add(this.basedaoRole.get(RoleEntity.class, roleId));
+				}
+			}
+			for (String id : form.getIds().split(",")) {
+				if (id != null && !id.equalsIgnoreCase("")) {
+					EmployeeEntity t = this.basedaoEmployee.get(EmployeeEntity.class, id);
+					t.setRoles(new HashSet<RoleEntity>(roles));
+				}
+			}
+		}
+		
+	}
+	
+	@Override
+	public void set_empjobs(EmployeeForm form) throws Exception {
+		
+		String jobs = form.getJobids() ;
+		if (jobs != null && !"".equalsIgnoreCase(jobs)) {
+			String[] split = jobs.split(",") ;
+			Set<EmpJobEntity> empjobs = new HashSet<EmpJobEntity>() ;
+			for (String jobid : split) {
+				empjobs.add(this.basedaoEmpJob.get(EmpJobEntity.class, jobid)) ;
+			}
+			
+			for (String id : form.getIds().split(",")) {
+				if (id != null && !id.equalsIgnoreCase("")) {
+					EmployeeEntity t = this.basedaoEmployee.get(EmployeeEntity.class, id);
+					t.setEmpjobs(empjobs) ;
+				}
+			}
+		}
 
 		if (form.getIds() != null && !"".equalsIgnoreCase(form.getIds())) {
 			List<RoleEntity> roles = new ArrayList<RoleEntity>();
