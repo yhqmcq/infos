@@ -26,6 +26,7 @@
 			    { field: 'truename', title: '姓名', width: 120, sortable: true }
 			]],
 			columns: [[
+			    { field: 'orgname', title: '机构部门', width: 180, sortable: true },
 			    { field: 'empjobsName', title: '职位', width: 120, sortable: true },
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
@@ -43,7 +44,6 @@
 			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
 			    }},
 			    { field: 'tel', title: '联系电话', width: 180, sortable: true },
-			    { field: 'orgname', title: '机构部门', width: 180, sortable: true },
 			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]],
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
