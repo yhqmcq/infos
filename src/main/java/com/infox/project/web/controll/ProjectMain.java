@@ -23,7 +23,6 @@ public class ProjectMain extends BaseController {
 	
 	@RequestMapping("/project_main.do")
 	public String project_main() throws Exception {
-		System.out.println("12");
 		return  Constants.PROJECT + "project_main" ;
 	}
 	
