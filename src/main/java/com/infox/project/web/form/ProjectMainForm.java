@@ -29,8 +29,14 @@ public class ProjectMainForm extends PageHelper {
 	/** 项目状态（未开始，进行中，已挂起，已完成，激活） */
 	private int status = 0 ;
 	
+	/** 所属部门（ID） */
+	private String deptid ;
+	
+	/** 所属部门（Name） */
+	private String deptname ;
+	
 	/** 项目负责人 */
-	private String lead ;
+	private String project_leader ;
 	
 	/** 创建者ID */
 	private String createrId ;
@@ -43,6 +49,44 @@ public class ProjectMainForm extends PageHelper {
 	
 	/** 最后修改时间 */
 	private Date lastmod = new Date() ;
+	
+	/** 总天数 */
+	private long dateDiff ;
+	
+	/** 剩余天数 */
+	private long lastdateDiff ;
+	
+	public long getLastdateDiff() {
+		return lastdateDiff;
+	}
+
+	public void setLastdateDiff(long lastdateDiff) {
+		this.lastdateDiff = lastdateDiff;
+	}
+
+	public long getDateDiff() {
+		return dateDiff;
+	}
+
+	public void setDateDiff(long dateDiff) {
+		this.dateDiff = dateDiff;
+	}
+
+	public String getDeptid() {
+		return deptid;
+	}
+
+	public void setDeptid(String deptid) {
+		this.deptid = deptid;
+	}
+
+	public String getDeptname() {
+		return deptname;
+	}
+
+	public void setDeptname(String deptname) {
+		this.deptname = deptname;
+	}
 
 	public String getId() {
 		return id;
@@ -68,12 +112,12 @@ public class ProjectMainForm extends PageHelper {
 		return endDate;
 	}
 
-	public String getLead() {
-		return lead;
+	public String getProject_leader() {
+		return project_leader;
 	}
 
-	public void setLead(String lead) {
-		this.lead = lead;
+	public void setProject_leader(String project_leader) {
+		this.project_leader = project_leader;
 	}
 
 	public void setEndDate(Date endDate) {

@@ -16,7 +16,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.infox.common.util.UUIDHexGenerator;
+import com.infox.common.util.RandomUtils;
+import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.OrgDeptTreeEntity;
 
 /**
@@ -56,14 +57,17 @@ public class ProjectMainEntity {
 	/** 项目状态（未开始，进行中，已挂起，已完成，激活） */
 	private int status = 0 ;
 	
-	/** 项目负责人 */
-	private String lead ;
-	
 	/** 创建者ID */
 	private String createrId ;
 	
 	/** 创建者名称 */
 	private String createrName ;
+	
+	/** 所属部门（Name） */
+	private String deptname ;
+	
+	/** 项目负责人 */
+	private String project_leader ;
 	
 	/** 创建时间 */
 	private Date created = new Date() ;
@@ -71,9 +75,26 @@ public class ProjectMainEntity {
 	/** 最后修改时间 */
 	private Date lastmod = new Date() ;
 	
+	private EmployeeEntity emp_leader ;
+	
 	/** 项目所属公司部门 */
 	private OrgDeptTreeEntity dept ;
 	
+	/** 自关联，树形结构 */
+	private ProjectMainEntity project ;
+	private Set<ProjectMainEntity> projects = new HashSet<ProjectMainEntity>() ;
+
+	
+	@ManyToOne
+	@JoinColumn(name = "EMP_ID")
+	public EmployeeEntity getEmp_leader() {
+		return emp_leader;
+	}
+
+	public void setEmp_leader(EmployeeEntity emp_leader) {
+		this.emp_leader = emp_leader;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "DEPT_PID")
 	public OrgDeptTreeEntity getDept() {
@@ -83,11 +104,7 @@ public class ProjectMainEntity {
 	public void setDept(OrgDeptTreeEntity dept) {
 		this.dept = dept;
 	}
-
-	/** 自关联，树形结构 */
-	private ProjectMainEntity project ;
-	private Set<ProjectMainEntity> projects = new HashSet<ProjectMainEntity>() ;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "PROJECT_PID")
 	public ProjectMainEntity getProject() {
@@ -113,19 +130,27 @@ public class ProjectMainEntity {
 		if (this.id != null) {
 			return this.id;
 		}
-		return UUIDHexGenerator.generator().toString();
+		return RandomUtils.generateNumber(6);
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getLead() {
-		return lead;
+	public String getDeptname() {
+		return deptname;
 	}
 
-	public void setLead(String lead) {
-		this.lead = lead;
+	public String getProject_leader() {
+		return project_leader;
+	}
+
+	public void setProject_leader(String project_leader) {
+		this.project_leader = project_leader;
+	}
+
+	public void setDeptname(String deptname) {
+		this.deptname = deptname;
 	}
 
 	public String getName() {

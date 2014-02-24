@@ -26,7 +26,7 @@
 			    { field: 'truename', title: '姓名', width: 120, sortable: true }
 			]],
 			columns: [[
-			    { field: 'orgname', title: '机构部门', width: 180, sortable: true },
+			    { field: 'orgname', title: '机构部门', width: 150, sortable: true },
 			    { field: 'empjobsName', title: '职位', width: 120, sortable: true },
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}

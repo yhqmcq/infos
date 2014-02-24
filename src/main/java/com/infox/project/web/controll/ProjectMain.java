@@ -43,6 +43,7 @@ public class ProjectMain extends BaseController {
 	@RequestMapping("/add.do")
 	@ResponseBody
 	synchronized public Json add(ProjectMainForm form) throws Exception {
+		System.out.println("12");
 		Json j = new Json() ;
 		try {
 			this.projectService.add(form) ;

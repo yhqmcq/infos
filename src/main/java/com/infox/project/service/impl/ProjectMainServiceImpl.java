@@ -1,6 +1,7 @@
 package com.infox.project.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.util.DateUtil;
 import com.infox.common.web.page.DataGrid;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
@@ -37,6 +39,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if(null == project) {
 			ProjectMainEntity entity = new ProjectMainEntity();
 			BeanUtils.copyProperties(form, entity, new String[]{"id"});
+			
+			if(null != form.getDeptid() && !"".equalsIgnoreCase(form.getDeptid())) {
+				OrgDeptTreeEntity dept = new OrgDeptTreeEntity() ;
+				dept.setId(form.getDeptid()) ;
+				entity.setDept(dept) ;
+			}
+			
 			this.basedaoProject.save(entity);
 		} else {
 			throw new Exception("该项目已存在！ ") ;
@@ -52,9 +61,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	@Override
 	public void edit(ProjectMainForm form) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
-
 		BeanUtils.copyProperties(form, entity ,new String[]{"creater"});
-
 		this.basedaoProject.update(entity);
 	}
 
@@ -64,6 +71,11 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if(null != entity) {
 			ProjectMainForm form = new ProjectMainForm();
 			BeanUtils.copyProperties(entity, form);
+			
+			OrgDeptTreeEntity dept = entity.getDept() ;
+			if(null != dept) {
+				form.setDeptid(dept.getId()) ;
+			}
 			
 			return form;
 		} else {
@@ -103,6 +115,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			for (ProjectMainEntity i : ProjectMainEntity) {
 				ProjectMainForm uf = new ProjectMainForm();
 				BeanUtils.copyProperties(i, uf);
+				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate())) ;
+				long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate())) ;
+				uf.setDateDiff(dateDiff) ;
+				uf.setLastdateDiff(lastdateDiff) ;
 				forms.add(uf);
 			}
 		}
