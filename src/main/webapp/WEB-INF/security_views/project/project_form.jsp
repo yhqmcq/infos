@@ -4,8 +4,8 @@
 	var form_url = yhq.basePath+"/project/project_main/add.do" ;
 	$(function() {
 		$("#t").tabs({ width:738, lineHeight: 0 });
-		$("#s1").datebox({ required: true, value: $.date.format(new Date(), "yyyy-MM-dd") });
-		$("#e1").datebox({ required:true, onSelect : function(date) {
+		$("#s1").datebox({ required: true, readonly: true, value: $.date.format(new Date(), "yyyy-MM-dd") });
+		$("#e1").datebox({ required:true, readonly: true, onSelect : function(date) {
 			var t = $.date.compare($.date.format(date,"yyyy-MM-dd"), $("#s1").datebox('getValue')) ;
 			if(t<0) { $("#e1").datebox('setValue','') ; $.easyui.messager.show({ icon: "warning", msg: "项目结束日期不能小于项目开始日期！" }); }
 		} });
