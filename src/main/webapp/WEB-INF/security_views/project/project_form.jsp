@@ -2,8 +2,28 @@
 
 <script type="text/javascript">
 	var form_url = yhq.basePath+"/project/project_main/add.do" ;
-	var cg ;
 	$(function() {
+		$("#t").tabs({
+			width:738,
+	        lineHeight: 0
+	    });
+		$("#s1").datebox({ required: true, value: $.date.format(new Date(), "yyyy-MM-dd") });
+		$("#e1").datebox({
+			required:true,
+			onSelect : function(date) {
+				var t = $.date.compare($.date.format(date,"yyyy-MM-dd"), $("#s1").datebox('getValue')) ;
+				if(t<0) {
+					$("#e1").datebox('setValue','') ;
+					$.easyui.messager.show({ icon: "warning", msg: "项目结束日期不能小于项目开始日期！" });
+				}
+			}
+		});
+		$("#project_type").combobox({
+			width: 157, valueField: 'label', textField: 'value', value: '0',
+			data: [{ label: '0', value: '短期迭代' },{ label: '1', value: '长期项目' },{ label: '2', value: '运维项目' }],
+			panelHeight:'auto', editable:false, autoShowPanel: true
+	    });
+		
 		//编辑，加载表单数据
 		if($('input[name=id]').val().length > 0) {
 			form_url = yhq.basePath+"/project/project_main/edit.do" ;
@@ -30,8 +50,6 @@
 	//提交表单数据
 	var submitNow = function($dialog, $datagrid) {
 		var form_data = {} ; form_data = $("#form").form("getData") ; 
-		form_data["jobids"]=cg.combogrid("getValues").join(",");
-		form_data["empjobsName"]=cg.combogrid("getText");
 		
 		$.post(form_url, form_data, function(result) {
 			if (result.status) {
@@ -54,49 +72,42 @@
 	};
 </script>
 
-<style>
-	.form_base{
-		border:1px solid red;
-		width:99%;
-		margin:0 auto;
-	}
-	.form_base table{
-		background-color: #B8CCE2;
-    	width: 100%;
-    	border-spacing: 1px;
-	}
-	.form_base table tr{
-		background-color: #F2F7FE;
-	}
-	.form_base table th{
-		text-align:right ;
-		height:30px;
-	}
-	.form_base table td{
-		background-color: #FFFFFF;
-    	padding: 5px;
-	}
-</style>
-
 <form id="form" class="easyui-form">
+	<input type="hidden" name="id" value="${id}" />
 	<div class="form_base">
-		<table class="formtable" cellpadding="0">
+		<table class="formtable">
 			<tr>
 				<th>项目名称：</th>
-				<td><input type="text" name="" class="easyui-validatebox" ></td>
-				<th>项目名称：</th>
-				<td><input type="text" name="" class="easyui-validatebox" ></td>
+				<td><input type="text" name="name" class="easyui-validatebox" ></td>
+				<th>项目代号：</th>
+				<td><input type="text" name="code" class="easyui-validatebox" ></td>
 			</tr>
 			<tr>
-				<th>项目名称：</th>
-				<td><input type="text" name="" class="easyui-validatebox" ></td>
-				<th>项目名称：</th>
-				<td><input type="text" name="" class="easyui-validatebox" ></td>
+				<th>开始日期：</th>
+				<td>
+					<input id="s1" type="text" name="startDate">
+				</td>
+				<th>结束日期：</th>
+				<td>
+					<input id="e1" type="text" name="endDate">
+				</td>
+			</tr>
+			<tr>
+				<th>项目类型：</th>
+				<td><input id="project_type" name="project_type" /></td>
+				<th>团队名称：</th>
+				<td><input type="text" name="team_name" class="easyui-validatebox" ></td>
 			</tr>
 		</table>
 	</div>
 	<div class="form_base">
-	
-	</div>
+		<div id="t">
+		    <div data-options="title: 'tab1', refreshable: false, selected: true">
+		    </div>
+		    <div data-options="title: 'tab1', refreshable: false">tab2</div>
+		    <div data-options="title: 'tab1', refreshable: false">tab2</div>
+		    <div data-options="title: 'tab1', refreshable: false">tab2</div>
+		    <div data-options="title: 'tab1', refreshable: false">tab2</div>
+		</div>
 	
 </form>

@@ -26,7 +26,7 @@ if (cookieMap.containsKey("themeName")) {
 <script src="<%=basePath%>/js/plugins/easyui/jquery-easyui-1.3.5/jquery.easyui.min.js" type="text/javascript"></script>
 <script src="<%=basePath%>/js/plugins/easyui/jquery-easyui-1.3.5/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
 
-<script src="<%=basePath%>/js/util/jquery.jdirk.js" type="text/javascript"></script>
+<script src="<%=basePath%>/js/util/jquery.jdirk.js" type="text/javascript" charset="utf-8"></script>
 
 <script src="<%=basePath%>/js/plugins/easyui/jeasyui-extensions/jeasyui.extensions.js" type="text/javascript"></script>
 <script src="<%=basePath%>/js/plugins/easyui/jeasyui-extensions/jeasyui.extensions.linkbutton.js" type="text/javascript"></script>

@@ -23,13 +23,18 @@
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: 'ID', width: 80, sortable: true },
-			    { field: 'code', title: '项目编号', width: 120, sortable: true }
+			    { field: 'name', title: '项目名称', width: 180, sortable: true }
 			]],
 			columns: [[
-			    { field: 'name', title: '项目名称', width: 180, sortable: true },
-			    { field: 'status', title: '账号状态', width: 100, sortable: true, formatter:function(value,row){
+			    { field: 'code', title: '项目代号', width: 180, sortable: true },
+			    { field: 'sedate', title: '项目起止日期', width: 180, sortable: true, formatter:function(value,row){
+			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd")
+			    	return sed ;
+			    } },
+			    { field: 'project_type', title: '项目类型', width: 180, sortable: true, formatter:function(value,row){
 			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
-			    }},
+			    } },
+			    { field: 'team_name', title: '团队名称', width: 180, sortable: true },
 			    { field: 'tel', title: '联系电话', width: 180, sortable: true },
 			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]],

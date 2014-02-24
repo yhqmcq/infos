@@ -36,8 +36,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = this.get(form.getCode()) ;
 		if(null == project) {
 			ProjectMainEntity entity = new ProjectMainEntity();
-			BeanUtils.copyProperties(form, entity);
-			
+			BeanUtils.copyProperties(form, entity, new String[]{"id"});
 			this.basedaoProject.save(entity);
 		} else {
 			throw new Exception("该项目已存在！ ") ;

@@ -48,6 +48,7 @@ public class ProjectMain extends BaseController {
 			this.projectService.add(form) ;
 			j.setStatus(true) ;
 		} catch (Exception e) {
+			e.printStackTrace() ;
 			j.setMsg(e.getMessage()) ;
 		}
 		return j ;
