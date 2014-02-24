@@ -23,23 +23,10 @@
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: 'ID', width: 80, sortable: true },
-			    { field: 'truename', title: '姓名', width: 120, sortable: true }
+			    { field: 'code', title: '项目编号', width: 120, sortable: true }
 			]],
 			columns: [[
-			    { field: 'orgname', title: '机构部门', width: 180, sortable: true },
-			    { field: 'empjobsName', title: '职位', width: 120, sortable: true },
-			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
-			    	if(value == "male"){return "男";}else{return "女";}
-			    }},
-			    { field: 'account', title: '账号', width: 120, sortable: true },
-			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
-			    { field: 'onlineState', title: '在线状态', width: 100, sortable: true, formatter:function(value,row){
-			    	if(undefined != value && "" != value && value == 1) {
-			    		return $.string.format("<a href='javascript:;'>{0}</a>", "<font color='green'>在线</font>");
-			    	} else {
-			    		return "下线";
-			    	}
-			    }},
+			    { field: 'name', title: '项目名称', width: 180, sortable: true },
 			    { field: 'status', title: '账号状态', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
 			    }},
@@ -68,7 +55,7 @@
             title: "表单",
             href: form_url,
             iniframe: false,
-            width: 460, height: 230,
+            width: 760, height: 530,
             topMost: true,
             autoVCenter: true,
             autoHCenter: true,

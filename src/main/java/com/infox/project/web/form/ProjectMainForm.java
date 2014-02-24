@@ -11,6 +11,9 @@ public class ProjectMainForm extends PageHelper {
 	/** 项目编号 */
 	private String code ;
 	
+	/** 项目名称 */
+	private String name ;
+	
 	/** 创建者ID */
 	private String createrId ;
 	
@@ -49,6 +52,14 @@ public class ProjectMainForm extends PageHelper {
 
 	public String getCreaterName() {
 		return createrName;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setCreaterName(String createrName) {

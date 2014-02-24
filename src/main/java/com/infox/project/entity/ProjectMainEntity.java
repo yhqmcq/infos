@@ -38,6 +38,9 @@ public class ProjectMainEntity {
 	/** 项目编号 */
 	private String code ;
 	
+	/** 项目名称 */
+	private String name ;
+	
 	/** 创建者ID */
 	private String createrId ;
 	
@@ -97,6 +100,14 @@ public class ProjectMainEntity {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getCreaterId() {
