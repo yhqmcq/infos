@@ -47,6 +47,7 @@
 						'tel' : result.tel,
 						'orgname' : result.orgname
 					});
+					$('input[name=id]').attr("readonly","readonly") ;
 				}
 			}, 'json');
 		}
@@ -63,13 +64,11 @@
 			if (result.status) {
 				$datagrid.datagrid('reload') ;
 				$.easyui.messager.show({ icon: "info", msg: "保存记录成功。" });
-		console.info(2);
 			} else {
-				$.easyui.messager.show({ icon: "info", msg: "保存记录失败。" });
+				$.easyui.messager.show({ icon: "warning", msg: result.msg });
 				return false ;
 			}
 		}, 'json');
-		console.info(1);
 	};
 	
 	//验证表单
@@ -83,8 +82,11 @@
 </script>
 
 <form id="form" class="easyui-form">
-	<input type="hidden" name="id" value="${id}" />
 	<table id="tab_box" style="">
+		<tr>
+			<th>编号：</th>
+			<td><input name="id" value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
+		</tr>
 		<tr>
 			<th>姓名：</th>
 			<td><input name="truename" class="easyui-validatebox" type="text" data-options="required:true, prompt: '真实姓名'" /></td>
@@ -95,7 +97,6 @@
 					data: [{ label: 'male', value: '男' },{ label: 'female', value: '女' }],
 					panelHeight:'auto', editable:false" />
 			</td>
-			
 		</tr>
 		<tr>
 			<th>电话：</th>

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unchecked")
 public class BaseDaoImpl<T> implements BaseDaoI<T> {
 
-	private Logger logger = Logger.getLogger(BaseDaoImpl.class) ;
+	private Logger logger = Logger.getLogger(BaseDaoImpl.class) ; 
 	
 	@Autowired
 	private SessionFactory sessionFactory;

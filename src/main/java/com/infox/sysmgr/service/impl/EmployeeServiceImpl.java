@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
-import com.infox.common.util.RandomUtils;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.LoginInfoSession;
 import com.infox.sysmgr.entity.EmpJobEntity;
@@ -46,22 +45,27 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 	@Override
 	public void add(EmployeeForm form) throws Exception {
-		EmployeeEntity entity = new EmployeeEntity();
-		BeanUtils.copyProperties(form, entity);
-		entity.setId(RandomUtils.generateNumber(6)) ;
-		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
-			entity.setOrg(this.basedaoOrg.get(OrganizationEntity.class, form.getOrgid()));
-		}
-		String jobs = form.getJobids() ;
-		if (jobs != null && !"".equalsIgnoreCase(jobs)) {
-			String[] split = jobs.split(",") ;
-			Set<EmpJobEntity> empjobs = new HashSet<EmpJobEntity>() ;
-			for (String jobid : split) {
-				empjobs.add(this.basedaoEmpJob.get(EmpJobEntity.class, jobid)) ;
+		EmployeeForm employee = this.get(form.getId()) ;
+		if(null == employee) {
+			EmployeeEntity entity = new EmployeeEntity();
+			BeanUtils.copyProperties(form, entity);
+			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
+				entity.setOrg(this.basedaoOrg.get(OrganizationEntity.class, form.getOrgid()));
 			}
-			entity.setEmpjobs(empjobs) ;
+			String jobs = form.getJobids() ;
+			if (jobs != null && !"".equalsIgnoreCase(jobs)) {
+				String[] split = jobs.split(",") ;
+				Set<EmpJobEntity> empjobs = new HashSet<EmpJobEntity>() ;
+				for (String jobid : split) {
+					empjobs.add(this.basedaoEmpJob.get(EmpJobEntity.class, jobid)) ;
+				}
+				entity.setEmpjobs(empjobs) ;
+			}
+			this.basedaoEmployee.save(entity);
+		} else {
+			throw new Exception("该用户已存在！ ") ;
 		}
-		this.basedaoEmployee.save(entity);
+		
 	}
 
 	@Override
@@ -84,15 +88,18 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 	@Override
 	public EmployeeForm get(String id) throws Exception {
-		EmployeeForm form = new EmployeeForm();
 		EmployeeEntity entity = this.basedaoEmployee.get(EmployeeEntity.class, id);
-
-		BeanUtils.copyProperties(entity, form);
-
-		if (null != entity.getOrg()) {
-			form.setOrgid(entity.getOrg().getId());
+		if(null != entity) {
+			EmployeeForm form = new EmployeeForm();
+			BeanUtils.copyProperties(entity, form);
+			
+			if (null != entity.getOrg()) {
+				form.setOrgid(entity.getOrg().getId());
+			}
+			return form;
+		} else {
+			return null ;
 		}
-		return form;
 	}
 
 	@Override

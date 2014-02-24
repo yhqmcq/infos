@@ -55,7 +55,7 @@ public class Employee extends BaseController {
 			this.empservice.add(form) ;
 			j.setStatus(true) ;
 		} catch (Exception e) {
-			throw e;
+			j.setMsg(e.getMessage()) ;
 		}
 		return j ;
 	}
