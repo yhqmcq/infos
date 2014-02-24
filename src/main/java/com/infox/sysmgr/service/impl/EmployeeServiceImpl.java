@@ -19,7 +19,7 @@ import com.infox.common.web.page.LoginInfoSession;
 import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.MenuEntity;
-import com.infox.sysmgr.entity.OrganizationEntity;
+import com.infox.sysmgr.entity.OrgDeptTreeEntity;
 import com.infox.sysmgr.entity.RoleEntity;
 import com.infox.sysmgr.service.EmployeeServiceI;
 import com.infox.sysmgr.web.form.EmployeeForm;
@@ -35,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	private BaseDaoI<EmpJobEntity> basedaoEmpJob;
 
 	@Autowired
-	private BaseDaoI<OrganizationEntity> basedaoOrg;
+	private BaseDaoI<OrgDeptTreeEntity> basedaoOrg;
 
 	@Autowired
 	private BaseDaoI<RoleEntity> basedaoRole;
@@ -50,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			EmployeeEntity entity = new EmployeeEntity();
 			BeanUtils.copyProperties(form, entity);
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
-				entity.setOrg(this.basedaoOrg.get(OrganizationEntity.class, form.getOrgid()));
+				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
 			}
 			String jobs = form.getJobids() ;
 			if (jobs != null && !"".equalsIgnoreCase(jobs)) {
@@ -80,7 +80,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		BeanUtils.copyProperties(form, entity ,new String[]{"creater"});
 
 		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
-			entity.setOrg(this.basedaoOrg.get(OrganizationEntity.class, form.getOrgid()));
+			entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
 		}
 
 		this.basedaoEmployee.update(entity);

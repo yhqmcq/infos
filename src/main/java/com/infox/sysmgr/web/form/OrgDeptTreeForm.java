@@ -3,7 +3,7 @@ package com.infox.sysmgr.web.form;
 import java.util.Date;
 import java.util.List;
 
-public class OrganizationForm {
+public class OrgDeptTreeForm {
 	
 	private String id ;
 	
@@ -25,6 +25,9 @@ public class OrganizationForm {
 	/** 传真 */
 	private String fax;
 	
+	/** 机构或部门（O, D） */
+	private String type ;
+	
 	/** 描述 */
 	private String description ;
 	
@@ -44,7 +47,7 @@ public class OrganizationForm {
 	private String state ;// open,closed
 	private boolean checked = false;
 	private Object attributes;
-	private List<OrganizationForm> children;
+	private List<OrgDeptTreeForm> children;
 	private String iconCls;
 	private String pid;
 
@@ -67,7 +70,13 @@ public class OrganizationForm {
 	public String getState() {
 		return state;
 	}
+	public String getType() {
+		return type;
+	}
 
+	public void setType(String type) {
+		this.type = type;
+	}
 	public void setState(String state) {
 		this.state = state;
 	}
@@ -88,11 +97,11 @@ public class OrganizationForm {
 		this.attributes = attributes;
 	}
 
-	public List<OrganizationForm> getChildren() {
+	public List<OrgDeptTreeForm> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<OrganizationForm> children) {
+	public void setChildren(List<OrgDeptTreeForm> children) {
 		this.children = children;
 	}
 

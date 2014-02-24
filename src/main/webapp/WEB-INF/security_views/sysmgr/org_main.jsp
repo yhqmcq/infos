@@ -10,7 +10,7 @@
 	var treeGrid ;
 	$(function() {
 		treeGrid = $("#t1").treegrid({
-			title: '组织机构管理',
+			title: '部门管理',
 			method: "get",
 			url: yhq.basePath+"/sysmgr/org/treegrid.do",
 			idField: 'id',
@@ -25,10 +25,13 @@
 			    { field: 'id', title: 'ID(id)', width: 80, sortable: true }
 			]],
 			columns: [[
-			    { field: 'fullname', title: '组织机构名称', width: 180, sortable: true },
-			    { field: 'code', title: '机构代码', width: 180, sortable: true },
+			    { field: 'type', title: '类型', width: 50, formatter:function(value,row){
+			    	if(value == "O"){return "机构";}else{return "部门";}
+			    }},
+			    { field: 'fullname', title: '名称', width: 180, sortable: true },
+			    { field: 'code', title: '代码', width: 180, sortable: true },
 			    { field: 'ename', title: '英文名称', width: 180, sortable: true },
-			    { field: 'sname', title: '组织简称', width: 180, sortable: true },
+			    { field: 'sname', title: '简称', width: 180, sortable: true },
 			    { field: 'tel', title: '联系电话', width: 180, sortable: true },
 			    { field: 'fax', title: '传真', width: 180, sortable: true },
 			    { field: 'description', title: '简介', width: 180, sortable: true },

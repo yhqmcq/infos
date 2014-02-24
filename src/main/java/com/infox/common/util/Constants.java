@@ -41,6 +41,7 @@ public class Constants {
 	 * 安全目录的前缀URL地址
 	 */
 	public static final String SYSTEM = "/WEB-INF/security_views/sysmgr/";
+	public static final String PROJECT = "/WEB-INF/security_views/project/";
 	
 	/**
 	 * 获取当前登录用户实体类

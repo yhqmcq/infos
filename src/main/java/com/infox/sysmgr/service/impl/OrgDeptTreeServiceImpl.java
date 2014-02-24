@@ -13,26 +13,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.util.RandomUtils;
-import com.infox.sysmgr.entity.OrganizationEntity;
-import com.infox.sysmgr.service.OrganizationServiceI;
-import com.infox.sysmgr.web.form.OrganizationForm;
+import com.infox.sysmgr.entity.OrgDeptTreeEntity;
+import com.infox.sysmgr.service.OrgDeptTreeServiceI;
+import com.infox.sysmgr.web.form.OrgDeptTreeForm;
 
 @Service
 @Transactional
-public class OrganizationServiceImpl implements OrganizationServiceI {
+public class OrgDeptTreeServiceImpl implements OrgDeptTreeServiceI {
 
 	@Autowired
-	private BaseDaoI<OrganizationEntity> basedaoOrg;
+	private BaseDaoI<OrgDeptTreeEntity> basedaoOrg;
 
 	@Override
-	public void add(OrganizationForm form) throws Exception {
+	public void add(OrgDeptTreeForm form) throws Exception {
 		
-		OrganizationEntity entity = new OrganizationEntity();
-		BeanUtils.copyProperties(form, entity, new String[] { "created", "lastmod" });
+		OrgDeptTreeEntity entity = new OrgDeptTreeEntity();
+		BeanUtils.copyProperties(form, entity);
 		entity.setId(RandomUtils.generateNumber(6)) ;
 		
 		if(form.getPid() != null && !"".equalsIgnoreCase(form.getPid())) {
-			entity.setOrg(this.basedaoOrg.get(OrganizationEntity.class, form.getPid())) ;
+			entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getPid())) ;
 		}
 
 		this.basedaoOrg.save(entity);
@@ -40,14 +40,14 @@ public class OrganizationServiceImpl implements OrganizationServiceI {
 
 	@Override
 	public void delete(String id) throws Exception {
-		OrganizationEntity t = this.basedaoOrg.get(OrganizationEntity.class, id);
+		OrgDeptTreeEntity t = this.basedaoOrg.get(OrgDeptTreeEntity.class, id);
 		del(t);
 	}
 
-	private void del(OrganizationEntity entity) {
+	private void del(OrgDeptTreeEntity entity) {
 
 		if (entity.getOrgs() != null && entity.getOrgs().size() > 0) {
-			for (OrganizationEntity r : entity.getOrgs()) {
+			for (OrgDeptTreeEntity r : entity.getOrgs()) {
 				del(r);
 			}
 		}
@@ -55,18 +55,18 @@ public class OrganizationServiceImpl implements OrganizationServiceI {
 	}
 
 	@Override
-	public void edit(OrganizationForm form) throws Exception {
+	public void edit(OrgDeptTreeForm form) throws Exception {
 		
-		OrganizationEntity entity = this.basedaoOrg.get(OrganizationEntity.class, form.getId());
+		OrgDeptTreeEntity entity = this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getId());
 		
 		if(entity != null) {
 			BeanUtils.copyProperties(form, entity ,new String[]{"creater"});
 			
 			if (form.getPid() != null && !form.getPid().equalsIgnoreCase("")) {
-				entity.setOrg(basedaoOrg.get(OrganizationEntity.class, form.getPid()));
+				entity.setOrg(basedaoOrg.get(OrgDeptTreeEntity.class, form.getPid()));
 			}
 			if (form.getPid() != null && !form.getPid().equalsIgnoreCase("")) {// 说明前台选中了上级资源
-				OrganizationEntity pt = basedaoOrg.get(OrganizationEntity.class, form.getPid());
+				OrgDeptTreeEntity pt = basedaoOrg.get(OrgDeptTreeEntity.class, form.getPid());
 				isChildren(entity, pt);// 说明要将当前资源修改到当前资源的子/孙子资源下
 				entity.setOrg(pt);
 			} else {
@@ -82,7 +82,7 @@ public class OrganizationServiceImpl implements OrganizationServiceI {
 	 * @param pt 要修改到的节点
 	 * @return
 	 */
-	private boolean isChildren(OrganizationEntity entity, OrganizationEntity pt) {
+	private boolean isChildren(OrgDeptTreeEntity entity, OrgDeptTreeEntity pt) {
 		if (pt != null && pt.getOrg() != null) {
 			if (pt.getOrg().getId().equalsIgnoreCase(entity.getId())) {
 				pt.setOrg(null);
@@ -96,12 +96,12 @@ public class OrganizationServiceImpl implements OrganizationServiceI {
 
 
 	@Override
-	public OrganizationForm get(String id) throws Exception {
+	public OrgDeptTreeForm get(String id) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
-		OrganizationEntity entity = this.basedaoOrg.get("from OrganizationEntity t where t.id = :id", params);
+		OrgDeptTreeEntity entity = this.basedaoOrg.get("from OrgDeptTreeEntity t where t.id = :id", params);
 		
-		OrganizationForm r = new OrganizationForm();
+		OrgDeptTreeForm r = new OrgDeptTreeForm();
 		
 		if(null != entity) {
 			BeanUtils.copyProperties(entity, r);
@@ -113,22 +113,22 @@ public class OrganizationServiceImpl implements OrganizationServiceI {
 	}
 
 	@Override
-	public List<OrganizationForm> org_treegrid(OrganizationForm form ,String mode) throws Exception {
-		String hql = "select t from OrganizationEntity t where t.org is null order by created desc" ;
+	public List<OrgDeptTreeForm> org_treegrid(OrgDeptTreeForm form ,String mode) throws Exception {
+		String hql = "select t from OrgDeptTreeEntity t where t.org is null order by created desc" ;
 		
-		List<OrganizationEntity> entitys = this.basedaoOrg.find(hql) ;
+		List<OrgDeptTreeEntity> entitys = this.basedaoOrg.find(hql) ;
 		
-		List<OrganizationForm> orgsform = new ArrayList<OrganizationForm>() ;
+		List<OrgDeptTreeForm> orgsform = new ArrayList<OrgDeptTreeForm>() ;
 		
-		for (OrganizationEntity menuEntity : entitys) {
+		for (OrgDeptTreeEntity menuEntity : entitys) {
 			orgsform.add(recursiveNode(menuEntity ,mode)) ;
 		}
 		
 		return orgsform ;
 	}
 	
-	public OrganizationForm recursiveNode(OrganizationEntity me ,String mode) {
-		OrganizationForm mf = new OrganizationForm() ;
+	public OrgDeptTreeForm recursiveNode(OrgDeptTreeEntity me ,String mode) {
+		OrgDeptTreeForm mf = new OrgDeptTreeForm() ;
 		BeanUtils.copyProperties(me, mf) ;
 		
 		//combotree方式显示
@@ -137,17 +137,17 @@ public class OrganizationServiceImpl implements OrganizationServiceI {
 		if(null != me.getOrgs() && me.getOrgs().size() > 0) {
 			mf.setState("closed") ;
 			
-			Set<OrganizationEntity> rs = me.getOrgs() ;
-			List<OrganizationForm> children = new ArrayList<OrganizationForm>();
-			for (OrganizationEntity menuEntity : rs) {
+			Set<OrgDeptTreeEntity> rs = me.getOrgs() ;
+			List<OrgDeptTreeForm> children = new ArrayList<OrgDeptTreeForm>();
+			for (OrgDeptTreeEntity menuEntity : rs) {
 				
 				//combotree方式显示
 				if("combotree".equalsIgnoreCase(mode)) {
-						OrganizationForm tn = recursiveNode(menuEntity ,mode) ;
+						OrgDeptTreeForm tn = recursiveNode(menuEntity ,mode) ;
 						BeanUtils.copyProperties(menuEntity ,tn) ;
 						children.add(tn);
 				} else {
-					OrganizationForm tn = recursiveNode(menuEntity ,mode) ;
+					OrgDeptTreeForm tn = recursiveNode(menuEntity ,mode) ;
 					BeanUtils.copyProperties(menuEntity ,tn) ;
 					children.add(tn);
 				}

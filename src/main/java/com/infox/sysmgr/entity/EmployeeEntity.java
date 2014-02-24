@@ -58,7 +58,7 @@ public class EmployeeEntity implements Serializable{
 	/** 员工角色名称 */
 	private String empjobsName ;
 	
-	private OrganizationEntity org ;
+	private OrgDeptTreeEntity org ;
 	
 	private Set<RoleEntity> roles = new HashSet<RoleEntity>(0) ;
 	
@@ -217,11 +217,11 @@ public class EmployeeEntity implements Serializable{
 
 	@ManyToOne
 	@JoinColumn(name = "ORG_PID")
-	public OrganizationEntity getOrg() {
+	public OrgDeptTreeEntity getOrg() {
 		return org;
 	}
 
-	public void setOrg(OrganizationEntity org) {
+	public void setOrg(OrgDeptTreeEntity org) {
 		this.org = org;
 	}
 	

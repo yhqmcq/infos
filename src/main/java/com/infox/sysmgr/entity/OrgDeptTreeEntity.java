@@ -18,10 +18,10 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name = "INFOX_SYSMGR_ORG")
+@Table(name = "INFOX_SYSMGR_ORG_DEPT")
 @DynamicUpdate(true)
 @DynamicInsert(true)
-public class OrganizationEntity implements Serializable {
+public class OrgDeptTreeEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -48,6 +48,8 @@ public class OrganizationEntity implements Serializable {
 	/** 传真 */
 	private String fax;
 	
+	private String type ;
+	
 	/** 描述 */
 	private String description ;
 	
@@ -64,9 +66,9 @@ public class OrganizationEntity implements Serializable {
 	
 	private Date lastmod = new Date() ;
 	
-	private OrganizationEntity org ;
+	private OrgDeptTreeEntity org ;
 	
-	private Set<OrganizationEntity> orgs = new HashSet<OrganizationEntity>() ;
+	private Set<OrgDeptTreeEntity> orgs = new HashSet<OrgDeptTreeEntity>() ;
 	
 	private Set<EmployeeEntity> users = new HashSet<EmployeeEntity>() ;
 	
@@ -82,21 +84,21 @@ public class OrganizationEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "ORG_PID")
-	public OrganizationEntity getOrg() {
+	public OrgDeptTreeEntity getOrg() {
 		return org;
 	}
 
-	public void setOrg(OrganizationEntity org) {
+	public void setOrg(OrgDeptTreeEntity org) {
 		this.org = org;
 	}
 
 	@OneToMany(mappedBy = "org", fetch = FetchType.LAZY)
 	@OrderBy("created desc")
-	public Set<OrganizationEntity> getOrgs() {
+	public Set<OrgDeptTreeEntity> getOrgs() {
 		return orgs;
 	}
 
-	public void setOrgs(Set<OrganizationEntity> orgs) {
+	public void setOrgs(Set<OrgDeptTreeEntity> orgs) {
 		this.orgs = orgs;
 	}
 
@@ -111,6 +113,14 @@ public class OrganizationEntity implements Serializable {
 
 	public String getFullname() {
 		return fullname;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public void setFullname(String fullname) {

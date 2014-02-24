@@ -4,11 +4,21 @@
 	var form_url = yhq.basePath+"/sysmgr/org/add.do" ;
 	
 	$(function() {
-		$("#select1").combotree({
+		var s1 = $("#select1").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
 			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){$("#pname").val(node.text);}
+	    });
+		$("#select3").combobox({
+			width: 157, valueField: 'label', textField: 'value', value: 'O',
+			data: [{ label: 'O', value: '机构' },{ label: 'D', value: '部门' }],
+			panelHeight:'auto', editable:false, autoShowPanel: true,
+			onSelect: function(node){
+				if("D" == node.label) {	//是部门，则机构必填
+					s1.combotree({ required:true, autoShowPanel: true, value: s1.combotree("getValue") }) ;
+				}
+			}
 	    });
 		
 		//编辑，加载表单数据
@@ -84,6 +94,8 @@
 		<tr>
 			<th>上级机构：</th>
 			<td><input id="select1" name="pid" /><input name="pname" id="pname"  type="hidden"/></td>
+			<th>上级机构：</th>
+			<td><input id="select3" name="type" /></td>
 		</tr>
 		<tr>
 			<td colspan="4">
