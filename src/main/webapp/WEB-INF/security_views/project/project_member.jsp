@@ -78,7 +78,7 @@
 				<div data-options="region: 'north', border: false" style="overflow: hidden;width:200px;height:300px;">
 					<div class="easyui-layout" data-options="fit: true">
 						<div data-options="region: 'west', border: false" style="overflow: hidden;background:#e3e3e3;border-top:1px solid #333;border-bottom:1px solid #333;width:40px;height:220px;">
-							
+							<a class='imgIcon jpeg'></a>							
 						</div>
 						
 						<div data-options="region: 'center', border: false" style="overflow: hidden;border-left:1px solid #333;border-bottom:1px solid #333;width:100px;height:200px;">

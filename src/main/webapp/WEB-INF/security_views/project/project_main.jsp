@@ -110,7 +110,7 @@
 		var rows = dataGrid.datagrid('getChecked');
 		if (rows.length > 0) {
 			var dialog = $.easyui.showDialog({
-	            title: "表单",
+	            title: "设置开发团队人员",
 	            href: yhq.basePath+"/project/project_main/project_member.do",
 	            iniframe: true,
 	            width: 850, height: 560,
