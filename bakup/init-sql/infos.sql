@@ -10,10 +10,46 @@ Target Server Type    : MYSQL
 Target Server Version : 50522
 File Encoding         : 65001
 
-Date: 2014-02-23 19:47:00
+Date: 2014-02-26 00:48:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `infox_project_project`
+-- ----------------------------
+DROP TABLE IF EXISTS `infox_project_project`;
+CREATE TABLE `infox_project_project` (
+  `id` varchar(255) NOT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `createrId` varchar(255) DEFAULT NULL,
+  `createrName` varchar(255) DEFAULT NULL,
+  `deptname` varchar(255) DEFAULT NULL,
+  `endDate` datetime DEFAULT NULL,
+  `lastmod` datetime DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `project_leader` varchar(255) DEFAULT NULL,
+  `project_type` int(11) NOT NULL,
+  `startDate` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `team_name` varchar(255) DEFAULT NULL,
+  `DEPT_PID` varchar(255) DEFAULT NULL,
+  `EMP_ID` varchar(255) DEFAULT NULL,
+  `PROJECT_PID` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_oc4cyt5xd9fbcqevg6qgleu7u` (`DEPT_PID`),
+  KEY `FK_58k8x19mnvcpcr2dbrbenvrnd` (`EMP_ID`),
+  KEY `FK_6xotk0sp040j9x9f62gto9jln` (`PROJECT_PID`),
+  CONSTRAINT `FK_6xotk0sp040j9x9f62gto9jln` FOREIGN KEY (`PROJECT_PID`) REFERENCES `infox_project_project` (`id`),
+  CONSTRAINT `FK_58k8x19mnvcpcr2dbrbenvrnd` FOREIGN KEY (`EMP_ID`) REFERENCES `infox_sysmgr_emp` (`id`),
+  CONSTRAINT `FK_oc4cyt5xd9fbcqevg6qgleu7u` FOREIGN KEY (`DEPT_PID`) REFERENCES `infox_sysmgr_org_dept` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of infox_project_project
+-- ----------------------------
+INSERT INTO `infox_project_project` VALUES ('372272', '123', '2014-02-25 20:07:32', '684340', '超级管理员', '333', '2014-03-05 00:00:00', '2014-02-25 20:07:32', '123', '123', '0', '2014-02-25 00:00:00', '0', '123', '372764', '123', null);
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_emp`
@@ -40,18 +76,45 @@ CREATE TABLE `infox_sysmgr_emp` (
   `empjobsName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKCB2970897D4D9D9F` (`ORG_PID`),
-  CONSTRAINT `FKCB2970897D4D9D9F` FOREIGN KEY (`ORG_PID`) REFERENCES `infox_sysmgr_org` (`id`)
+  KEY `FK_opvxa3fodnk27n7px66hed13k` (`ORG_PID`),
+  CONSTRAINT `FK_opvxa3fodnk27n7px66hed13k` FOREIGN KEY (`ORG_PID`) REFERENCES `infox_sysmgr_org_dept` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of infox_sysmgr_emp
 -- ----------------------------
-INSERT INTO `infox_sysmgr_emp` VALUES ('065657', null, '2014-02-22 22:37:59', null, null, '', '2014-02-22 22:37:59', null, '', null, 'male', 'Y', '', '121212', null, null, null, '12,sssssssss');
-INSERT INTO `infox_sysmgr_emp` VALUES ('270418', null, '2014-02-22 22:35:10', null, null, '', '2014-02-22 22:35:10', null, '', null, 'male', 'Y', '', 'wwww', null, null, null, null);
-INSERT INTO `infox_sysmgr_emp` VALUES ('335069', null, '2014-02-22 22:37:34', null, null, '', '2014-02-22 22:37:34', null, '', null, 'male', 'Y', '', '222', null, null, null, 'sssssssss,12');
-INSERT INTO `infox_sysmgr_emp` VALUES ('627370', null, '2014-02-22 22:28:16', null, null, '', '2014-02-22 22:28:16', null, '', null, 'male', 'Y', '', 'iui', null, null, null, null);
-INSERT INTO `infox_sysmgr_emp` VALUES ('639916', null, '2014-02-22 22:26:42', null, null, '', '2014-02-22 22:26:42', null, '', null, 'male', 'Y', '', '111', null, null, null, null);
-INSERT INTO `infox_sysmgr_emp` VALUES ('684340', 'admin', '2014-02-10 19:04:32', null, null, 'service@infox.com', '2014-02-10 19:04:32', null, '', 'admin', 'male', 'Y', '020-888888', '超级管理员', null, '1', null, null);
+INSERT INTO `infox_sysmgr_emp` VALUES ('0ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('10ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('11ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('123', null, '2014-02-25 20:06:30', null, null, '', '2014-02-25 20:06:30', null, '333', null, 'male', 'Y', '123', '123', '372764', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('12ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('13ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('14ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('15ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('16ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('17ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('18ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('19ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('1ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('20ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('21ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('22ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('23ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('24ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('25ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('26ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('27ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('28ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('29ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('2ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('3ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('4ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('5ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('684340', 'admin', '2014-02-10 19:04:32', null, null, 'service@infox.com', '2014-02-10 19:04:32', null, '', 'admin', 'male', 'Y', '020-888888', '超级管理员', null, '0', null, null);
+INSERT INTO `infox_sysmgr_emp` VALUES ('6ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('7ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('8ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
+INSERT INTO `infox_sysmgr_emp` VALUES ('9ABC', null, '2014-02-25 20:51:50', null, null, '213123', '2014-02-25 20:51:50', null, '222', null, 'male', 'Y', '213', '213', '482825', null, null, '');
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_empjob`
@@ -63,8 +126,8 @@ CREATE TABLE `infox_sysmgr_empjob` (
   `description` varchar(255) DEFAULT NULL,
   `job_level` varchar(255) DEFAULT NULL,
   `job_name` varchar(255) DEFAULT NULL,
-  `EMPJOB_PID` varchar(255) DEFAULT NULL,
   `job_sname` varchar(255) DEFAULT NULL,
+  `EMPJOB_PID` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_5p57rxyf89nxjp7nth1v9ji91` (`EMPJOB_PID`),
   CONSTRAINT `FK_5p57rxyf89nxjp7nth1v9ji91` FOREIGN KEY (`EMPJOB_PID`) REFERENCES `infox_sysmgr_empjob` (`id`)
@@ -73,11 +136,7 @@ CREATE TABLE `infox_sysmgr_empjob` (
 -- ----------------------------
 -- Records of infox_sysmgr_empjob
 -- ----------------------------
-INSERT INTO `infox_sysmgr_empjob` VALUES ('206943', '2014-02-22 10:37:55', '1212', null, '12', null, '12');
-INSERT INTO `infox_sysmgr_empjob` VALUES ('499809', '2014-02-22 10:38:37', '', null, 's', '606216', 's');
-INSERT INTO `infox_sysmgr_empjob` VALUES ('606216', '2014-02-22 10:38:30', 'sssssssssss', null, 'sssssssss', null, 'ssssssssss');
-INSERT INTO `infox_sysmgr_empjob` VALUES ('716615', '2014-02-22 10:41:28', '111111111111111111', null, '11111111', '606216', '111111111111');
-INSERT INTO `infox_sysmgr_empjob` VALUES ('782423', '2014-02-22 10:43:18', 'ee', 'e', 'ee', '606216', 'e');
+INSERT INTO `infox_sysmgr_empjob` VALUES ('906869', '2014-02-25 21:22:49', '', '12', '12', '212', null);
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_emp_job`
@@ -96,12 +155,6 @@ CREATE TABLE `infox_sysmgr_emp_job` (
 -- ----------------------------
 -- Records of infox_sysmgr_emp_job
 -- ----------------------------
-INSERT INTO `infox_sysmgr_emp_job` VALUES ('065657', '206943');
-INSERT INTO `infox_sysmgr_emp_job` VALUES ('270418', '206943');
-INSERT INTO `infox_sysmgr_emp_job` VALUES ('335069', '206943');
-INSERT INTO `infox_sysmgr_emp_job` VALUES ('065657', '606216');
-INSERT INTO `infox_sysmgr_emp_job` VALUES ('270418', '606216');
-INSERT INTO `infox_sysmgr_emp_job` VALUES ('335069', '606216');
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_emp_online`
@@ -121,67 +174,28 @@ CREATE TABLE `infox_sysmgr_emp_online` (
 -- ----------------------------
 -- Records of infox_sysmgr_emp_online
 -- ----------------------------
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('40283681445508630144550863890000', 'admin', '684340', '127.0.0.1', '2014-02-21 23:20:17', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('4028368144551b090144551b09be0000', 'admin', '684340', '127.0.0.1', '2014-02-21 23:40:39', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('4028368144551fab0144551fab940000', 'admin', '684340', '127.0.0.1', '2014-02-21 23:45:42', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814455226b014455226bc10000', 'admin', '684340', '127.0.0.1', '2014-02-21 23:48:43', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('40283681445526490144552649410000', 'admin', '684340', '127.0.0.1', '2014-02-21 23:52:56', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814455526b014455526baf0000', 'admin', '684340', '127.0.0.1', '2014-02-22 00:41:08', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814457645c014457645ca30000', 'admin', '684340', '127.0.0.1', '2014-02-22 10:19:58', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814457645c014457d132310001', 'admin', '684340', '127.0.0.1', '2014-02-22 12:18:51', '超级管理员', '0');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814457645c014458cb7cda0002', 'admin', '684340', '127.0.0.1', '2014-02-22 16:52:14', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814457645c014459a65fbd0003', 'admin', '684340', '127.0.0.1', '2014-02-22 20:51:19', '超级管理员', '0');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814457645c014459bd07d90004', 'admin', '684340', '127.0.0.1', '2014-02-22 21:16:04', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814459d679014459d679f00000', 'admin', '684340', '127.0.0.1', '2014-02-22 21:43:52', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814459db86014459db86860000', 'admin', '684340', '127.0.0.1', '2014-02-22 21:49:22', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814459ec79014459ec797d0000', 'admin', '684340', '127.0.0.1', '2014-02-22 22:07:53', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814459eebd014459eebd4f0000', 'admin', '684340', '127.0.0.1', '2014-02-22 22:10:22', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402836814459f148014459f148aa0000', 'admin', '684340', '127.0.0.1', '2014-02-22 22:13:08', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('40283681445a026201445a0262020000', 'admin', '684340', '127.0.0.1', '2014-02-22 22:31:49', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('40283681445a055401445a0554860000', 'admin', '684340', '127.0.0.1', '2014-02-22 22:35:02', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('40283681445a077f01445a077f910000', 'admin', '684340', '127.0.0.1', '2014-02-22 22:37:24', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('40283681445a077f01445a1b32b10001', 'admin', '684340', '127.0.0.1', '2014-02-22 22:58:55', '超级管理员', '0');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('40283681445e8d5101445e8d51430000', 'admin', '684340', '127.0.0.1', '2014-02-23 19:42:03', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288483445297730144529773a00000', 'admin', '684340', '本地', '2014-02-21 11:57:41', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a4e34c0000', 'admin', '684340', '本地', '2014-02-21 12:12:21', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a504e30002', 'admin', '684340', '本地', '2014-02-21 12:12:30', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a5cb130004', 'admin', '684340', '本地', '2014-02-21 12:13:21', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a5f1040006', 'admin', '684340', '本地', '2014-02-21 12:13:30', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a60f8e0008', 'admin', '684340', '本地', '2014-02-21 12:13:38', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a80878000a', 'admin', '684340', '本地', '2014-02-21 12:15:47', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a8a8c8000c', 'admin', '684340', '本地', '2014-02-21 12:16:28', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a9a7e1000e', 'admin', '684340', '本地', '2014-02-21 12:17:34', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452a9e2500010', 'admin', '684340', '本地', '2014-02-21 12:17:49', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452ab19b10012', 'admin', '684340', '本地', '2014-02-21 12:19:08', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452a4e3014452ac037d0014', 'admin', '684340', '本地', '2014-02-21 12:20:08', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452b052014452b052cf0000', 'admin', '684340', '本地', '2014-02-21 12:24:51', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452b052014452c047c30002', 'guest', '043242', '本地', '2014-02-21 12:42:16', 'guest', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452b052014452c09c2b0004', 'admin', '684340', '本地', '2014-02-21 12:42:38', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452d29b014452d29be20000', 'admin', '684340', '本地', '2014-02-21 13:02:18', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452d29b014452d2ca160002', 'admin', '684340', '本地', '2014-02-21 13:02:29', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452d29b014452d50b350004', 'admin', '684340', '本地', '2014-02-21 13:04:57', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452d29b014452dbc7b40006', 'admin', '684340', '本地', '2014-02-21 13:12:19', '超级管理员', '1');
-INSERT INTO `infox_sysmgr_emp_online` VALUES ('402884834452d29b014452dbe2270008', 'admin', '684340', '本地', '2014-02-21 13:12:25', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('402881844468e805014468e8055b0000', 'admin', '684340', '本地', '2014-02-25 19:57:20', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('402881844468f02f014468f02fa50000', 'admin', '684340', '本地', '2014-02-25 20:06:15', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('402881844468f763014468f763df0000', 'admin', '684340', '本地', '2014-02-25 20:14:07', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('402881844468f763014469514b500001', 'admin', '684340', '本地', '2014-02-25 21:52:19', '超级管理员', '0');
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_emp_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `infox_sysmgr_emp_role`;
 CREATE TABLE `infox_sysmgr_emp_role` (
-  `ROLE_ID` varchar(36) NOT NULL,
+  `ROLE_ID` varchar(255) NOT NULL,
   `EMP_ID` varchar(255) NOT NULL,
-  `EMPJOB_ID` varchar(255) NOT NULL,
   PRIMARY KEY (`EMP_ID`,`ROLE_ID`),
-  KEY `FKD465AE6C2C7F9376` (`ROLE_ID`),
-  KEY `FKD465AE6C9D60099C` (`EMP_ID`),
-  CONSTRAINT `FKD465AE6C2C7F9376` FOREIGN KEY (`ROLE_ID`) REFERENCES `infox_sysmgr_role` (`id`),
-  CONSTRAINT `FKD465AE6C9D60099C` FOREIGN KEY (`EMP_ID`) REFERENCES `infox_sysmgr_emp` (`id`)
+  KEY `FK_pify6eihswsjuu01h11t73pne` (`EMP_ID`),
+  KEY `FK_7kd34vi37djno3on1d4hhs106` (`ROLE_ID`),
+  CONSTRAINT `FK_7kd34vi37djno3on1d4hhs106` FOREIGN KEY (`ROLE_ID`) REFERENCES `infox_sysmgr_role` (`id`),
+  CONSTRAINT `FK_pify6eihswsjuu01h11t73pne` FOREIGN KEY (`EMP_ID`) REFERENCES `infox_sysmgr_emp` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of infox_sysmgr_emp_role
 -- ----------------------------
-INSERT INTO `infox_sysmgr_emp_role` VALUES ('948364', '684340', '');
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_menu`
@@ -212,14 +226,14 @@ CREATE TABLE `infox_sysmgr_menu` (
 -- Records of infox_sysmgr_menu
 -- ----------------------------
 INSERT INTO `infox_sysmgr_menu` VALUES ('068671', null, '2014-02-13 10:39:25', null, 'sysmgr/employee/emp_grant_main.do', 'icon-standard-arrow-undo', '2014-02-13 10:39:25', null, '用户授权', '1', null, null, 'F', '876715', 'Y');
-INSERT INTO `infox_sysmgr_menu` VALUES ('134095', null, '2014-02-22 00:42:02', null, '', 'icon-standard-bricks', '2014-02-22 00:42:02', null, '项目管理', '2', null, null, 'R', null, 'Y');
+INSERT INTO `infox_sysmgr_menu` VALUES ('134095', null, '2014-02-25 19:14:05', null, '', 'icon-standard-bricks', '2014-02-25 19:14:05', null, '项目管理', '1', null, null, 'R', null, 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('136992', null, '2014-02-17 23:03:40', null, 'sysmgr/data/data_main.do', 'icon-standard-database-save', '2014-02-17 23:03:40', null, '数据备份', '1', null, null, 'F', '876715', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('200025', null, '2014-02-13 10:31:53', null, 'sysmgr/task/task_main.do', 'icon-standard-clock-red', '2014-02-13 10:31:53', null, '定时作业', '1', null, null, 'F', '876715', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('229865', null, '2014-02-22 00:50:50', null, 'sysmgr/org/org_main.do', 'icon-standard-chart-organisation', '2014-02-22 00:50:50', null, '机构部门', '1', null, null, 'F', '876715', 'Y');
+INSERT INTO `infox_sysmgr_menu` VALUES ('361454', null, '2014-02-25 19:14:27', null, 'project/project_main/project_main.do', 'icon-standard-application-side-expand', '2014-02-25 19:14:27', null, '项目管理', '1', null, null, 'F', '134095', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('527852', null, '2014-02-22 10:20:57', null, 'sysmgr/empjob/empjob_main.do', 'icon-standard-user-red', '2014-02-22 10:20:57', null, '员工角色', '1', null, null, 'F', '876715', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('547345', null, '2014-02-22 00:50:30', null, 'sysmgr/employee/emp_main.do', 'icon-hamburg-my-account', '2014-02-22 00:50:30', null, '员工管理', '1', null, null, 'F', '876715', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('675303', null, '2014-02-18 14:50:50', null, 'sysmgr/filemanager/file_main.do', 'icon-standard-folder-database', '2014-02-18 14:50:50', null, '文件管理', '1', null, null, 'F', '876715', 'Y');
-INSERT INTO `infox_sysmgr_menu` VALUES ('735395', null, '2014-02-22 00:43:04', null, '', 'icon-standard-cup', '2014-02-22 00:43:04', null, '个人中心', '3', null, null, 'R', null, 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('784026', null, '2014-02-17 23:13:29', null, 'sysmgr/emponline/online_main.do', 'icon-standard-star', '2014-02-17 23:13:29', null, '登陆历史', '1', null, null, 'F', '876715', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('837844', null, '2014-02-13 10:39:12', null, 'druid/druid.do', 'icon-standard-database-link', '2014-02-13 10:39:12', null, 'Druid监控', '1', null, null, 'F', '876715', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('863930', null, '2014-02-13 10:39:16', null, 'sysmgr/menu/menu_main.do', 'icon-standard-application-side-boxes', '2014-02-13 10:39:16', null, '资源管理', '1', null, null, 'F', '876715', 'Y');
@@ -227,10 +241,10 @@ INSERT INTO `infox_sysmgr_menu` VALUES ('876715', null, '2014-02-10 21:28:13', n
 INSERT INTO `infox_sysmgr_menu` VALUES ('878344', null, '2014-02-13 10:39:21', null, 'sysmgr/role/role_main.do', 'icon-standard-award-star-silver-3', '2014-02-13 10:39:21', null, '角色管理', '1', null, null, 'F', '876715', 'Y');
 
 -- ----------------------------
--- Table structure for `infox_sysmgr_org`
+-- Table structure for `infox_sysmgr_org_dept`
 -- ----------------------------
-DROP TABLE IF EXISTS `infox_sysmgr_org`;
-CREATE TABLE `infox_sysmgr_org` (
+DROP TABLE IF EXISTS `infox_sysmgr_org_dept`;
+CREATE TABLE `infox_sysmgr_org_dept` (
   `id` varchar(255) NOT NULL,
   `code` varchar(255) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -245,23 +259,26 @@ CREATE TABLE `infox_sysmgr_org` (
   `pname` varchar(255) DEFAULT NULL,
   `sname` varchar(255) DEFAULT NULL,
   `tel` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
   `ORG_PID` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKCB2996A57D4D9D9F` (`ORG_PID`),
-  CONSTRAINT `FKCB2996A57D4D9D9F` FOREIGN KEY (`ORG_PID`) REFERENCES `infox_sysmgr_org` (`id`)
+  KEY `FK_rwpxh5paok3rmx9s6aie9ps3t` (`ORG_PID`),
+  CONSTRAINT `FK_rwpxh5paok3rmx9s6aie9ps3t` FOREIGN KEY (`ORG_PID`) REFERENCES `infox_sysmgr_org_dept` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of infox_sysmgr_org
+-- Records of infox_sysmgr_org_dept
 -- ----------------------------
-INSERT INTO `infox_sysmgr_org` VALUES ('365852', '121', '2014-02-15 11:13:07', null, '', '12', '', '12', null, '2014-02-15 11:13:07', null, '', '', '', null);
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('372764', '33', '2014-02-25 19:58:20', null, '', '3', '3', '333', null, '2014-02-25 19:58:20', null, '1111', '33', '3', 'D', '833426');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('482825', '222', '2014-02-25 19:58:02', null, '', '22', '', '222', null, '2014-02-25 19:58:02', null, '1111', '222', '', 'D', '833426');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('833426', '111', '2014-02-25 19:57:54', null, '', '111', '11', '1111', null, '2014-02-25 19:57:54', null, '', '11', '11', 'O', null);
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `infox_sysmgr_role`;
 CREATE TABLE `infox_sysmgr_role` (
-  `id` varchar(36) NOT NULL,
+  `id` varchar(255) NOT NULL,
   `createdatetime` datetime DEFAULT NULL,
   `creater` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -269,41 +286,33 @@ CREATE TABLE `infox_sysmgr_role` (
   `modifyer` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `seq` int(11) DEFAULT NULL,
-  `PID` varchar(36) DEFAULT NULL,
+  `PID` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK9A0A90B5DA6FAF7D` (`PID`),
-  CONSTRAINT `FK9A0A90B5DA6FAF7D` FOREIGN KEY (`PID`) REFERENCES `infox_sysmgr_role` (`id`)
+  KEY `FK_40rk0qb3wi6tr4ojpssiepgar` (`PID`),
+  CONSTRAINT `FK_40rk0qb3wi6tr4ojpssiepgar` FOREIGN KEY (`PID`) REFERENCES `infox_sysmgr_role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of infox_sysmgr_role
 -- ----------------------------
-INSERT INTO `infox_sysmgr_role` VALUES ('948364', '2014-02-10 16:24:15', null, '拥有所有权限', 'ext_group', null, '超级管理员角色', null, null);
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_role_menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `infox_sysmgr_role_menu`;
 CREATE TABLE `infox_sysmgr_role_menu` (
-  `ROLE_ID` varchar(36) NOT NULL,
+  `ROLE_ID` varchar(255) NOT NULL,
   `MENU_ID` varchar(255) NOT NULL,
   PRIMARY KEY (`ROLE_ID`,`MENU_ID`),
-  KEY `FK104B5EA9A11DEC16` (`MENU_ID`),
-  KEY `FK104B5EA92C7F9376` (`ROLE_ID`),
-  CONSTRAINT `FK104B5EA92C7F9376` FOREIGN KEY (`ROLE_ID`) REFERENCES `infox_sysmgr_role` (`id`),
-  CONSTRAINT `FK104B5EA9A11DEC16` FOREIGN KEY (`MENU_ID`) REFERENCES `infox_sysmgr_menu` (`id`)
+  KEY `FK_h6lllim4m2nmod0l8646e6yjy` (`MENU_ID`),
+  KEY `FK_5gdg2ybw8rwpcwb2n1eny7phd` (`ROLE_ID`),
+  CONSTRAINT `FK_5gdg2ybw8rwpcwb2n1eny7phd` FOREIGN KEY (`ROLE_ID`) REFERENCES `infox_sysmgr_role` (`id`),
+  CONSTRAINT `FK_h6lllim4m2nmod0l8646e6yjy` FOREIGN KEY (`MENU_ID`) REFERENCES `infox_sysmgr_menu` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of infox_sysmgr_role_menu
 -- ----------------------------
-INSERT INTO `infox_sysmgr_role_menu` VALUES ('948364', '068671');
-INSERT INTO `infox_sysmgr_role_menu` VALUES ('948364', '229865');
-INSERT INTO `infox_sysmgr_role_menu` VALUES ('948364', '547345');
-INSERT INTO `infox_sysmgr_role_menu` VALUES ('948364', '837844');
-INSERT INTO `infox_sysmgr_role_menu` VALUES ('948364', '863930');
-INSERT INTO `infox_sysmgr_role_menu` VALUES ('948364', '876715');
-INSERT INTO `infox_sysmgr_role_menu` VALUES ('948364', '878344');
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_task`
@@ -328,4 +337,3 @@ CREATE TABLE `infox_sysmgr_task` (
 -- ----------------------------
 -- Records of infox_sysmgr_task
 -- ----------------------------
-INSERT INTO `infox_sysmgr_task` VALUES ('954465', '2014-02-21 23:50:09', '', '', '0/2 * * * * ? ', '4028848344436aa80144436b7c240001', 'N', 'com.infox.sysmgr.job.SchedulerBackupDB', '数据库备份', '数据库备份', '2', '定时备份数据库');
