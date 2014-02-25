@@ -182,6 +182,10 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				hql += " and t.onlineState=:onlineState";
 				params.put("onlineState", form.getOnlineState());
 			}
+			if (form.getOrgid() != null && !"".equals(form.getOrgid())) {
+				hql += " and t.org.id=:orgid";
+				params.put("orgid", form.getOrgid());
+			}
 		}
 		return hql;
 	}

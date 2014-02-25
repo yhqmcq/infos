@@ -17,6 +17,8 @@
 			onSelect: function(node){
 				if("D" == node.label) {	//是部门，则机构必填
 					s1.combotree({ required:true, autoShowPanel: true, value: s1.combotree("getValue") }) ;
+				} else {
+					s1.combotree({ required:false }) ;
 				}
 			}
 	    });
@@ -94,7 +96,7 @@
 		<tr>
 			<th>上级机构：</th>
 			<td><input id="select1" name="pid" /><input name="pname" id="pname"  type="hidden"/></td>
-			<th>上级机构：</th>
+			<th>类型：</th>
 			<td><input id="select3" name="type" /></td>
 		</tr>
 		<tr>

@@ -52,9 +52,13 @@ public class Employee extends BaseController {
 	synchronized public Json add(EmployeeForm form) throws Exception {
 		Json j = new Json() ;
 		try {
-			this.empservice.add(form) ;
+			for(int i=0;i<30;i++){
+				form.setId(i+"ABC") ;
+				this.empservice.add(form) ;
+			}
 			j.setStatus(true) ;
 		} catch (Exception e) {
+			e.printStackTrace() ;
 			j.setMsg(e.getMessage()) ;
 		}
 		return j ;

@@ -34,6 +34,14 @@ public class ProjectMain extends BaseController {
 		return Constants.PROJECT + "project_form" ;
 	}
 	
+	@RequestMapping("/project_member.do")
+	public String project_member(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		if(null != form.getId() && !"".equals(form.getId())) {
+			request.setAttribute("project", this.projectService.get(form.getId())) ;
+		}
+		return Constants.PROJECT + "project_member" ;
+	}
+	
 	@RequestMapping("/get.do")
 	@ResponseBody
 	public ProjectMainForm get(ProjectMainForm form, HttpServletRequest request) throws Exception {

@@ -11,15 +11,9 @@
 	$(function() {
 		dataGrid = $("#d1").datagrid({
 			title: '用户管理',
-			method: "post",
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
-			idField: 'id',
-			fit: true,
-			border: false,
-			remoteSort: false,
-			toolbar: '#buttonbar',
-			striped:true,
-			pagination: true,
+			idField: 'id', fit: true, border: false, method: "post",
+			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: '工号', width: 80, sortable: true },
@@ -51,6 +45,14 @@
 	        selectOnRowContextMenu: false,      //此属性开启当右键点击行时自动选择该行的功能
 	        pagingMenu: { submenu: false }     	//开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
 	    });
+		var s1 = $("#select1").combotree({
+			url : yhq.basePath+"/sysmgr/org/treegrid.do",
+			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
+			lines:true, autoShowPanel: true,
+			onSelect:function(node){
+				dataGrid.datagrid("load",{"orgid": node.id});
+			}
+	    });
 	});
 	
 	function form_edit(form) {
@@ -68,7 +70,7 @@
             title: "表单",
             href: form_url,
             iniframe: false,
-            width: 460, height: 230,
+            width: 470, height: 240,
             topMost: true,
             autoVCenter: true,
             autoHCenter: true,
@@ -117,6 +119,7 @@
                     <a id="btn2" onClick="form_edit('E');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">编辑</a>
                     <a id="btn3" onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
                     <a id="btn4" onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
+                    <input id="select1" name="pid" />
                 </div>
 			</div>
 		</div>
