@@ -1,6 +1,6 @@
 ﻿
 form{margin:0px;padding:0px;}
-a{text-decoration: none}
+a{text-decoration: none; color: #236FD4;}
 img{border:0px;}
 textarea.easyui-validatebox{font-size:13px;}
 .validatebox-text {background-attachment: scroll;background-clip: border-box;background-origin: padding-box;background-size: auto auto;border:1px solid #ddd;height: 19px;line-height: 17px;padding: 1px 3px 2px;}

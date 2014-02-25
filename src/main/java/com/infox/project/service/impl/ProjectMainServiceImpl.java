@@ -122,10 +122,16 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			for (ProjectMainEntity i : ProjectMainEntity) {
 				ProjectMainForm uf = new ProjectMainForm();
 				BeanUtils.copyProperties(i, uf);
+				
 				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate())) ;
 				long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate())) ;
 				uf.setDateDiff(dateDiff) ;
 				uf.setLastdateDiff(lastdateDiff) ;
+				
+				if(null != i.getDept()) {
+					uf.setDeptname(i.getDept().getFullname()) ;
+				}
+				
 				forms.add(uf);
 			}
 		}

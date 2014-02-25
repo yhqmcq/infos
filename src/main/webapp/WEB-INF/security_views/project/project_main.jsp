@@ -18,13 +18,16 @@
 			border: false,
 			remoteSort: false,
 			toolbar: '#buttonbar',
+			singleSelect: true,
 			striped:true,
 			pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: 'ID', width: 80, sortable: true },
-			    { field: 'name', title: '项目名称', width: 180, sortable: true }
-			]],
+			    { field: 'name', title: '项目名称', width: 180, sortable: true, formatter:function(value,row,index){
+		    	var opa = $.string.format("<a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a>", index, value);
+		    	return opa ;
+		    }} ]],
 			columns: [[
 			    { field: 'code', title: '项目代号', width: 180, sortable: true },
 			    { field: 'sedate', title: '项目起止日期', width: 180, sortable: true, formatter:function(value,row){
@@ -36,6 +39,7 @@
 			    { field: 'project_type', title: '项目类型', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ return "短期迭代" ; } else  if(value == 1) { return "长期项目" ; } else { return "运维项目" ; }
 			    } },
+			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
 			    { field: 'status', title: '状态', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ return "未开始" ; } else  if(value == 1) { return "<font color='green'>进行中</font>" ; } else  if(value == 2) { return "<font color='green'>已挂起</font>" ; } else  if(value == 3) { return "已完成" ; } else { return "激活" ; }
 			    } },
@@ -110,6 +114,7 @@
 		}
 	}
 	
+	
 </script>
 
 </head>
@@ -123,17 +128,27 @@
                     <a id="btn2" onClick="form_edit('E');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">编辑</a>
                     <a id="btn3" onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
                     <a id="btn4" onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
+                    <a id="btn4" onclick="dataGrid.datagrid('selectAll');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">全选</a>
+                    <a id="btn4" onclick="dataGrid.datagrid('unselectAll');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">反选</a>
                     <a href="javascript:;" class="easyui-menubutton" data-options="menu:'#navMenu_toggleMenu',iconCls:'ext_settings'">功能操作</a>
                     <div id="navMenu_toggleMenu" class="easyui-menu">
-	                    <div id="navMenu_collapseAll" data-options="iconCls: 'icon-standard-arrow-out'">状态</div>
-	                    <div class="menu-sep"></div>
-	                    <div id="navMenu_collapse" data-options="iconCls: 'icon-metro-contract2'">延期</div>
-	                    <div class="menu-sep"></div>
-	                    <div id="navMenu_expandCurrentAll" data-options="iconCls: 'icon-metro-contract'">
-	                    	<span>设置人员</span>
+	                    <div data-options="iconCls: 'icon-metro-contract'">
+	                    	<span>状态设置</span>
 	                    	<div>
-		                    	<div id="navMenu_collapseCurrentAll" data-options="iconCls: 'icon-metro-expand'">项目参与人员</div>
-		                    	<div id="navMenu_collapseCurrentAll" data-options="iconCls: 'icon-metro-expand'">项目开发人员</div>
+		                    	<div data-options="iconCls: 'icon-metro-expand'">开始</div>
+		                    	<div data-options="iconCls: 'icon-metro-expand'">挂起</div>
+		                    	<div data-options="iconCls: 'icon-metro-expand'">激活</div>
+		                    	<div data-options="iconCls: 'icon-metro-expand'">结束</div>
+	                    	</div>
+	                    </div>
+	                    <div class="menu-sep"></div>
+	                    <div data-options="iconCls: 'icon-metro-contract2'">延期</div>
+	                    <div class="menu-sep"></div>
+	                    <div data-options="iconCls: 'icon-metro-contract'">
+	                    	<span>人员设置</span>
+	                    	<div>
+		                    	<div data-options="iconCls: 'icon-metro-expand'">项目参与人员</div>
+		                    	<div data-options="iconCls: 'icon-metro-expand'">项目开发人员</div>
 	                    	</div>
 	                    </div>
                 	</div>

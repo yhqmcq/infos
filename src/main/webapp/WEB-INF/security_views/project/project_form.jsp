@@ -21,25 +21,17 @@
 			onSelect:function(node){$("#deptname").val(node.text);}
 	    });
 		$("#select2").combogrid({
-			method: "get",
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
-			idField: 'id',
-			textField: 'truename',
-			panelWidth: 600,
-			panelHeight: 300,
-			multiple: false,
-			mode:'remote',
+			method: "get", idField: 'id', textField: 'truename', pagination: true,
+			panelWidth: 500, panelHeight: 200, multiple: false, mode:'remote',
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: '工号', width: 80, sortable: true },
-			    { field: 'truename', title: '姓名', width: 120, sortable: true }
+			    { field: 'id', title: '工号', width: 60, sortable: true }
 			]],
 			columns: [[
-			    { field: 'orgname', title: '机构部门', width: 150, sortable: true },
-			    { field: 'empjobsName', title: '职位', width: 120, sortable: true },
-			    { field: 'status', title: '账号状态', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
-			    }},
+			    { field: 'truename', title: '姓名', width: 100, sortable: true },
+			    { field: 'orgname', title: '机构部门', width: 120, sortable: true },
+			    { field: 'empjobsName', title: '职位', width: 100, sortable: true },
 			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]]
 	    });

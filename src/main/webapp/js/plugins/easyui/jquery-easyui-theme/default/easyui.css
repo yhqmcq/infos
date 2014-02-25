@@ -1197,6 +1197,9 @@ a:hover.l-btn-plain-selected {
   background: #FBEC88;
   color: #000000;
 }
+.datagrid-row-selected a{
+	color: #000000;
+}
 .datagrid-body .datagrid-editable .datagrid-editable-input {
   border-color: #95B8E7;
 }
