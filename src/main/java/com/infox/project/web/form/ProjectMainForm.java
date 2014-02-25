@@ -35,7 +35,10 @@ public class ProjectMainForm extends PageHelper {
 	/** 所属部门（Name） */
 	private String deptname ;
 	
-	/** 项目负责人 */
+	/** 项目负责人ID */
+	private String project_leader_id ;
+	
+	/** 项目负责人名称 */
 	private String project_leader ;
 	
 	/** 创建者ID */
@@ -62,6 +65,14 @@ public class ProjectMainForm extends PageHelper {
 
 	public void setLastdateDiff(long lastdateDiff) {
 		this.lastdateDiff = lastdateDiff;
+	}
+
+	public String getProject_leader_id() {
+		return project_leader_id;
+	}
+
+	public void setProject_leader_id(String project_leader_id) {
+		this.project_leader_id = project_leader_id;
 	}
 
 	public long getDateDiff() {

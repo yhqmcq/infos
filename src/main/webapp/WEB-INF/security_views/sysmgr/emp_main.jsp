@@ -22,7 +22,7 @@
 			pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: 'ID', width: 80, sortable: true },
+			    { field: 'id', title: '工号', width: 80, sortable: true },
 			    { field: 'truename', title: '姓名', width: 120, sortable: true }
 			]],
 			columns: [[

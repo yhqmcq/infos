@@ -18,6 +18,7 @@ import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
 import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
+import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.OrgDeptTreeEntity;
 
 @Service
@@ -44,6 +45,12 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				OrgDeptTreeEntity dept = new OrgDeptTreeEntity() ;
 				dept.setId(form.getDeptid()) ;
 				entity.setDept(dept) ;
+			}
+			
+			if(null != form.getProject_leader_id() && !"".equalsIgnoreCase(form.getProject_leader_id())) {
+				EmployeeEntity emp_leader = new EmployeeEntity() ;
+				emp_leader.setId(form.getProject_leader_id()) ;
+				entity.setEmp_leader(emp_leader) ;
 			}
 			
 			this.basedaoProject.save(entity);

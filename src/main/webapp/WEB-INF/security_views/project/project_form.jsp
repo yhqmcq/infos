@@ -16,11 +16,33 @@
 	    });
 		$("#deptid").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
-			width:190, idFiled:'pid', textFiled:'fullname', editable: false,
+			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){$("#deptname").val(node.text);}
 	    });
-		
+		$("#select2").combogrid({
+			method: "get",
+			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
+			idField: 'id',
+			textField: 'truename',
+			panelWidth: 600,
+			panelHeight: 300,
+			multiple: false,
+			mode:'remote',
+			frozenColumns: [[
+			    { field: 'ck', checkbox: true },
+			    { field: 'id', title: '工号', width: 80, sortable: true },
+			    { field: 'truename', title: '姓名', width: 120, sortable: true }
+			]],
+			columns: [[
+			    { field: 'orgname', title: '机构部门', width: 150, sortable: true },
+			    { field: 'empjobsName', title: '职位', width: 120, sortable: true },
+			    { field: 'status', title: '账号状态', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
+			    }},
+			    { field: 'created', title: '日期', width: 140, sortable: true }
+			]]
+	    });
 		
 		//编辑，加载表单数据
 		if($('input[name=id]').val().length > 0) {
@@ -34,6 +56,7 @@
 						'project_type' : result.project_type,
 						'team_name' : result.team_name,
 						'deptid' : result.deptid,
+						'project_leader_id' : result.project_leader_id,
 						'project_leader' : result.project_leader
 					});
 					$("#s1").datebox('setValue',$.date.format($.string.toDate(result.startDate), "yyyy-MM-dd")) ;
@@ -47,6 +70,7 @@
 	
 	//提交表单数据
 	var submitNow = function($dialog, $datagrid) {
+		$("#project_leader").val($("#select2").combogrid("getText"));
 		var form_data = {} ; form_data = $("#form").form("getData") ; 
 		$.post(form_url, form_data, function(result) {
 			if (result.status) {
@@ -97,32 +121,11 @@
 				<th>项目所属部门：</th>
 				<td><input id="deptid" name="deptid" /><input id="deptname" name="deptname" type="hidden"></td>
 				<th>项目负责人：</th>
-				<td><input type="text" name="project_leader" value="${_LOGIN_EMP_KEY.emp.truename}" class="easyui-validatebox" ></td>
+				 <td>
+				 	<input id="select2" name="project_leader_id" /><input id="project_leader" name="project_leader" type="hidden">
+				 </td>
 			</tr>
 		</table>
 	</div>
-	<!-- 
-	<div class="form_base">
-		<div id="t">
-		    <div data-options="title: '设置人员', refreshable: false, selected: true">
-		    	<div class="form_base">
-					<table class="formtable">
-						<tr>
-							<th>项目参与人员：</th>
-							<td><input id="partakeMember" style="width:490px;" type="text" name="partakeMember"></td>
-						</tr>
-						<tr>
-							<th>设置开发团体人员：</th>
-							<td><input id="developMember" style="width:490px;" type="text" name="developMember" class="easyui-validatebox" ></td>
-						</tr>
-					</table>
-				</div>
-		    </div>
-		    <div data-options="title: 'tab1', refreshable: false">tab2</div>
-		    <div data-options="title: 'tab1', refreshable: false">tab2</div>
-		    <div data-options="title: 'tab1', refreshable: false">tab2</div>
-		    <div data-options="title: 'tab1', refreshable: false">tab2</div>
-		</div>
-	</div>
-	 -->
 </form>
+

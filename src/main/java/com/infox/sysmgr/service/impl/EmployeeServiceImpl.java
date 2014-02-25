@@ -150,6 +150,10 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 	private String addWhere(String hql, EmployeeForm form, Map<String, Object> params) {
 		if (null != form) {
+			if (form.getQ() != null && !"".equals(form.getQ())) {
+				hql += " and t.id like :id";
+				params.put("id", "%%" + form.getQ() + "%%");
+			}
 			if (form.getTruename() != null && !"".equals(form.getTruename())) {
 				hql += " and t.name like :name";
 				params.put("name", "%%" + form.getTruename() + "%%");

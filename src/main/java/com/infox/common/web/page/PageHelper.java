@@ -16,6 +16,16 @@ public class PageHelper {
 	private String sort;// 排序字段名
 	
 	private String order;// 按什么排序(asc,desc)
+	
+	private String q ; // datagrid参数q=123
+
+	public String getQ() {
+		return q;
+	}
+
+	public void setQ(String q) {
+		this.q = q;
+	}
 
 	public String getIds() {
 		return ids;
