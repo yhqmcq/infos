@@ -72,6 +72,11 @@
 	    });
 	});
 	
+	function clearSeacher() {
+		$("#select1").combotree("setValue", "");
+		dataGrid1.datagrid("load", {}) ;
+	}
+	
 	function addMember() {
 		var rows = dataGrid1.datagrid('getChecked');
 		var empIds = [] ;
@@ -135,8 +140,6 @@
 					}
 				}, 'json');
 			}
-			
-			
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
@@ -160,7 +163,7 @@
                     </div>
                     
 					部门：<input id="select1" name="pid" />
-                    <a onclick="dataGrid1.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-cross'"></a>
+                    <a onclick="clearSeacher();" class="easyui-linkbutton easyui-tooltip" title="取消筛选" data-options="plain: true, iconCls: 'icon-standard-cross'"></a>
                     <a onclick="dataGrid1.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'"></a>
                 </div>
 			</div>
