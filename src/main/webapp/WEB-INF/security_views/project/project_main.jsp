@@ -33,6 +33,7 @@
 			    	if(value == 0){ return "短期迭代" ; } else  if(value == 1) { return "长期项目" ; } else { return "运维项目" ; }
 			    } },
 			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
+			    { field: 'project_leader', title: '项目负责人', width: 100, sortable: true },
 			    { field: 'status', title: '状态', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ return "未开始" ; } else  if(value == 1) { return "<font color='green'>进行中</font>" ; } else  if(value == 2) { return "<font color='green'>已挂起</font>" ; } else  if(value == 3) { return "已完成" ; } else { return "激活" ; }
 			    } },
