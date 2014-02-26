@@ -160,7 +160,8 @@
                     </div>
                     
 					部门：<input id="select1" name="pid" />
-                    <a onclick="dataGrid1.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
+                    <a onclick="dataGrid1.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-cross'"></a>
+                    <a onclick="dataGrid1.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'"></a>
                 </div>
 			</div>
 		</div>

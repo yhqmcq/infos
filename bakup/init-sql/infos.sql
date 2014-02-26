@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50522
 File Encoding         : 65001
 
-Date: 2014-02-26 13:47:32
+Date: 2014-02-26 22:56:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,18 +28,48 @@ CREATE TABLE `infox_project_emp_working` (
   `EMP_ID` varchar(255) DEFAULT NULL,
   `PEW_PID` varchar(255) DEFAULT NULL,
   `PROJECT_ID` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_n6r4r99gnknh70nqmgue1kjt3` (`EMP_ID`),
   KEY `FK_9ptulgtiebssvu6reqewrspm0` (`PEW_PID`),
   KEY `FK_h9d10dyrql3fb9e1fac7elilh` (`PROJECT_ID`),
-  CONSTRAINT `FK_h9d10dyrql3fb9e1fac7elilh` FOREIGN KEY (`PROJECT_ID`) REFERENCES `infox_project_project` (`id`),
   CONSTRAINT `FK_9ptulgtiebssvu6reqewrspm0` FOREIGN KEY (`PEW_PID`) REFERENCES `infox_project_emp_working` (`id`),
+  CONSTRAINT `FK_h9d10dyrql3fb9e1fac7elilh` FOREIGN KEY (`PROJECT_ID`) REFERENCES `infox_project_project` (`id`),
   CONSTRAINT `FK_n6r4r99gnknh70nqmgue1kjt3` FOREIGN KEY (`EMP_ID`) REFERENCES `infox_sysmgr_emp` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of infox_project_emp_working
 -- ----------------------------
+INSERT INTO `infox_project_emp_working` VALUES ('056988', '最洒的', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000145', null, '649067', '4', '2014-02-26 21:05:44');
+INSERT INTO `infox_project_emp_working` VALUES ('146700', '偶去行', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000150', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('156477', '们花今', '2014-02-27 00:00:00', '华智OA自动办公管理系统', '2014-02-26 00:00:00', '000118', null, '648614', '4', '2014-02-26 20:57:37');
+INSERT INTO `infox_project_emp_working` VALUES ('197100', '的最那', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000123', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('224617', '那奇口', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000146', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('234489', '里的近', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000126', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('238833', '偶去行', '2014-02-27 00:00:00', '华智OA自动办公管理系统', '2014-02-26 00:00:00', '000150', null, '648614', '4', '2014-02-26 21:48:39');
+INSERT INTO `infox_project_emp_working` VALUES ('255595', '克的哦', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000121', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('286607', '行奇最', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000144', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('308296', '克花们', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000151', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('357115', '口们进', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000129', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('392489', '们花今', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000118', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('435093', '哦胃们', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000143', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('498670', '年那行', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000120', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('598989', '今的里', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000148', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('616572', '们花今', '2014-02-27 00:00:00', '华智OA自动办公管理系统', '2014-02-26 00:00:00', '000118', null, '648614', '4', '2014-02-26 19:43:11');
+INSERT INTO `infox_project_emp_working` VALUES ('632558', '最克里', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000125', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('653566', '兰里里', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000147', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('722553', '近里花', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '00015', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('748183', '的哦的', '2014-02-27 00:00:00', '华智OA自动办公管理系统', '2014-02-26 00:00:00', '000119', null, '648614', '4', '2014-02-26 20:20:01');
+INSERT INTO `infox_project_emp_working` VALUES ('751815', '的哦的', '2014-02-27 00:00:00', '华智OA自动办公管理系统', '2014-02-26 00:00:00', null, '918914', null, '3', '2014-02-26 19:42:38');
+INSERT INTO `infox_project_emp_working` VALUES ('778817', '洒进洒', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000127', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('780699', '胃克最', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '00013', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('854533', '去年花', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000149', null, '649067', '4', '2014-02-26 21:05:45');
+INSERT INTO `infox_project_emp_working` VALUES ('918914', '的哦的', '2014-02-27 00:00:00', '华智OA自动办公管理系统', '2014-02-26 00:00:00', '000119', null, '648614', '4', '2014-02-26 20:18:46');
+INSERT INTO `infox_project_emp_working` VALUES ('921964', '们花今', '2014-02-27 00:00:00', '华智OA自动办公管理系统', '2014-02-26 00:00:00', null, '616572', null, '3', '2014-02-26 19:42:55');
+INSERT INTO `infox_project_emp_working` VALUES ('950799', '的今们', '2014-02-27 00:00:00', '华智OA办公自动化管理系统', '2014-02-26 00:00:00', '000131', null, '649067', '4', '2014-02-26 21:01:53');
+INSERT INTO `infox_project_emp_working` VALUES ('990143', '的哦的', '2014-02-27 00:00:00', '华智OA自动办公管理系统', '2014-02-26 00:00:00', null, '918914', null, '3', '2014-02-26 19:42:29');
 
 -- ----------------------------
 -- Table structure for `infox_project_project`
@@ -67,8 +97,8 @@ CREATE TABLE `infox_project_project` (
   KEY `FK_oc4cyt5xd9fbcqevg6qgleu7u` (`DEPT_PID`),
   KEY `FK_58k8x19mnvcpcr2dbrbenvrnd` (`EMP_ID`),
   KEY `FK_6xotk0sp040j9x9f62gto9jln` (`PROJECT_PID`),
-  CONSTRAINT `FK_6xotk0sp040j9x9f62gto9jln` FOREIGN KEY (`PROJECT_PID`) REFERENCES `infox_project_project` (`id`),
   CONSTRAINT `FK_58k8x19mnvcpcr2dbrbenvrnd` FOREIGN KEY (`EMP_ID`) REFERENCES `infox_sysmgr_emp` (`id`),
+  CONSTRAINT `FK_6xotk0sp040j9x9f62gto9jln` FOREIGN KEY (`PROJECT_PID`) REFERENCES `infox_project_project` (`id`),
   CONSTRAINT `FK_oc4cyt5xd9fbcqevg6qgleu7u` FOREIGN KEY (`DEPT_PID`) REFERENCES `infox_sysmgr_org_dept` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -76,6 +106,7 @@ CREATE TABLE `infox_project_project` (
 -- Records of infox_project_project
 -- ----------------------------
 INSERT INTO `infox_project_project` VALUES ('648614', 'whizen-OA', '2014-02-26 13:45:02', '000000', '超级管理员', '开发一部', '2014-03-13 00:00:00', '2014-02-26 13:45:02', '华智OA自动办公管理系统', '小今花', '0', '2014-02-26 00:00:00', '0', 'SQL-OA', '705624', '000100', null);
+INSERT INTO `infox_project_project` VALUES ('649067', 'WHIZEN-OA', '2014-02-26 13:52:00', '000000', '超级管理员', '开发一部', '2014-03-13 00:00:00', '2014-02-26 13:52:00', '华智OA办公自动化管理系统', '小今花', '0', '2014-02-26 00:00:00', '0', 'SQL-OA', '705624', '000100', null);
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_emp`
@@ -109,57 +140,57 @@ CREATE TABLE `infox_sysmgr_emp` (
 -- ----------------------------
 -- Records of infox_sysmgr_emp
 -- ----------------------------
-INSERT INTO `infox_sysmgr_emp` VALUES ('0000', 'djj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '的进进', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000000', 'admin', '2014-02-26 13:18:39', null, null, 'infos@service.com', '2014-02-26 13:18:39', null, '', 'admin', 'male', 'Y', '020888888', '超级管理员', null, '1', '', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('0001', 'wln', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '我里年', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('00010', 'nnq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '年那奇', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000100', 'xjh', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '小今花', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000101', 'jkq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '进口去', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000102', 'jhj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '杰花杰', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000103', 'lxm', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '兰行们', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000104', 'wqj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '乌去进', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000105', 'ehk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '哦花克', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000106', 'dzq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '的最去', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000107', 'kjl', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '克今兰', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000108', 'jjl', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '进杰里', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000109', 'jje', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '进进哦', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('00011', 'hzk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '花最克', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000110', 'qnw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '去年乌', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000111', 'nks', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '年口洒', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000112', 'mws', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '们乌洒', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000113', 'kjw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '口近我', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000114', 'hhd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '花花的', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000115', 'xsw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '逊洒胃', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000116', 'dse', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '的洒哦', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000117', 'exk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '哦小克', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000118', 'mhj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '们花今', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000119', 'ded', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '的哦的', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('00012', 'mdk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '们的克', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000120', 'nnx', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '年那行', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000121', 'kde', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '克的哦', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000122', 'wwq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '胃我去', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000123', 'dzn', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '的最那', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000124', 'kdd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '克的的', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000125', 'zkl', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '最克里', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000126', 'ldj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '里的近', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000127', 'sjs', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '洒进洒', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000128', 'jdw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '今的胃', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000129', 'kmj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '口们进', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('00013', 'wkz', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '胃克最', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000130', 'dqd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '的去的', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000131', 'djm', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '的今们', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000132', 'xqk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '行去克', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000133', 'xdj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '小的杰', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000134', 'nsq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '年洒去', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000135', 'jmx', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '近们小', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000136', 'kjd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '口进的', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000137', 'ddw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '的的乌', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000138', 'qhk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '去花克', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000139', 'xkn', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '逊克年', '498779', null, '系统工程师', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('00014', 'jej', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '杰哦今', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000140', 'llj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '里里杰', '705624', null, '项目经理', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000141', 'xhj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '逊花今', '979739', null, '程序员', '0');
-INSERT INTO `infox_sysmgr_emp` VALUES ('000142', 'dhd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '的花的', '705624', null, '项目经理', '0');
+INSERT INTO `infox_sysmgr_emp` VALUES ('0000', 'djj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '的进进', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000000', 'admin', '2014-02-26 13:18:39', null, null, 'infos@service.com', '2014-02-26 13:18:39', null, '', 'admin', 'male', 'Y', '020888888', '超级管理员', null, '0', '', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('0001', 'wln', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '我里年', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('00010', 'nnq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '年那奇', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000100', 'xjh', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '小今花', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000101', 'jkq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '进口去', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000102', 'jhj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '杰花杰', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000103', 'lxm', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '兰行们', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000104', 'wqj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '乌去进', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000105', 'ehk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '哦花克', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000106', 'dzq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '的最去', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000107', 'kjl', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '克今兰', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000108', 'jjl', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '进杰里', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000109', 'jje', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '进进哦', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('00011', 'hzk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '花最克', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000110', 'qnw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '去年乌', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000111', 'nks', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '年口洒', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000112', 'mws', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '们乌洒', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000113', 'kjw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '口近我', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000114', 'hhd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '花花的', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000115', 'xsw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '逊洒胃', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000116', 'dse', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '的洒哦', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000117', 'exk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '哦小克', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000118', 'mhj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '们花今', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000119', 'ded', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '的哦的', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('00012', 'mdk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '们的克', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000120', 'nnx', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '年那行', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000121', 'kde', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '克的哦', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000122', 'wwq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '胃我去', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000123', 'dzn', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '的最那', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000124', 'kdd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '克的的', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000125', 'zkl', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '最克里', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000126', 'ldj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '里的近', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000127', 'sjs', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '洒进洒', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000128', 'jdw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '今的胃', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000129', 'kmj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '口们进', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('00013', 'wkz', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '胃克最', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000130', 'dqd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '的去的', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000131', 'djm', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '的今们', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000132', 'xqk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '行去克', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000133', 'xdj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '小的杰', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000134', 'nsq', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '年洒去', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000135', 'jmx', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '近们小', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000136', 'kjd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '口进的', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000137', 'ddw', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '的的乌', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000138', 'qhk', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '去花克', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000139', 'xkn', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '逊克年', '498779', null, '系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('00014', 'jej', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '杰哦今', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000140', 'llj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '里里杰', '705624', null, '项目经理', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000141', 'xhj', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '逊花今', '979739', null, '程序员', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('000142', 'dhd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发一部', null, 'male', 'Y', '020123456', '的花的', '705624', null, '项目经理', '1');
 INSERT INTO `infox_sysmgr_emp` VALUES ('000143', 'ewm', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '哦胃们', '498779', null, '系统工程师', '0');
 INSERT INTO `infox_sysmgr_emp` VALUES ('000144', 'xqz', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发三部', null, 'male', 'Y', '020123456', '行奇最', '979739', null, '程序员', '0');
 INSERT INTO `infox_sysmgr_emp` VALUES ('000145', 'zsd', '2014-02-26 13:43:49', null, null, 'yhqmcq@126.com', '2014-02-26 13:43:49', null, '开发二部', null, 'male', 'Y', '020123456', '最洒的', '498779', null, '系统工程师', '0');
@@ -572,6 +603,26 @@ CREATE TABLE `infox_sysmgr_emp_online` (
 -- Records of infox_sysmgr_emp_online
 -- ----------------------------
 INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446ca69301446ca6936c0000', 'admin', '000000', '本地', '2014-02-26 13:24:19', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446cc4b301446cc4b3200000', 'admin', '000000', '本地', '2014-02-26 13:57:14', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446cc74e01446cc74e880000', 'admin', '000000', '本地', '2014-02-26 14:00:04', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446cd22501446cd225370000', 'admin', '000000', '本地', '2014-02-26 14:11:55', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446d664901446d6649490000', 'admin', '000000', '本地', '2014-02-26 16:53:43', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446d664901446d87b89c0001', 'admin', '000000', '本地', '2014-02-26 17:30:15', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446db61201446db612610000', 'admin', '000000', '本地', '2014-02-26 18:20:52', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446db61201446db77d6c0001', 'admin', '000000', '本地', '2014-02-26 18:22:25', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446db61201446db8ab530002', 'admin', '000000', '本地', '2014-02-26 18:23:42', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446dc4bb01446dc4bba10000', 'admin', '000000', '本地', '2014-02-26 18:36:53', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446dc4bb01446dd77f2f0001', 'admin', '000000', '本地', '2014-02-26 18:57:23', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446de36001446de360be0000', 'admin', '000000', '本地', '2014-02-26 19:10:21', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446de77f01446de77ff70000', 'admin', '000000', '本地', '2014-02-26 19:14:52', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446dffac01446dffac070000', 'admin', '000000', '本地', '2014-02-26 19:41:16', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446e0c9201446e0c923a0000', 'admin', '000000', '本地', '2014-02-26 19:55:21', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446e0c9201446e2b335b0001', 'admin', '000000', '本地', '2014-02-26 20:28:48', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446e0c9201446e3bb3a50002', 'admin', '000000', '本地', '2014-02-26 20:46:50', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446e0c9201446e60576e0003', 'admin', '000000', '本地', '2014-02-26 21:26:51', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446e0c9201446e6474d20004', 'admin', '000000', '本地', '2014-02-26 21:31:21', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446e0c9201446e99cdc10005', 'admin', '000000', '本地', '2014-02-26 22:29:37', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emp_online` VALUES ('40288182446e0c9201446eaa959b0006', 'admin', '000000', '本地', '2014-02-26 22:47:57', '超级管理员', '0');
 
 -- ----------------------------
 -- Table structure for `infox_sysmgr_emp_role`
