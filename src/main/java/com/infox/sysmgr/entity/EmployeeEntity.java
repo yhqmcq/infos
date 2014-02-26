@@ -55,6 +55,9 @@ public class EmployeeEntity implements Serializable{
 	
 	private String onlineState = "0" ;
 	
+	/** 员工工作状态（0空闲，1已在项目，2出差） */
+	private int workStatus = 0 ;
+	
 	/** 员工角色名称 */
 	private String empjobsName ;
 	
@@ -91,6 +94,14 @@ public class EmployeeEntity implements Serializable{
 
 	public String getEmpjobsName() {
 		return empjobsName;
+	}
+
+	public int getWorkStatus() {
+		return workStatus;
+	}
+
+	public void setWorkStatus(int workStatus) {
+		this.workStatus = workStatus;
 	}
 
 	public void setEmpjobsName(String empjobsName) {

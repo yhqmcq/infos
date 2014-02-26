@@ -75,6 +75,7 @@ public class ProjectMainEntity {
 	/** 最后修改时间 */
 	private Date lastmod = new Date() ;
 	
+	/** 项目负责人 */
 	private EmployeeEntity emp_leader ;
 	
 	/** 项目所属公司部门 */

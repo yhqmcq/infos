@@ -11,7 +11,7 @@
 	var dataGrid2 ;
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
-			title: '用户管理',
+			title: '空闲人员',
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
 			idField: 'id', fit: true, border: false, method: "post",
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,
@@ -39,7 +39,7 @@
 			}
 	    });
 		dataGrid2 = $("#d2").datagrid({
-			title: '用户管理',
+			title: '在项目人员',
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
 			idField: 'id', fit: true, border: false, method: "post",
 			remoteSort: false, striped:true,
@@ -59,6 +59,19 @@
 			]]
 	    });
 	});
+	
+	function addMember() {
+		var rows = dataGrid1.datagrid('getChecked');
+		var ids = [] ;
+		if (rows.length > 0) {
+			for ( var i = 0; i < rows.length; i++) {
+				ids.push(rows[i].id);
+			}
+			
+		} else {
+			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
+		}
+	}
 </script>
 
 </head>
@@ -68,8 +81,8 @@
 		<div data-options="region: 'west', border: false" style="overflow: hidden;width:450px;border-right:1px solid #333;">
 			<div id="d1">
 				<div id="buttonbar">
+					部门：<input id="select1" name="pid" />
                     <a onclick="dataGrid1.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
-                    <input id="select1" name="pid" />
                 </div>
 			</div>
 		</div>
@@ -77,8 +90,9 @@
 			<div class="easyui-layout" data-options="fit: true">
 				<div data-options="region: 'north', border: false" style="overflow: hidden;width:200px;height:300px;">
 					<div class="easyui-layout" data-options="fit: true">
-						<div data-options="region: 'west', border: false" style="overflow: hidden;background:#e3e3e3;border-top:1px solid #333;border-bottom:1px solid #333;width:40px;height:220px;">
-							<a class='imgIcon jpeg'></a>							
+						<div data-options="region: 'west', border: false" style="position: relative;overflow: hidden;background:#e3e3e3;border-top:1px solid #333;border-bottom:1px solid #333;width:40px;height:220px;">
+							<a onclick="addMember()" class='imgIcon icon-hamburg-right' style="cursor: pointer;position: absolute;left:5px; top:110px;"></a>							
+							<a onclick="revertMember()" class='imgIcon icon-hamburg-left' style="cursor: pointer;position: absolute;left:5px; top:160px;"></a>							
 						</div>
 						
 						<div data-options="region: 'center', border: false" style="overflow: hidden;border-left:1px solid #333;border-bottom:1px solid #333;width:100px;height:200px;">

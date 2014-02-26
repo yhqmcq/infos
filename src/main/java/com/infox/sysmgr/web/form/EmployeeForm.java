@@ -50,6 +50,17 @@ public class EmployeeForm extends PageHelper{
 	private String jobids ;
 	
 	private String empjobsName ;
+	
+	/** 员工工作状态（0空闲，1已在项目，2出差） */
+	private int workStatus = 0 ;
+
+	public int getWorkStatus() {
+		return workStatus;
+	}
+
+	public void setWorkStatus(int workStatus) {
+		this.workStatus = workStatus;
+	}
 
 	public String getJobids() {
 		return jobids;
