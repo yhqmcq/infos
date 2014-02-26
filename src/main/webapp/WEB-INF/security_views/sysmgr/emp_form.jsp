@@ -86,6 +86,13 @@
 		<tr>
 			<th>编号：</th>
 			<td><input name="id" value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
+			<th>账号状态：</th>
+			<td>
+				<input class="easyui-combobox" style="width:157px;" name="status" data-options="
+					valueField: 'label', textField: 'value', editable: false, value : 'Y',
+					data: [{ label: 'Y', value: '激活' },{ label: 'N', value: '禁用' }],
+					panelHeight:'auto', editable:false" />
+			</td>
 		</tr>
 		<tr>
 			<th>姓名：</th>
@@ -109,15 +116,6 @@
 			<td><input id="select1" name="orgid" /><input name="orgname" id="orgname" type="hidden"/></td>
 			<th>职位：</th>
 			<td><input id="select2" /></td>
-		</tr>
-		<tr>
-			<th>账号状态：</th>
-			<td>
-				<input class="easyui-combobox" style="width:157px;" name="status" data-options="
-					valueField: 'label', textField: 'value', editable: false, value : 'Y',
-					data: [{ label: 'Y', value: '激活' },{ label: 'N', value: '禁用' }],
-					panelHeight:'auto', editable:false" />
-			</td>
 		</tr>
 	</table>
 	

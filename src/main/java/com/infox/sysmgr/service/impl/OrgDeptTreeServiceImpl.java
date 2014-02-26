@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.util.RandomUtils;
+import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.OrgDeptTreeEntity;
 import com.infox.sysmgr.service.OrgDeptTreeServiceI;
 import com.infox.sysmgr.web.form.OrgDeptTreeForm;
@@ -20,9 +21,12 @@ import com.infox.sysmgr.web.form.OrgDeptTreeForm;
 @Service
 @Transactional
 public class OrgDeptTreeServiceImpl implements OrgDeptTreeServiceI {
-
+	
 	@Autowired
 	private BaseDaoI<OrgDeptTreeEntity> basedaoOrg;
+
+	@Autowired
+	private BaseDaoI<EmployeeEntity> basedaoEmployee;
 
 	@Override
 	public void add(OrgDeptTreeForm form) throws Exception {
@@ -41,11 +45,17 @@ public class OrgDeptTreeServiceImpl implements OrgDeptTreeServiceI {
 	@Override
 	public void delete(String id) throws Exception {
 		OrgDeptTreeEntity t = this.basedaoOrg.get(OrgDeptTreeEntity.class, id);
+		
+		//删除机构或部门，先解除与之关联的员工，不删除员工
+		String hql = "update EmployeeEntity t set t.org.id=null , t.orgname='' where t.org.id=:orgid" ;
+		Map<String, Object> params = new HashMap<String, Object>() ;
+		params.put("orgid", t.getId()) ;
+		this.basedaoEmployee.delete(hql, params) ;
+		
 		del(t);
 	}
 
 	private void del(OrgDeptTreeEntity entity) {
-
 		if (entity.getOrgs() != null && entity.getOrgs().size() > 0) {
 			for (OrgDeptTreeEntity r : entity.getOrgs()) {
 				del(r);

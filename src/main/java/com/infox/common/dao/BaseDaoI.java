@@ -33,6 +33,20 @@ public interface BaseDaoI<T> {
 	 *            对象
 	 */
 	public void delete(T o);
+	
+	/**
+	 * 批量删除
+	 * 方法描述 : 
+	 * 创建者：杨浩泉 
+	 * 项目名称： infos
+	 * 类名： BaseDaoI.java
+	 * 版本： v1.0
+	 * 创建时间： 2014-2-26 下午12:49:20
+	 * @param hql
+	 * @param params
+	 * @return List<T>
+	 */
+	public int delete(String hql, Map<String, Object> params);
 
 	/**
 	 * 更新一个对象

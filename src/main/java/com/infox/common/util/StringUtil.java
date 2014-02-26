@@ -1851,6 +1851,7 @@ public class StringUtil {
 
 	public static void main(String[] args) {
 		System.out.println(formatSize(1546513));
+		System.out.println(replaceBlank("  1 1 1 1 1 1  "));
 	}
 
 }

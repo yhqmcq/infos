@@ -110,14 +110,16 @@
 		var rows = dataGrid.datagrid('getChecked');
 		if (rows.length > 0) {
 			var dialog = $.easyui.showDialog({
-	            title: "设置开发团队人员",
-	            href: yhq.basePath+"/project/project_main/project_member.do",
+	            title: "设置开发团队人员&nbsp;&nbsp;[<font color='red'>"+rows[0].name+"</font>]",
+	            href: yhq.basePath+"/project/project_main/project_member.do?id="+rows[0].id,
 	            iniframe: true,
-	            width: 850, height: 560,
+	            width: 950, height: 600,
 	            topMost: true,
 	            autoVCenter: true,
 	            autoHCenter: true,
 	            enableApplyButton: false,
+	            enableSaveButton: false,
+	            enableCloseButton: false,
 	            saveButtonIconCls: "ext_save",
 	            onSave: function() {
 	            	return $.easyui.parent.submitForm(dialog, dataGrid);

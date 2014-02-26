@@ -12,10 +12,10 @@
 	    });
 		$("#select3").combobox({
 			width: 157, valueField: 'label', textField: 'value', value: 'O',
-			data: [{ label: 'O', value: '机构' },{ label: 'D', value: '部门' }],
+			data: [{ label: 'O', value: '' },{ label: 'D', value: '部门' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node){
-				if("D" == node.label) {	//是部门，则机构必填
+				if("D" == node.label) {	//是部门，则必填
 					s1.combotree({ required:true, autoShowPanel: true, value: s1.combotree("getValue") }) ;
 				} else {
 					s1.combotree({ required:false }) ;
@@ -76,15 +76,15 @@
 	<input type="hidden" name="id" value="${id}" />
 	<table id="tab_box">
 		<tr>
-			<th>机构名称：</th>
-			<td><input name="fullname" class="easyui-validatebox" type="text" data-options="required: true,prompt: '机构名称'" /></td>
-			<th>机构代码：</th>
-			<td><input name="code" class="easyui-validatebox" type="text" data-options="required: true,prompt: '机构代码'" /></td>
+			<th>名称：</th>
+			<td><input name="fullname" class="easyui-validatebox" type="text" data-options="required: true,prompt: '名称'" /></td>
+			<th>代码：</th>
+			<td><input name="code" class="easyui-validatebox" type="text" data-options="required: true,prompt: '代码'" /></td>
 		</tr>
 		<tr>
 			<th>英文名称：</th>
 			<td><input name="ename" class="easyui-validatebox" type="text" data-options="" /></td>
-			<th>机构简称：</th>
+			<th>简称：</th>
 			<td><input name="sname" class="easyui-validatebox" type="text" data-options="" /></td>
 		</tr>
 		<tr>
@@ -94,7 +94,7 @@
 			<td><input name="fax" class="easyui-validatebox" type="text" data-options="" /></td>
 		</tr>
 		<tr>
-			<th>上级机构：</th>
+			<th>上级：</th>
 			<td><input id="select1" name="pid" /><input name="pname" id="pname"  type="hidden"/></td>
 			<th>类型：</th>
 			<td><input id="select3" name="type" /></td>

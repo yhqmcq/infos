@@ -85,7 +85,18 @@ public class ProjectMainEntity {
 	private ProjectMainEntity project ;
 	private Set<ProjectMainEntity> projects = new HashSet<ProjectMainEntity>() ;
 
+	private Set<ProjectEmpWorkingEntity> pwe = new HashSet<ProjectEmpWorkingEntity>() ;
 	
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="PROJECT_ID")
+	public Set<ProjectEmpWorkingEntity> getPwe() {
+		return pwe;
+	}
+
+	public void setPwe(Set<ProjectEmpWorkingEntity> pwe) {
+		this.pwe = pwe;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "EMP_ID")
 	public EmployeeEntity getEmp_leader() {

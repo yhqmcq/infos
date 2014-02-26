@@ -90,7 +90,7 @@
 	<input type="hidden" name="createrId" value="${_LOGIN_EMP_KEY.emp.id}" />
 	<input type="hidden" name="createrName" value="${_LOGIN_EMP_KEY.emp.truename}" />
 	<div class="form_base">
-		<table class="formtable">
+		<table>
 			<tr>
 				<th>项目名称：</th>
 				<td><input type="text" name="name" class="easyui-validatebox" ></td>

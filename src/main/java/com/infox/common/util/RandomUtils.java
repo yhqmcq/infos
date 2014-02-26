@@ -11,10 +11,11 @@ import java.util.Random;
  */
 public class RandomUtils {
 
+	public static final String NAME = "杰克逊的奇偶去乌克兰的进行的哦我们今年的那里最近胃口小花洒";
 	public static final String allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public static final String letterChar = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public static final String numberChar = "0123456789";
-
+	
 	/**
 	 * 返回一个定长的随机字符串(只包含大小写字母、数字)
 	 * 
@@ -27,6 +28,22 @@ public class RandomUtils {
 		Random random = new Random();
 		for (int i = 0; i < length; i++) {
 			sb.append(allChar.charAt(random.nextInt(allChar.length())));
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 返回一个定长的随机字符串(只包含大小写字母、数字)
+	 * 
+	 * @param length
+	 *            随机字符串长度
+	 * @return 随机字符串
+	 */
+	public static String generateNameString(int length) {
+		StringBuffer sb = new StringBuffer();
+		Random random = new Random();
+		for (int i = 0; i < length; i++) {
+			sb.append(NAME.charAt(random.nextInt(NAME.length())));
 		}
 		return sb.toString();
 	}
@@ -150,6 +167,8 @@ public class RandomUtils {
 		System.out.println(generateZeroString(15));
 		System.out.println(toFixdLengthString(123, 15));
 		System.out.println(toFixdLengthString(123L, 15));
+		
+		System.out.println(generateNameString(3));
 	}
 
 }

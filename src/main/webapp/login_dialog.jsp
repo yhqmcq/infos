@@ -78,7 +78,7 @@
     
     function kaptcha() {
     	loginTabs.tabs('getSelected').find("#form-login input")[0].focus();
-    	loginTabs.tabs('getSelected').find("#form-login input").val("");
+    	//loginTabs.tabs('getSelected').find("#form-login input").val("");
     	var k= loginTabs.tabs('getSelected').find('form #kaptcha') ;
     	k.attr('src',yhq.basePath+'/kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn() ;
 		k.click(     

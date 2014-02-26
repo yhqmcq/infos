@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.util.StringUtil;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.LoginInfoSession;
 import com.infox.sysmgr.entity.EmpJobEntity;
@@ -49,6 +50,8 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		if(null == employee) {
 			EmployeeEntity entity = new EmployeeEntity();
 			BeanUtils.copyProperties(form, entity);
+			entity.setTruename(StringUtil.replaceBlank(form.getTruename())) ;
+			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
 			}
@@ -76,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	@Override
 	public void edit(EmployeeForm form) throws Exception {
 		EmployeeEntity entity = this.basedaoEmployee.get(EmployeeEntity.class, form.getId());
-
+		entity.setTruename(StringUtil.replaceBlank(form.getTruename())) ;
 		BeanUtils.copyProperties(form, entity ,new String[]{"creater"});
 
 		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
@@ -154,9 +157,14 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				hql += " and t.id like :id";
 				params.put("id", "%%" + form.getQ() + "%%");
 			}
+			if (form.getId() != null && !"".equals(form.getId())) {
+				hql += " and t.id=:id";
+				params.put("id", form.getId());
+			}
 			if (form.getTruename() != null && !"".equals(form.getTruename())) {
-				hql += " and t.name like :name";
-				params.put("name", "%%" + form.getTruename() + "%%");
+				form.setTruename(StringUtil.replaceBlank(form.getTruename())) ;
+				hql += " and t.truename like :truename";
+				params.put("truename", "%%" + form.getTruename() + "%%");
 			}
 			if (form.getAccount() != null && !"".equals(form.getAccount())) {
 				hql += " and t.account like :account";
@@ -185,6 +193,10 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			if (form.getOrgid() != null && !"".equals(form.getOrgid())) {
 				hql += " and t.org.id=:orgid";
 				params.put("orgid", form.getOrgid());
+			}
+			if (!"".equals(form.getWorkStatus())) {
+				hql += " and t.workStatus=:workStatus";
+				params.put("workStatus", form.getWorkStatus());
 			}
 		}
 		return hql;

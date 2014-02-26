@@ -11,7 +11,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Repository;
 
 
@@ -90,7 +89,6 @@ public class BaseDaoImpl<T> implements BaseDaoI<T> {
 	}
 
 	@Override
-	@CacheEvict(value="eternalCache",allEntries=true)
 	public void delete(T o) throws RuntimeException {
 		try {
 			if (o != null) {
@@ -100,11 +98,16 @@ public class BaseDaoImpl<T> implements BaseDaoI<T> {
 			logger.error("删除记录异常={"+e+"}") ;
 			throw new RuntimeException("删除记录异常：" + e.getMessage()) ;
 		}
-		
+	}
+	
+	@Override
+	public int delete(String hql, Map<String, Object> params) {
+		Query q = this.getCurrentSession().createQuery(hql);
+		setParams(q, params) ;
+		return q.executeUpdate() ;
 	}
 
 	@Override
-	@CacheEvict(value="eternalCache",allEntries=true)
 	public void update(T o) throws RuntimeException {
 		try {
 			if (o != null) {
@@ -151,7 +154,6 @@ public class BaseDaoImpl<T> implements BaseDaoI<T> {
 			logger.error("根据HQL条件检索记录异常，HQL={"+hql+"\t 参数"+params+"}，异常={"+e+"}") ;
 			throw new RuntimeException("根据HQL条件检索记录异常：" + e.getMessage()) ;
 		}
-		
 	}
 
 	@Override
@@ -164,7 +166,6 @@ public class BaseDaoImpl<T> implements BaseDaoI<T> {
 			logger.error("根据HQL条件检索记录异常，HQL={"+hql+"\t 参数="+params + "\t 分页="+((page - 1) * rows)+"=="+rows+"}，异常={"+e+"}") ;
 			throw new RuntimeException("根据HQL条件检索记录异常：" + e.getMessage()) ;
 		}
-		
 	}
 
 	@Override
@@ -277,8 +278,6 @@ public class BaseDaoImpl<T> implements BaseDaoI<T> {
 			logger.error("执行本地SQL异常，SQL={"+sql+"\t 参数="+params+"}，异常={"+e+"}") ;
 			throw new RuntimeException("执行本地SQL异常：" + e.getMessage()) ;
 		}
-		
-		
 	}
 
 	@Override
@@ -354,7 +353,15 @@ public class BaseDaoImpl<T> implements BaseDaoI<T> {
 	private void setParams(Query q, Map<String, Object> params) {
 		if (params != null && !params.isEmpty()) {
 			for (String key : params.keySet()) {
-				q.setParameter(key, params.get(key));
+				if(params.get(key) instanceof Integer[]) {
+					q.setParameterList(key, (Integer[])params.get(key)) ;
+				} else if(params.get(key) instanceof String[]) {
+					q.setParameterList(key, (String[])params.get(key)) ;
+				} else if(params.get(key) instanceof List) {
+					q.setParameterList(key, (List<Object>)params.get(key)) ;
+				} else {
+					q.setParameter(key, params.get(key));
+				}
 			}
 		}
 	}

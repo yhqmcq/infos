@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
 	var dataGrid ;
+	var s1 ;
 	$(function() {
 		dataGrid = $("#d1").datagrid({
 			title: '用户管理',
@@ -45,7 +46,7 @@
 	        selectOnRowContextMenu: false,      //此属性开启当右键点击行时自动选择该行的功能
 	        pagingMenu: { submenu: false }     	//开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
 	    });
-		var s1 = $("#select1").combotree({
+		s1 = $("#select1").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
 			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
@@ -70,7 +71,7 @@
             title: "表单",
             href: form_url,
             iniframe: false,
-            width: 470, height: 240,
+            width: 490, height: 240,
             topMost: true,
             autoVCenter: true,
             autoHCenter: true,
@@ -115,11 +116,12 @@
 		<div data-options="region: 'center', border: false" style="overflow: hidden;">
 			<div id="d1">
 				<div id="buttonbar">
-                    <a id="btn1" onClick="form_edit('A');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_add'">添加</a>
-                    <a id="btn2" onClick="form_edit('E');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">编辑</a>
-                    <a id="btn3" onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
-                    <a id="btn4" onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
-                    <input id="select1" name="pid" />
+                    <a onClick="form_edit('A');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_add'">添加</a>
+                    <a onClick="form_edit('E');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">编辑</a>
+                    <a onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
+                    <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
+					部门：<input id="select1" name="pid" />
+                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">取消筛选</a>
                 </div>
 			</div>
 		</div>
