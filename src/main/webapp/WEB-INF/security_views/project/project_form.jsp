@@ -119,5 +119,12 @@
 			</tr>
 		</table>
 	</div>
+	
+	<div class="form_base">
+		<div id="t">
+		    <div data-options="title: '项目目标', refreshable: false, selected: true">tab2</div>
+		    <div data-options="title: '项目描述', refreshable: false">tab2</div>
+		</div>
+	</div>
 </form>
 

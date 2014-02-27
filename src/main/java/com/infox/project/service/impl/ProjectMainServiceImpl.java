@@ -171,9 +171,11 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				BeanUtils.copyProperties(i, uf);
 
 				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
-				long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate()));
 				uf.setDateDiff(dateDiff);
-				uf.setLastdateDiff(lastdateDiff);
+				if(i.getStatus() != 3) {	//项目为结束状态，无需计算剩余天数
+					long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate()));
+					uf.setLastdateDiff(lastdateDiff);
+				}
 
 				if (null != i.getDept()) {
 					uf.setDeptname(i.getDept().getFullname());
@@ -303,11 +305,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		json.setStatus(false);
 
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
-		
-		System.out.println(form.getStatus());
-		System.out.println(entity.getStatus());
-		System.out.println(null != form.getStatus() && form.getStatus() == 1);
-		System.out.println(form.getStatus() != entity.getStatus());
 		
 		// 开始项目（进行中）
 		if (null != form.getStatus() && form.getStatus() == 1) {

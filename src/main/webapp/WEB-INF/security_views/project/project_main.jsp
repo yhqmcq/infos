@@ -152,6 +152,10 @@
 		}
 	}
 	
+	function project_detail() {
+		
+	}
+	
 	function devMember() {
 		var rows = dataGrid.datagrid('getChecked');
 		if (rows.length > 0) {
@@ -244,8 +248,6 @@
 		                    	<div onclick="statusChange('3')" data-options="iconCls: 'icon-metro-expand'">结束</div>
 	                    	</div>
 	                    </div>
-	                    <div class="menu-sep"></div>
-	                    <div data-options="iconCls: 'icon-metro-contract2'">延期</div>
 	                    <div class="menu-sep"></div>
 	                    <div data-options="iconCls: 'icon-metro-contract'">
 	                    	<span>人员设置</span>
