@@ -58,6 +58,15 @@
 				}
 			}, 'json');
 		}
+		
+		window.setTimeout(function(){
+			//实例化编辑器
+			editor = new UE.ui.Editor({
+				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
+			});
+			editor.render('editor');
+			
+		},100);
 	});
 	
 	//提交表单数据
@@ -122,8 +131,12 @@
 	
 	<div class="form_base">
 		<div id="t">
-		    <div data-options="title: '项目目标', refreshable: false, selected: true">tab2</div>
-		    <div data-options="title: '项目描述', refreshable: false">tab2</div>
+		    <div data-options="title: '项目目标', refreshable: false, selected: true">
+		    	<textarea id="editor" name="description" style="margin-top:5px;height:150px;width:99.7%;"></textarea>
+		    </div>
+		    <div data-options="title: '项目描述', refreshable: false">
+		    	<textarea id="editor" name="description" style="height:150px;width:99.7%;"></textarea>
+		    </div>
 		</div>
 	</div>
 </form>
