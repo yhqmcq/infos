@@ -63,6 +63,8 @@ if (cookieMap.containsKey("themeName")) {
 <script src="<%=basePath%>/js/plugins/easyui/jeasyui-extensions/jquery-easyui-portal/jquery.portal.js" type="text/javascript"></script>
 <link href="<%=basePath%>/js/plugins/easyui/jeasyui-extensions/jquery-easyui-portal/portal.css" rel="stylesheet" type="text/css" />
 
+<script src="<%=basePath%>/js/plugins/easyui/datagrid-detailview.js" type="text/javascript"></script>
+
 <script src="<%=basePath%>/js/plugins/easyui/my-ext/my-easyui-ext.js" type="text/javascript"></script>
 <script src="<%=basePath%>/js/plugins/other/jquery-jrumble.js" type="text/javascript"></script>
 <link href="<%=basePath%>/common/view-index-resource/base.css" rel="stylesheet" />

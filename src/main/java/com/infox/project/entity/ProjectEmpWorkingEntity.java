@@ -55,7 +55,7 @@ public class ProjectEmpWorkingEntity {
 	private ProjectMainEntity project ;
 	
 	/** 状态标记（0.未设置日期，1.已设置日期，2.已到期，3.历史信息） */
-	private int status = 0;
+	private Integer status ;
 	
 	private Date created = new Date() ;
 	
@@ -63,11 +63,12 @@ public class ProjectEmpWorkingEntity {
 	private ProjectEmpWorkingEntity pew ;
 	private Set<ProjectEmpWorkingEntity> pews = new HashSet<ProjectEmpWorkingEntity>() ;
 	
-	public int getStatus() {
+
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

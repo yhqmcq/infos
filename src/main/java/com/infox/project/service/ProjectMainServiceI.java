@@ -1,6 +1,7 @@
 package com.infox.project.service;
 
 import com.infox.common.web.page.DataGrid;
+import com.infox.common.web.page.Json;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
 
@@ -24,5 +25,6 @@ public interface ProjectMainServiceI {
 	
 	public DataGrid maillist_datagrid(ProjectMailListForm form) throws Exception ;
 	
+	public Json statusChange(ProjectMainForm form) throws Exception ;
 	
 }

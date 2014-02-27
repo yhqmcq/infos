@@ -128,7 +128,7 @@
 <body style="padding: 0px; margin: 0px;">
 	<div class="easyui-layout" data-options="fit: true">
 		<div data-options="region: 'north', border: false" style="overflow: hidden;width:100%;height:55px;padding:10px;">
-			1、在这里可以设置项目组开发人员，并设置开发人员在项目的工作起止日期。<br>
+			1、在这里可以设置项目参与人员的邮件列表，项目的相关变更系统都会自动发送邮件到邮件列表中。<br>
 		</div>
 		<div data-options="region: 'west', border: true" style="overflow: hidden;width:480px; border-left:0px;border-left:0px; border-bottom:0px;">
 			<div id="d1">

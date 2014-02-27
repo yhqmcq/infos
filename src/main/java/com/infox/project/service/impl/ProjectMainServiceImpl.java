@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.util.DateUtil;
+import com.infox.common.util.RandomUtils;
 import com.infox.common.web.page.DataGrid;
+import com.infox.common.web.page.Json;
 import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
@@ -26,16 +29,16 @@ import com.infox.sysmgr.entity.OrgDeptTreeEntity;
 @Service
 @Transactional
 public class ProjectMainServiceImpl implements ProjectMainServiceI {
-	
+
 	@Autowired
 	private BaseDaoI<ProjectMainEntity> basedaoProject;
 
 	@Autowired
 	private BaseDaoI<EmpJobEntity> basedaoEmpJob;
-	
+
 	@Autowired
 	private BaseDaoI<OrgDeptTreeEntity> basedaoOrg;
-	
+
 	@Autowired
 	private BaseDaoI<EmployeeEntity> basedaoEmployee;
 
@@ -44,74 +47,110 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public void add(ProjectMainForm form) throws Exception {
-		ProjectMainForm project = this.get(form.getCode()) ;
-		if(null == project) {
+		ProjectMainForm project = this.get(form.getCode());
+		if (null == project) {
 			ProjectMainEntity entity = new ProjectMainEntity();
-			BeanUtils.copyProperties(form, entity, new String[]{"id"});
-			
-			if(null != form.getDeptid() && !"".equalsIgnoreCase(form.getDeptid())) {
-				OrgDeptTreeEntity dept = new OrgDeptTreeEntity() ;
-				dept.setId(form.getDeptid()) ;
-				entity.setDept(dept) ;
+			BeanUtils.copyProperties(form, entity, new String[] { "id" });
+
+			if (null != form.getDeptid() && !"".equalsIgnoreCase(form.getDeptid())) {
+				OrgDeptTreeEntity dept = new OrgDeptTreeEntity();
+				dept.setId(form.getDeptid());
+				entity.setDept(dept);
 			}
-			
-			if(null != form.getProject_leader_id() && !"".equalsIgnoreCase(form.getProject_leader_id())) {
-				EmployeeEntity emp_leader = new EmployeeEntity() ;
-				emp_leader.setId(form.getProject_leader_id()) ;
-				entity.setEmp_leader(emp_leader) ;
+
+			if (null != form.getProject_leader_id() && !"".equalsIgnoreCase(form.getProject_leader_id())) {
+				EmployeeEntity emp_leader = new EmployeeEntity();
+				emp_leader.setId(form.getProject_leader_id());
+				entity.setEmp_leader(emp_leader);
 			}
-			
+			entity.setStatus(0);
+
 			this.basedaoProject.save(entity);
 		} else {
-			throw new Exception("该项目已存在！ ") ;
+			throw new Exception("该项目已存在！ ");
 		}
-		
+
 	}
 
 	@Override
 	public void delete(String id) throws Exception {
-		this.basedaoProject.delete(this.basedaoProject.get(ProjectMainEntity.class, id));
+		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
+		del(entity);
+	}
+
+	private void del(ProjectMainEntity entity) {
+		if (entity.getProjects() != null && entity.getProjects().size() > 0) {
+			for (ProjectMainEntity r : entity.getProjects()) {
+				del(r);
+			}
+		}
+		this.basedaoProject.delete(entity);
 	}
 
 	@Override
 	public void edit(ProjectMainForm form) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
-		BeanUtils.copyProperties(form, entity ,new String[]{"creater"});
+
+		// 如果两个结束日期不相等则为项目延期，记录历史信息
+		if (!DateUtil.formatF(form.getEndDate()).equals(DateUtil.formatF(entity.getEndDate()))) {
+			ProjectMainEntity history = new ProjectMainEntity();
+			history.setId(RandomUtils.generateNumber(6));
+			history.setProject(entity);
+			history.setStartDate(entity.getStartDate());
+			history.setEndDate(entity.getEndDate());
+			history.setStatus(5);
+
+			BeanUtils.copyProperties(entity, history, new String[] { "id", "status", "project", "projects", "projectmails", "pwe" });
+
+			this.basedaoProject.save(history);
+		}
+
+		BeanUtils.copyProperties(form, entity, new String[] { "creater", "status" });
+
+		if (null != form.getProject_leader_id() && !"".equals(form.getProject_leader_id())) {
+			entity.setEmp_leader(this.basedaoEmployee.get(EmployeeEntity.class, form.getProject_leader_id()));
+		}
+
 		this.basedaoProject.update(entity);
 	}
 
 	@Override
 	public ProjectMainForm get(String id) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
-		if(null != entity) {
+		if (null != entity) {
 			ProjectMainForm form = new ProjectMainForm();
 			BeanUtils.copyProperties(entity, form);
-			
-			OrgDeptTreeEntity dept = entity.getDept() ;
-			if(null != dept) {
-				form.setDeptid(dept.getId()) ;
+
+			OrgDeptTreeEntity dept = entity.getDept();
+			if (null != dept) {
+				form.setDeptid(dept.getId());
 			}
-			
+			EmployeeEntity emp_leader = entity.getEmp_leader();
+			if (null != emp_leader) {
+				form.setProject_leader_id(emp_leader.getId());
+				form.setProject_leader(emp_leader.getTruename());
+			}
+
 			return form;
 		} else {
-			return null ;
+			return null;
 		}
 	}
-	
+
 	@Override
 	public ProjectMainForm get(ProjectMainForm form) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select t from ProjectMainEntity t where 1=1";
 		hql = addWhere(hql, form, params) + addOrdeby(form);
-		
-		ProjectMainEntity entity = this.basedaoProject.get(hql, params) ;
-		if(null != entity) {
+
+		ProjectMainEntity entity = this.basedaoProject.get(hql, params);
+		if (null != entity) {
 			ProjectMainForm pform = new ProjectMainForm();
 			BeanUtils.copyProperties(entity, pform);
-			
+
 			return pform;
 		} else {
-			return null ;
+			return null;
 		}
 	}
 
@@ -130,16 +169,16 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			for (ProjectMainEntity i : ProjectMainEntity) {
 				ProjectMainForm uf = new ProjectMainForm();
 				BeanUtils.copyProperties(i, uf);
-				
-				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate())) ;
-				long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate())) ;
-				uf.setDateDiff(dateDiff) ;
-				uf.setLastdateDiff(lastdateDiff) ;
-				
-				if(null != i.getDept()) {
-					uf.setDeptname(i.getDept().getFullname()) ;
+
+				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
+				long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate()));
+				uf.setDateDiff(dateDiff);
+				uf.setLastdateDiff(lastdateDiff);
+
+				if (null != i.getDept()) {
+					uf.setDeptname(i.getDept().getFullname());
 				}
-				
+
 				forms.add(uf);
 			}
 		}
@@ -177,40 +216,54 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				hql += " and t.code=:code";
 				params.put("code", form.getCode());
 			}
+			if (form.getPid() != null && !"".equals(form.getPid())) {
+				hql += " and t.project.id=:pid";
+				params.put("pid", form.getPid());
+			}
+			if (null != form.getNotInStatus() && !"".equals(form.getNotInStatus())) {
+				hql += " and t.status not in (:notInStatus)";
+				String[] split = form.getNotInStatus().split(",");
+				Integer[] states = new Integer[split.length];
+				for (int i = 0; i < states.length; i++) {
+					states[i] = Integer.parseInt(split[i]);
+				}
+				params.put("notInStatus", states);
+			}
 		}
 		return hql;
 	}
 
 	@Override
 	public void addMailList(ProjectMailListForm form) throws Exception {
-		String empIds = form.getIds() ;
-		if(null != empIds && !"".equals(empIds)) {
-			String[] empIdsSplit = empIds.split(",") ;
-			for(int i=0;i<empIdsSplit.length;i++) {
-				
-				Map<String, Object> params = new HashMap<String, Object>() ;
-				params.put("empid", empIdsSplit[i]) ; params.put("projectid", form.getProjectid()) ;
+		String empIds = form.getIds();
+		if (null != empIds && !"".equals(empIds)) {
+			String[] empIdsSplit = empIds.split(",");
+			for (int i = 0; i < empIdsSplit.length; i++) {
+
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("empid", empIdsSplit[i]);
+				params.put("projectid", form.getProjectid());
 				ProjectMailListEntity pml = this.basedaoMailList.get("select t from ProjectMailListEntity t where t.empid=:empid and t.projectmain.id=:projectid", params);
-				if(pml == null) {
-					EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, empIdsSplit[i]) ;
-					
-					ProjectMailListEntity entity = new ProjectMailListEntity() ;
-					entity.setEmpid(employeeEntity.getId()) ;
-					entity.setEmpname(employeeEntity.getTruename()) ;
-					entity.setEmail(employeeEntity.getEmail()) ;
-					
-					OrgDeptTreeEntity dept = employeeEntity.getOrg() ;
-					entity.setDeptid(dept.getId()) ;
-					entity.setDeptname(dept.getFullname()) ;
-					
-					EmpJobEntity job = employeeEntity.getEmpjobs().iterator().next() ;
-					entity.setEmpjobid(job.getId()) ;
-					entity.setEmpjobname(job.getJob_name()) ;
-					
-					entity.setProjectmain(this.basedaoProject.get(ProjectMainEntity.class, form.getProjectid())) ;
-					entity.setProject_name(form.getProject_name()) ;
-					
-					this.basedaoMailList.save(entity) ;
+				if (pml == null) {
+					EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, empIdsSplit[i]);
+
+					ProjectMailListEntity entity = new ProjectMailListEntity();
+					entity.setEmpid(employeeEntity.getId());
+					entity.setEmpname(employeeEntity.getTruename());
+					entity.setEmail(employeeEntity.getEmail());
+
+					OrgDeptTreeEntity dept = employeeEntity.getOrg();
+					entity.setDeptid(dept.getId());
+					entity.setDeptname(dept.getFullname());
+
+					EmpJobEntity job = employeeEntity.getEmpjobs().iterator().next();
+					entity.setEmpjobid(job.getId());
+					entity.setEmpjobname(job.getJob_name());
+
+					entity.setProjectmain(this.basedaoProject.get(ProjectMainEntity.class, form.getProjectid()));
+					entity.setProject_name(form.getProject_name());
+
+					this.basedaoMailList.save(entity);
 				}
 			}
 		}
@@ -218,28 +271,135 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public void deleteMailList(String id) throws Exception {
-		this.basedaoMailList.delete(this.basedaoMailList.get(ProjectMailListEntity.class, id)) ;
+		this.basedaoMailList.delete(this.basedaoMailList.get(ProjectMailListEntity.class, id));
 	}
 
 	@Override
-	public DataGrid maillist_datagrid(ProjectMailListForm form)
-			throws Exception {
+	public DataGrid maillist_datagrid(ProjectMailListForm form) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select t from ProjectMailListEntity t where t.projectmain.id=:projectid";
-		params.put("projectid", form.getProjectid()) ;
-		
+		params.put("projectid", form.getProjectid());
+
 		List<ProjectMailListEntity> entitys = this.basedaoMailList.find(hql, params);
-		
-		List<ProjectMailListForm> forms = new ArrayList<ProjectMailListForm>() ;
+
+		List<ProjectMailListForm> forms = new ArrayList<ProjectMailListForm>();
 		for (ProjectMailListEntity p : entitys) {
-			ProjectMailListForm f = new ProjectMailListForm() ;
-			com.infox.common.util.BeanUtils.copyProperties(p, f) ;
-			forms.add(f) ;
+			ProjectMailListForm f = new ProjectMailListForm();
+			com.infox.common.util.BeanUtils.copyProperties(p, f);
+			forms.add(f);
 		}
-		
+
 		DataGrid datagrid = new DataGrid();
 		datagrid.setRows(forms);
-		return datagrid ;
+		return datagrid;
+	}
+
+	/**
+	 * 变更项目的状态
+	 */
+	@Override
+	public Json statusChange(ProjectMainForm form) throws Exception {
+		Json json = new Json();
+		json.setStatus(false);
+
+		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
+		
+		System.out.println(form.getStatus());
+		System.out.println(entity.getStatus());
+		System.out.println(null != form.getStatus() && form.getStatus() == 1);
+		System.out.println(form.getStatus() != entity.getStatus());
+		
+		// 开始项目（进行中）
+		if (null != form.getStatus() && form.getStatus() == 1) {
+			if(1 == entity.getStatus()) {
+				json.setMsg("项目的状态已经是开启状态！"); return json ;
+			}
+			if(2 == entity.getStatus()) {
+				json.setMsg("该项目已挂起，请点击激活来开始项目！"); return json ;
+			}
+			if(3 == entity.getStatus()) {
+				json.setMsg("该项目已结束，无法开始，请建立新的项目！"); return json ;
+			}
+			if(4 == entity.getStatus()) {
+				json.setMsg("该项目运行中，无法激活！"); return json ;
+			}
+			
+			if(0 == entity.getStatus()) {
+				// 检查该项目是否已设置项目参与人员邮件列表，未设置则不能开始项目
+				Set<ProjectMailListEntity> projectmails = entity.getProjectmails();
+				if (null != projectmails && !projectmails.isEmpty()) {
+					entity.setStatus(1); // 开始状态
+					json.setMsg("项目开启成功！");
+					json.setStatus(true);
+					
+					// 邮件通知
+				} else {
+					json.setMsg("项目未设置参与人员邮件列表，请设置后再开始项目。");
+				}
+				return json ;
+			}
+		} else if (null != form.getStatus() && form.getStatus() == 2) {	// 项目挂起
+			if(0 == entity.getStatus()) {
+				json.setMsg("该项目未开始，将无法挂起，请先开始项目！"); return json ;
+			}
+			if(2 == entity.getStatus()) {
+				json.setMsg("该项目的状态已是挂起状态！"); return json ;
+			}
+			if(3 == entity.getStatus()) {
+				json.setMsg("该项目已结束，无法挂起，请建立新的项目！"); return json ;
+			}
+			
+			if(form.getStatus() != entity.getStatus()) {
+				entity.setStatus(2); // 开始状态
+				json.setMsg("项目挂起成功！");
+				json.setStatus(true) ;
+				
+				// 邮件通知
+			} else {
+				json.setMsg("项目的状态已经是挂起状态！");
+			}
+		} else if (null != form.getStatus() && form.getStatus() == 4) {	// 激活项目
+			if(0 == entity.getStatus()) {
+				json.setMsg("该项目未开始，将无法激活，请先开始项目！"); return json ;
+			}
+			if(1 == entity.getStatus()) {
+				json.setMsg("项目运行中，将无法激活！"); return json ;
+			}
+			if(3 == entity.getStatus()) {
+				json.setMsg("该项目已结束，无法激活，请建立新的项目！"); return json ;
+			}
+			if(form.getStatus() != entity.getStatus()) {
+				entity.setStatus(1); // 激活项目，将状态改为进行中（1）
+				json.setMsg("项目激活成功！");
+				json.setStatus(true) ;
+				
+				// 邮件通知
+			} else {
+				json.setMsg("项目的状态已经是激活状态！");
+			}
+		} else if (null != form.getStatus() && form.getStatus() == 3) {	// 结束项目
+			if(0 == entity.getStatus()) {
+				json.setMsg("该项目未开始，将无法结束，请先开始项目！"); return json ;
+			}
+			if(3 == entity.getStatus()) {
+				json.setMsg("该项目的状态已是结束状态！"); return json ;
+			}
+			
+			if(form.getStatus() != entity.getStatus()) {
+				entity.setStatus(3); // 开始状态
+				json.setMsg("项目结束！");
+				json.setStatus(true) ;
+				
+				// 邮件通知
+			} else {
+				json.setMsg("项目的状态已经是结束状态！");
+			}
+		} else {
+			json.setMsg("未知状态！");
+			json.setStatus(false) ;
+		}
+
+		return json;
 	}
 
 }

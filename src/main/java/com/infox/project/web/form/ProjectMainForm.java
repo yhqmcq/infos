@@ -24,10 +24,10 @@ public class ProjectMainForm extends PageHelper {
 	private String team_name ;
 	
 	/** 项目类型（短期迭代，长期项目，运维项目） */
-	private int project_type = 0 ;
+	private Integer project_type ;
 	
-	/** 项目状态（未开始，进行中，已挂起，已完成，激活） */
-	private int status = 0 ;
+	/** 项目状态（0.未开始，1.进行中，2.已挂起，3.已完成，4.激活，5.历史） */
+	private Integer status ;
 	
 	/** 所属部门（ID） */
 	private String deptid ;
@@ -59,6 +59,37 @@ public class ProjectMainForm extends PageHelper {
 	/** 剩余天数 */
 	private long lastdateDiff ;
 	
+	/** 用于IN查询(0,1,2,3,4) */
+	private String inStatus ;
+	/** 用于NOT IN查询(0,1,2,3,4) */
+	private String notInStatus ;
+	
+	private String pid ;
+	
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	public String getInStatus() {
+		return inStatus;
+	}
+
+	public void setInStatus(String inStatus) {
+		this.inStatus = inStatus;
+	}
+
+	public String getNotInStatus() {
+		return notInStatus;
+	}
+
+	public void setNotInStatus(String notInStatus) {
+		this.notInStatus = notInStatus;
+	}
+
 	public long getLastdateDiff() {
 		return lastdateDiff;
 	}
@@ -143,19 +174,20 @@ public class ProjectMainForm extends PageHelper {
 		this.team_name = team_name;
 	}
 
-	public int getProject_type() {
+
+	public Integer getProject_type() {
 		return project_type;
 	}
 
-	public void setProject_type(int project_type) {
+	public void setProject_type(Integer project_type) {
 		this.project_type = project_type;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

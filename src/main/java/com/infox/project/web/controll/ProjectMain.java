@@ -84,6 +84,12 @@ public class ProjectMain extends BaseController {
 		return j ;
 	}
 	
+	@RequestMapping("/statusChange.do")
+	@ResponseBody
+	public Json statusChange(ProjectMainForm form) throws Exception {
+		return this.projectService.statusChange(form) ;
+	}
+	
 	@RequestMapping("/delete.do")
 	@ResponseBody
 	public Json delete(String ids) throws Exception {

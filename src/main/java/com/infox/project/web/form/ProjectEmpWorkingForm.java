@@ -27,7 +27,7 @@ public class ProjectEmpWorkingForm extends PageHelper {
 	private String empIds ;
 	
 	/** 状态标记（0.未设置日期，1.已设置日期，2.已到期，3.历史信息，4.结束-退出项目组） */
-	private int status ;
+	private Integer status ;
 	
 	/** 用于IN查询(0,1,2,3,4) */
 	private String inStatus ;
@@ -40,11 +40,11 @@ public class ProjectEmpWorkingForm extends PageHelper {
 		this.inStatus = inStatus;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -103,6 +103,4 @@ public class ProjectEmpWorkingForm extends PageHelper {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
-	
 }

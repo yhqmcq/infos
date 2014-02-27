@@ -4,8 +4,8 @@
 	var form_url = yhq.basePath+"/project/project_main/add.do" ;
 	$(function() {
 		$("#t").tabs({ width:738, lineHeight: 0 });
-		$("#s1").datebox({ required: true, readonly: true, value: $.date.format(new Date(), "yyyy-MM-dd") });
-		$("#e1").datebox({ required:true, readonly: true, onSelect : function(date) {
+		$("#s1").datebox({ required: true,autoShowPanel: false, value: $.date.format(new Date(), "yyyy-MM-dd") });
+		$("#e1").datebox({ required:true,autoShowPanel: false, onSelect : function(date) {
 			var t = $.date.compare($.date.format(date,"yyyy-MM-dd"), $("#s1").datebox('getValue')) ;
 			if(t<0) { $("#e1").datebox('setValue','') ; $.easyui.messager.show({ icon: "warning", msg: "项目结束日期不能小于项目开始日期！" }); }
 		} });
@@ -93,7 +93,7 @@
 		<table>
 			<tr>
 				<th>项目名称：</th>
-				<td><input type="text" name="name" class="easyui-validatebox" ></td>
+				<td><input type="text" name="name" style="width:250px;" class="easyui-validatebox" ></td>
 				<th>项目代号：</th>
 				<td><input type="text" name="code" class="easyui-validatebox" ></td>
 			</tr>

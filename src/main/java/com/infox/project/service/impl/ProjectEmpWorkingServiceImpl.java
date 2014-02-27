@@ -48,6 +48,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					ProjectMainEntity project = new ProjectMainEntity() ;
 					project.setId(form.getProject_id()) ;
 					entity.setProject(project);
+					entity.setStatus(0) ;
 					
 					this.basedaoProjectEW.save(entity);
 				}
@@ -176,10 +177,11 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				hql += " and t.project.id=:project_id";
 				params.put("project_id", form.getProject_id());
 			}
-			/*if (!"".equals(form.getStatus())) {
+			System.out.println(form.getStatus());
+			if (null != form.getStatus() && !"".equals(form.getStatus())) {
 				hql += " and t.status=:status";
 				params.put("status", form.getStatus());
-			}*/
+			}
 			if (null != form.getInStatus() && !"".equals(form.getInStatus())) {
 				hql += " and t.status in (:inStatus)";
 				String[] split = form.getInStatus().split(",") ;
