@@ -115,7 +115,7 @@
 				<th>项目负责人：</th>
 				 <td>
 				 	<input id="select2" name="project_leader_id" /><input id="project_leader" name="project_leader" type="hidden">
-				 </td> 
+				 </td>
 			</tr>
 		</table>
 	</div>
