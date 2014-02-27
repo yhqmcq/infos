@@ -81,12 +81,26 @@ public class ProjectMainEntity {
 	/** 项目所属公司部门 */
 	private OrgDeptTreeEntity dept ;
 	
+	/** 项目参与人员邮件列表 */
+	private Set<ProjectMailListEntity> projectmails = new HashSet<ProjectMailListEntity>() ;
+	
 	/** 自关联，树形结构 */
 	private ProjectMainEntity project ;
 	private Set<ProjectMainEntity> projects = new HashSet<ProjectMainEntity>() ;
 
+	/** 项目开发人员列表（起止日期） */
 	private Set<ProjectEmpWorkingEntity> pwe = new HashSet<ProjectEmpWorkingEntity>() ;
 	
+	@OneToMany
+	@JoinColumn(name="PROJECT_ID")
+	public Set<ProjectMailListEntity> getProjectmails() {
+		return projectmails;
+	}
+
+	public void setProjectmails(Set<ProjectMailListEntity> projectmails) {
+		this.projectmails = projectmails;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="PROJECT_ID")
 	public Set<ProjectEmpWorkingEntity> getPwe() {

@@ -12,7 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.infox.common.util.UUIDHexGenerator;
 
 @Entity
-@Table(name = "INFOX_SYSMGR_EMP_ONLINE")
+@Table(name = "INFOX_SYSMGR_EMPONLINE")
 @DynamicUpdate(true)
 @DynamicInsert(true)
 public class EmpOnlineEntity {

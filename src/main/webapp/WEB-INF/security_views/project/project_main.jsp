@@ -131,6 +131,30 @@
 		}
 	}
 	
+	function mailList() {
+		var rows = dataGrid.datagrid('getChecked');
+		if (rows.length > 0) {
+			var dialog = $.easyui.showDialog({
+	            title: "设置项目参与人员邮件列表&nbsp;&nbsp;[<font color='red'>"+rows[0].name+"</font>]",
+	            href: yhq.basePath+"/project/project_main/project_maillist.do?id="+rows[0].id,
+	            iniframe: true,
+	            width: 950, height: 600,
+	            topMost: true,
+	            autoVCenter: true,
+	            autoHCenter: true,
+	            enableApplyButton: false,
+	            enableSaveButton: false,
+	            enableCloseButton: false,
+	            saveButtonIconCls: "ext_save",
+	            onSave: function() {
+	            	return $.easyui.parent.submitForm(dialog, dataGrid);
+	            }
+	        });
+		} else {
+			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
+		}
+	}
+	
 	
 </script>
 
@@ -164,7 +188,7 @@
 	                    <div data-options="iconCls: 'icon-metro-contract'">
 	                    	<span>人员设置</span>
 	                    	<div>
-		                    	<div data-options="iconCls: 'icon-metro-expand'">项目参与人员</div>
+		                    	<div onclick="mailList()" data-options="iconCls: 'icon-metro-expand'">项目参与人员</div>
 		                    	<div onclick="devMember()" data-options="iconCls: 'icon-metro-expand'">项目开发人员</div>
 	                    	</div>
 	                    </div>

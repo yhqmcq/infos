@@ -12,6 +12,7 @@ import com.infox.common.web.BaseController;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
 import com.infox.project.service.ProjectMainServiceI;
+import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
 
 @Controller
@@ -40,6 +41,14 @@ public class ProjectMain extends BaseController {
 			request.setAttribute("project", this.projectService.get(form.getId())) ;
 		}
 		return Constants.PROJECT + "project_member" ;
+	}
+	
+	@RequestMapping("/project_maillist.do")
+	public String project_maillist(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		if(null != form.getId() && !"".equals(form.getId())) {
+			request.setAttribute("project", this.projectService.get(form.getId())) ;
+		}
+		return Constants.PROJECT + "project_maillist" ;
 	}
 	
 	@RequestMapping("/get.do")
@@ -98,6 +107,45 @@ public class ProjectMain extends BaseController {
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
 		return this.projectService.datagrid(form) ;
 	}
+	
+	@RequestMapping("/addMailList.do")
+	@ResponseBody
+	synchronized public Json addMailList(ProjectMailListForm form) throws Exception {
+		Json j = new Json() ;
+		try {
+			this.projectService.addMailList(form) ;
+			j.setStatus(true) ;
+		} catch (Exception e) {
+			e.printStackTrace() ;
+			j.setMsg(e.getMessage()) ;
+		}
+		return j ;
+	}
+	
+	@RequestMapping("/deleteMailList.do")
+	@ResponseBody
+	public Json deleteMailList(String ids) throws Exception {
+		Json j = new Json();
+		try {
+			if(null != ids && !ids.equalsIgnoreCase("")) {
+				String[] id = ids.split(",") ;
+				for(int i=0;i<id.length;i++) {
+					this.projectService.deleteMailList(id[i]) ;
+				}
+				j.setStatus(true);
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return j ;
+	}
+	
+	@RequestMapping("/datagrid_MailList.do")
+	@ResponseBody
+	public DataGrid datagrid_MailList(ProjectMailListForm form) throws Exception {
+		return this.projectService.maillist_datagrid(form) ;
+	}
+	
 	
 
 }

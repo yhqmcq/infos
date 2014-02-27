@@ -14,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.util.DateUtil;
 import com.infox.common.web.page.DataGrid;
+import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
+import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
@@ -30,9 +32,15 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Autowired
 	private BaseDaoI<EmpJobEntity> basedaoEmpJob;
-
+	
 	@Autowired
 	private BaseDaoI<OrgDeptTreeEntity> basedaoOrg;
+	
+	@Autowired
+	private BaseDaoI<EmployeeEntity> basedaoEmployee;
+
+	@Autowired
+	private BaseDaoI<ProjectMailListEntity> basedaoMailList;
 
 	@Override
 	public void add(ProjectMainForm form) throws Exception {
@@ -171,6 +179,67 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 		}
 		return hql;
+	}
+
+	@Override
+	public void addMailList(ProjectMailListForm form) throws Exception {
+		String empIds = form.getIds() ;
+		if(null != empIds && !"".equals(empIds)) {
+			String[] empIdsSplit = empIds.split(",") ;
+			for(int i=0;i<empIdsSplit.length;i++) {
+				
+				Map<String, Object> params = new HashMap<String, Object>() ;
+				params.put("empid", empIdsSplit[i]) ; params.put("projectid", form.getProjectid()) ;
+				ProjectMailListEntity pml = this.basedaoMailList.get("select t from ProjectMailListEntity t where t.empid=:empid and t.projectmain.id=:projectid", params);
+				if(pml == null) {
+					EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, empIdsSplit[i]) ;
+					
+					ProjectMailListEntity entity = new ProjectMailListEntity() ;
+					entity.setEmpid(employeeEntity.getId()) ;
+					entity.setEmpname(employeeEntity.getTruename()) ;
+					entity.setEmail(employeeEntity.getEmail()) ;
+					
+					OrgDeptTreeEntity dept = employeeEntity.getOrg() ;
+					entity.setDeptid(dept.getId()) ;
+					entity.setDeptname(dept.getFullname()) ;
+					
+					EmpJobEntity job = employeeEntity.getEmpjobs().iterator().next() ;
+					entity.setEmpjobid(job.getId()) ;
+					entity.setEmpjobname(job.getJob_name()) ;
+					
+					entity.setProjectmain(this.basedaoProject.get(ProjectMainEntity.class, form.getProjectid())) ;
+					entity.setProject_name(form.getProject_name()) ;
+					
+					this.basedaoMailList.save(entity) ;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void deleteMailList(String id) throws Exception {
+		this.basedaoMailList.delete(this.basedaoMailList.get(ProjectMailListEntity.class, id)) ;
+	}
+
+	@Override
+	public DataGrid maillist_datagrid(ProjectMailListForm form)
+			throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		String hql = "select t from ProjectMailListEntity t where t.projectmain.id=:projectid";
+		params.put("projectid", form.getProjectid()) ;
+		
+		List<ProjectMailListEntity> entitys = this.basedaoMailList.find(hql, params);
+		
+		List<ProjectMailListForm> forms = new ArrayList<ProjectMailListForm>() ;
+		for (ProjectMailListEntity p : entitys) {
+			ProjectMailListForm f = new ProjectMailListForm() ;
+			com.infox.common.util.BeanUtils.copyProperties(p, f) ;
+			forms.add(f) ;
+		}
+		
+		DataGrid datagrid = new DataGrid();
+		datagrid.setRows(forms);
+		return datagrid ;
 	}
 
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>设置项目开发人员</title>
+<title>项目参与人员邮件列表</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 
@@ -11,7 +11,7 @@
 	var dataGrid2 ;
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
-			title: '空闲员工列表',
+			title: '员工列表',
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do?workStatus=0",
 			idField: 'id', fit: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
 			remoteSort: false, toolbar: '#buttonbar1', striped:true, pagination: true,
@@ -43,22 +43,19 @@
 			}
 	    });
 		dataGrid2 = $("#d2").datagrid({
-			title: '项目人员',
-			url: yhq.basePath+"/project/pwe_emp_working/datagrid.do?project_id=${project.id}&inStatus=0,1",
+			title: '参与人员邮件列表',
+			url: yhq.basePath+"/project/project_main/datagrid_MailList.do?projectid=${project.id}",
 			idField: 'id', fit: true, toolbar: '#buttonbar2', border: false, method: "post",
 			remoteSort: false, striped:true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: '工号', width: 60, sortable: true },
-			    { field: 'emp_name', title: '姓名', width: 100, sortable: true }
+			    { field: 'empname', title: '姓名', width: 100, sortable: true }
 			]],
-			columns: [[
-			    { field: 'startDate', title: '起始日期', width:110, sortable: true, formatter:function(value,row){
-			    	if(undefined == value || "" == value) { return "未设置"; } else { return $.date.format($.string.toDate(value), "yyyy-MM-dd"); }
-			    }},
-			    { field: 'endDate', title: '结束日期', width:110, sortable: true, formatter:function(value,row){
-			    	if(undefined == value || "" == value) { return "未设置"; } else { return $.date.format($.string.toDate(value), "yyyy-MM-dd"); }
-			    }},
+			columns: [[ 
+			    { field: 'empjobname', title: '职位', width: 100, sortable: true },
+			    { field: 'email', title: '邮件地址', width: 150, sortable: true },
+			    { field: 'deptname', title: '部门名称', width: 100, sortable: true },
 			]]
 	    });
 		
@@ -90,12 +87,12 @@
 					empIds.push(rows[i].id);
 				}
 				var workdata = {} ;
-				workdata["empIds"] = empIds.join(',');
-				workdata["project_id"] = "${project.id}";
+				workdata["ids"] = empIds.join(',');
+				workdata["projectid"] = "${project.id}";
 				workdata["project_name"] = "${project.name}";
-				$.post(yhq.basePath+"/project/pwe_emp_working/add.do", workdata, function(result) {
+				$.post(yhq.basePath+"/project/project_main/addMailList.do", workdata, function(result) {
 					if (result.status) {
-						dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked');dataGrid1.datagrid('reload') ;
+						dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked') ;
 						dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
 					}
 				}, 'json');
@@ -106,17 +103,17 @@
 		}
 	}
 	
-	function revertMember() {
+	function deleteMaillist() {
 		var rows = dataGrid2.datagrid('getChecked');
 		var ids = [];
 		if (rows.length > 0) {
 			for ( var i = 0; i < rows.length; i++) {
 				ids.push(rows[i].id);
 			}
-			$.post(yhq.basePath+"/project/pwe_emp_working/revert.do", {ids : ids.join(',')}, function(result) {
+			$.post(yhq.basePath+"/project/project_main/deleteMailList.do", {ids : ids.join(',')}, function(result) {
 				if (result.status) {
+					dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked') ;
 					dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
-					dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked');dataGrid1.datagrid('reload') ;
 				}
 			}, 'json');
 		} else {
@@ -124,30 +121,6 @@
 		}
 	}
 	
-	function setMemberDate() {
-		var rows = dataGrid2.datagrid('getChecked');
-		var ids = [];
-		if (rows.length > 0) {
-			for ( var i = 0; i < rows.length; i++) {
-				ids.push(rows[i].id);
-			}
-			if($('#dateform').form('validate')) {
-				var data = {} ; data = $("#dateform").form("getData") ;
-				data["ids"] = ids.join(",");
-				
-				$.post(yhq.basePath+"/project/pwe_emp_working/set_workdate.do", data, function(result) {
-					if (result.status) {
-						dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
-						$.easyui.messager.show({ icon: "info", msg: "删除记录成功。" });
-					} else {
-						$.easyui.messager.show({ icon: "info", msg: "删除记录失败。" });
-					}
-				}, 'json');
-			}
-		} else {
-			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
-		}
-	}
 </script>
 
 </head>
@@ -174,44 +147,22 @@
 		</div>
 		<div data-options="region: 'center', border: false" style="overflow: hidden;">
 			<div class="easyui-layout" data-options="fit: true">
-				<div data-options="region: 'north', border: false" style="overflow: hidden;width:200px;height:370px;">
+				<div data-options="region: 'center', border: false" style="overflow: hidden;width:200px;height:370px;">
 					<div class="easyui-layout" data-options="fit: true">
 						<div data-options="region: 'west', border: true" style="position: relative;overflow: hidden;background:#e3e3e3; border-bottom:0px;width:40px;height:220px;">
-							<a onclick="addMember()" class='imgIcon icon-hamburg-right' style="cursor: pointer;position: absolute;left:5px; top:110px;"></a>							
-							<a onclick="revertMember()" class='imgIcon icon-hamburg-left' style="cursor: pointer;position: absolute;left:5px; top:160px;"></a>							
+							<a onclick="addMember()" class='imgIcon icon-hamburg-right' style="cursor: pointer;position: absolute;left:5px; top:200px;"></a>							
 						</div>
 						
 						<div data-options="region: 'center', border: true" style="overflow: hidden;width:100px;height:200px; border-right:0px; border-bottom:0px;">
 							<div id="d2">
 								<div id="buttonbar2">
+				                    <a onclick="deleteMaillist();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
 				                    <a onclick="dataGrid2.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 				                </div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div data-options="region: 'center', border: false" style="overflow: hidden;width:200px;height:300px;">
-					<form id="dateform" class="easyui-form">
-						<div class="form_base" style="width:100%;">
-							<table style="margin:0px;">
-								<tr rowspan="2">
-									<th>起始日期：</th>
-									<td><input id="s1" type="text" name="startDate" /></td>
-								</tr>
-								<tr>
-									<th>结束日期：</th>
-									<td><input id="e1" type="text" name="endDate" /></td>
-								</tr>
-								<tr>
-									<td colspan="2" align="center">
-										<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">设置日期</a>
-									</td>
-								</tr>
-							</table>
-						</div>
-					</form>
-				</div>
-			
 			</div>
 		</div>
 	</div>	
