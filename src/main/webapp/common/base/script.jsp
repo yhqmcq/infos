@@ -73,3 +73,7 @@ if (cookieMap.containsKey("themeName")) {
 <script type="text/javascript" src="<%=basePath%>/js/plugins/jquery.imgareaselect-0.9.10/scripts/jquery.imgareaselect.pack.js"></script>
 
 <script type="text/javascript" src="<%=basePath%>/js/plugins/plupload-2.1.1/js/plupload.full.min.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="<%=basePath%>/js/plugins/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="<%=basePath%>/js/plugins/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="<%=basePath%>/js/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
