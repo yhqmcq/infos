@@ -24,7 +24,7 @@ import com.infox.sysmgr.service.BaseDataBackServiceI;
 public class BaseDataBackServiceImpl implements BaseDataBackServiceI {
 	
 	@Autowired
-	private BaseDaoI<BaseTable> basedaoBDB ;
+	private BaseDaoI<BaseTable> basedaoBDB ; 
 
 	@Autowired
 	private JdbcDaoSupportUtil jdsu;

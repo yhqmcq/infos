@@ -47,8 +47,8 @@ public class PlUploadServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort() ;
-		String crrentPath = request.getServletContext().getRealPath("");
-		String parentPath = new File(crrentPath).getParent();
+		String currentPath = request.getServletContext().getRealPath("");
+		String parentPath = new File(currentPath).getParent();
 		String fileFolder = request.getParameter("fileFolder");// 前台传递过来的文件夹参数，如果有就在这个目录里面保存文件 ;
 		String dateFolder = request.getParameter("dateFolder") ;//日期目录
 		String isParent = request.getParameter("isParent") ; ;
@@ -74,7 +74,7 @@ public class PlUploadServlet extends HttpServlet {
 			realPath = parentPath + File.separator + ConfigUtil.get(Constants.FILE_ROOT) + fileFolder + dateFolder ;
 			webPath = basePath + File.separator + ConfigUtil.get(Constants.FILE_ROOT) + fileFolder + dateFolder ;
 		} else {//存放在当前项目目录中
-			realPath = crrentPath + fileFolder + dateFolder ;
+			realPath = currentPath + fileFolder + dateFolder ;
 			webPath = basePath + request.getContextPath() + fileFolder + dateFolder ;
 		}
 		

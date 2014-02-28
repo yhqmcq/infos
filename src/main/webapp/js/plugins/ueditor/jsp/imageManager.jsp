@@ -5,7 +5,7 @@
 <%@ page import="javax.servlet.http.HttpServletRequest"%>
 <% 
     //仅做示例用，请自行修改
-	String path = "upload";
+	String path = "upload1";
 	String imgStr ="";
 	String realpath = getRealPath(request,path)+"/"+path;
 	List<File> files = getFiles(realpath,new ArrayList());
