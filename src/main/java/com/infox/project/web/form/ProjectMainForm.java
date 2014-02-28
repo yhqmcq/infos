@@ -64,6 +64,12 @@ public class ProjectMainForm extends PageHelper {
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus ;
 	
+	/** 项目目标 */
+	private String project_target ;
+	
+	/** 项目描述 */
+	private String project_desc ;
+	
 	private String pid ;
 	
 	public String getPid() {
@@ -72,6 +78,22 @@ public class ProjectMainForm extends PageHelper {
 
 	public void setPid(String pid) {
 		this.pid = pid;
+	}
+
+	public String getProject_target() {
+		return project_target;
+	}
+
+	public void setProject_target(String project_target) {
+		this.project_target = project_target;
+	}
+
+	public String getProject_desc() {
+		return project_desc;
+	}
+
+	public void setProject_desc(String project_desc) {
+		this.project_desc = project_desc;
 	}
 
 	public String getInStatus() {

@@ -1,6 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <script type="text/javascript">
+	var editor1,editor2;
 	var form_url = yhq.basePath+"/project/project_main/add.do" ;
 	$(function() {
 		$("#t").tabs({ width:738, lineHeight: 0 });
@@ -49,6 +50,8 @@
 						'team_name' : result.team_name,
 						'deptid' : result.deptid,
 						'project_leader_id' : result.project_leader_id,
+						'project_target' : result.project_target,
+						'project_desc' : result.project_desc,
 						'project_leader' : result.project_leader
 					});
 					$("#s1").datebox('setValue',$.date.format($.string.toDate(result.startDate), "yyyy-MM-dd")) ;
@@ -60,11 +63,14 @@
 		}
 		
 		window.setTimeout(function(){
-			//实例化编辑器
 			editor = new UE.ui.Editor({
 				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
 			});
-			editor.render('editor');
+			editor.render('editor1');
+			editor = new UE.ui.Editor({
+				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
+			});
+			editor.render('editor2');
 			
 		},100);
 	});
@@ -132,10 +138,10 @@
 	<div class="form_base">
 		<div id="t">
 		    <div data-options="title: '项目目标', refreshable: false, selected: true">
-		    	<textarea id="editor" name="description" style="margin-top:5px;height:150px;width:99.7%;"></textarea>
+		    	<textarea id="editor1" name="project_target" style="margin-top:5px;height:150px;width:99.7%;"></textarea>
 		    </div>
 		    <div data-options="title: '项目描述', refreshable: false">
-		    	<textarea id="editor" name="description" style="height:150px;width:99.7%;"></textarea>
+		    	<textarea id="editor2" name="project_desc" style="margin-top:5px;height:150px;width:99.7%;"></textarea>
 		    </div>
 		</div>
 	</div>

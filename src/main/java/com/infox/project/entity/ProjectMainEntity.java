@@ -1,5 +1,6 @@
 package com.infox.project.entity;
 
+import java.sql.Clob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -68,6 +69,12 @@ public class ProjectMainEntity {
 	
 	/** 项目负责人 */
 	private String project_leader ;
+	
+	/** 项目目标 */
+	private Clob project_target ;
+	
+	/** 项目描述 */
+	private Clob project_desc ;
 	
 	/** 创建时间 */
 	private Date created = new Date() ;
@@ -165,6 +172,22 @@ public class ProjectMainEntity {
 
 	public String getDeptname() {
 		return deptname;
+	}
+
+	public Clob getProject_target() {
+		return project_target;
+	}
+
+	public void setProject_target(Clob project_target) {
+		this.project_target = project_target;
+	}
+
+	public Clob getProject_desc() {
+		return project_desc;
+	}
+
+	public void setProject_desc(Clob project_desc) {
+		this.project_desc = project_desc;
 	}
 
 	public String getProject_leader() {

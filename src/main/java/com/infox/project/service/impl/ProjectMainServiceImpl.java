@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.util.ClobUtil;
 import com.infox.common.util.DateUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.web.page.DataGrid;
@@ -50,7 +51,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = this.get(form.getCode());
 		if (null == project) {
 			ProjectMainEntity entity = new ProjectMainEntity();
-			BeanUtils.copyProperties(form, entity, new String[] { "id" });
+			BeanUtils.copyProperties(form, entity, new String[] { "id", "project_target", "project_desc" });
 
 			if (null != form.getDeptid() && !"".equalsIgnoreCase(form.getDeptid())) {
 				OrgDeptTreeEntity dept = new OrgDeptTreeEntity();
@@ -64,6 +65,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				entity.setEmp_leader(emp_leader);
 			}
 			entity.setStatus(0);
+			entity.setProject_target(ClobUtil.getClob(form.getProject_target())) ;
+			entity.setProject_desc(ClobUtil.getClob(form.getProject_desc())) ;
 
 			this.basedaoProject.save(entity);
 		} else {
@@ -104,8 +107,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 			this.basedaoProject.save(history);
 		}
-
-		BeanUtils.copyProperties(form, entity, new String[] { "creater", "status" });
+		BeanUtils.copyProperties(form, entity, new String[] { "creater", "status", "project_target", "project_desc" });
+		entity.setProject_target(ClobUtil.getClob(form.getProject_target())) ;
+		entity.setProject_desc(ClobUtil.getClob(form.getProject_desc())) ;
 
 		if (null != form.getProject_leader_id() && !"".equals(form.getProject_leader_id())) {
 			entity.setEmp_leader(this.basedaoEmployee.get(EmployeeEntity.class, form.getProject_leader_id()));
@@ -119,7 +123,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
 		if (null != entity) {
 			ProjectMainForm form = new ProjectMainForm();
-			BeanUtils.copyProperties(entity, form);
+			BeanUtils.copyProperties(entity, form, new String[] { "project_target", "project_desc" });
+			form.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+			form.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 
 			OrgDeptTreeEntity dept = entity.getDept();
 			if (null != dept) {
@@ -146,8 +152,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainEntity entity = this.basedaoProject.get(hql, params);
 		if (null != entity) {
 			ProjectMainForm pform = new ProjectMainForm();
-			BeanUtils.copyProperties(entity, pform);
-
+			BeanUtils.copyProperties(entity, form, new String[] { "project_target", "project_desc" });
+			form.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+			form.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 			return pform;
 		} else {
 			return null;
