@@ -152,8 +152,21 @@
 		}
 	}
 	
-	function project_detail() {
-		
+	function project_detail(type) {
+		if(undefined != type && type === 'S') {
+			var rows = dataGrid.datagrid('getChecked');
+			var ids = [] ;
+			if (rows.length > 0) {
+				for ( var i = 0; i < rows.length; i++) {
+					ids.push(rows[i].id);
+				}
+				window.open(yhq.basePath+"/project/project_main/project_detail.do?ids="+ids.join(","), "_blank");
+			} else {
+				$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
+			}
+		} else {
+			window.open(yhq.basePath+"/project/project_main/project_detail.do", "_blank");
+		}
 	}
 	
 	function devMember() {
@@ -254,6 +267,14 @@
 	                    	<div>
 		                    	<div onclick="mailList()" data-options="iconCls: 'icon-metro-expand'">项目参与人员</div>
 		                    	<div onclick="devMember()" data-options="iconCls: 'icon-metro-expand'">项目开发人员</div>
+	                    	</div>
+	                    </div>
+	                    <div class="menu-sep"></div>
+	                    <div data-options="iconCls: 'icon-metro-contract'">
+	                    	<span>浏览项目详情</span>
+	                    	<div>
+		                    	<div onclick="project_detail('S')" data-options="iconCls: 'icon-metro-expand'">浏览所选</div>
+		                    	<div onclick="project_detail('A')" data-options="iconCls: 'icon-metro-expand'">浏览全部</div>
 	                    	</div>
 	                    </div>
                 	</div>

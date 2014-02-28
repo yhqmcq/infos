@@ -51,6 +51,14 @@ public class ProjectMain extends BaseController {
 		return Constants.PROJECT + "project_maillist" ;
 	}
 	
+	@RequestMapping("/project_detail.do")
+	public String project_detail(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		if(null != form.getIds() && !"".equals(form.getIds())) {
+			request.setAttribute("ids", form.getIds()) ;
+		}
+		return Constants.PROJECT + "project_detail" ;
+	}
+	
 	@RequestMapping("/get.do")
 	@ResponseBody
 	public ProjectMainForm get(ProjectMainForm form, HttpServletRequest request) throws Exception {

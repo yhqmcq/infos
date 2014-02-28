@@ -44,6 +44,7 @@
     <import resource="classpath:resources/spring-mvc.xml"/>
     <import resource="classpath:resources/spring-quartz.xml"/>
     <import resource="classpath:resources/spring-datasource.xml"/>
+    <import resource="classpath:resources/spring-activemq.xml"/>
     <!-- 
     <import resource="classpath:resources/spring-util.xml"/>
      -->
