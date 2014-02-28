@@ -18,6 +18,7 @@ import com.infox.common.util.DateUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
+import com.infox.project.asynms.send.MailMessageSenderI;
 import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
@@ -45,6 +46,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Autowired
 	private BaseDaoI<ProjectMailListEntity> basedaoMailList;
+	
+	@Autowired
+	private MailMessageSenderI mailMessageSend ;
 
 	@Override
 	public void add(ProjectMainForm form) throws Exception {
@@ -163,6 +167,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
+		//发送消息服务
+		this.mailMessageSend.sendMail() ;
+		
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));
