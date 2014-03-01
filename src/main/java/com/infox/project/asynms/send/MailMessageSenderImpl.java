@@ -8,6 +8,8 @@ import javax.jms.Session;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
+import com.infox.project.web.form.ProjectMainForm;
+
 public class MailMessageSenderImpl implements MailMessageSenderI {
 
 	private JmsTemplate jmsTemplate;
@@ -17,23 +19,23 @@ public class MailMessageSenderImpl implements MailMessageSenderI {
 	}
 
 	@Override
-	public void sendMail() {
-		System.out.println("发送异步消息...");
-		
+	public void sendMail(final ProjectMainForm project) throws Exception {
 		//创建消息
 		MessageCreator messageCreator = new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
 				ObjectMessage message = session.createObjectMessage();
-				
-				System.out.println("消息内容...");
-				
+				message.setObject(project) ;
 				return message;
 			}
 		};
 		
-		//发送消息
-		this.jmsTemplate.send(messageCreator) ;
+		try {
+			//发送消息
+			this.jmsTemplate.send(messageCreator) ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

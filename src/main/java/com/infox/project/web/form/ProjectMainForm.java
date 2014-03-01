@@ -1,77 +1,87 @@
 package com.infox.project.web.form;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import com.infox.common.web.page.PageHelper;
 
-public class ProjectMainForm extends PageHelper {
-	
-	private String id ;
-	
+public class ProjectMainForm extends PageHelper implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private String id;
+
 	/** 项目名称 */
-	private String name ;
-	
+	private String name;
+
 	/** 项目代号 */
-	private String code ;
-	
+	private String code;
+
 	/** 项目开始日期 */
-	private Date startDate ;
-	
+	private Date startDate;
+
 	/** 项目结束日期 */
-	private Date endDate ;
-	
+	private Date endDate;
+
 	/** 团队名称 */
-	private String team_name ;
-	
+	private String team_name;
+
 	/** 项目类型（短期迭代，长期项目，运维项目） */
-	private Integer project_type ;
-	
+	private Integer project_type;
+
 	/** 项目状态（0.未开始，1.进行中，2.已挂起，3.已完成，4.激活，5.历史） */
-	private Integer status ;
-	
+	private Integer status;
+
 	/** 所属部门（ID） */
-	private String deptid ;
-	
+	private String deptid;
+
 	/** 所属部门（Name） */
-	private String deptname ;
-	
+	private String deptname;
+
 	/** 项目负责人ID */
-	private String project_leader_id ;
-	
+	private String project_leader_id;
+
 	/** 项目负责人名称 */
-	private String project_leader ;
-	
+	private String project_leader;
+
 	/** 创建者ID */
-	private String createrId ;
-	
+	private String createrId;
+
 	/** 创建者名称 */
-	private String createrName ;
-	
+	private String createrName;
+
 	/** 创建时间 */
-	private Date created = new Date() ;
-	
+	private Date created = new Date();
+
 	/** 最后修改时间 */
-	private Date lastmod = new Date() ;
-	
+	private Date lastmod = new Date();
+
 	/** 总天数 */
-	private long dateDiff ;
-	
+	private long dateDiff;
+
 	/** 剩余天数 */
-	private long lastdateDiff ;
-	
+	private long lastdateDiff;
+
 	/** 用于IN查询(0,1,2,3,4) */
-	private String inStatus ;
+	private String inStatus;
 	/** 用于NOT IN查询(0,1,2,3,4) */
-	private String notInStatus ;
-	
+	private String notInStatus;
+
 	/** 项目目标 */
-	private String project_target ;
-	
+	private String project_target;
+
 	/** 项目描述 */
-	private String project_desc ;
-	
-	private String pid ;
-	
+	private String project_desc;
+
+	private String pid;
+
+	private Set<ProjectMailListForm> projectmailsform;
+
+	private Set<ProjectMainForm> projectsform;
+
+	private Set<ProjectEmpWorkingForm> pweform;
+
 	public String getPid() {
 		return pid;
 	}
@@ -136,6 +146,30 @@ public class ProjectMainForm extends PageHelper {
 		this.dateDiff = dateDiff;
 	}
 
+	public Set<ProjectMailListForm> getProjectmailsform() {
+		return projectmailsform;
+	}
+
+	public void setProjectmailsform(Set<ProjectMailListForm> projectmailsform) {
+		this.projectmailsform = projectmailsform;
+	}
+
+	public Set<ProjectMainForm> getProjectsform() {
+		return projectsform;
+	}
+
+	public void setProjectsform(Set<ProjectMainForm> projectsform) {
+		this.projectsform = projectsform;
+	}
+
+	public Set<ProjectEmpWorkingForm> getPweform() {
+		return pweform;
+	}
+
+	public void setPweform(Set<ProjectEmpWorkingForm> pweform) {
+		this.pweform = pweform;
+	}
+
 	public String getDeptid() {
 		return deptid;
 	}
@@ -195,7 +229,6 @@ public class ProjectMainForm extends PageHelper {
 	public void setTeam_name(String team_name) {
 		this.team_name = team_name;
 	}
-
 
 	public Integer getProject_type() {
 		return project_type;
@@ -257,6 +290,4 @@ public class ProjectMainForm extends PageHelper {
 		this.lastmod = lastmod;
 	}
 
-	
-	
 }

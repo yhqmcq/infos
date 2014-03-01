@@ -1,5 +1,7 @@
 package com.infox.project.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,8 +25,10 @@ import com.infox.common.util.RandomUtils;
 @Table(name = "INFOX_PROJECT_MAILLIST")
 @DynamicUpdate(true)
 @DynamicInsert(true)
-public class ProjectMailListEntity {
+public class ProjectMailListEntity implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private String id ;
 	
 	private String empid ;

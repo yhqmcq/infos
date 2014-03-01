@@ -3,25 +3,28 @@ package com.infox.project.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.util.BeanUtils;
 import com.infox.common.util.ClobUtil;
 import com.infox.common.util.DateUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
 import com.infox.project.asynms.send.MailMessageSenderI;
+import com.infox.project.entity.ProjectEmpWorkingEntity;
 import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
+import com.infox.project.web.form.ProjectEmpWorkingForm;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
@@ -167,9 +170,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
-		//发送消息服务
-		this.mailMessageSend.sendMail() ;
-		
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));
@@ -182,7 +182,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if (null != ProjectMainEntity && ProjectMainEntity.size() > 0) {
 			for (ProjectMainEntity i : ProjectMainEntity) {
 				ProjectMainForm uf = new ProjectMainForm();
-				BeanUtils.copyProperties(i, uf);
+				BeanUtils.copyProperties(i, uf, new String[]{ "projectmails", "projects", "pwe"});
 
 				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
 				uf.setDateDiff(dateDiff);
@@ -347,7 +347,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				} else {
 					json.setMsg("项目未设置参与人员邮件列表，请设置后再开始项目。");
 				}
-				return json ;
 			}
 		} else if (null != form.getStatus() && form.getStatus() == 2) {	// 项目挂起
 			if(0 == entity.getStatus()) {
@@ -409,8 +408,52 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			json.setMsg("未知状态！");
 			json.setStatus(false) ;
 		}
+		
+		//发送异步消息（项目信息邮件）
+		if(json.isStatus()) {
+			try {
+				ProjectMainForm project = new ProjectMainForm() ;
+				BeanUtils.copyProperties(entity, project, new String[]{ "projectmails", "projects", "pwe"}) ;
+				
+				if(null != entity.getProjectmails()) {
+					Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
+					Set<ProjectMailListForm> pmlf = new HashSet<ProjectMailListForm>() ; 
+					for (ProjectMailListEntity e : projectmails) {
+						ProjectMailListForm f = new ProjectMailListForm() ;
+						BeanUtils.copyProperties(e, f) ;
+						pmlf.add(f) ;
+					}
+					project.setProjectmailsform(pmlf) ;
+				}
+				
+				Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
+				if(null != entity.getPwe()) {
+					Set<ProjectEmpWorkingForm> pewf = new HashSet<ProjectEmpWorkingForm>() ; 
+					for (ProjectEmpWorkingEntity e : pwe) {
+						ProjectEmpWorkingForm f = new ProjectEmpWorkingForm() ;
+						BeanUtils.copyProperties(e, f) ;
+						pewf.add(f) ;
+					}
+					project.setPweform(pewf) ;
+				}
+				
+				Set<ProjectMainEntity> ps = entity.getProjects() ;
+				if(null != entity.getPwe()) {
+					Set<ProjectMainForm> psf = new HashSet<ProjectMainForm>() ; 
+					for (ProjectMainEntity e : ps) {
+						ProjectMainForm f = new ProjectMainForm() ;
+						BeanUtils.copyProperties(e, f) ;
+						psf.add(f) ;
+					}
+					project.setProjectsform(psf) ;
+				}
+				
+				this.mailMessageSend.sendMail(project) ;
+			} catch (Exception e) {
+				System.out.println("无法连接到ActiveMQ异步消息服务器！");
+			}
+		}
 
 		return json;
 	}
-
 }

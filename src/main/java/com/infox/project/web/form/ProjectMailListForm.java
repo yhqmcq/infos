@@ -1,8 +1,12 @@
 package com.infox.project.web.form;
 
+import java.io.Serializable;
+
 import com.infox.common.web.page.PageHelper;
 
-public class ProjectMailListForm extends PageHelper {
+public class ProjectMailListForm extends PageHelper implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String id ;
 	

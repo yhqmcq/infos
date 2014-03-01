@@ -1,11 +1,14 @@
 package com.infox.project.web.form;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.infox.common.web.page.PageHelper;
 
-public class ProjectEmpWorkingForm extends PageHelper {
+public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private String id ;
 	
 	/** 员工名称 */

@@ -1,5 +1,6 @@
 package com.infox.project.entity;
 
+import java.io.Serializable;
 import java.sql.Clob;
 import java.util.Date;
 import java.util.HashSet;
@@ -33,7 +34,9 @@ import com.infox.sysmgr.entity.OrgDeptTreeEntity;
 @Table(name = "INFOX_PROJECT_PROJECT")
 @DynamicUpdate(true)
 @DynamicInsert(true)
-public class ProjectMainEntity {
+public class ProjectMainEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String id ;
 	
