@@ -190,14 +190,12 @@ public class MailUtil {
 			msg.addRecipients(RecipientType.TO, toAddress) ;
 			
 			logger.info("收件人数量："+success + "    收件地址错误数量：" + unsuccess);
-			StringBuffer strbuf = new StringBuffer() ;
+			logger.info("所有收件人地址：");
 			Object[] array = list.toArray() ;
 			if(null != array && array.length > 0) {
 				for (int i = 0; i < array.length; i++) {
-					if(i%3==0) strbuf.append("\r\n\t\t\t") ;
-					strbuf.append(array[i]+",") ;
+					logger.info(array[i]);
 				}
-				logger.info("所有收件人地址："+strbuf.deleteCharAt(strbuf.length()-1));
 			} 
 			success = 0 ; unsuccess = 0 ;
 		}

@@ -1,14 +1,12 @@
 package com.infox.project.asynms.receiver;
 
-import java.util.Set;
-
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
-import com.infox.project.web.form.ProjectMailListForm;
-import com.infox.project.web.form.ProjectMainForm;
+import com.infox.common.mail.MailUtil;
+import com.infox.common.mail.MailVO;
 
 /**
  * 邮件发送
@@ -26,14 +24,12 @@ public class MailServiceReceiverListener implements MessageListener {
 		if (message instanceof ObjectMessage) {
 			try {
 				ObjectMessage msg = (ObjectMessage) message;
-				ProjectMainForm project = (ProjectMainForm) msg.getObject() ;
-				
-				System.out.println(project.getName());
-				Set<ProjectMailListForm> projectmails = project.getProjectmailsform() ;
-				for (ProjectMailListForm p : projectmails) {
-					System.out.println(p.getEmpname());
+				MailVO mail = (MailVO) msg.getObject() ;
+				try {
+					MailUtil.send(mail) ;
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				
 				System.out.println("接收到发送邮件的信息[队列的名称："+msg.getJMSDestination()+"]");
 			} catch (JMSException e) {
 				e.printStackTrace();

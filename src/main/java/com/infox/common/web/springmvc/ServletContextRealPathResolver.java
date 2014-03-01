@@ -1,5 +1,7 @@
 package com.infox.common.web.springmvc;
 
+import java.io.File;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.stereotype.Component;
@@ -15,6 +17,14 @@ public class ServletContextRealPathResolver implements RealPathResolver,
 			realpath=context.getRealPath("/")+path;
 		}
 		return realpath;
+	}
+	
+	public String getContextPath() {
+		return context.getContextPath() ;
+	}
+	
+	public String getParentDir() {
+		return new File(context.getRealPath("/").toString()).getParent() ;
 	}
 
 	public void setServletContext(ServletContext servletContext) {

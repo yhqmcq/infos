@@ -8,7 +8,7 @@ import javax.jms.Session;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
-import com.infox.project.web.form.ProjectMainForm;
+import com.infox.common.mail.MailVO;
 
 public class MailMessageSenderImpl implements MailMessageSenderI {
 
@@ -19,13 +19,13 @@ public class MailMessageSenderImpl implements MailMessageSenderI {
 	}
 
 	@Override
-	public void sendMail(final ProjectMainForm project) throws Exception {
+	public void sendMail(final MailVO mail) throws Exception {
 		//创建消息
 		MessageCreator messageCreator = new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
 				ObjectMessage message = session.createObjectMessage();
-				message.setObject(project) ;
+				message.setObject(mail) ;
 				return message;
 			}
 		};

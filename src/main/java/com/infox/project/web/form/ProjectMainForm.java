@@ -2,7 +2,6 @@ package com.infox.project.web.form;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 import com.infox.common.web.page.PageHelper;
 
@@ -76,12 +75,6 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	private String pid;
 
-	private Set<ProjectMailListForm> projectmailsform;
-
-	private Set<ProjectMainForm> projectsform;
-
-	private Set<ProjectEmpWorkingForm> pweform;
-
 	public String getPid() {
 		return pid;
 	}
@@ -144,30 +137,6 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setDateDiff(long dateDiff) {
 		this.dateDiff = dateDiff;
-	}
-
-	public Set<ProjectMailListForm> getProjectmailsform() {
-		return projectmailsform;
-	}
-
-	public void setProjectmailsform(Set<ProjectMailListForm> projectmailsform) {
-		this.projectmailsform = projectmailsform;
-	}
-
-	public Set<ProjectMainForm> getProjectsform() {
-		return projectsform;
-	}
-
-	public void setProjectsform(Set<ProjectMainForm> projectsform) {
-		this.projectsform = projectsform;
-	}
-
-	public Set<ProjectEmpWorkingForm> getPweform() {
-		return pweform;
-	}
-
-	public void setPweform(Set<ProjectEmpWorkingForm> pweform) {
-		this.pweform = pweform;
 	}
 
 	public String getDeptid() {

@@ -12,4 +12,8 @@ public interface RealPathResolver {
 	 * @see javax.servlet.ServletContext#getRealPath(String)
 	 */
 	public String get(String path);
+	
+	public String getContextPath();
+	
+	public String getParentDir() ;
 }

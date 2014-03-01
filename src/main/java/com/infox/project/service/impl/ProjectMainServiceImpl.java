@@ -1,9 +1,9 @@
 package com.infox.project.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,18 +13,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.freemarker.FreeMarkerToHtmlUtil;
+import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
+import com.infox.common.mail.MailVO;
 import com.infox.common.util.BeanUtils;
 import com.infox.common.util.ClobUtil;
+import com.infox.common.util.Constants;
 import com.infox.common.util.DateUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
+import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.asynms.send.MailMessageSenderI;
-import com.infox.project.entity.ProjectEmpWorkingEntity;
 import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
-import com.infox.project.web.form.ProjectEmpWorkingForm;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
@@ -52,6 +55,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	
 	@Autowired
 	private MailMessageSenderI mailMessageSend ;
+	
+	@Autowired
+	private RealPathResolver realPathResolver ;
 
 	@Override
 	public void add(ProjectMainForm form) throws Exception {
@@ -108,11 +114,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			history.setProject(entity);
 			history.setStartDate(entity.getStartDate());
 			history.setEndDate(entity.getEndDate());
-			history.setStatus(5);
+			history.setStatus(5); 
 
-			BeanUtils.copyProperties(entity, history, new String[] { "id", "status", "project", "projects", "projectmails", "pwe" });
+			BeanUtils.copyProperties(entity, history, new String[] { "id", "status", "project", "projectmails", "projects", "pwe" });
 
 			this.basedaoProject.save(history);
+			
+			this.delay(entity) ;//延期（发送邮件通知）
 		}
 		BeanUtils.copyProperties(form, entity, new String[] { "creater", "status", "project_target", "project_desc" });
 		entity.setProject_target(ClobUtil.getClob(form.getProject_target())) ;
@@ -121,8 +129,34 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if (null != form.getProject_leader_id() && !"".equals(form.getProject_leader_id())) {
 			entity.setEmp_leader(this.basedaoEmployee.get(EmployeeEntity.class, form.getProject_leader_id()));
 		}
-
 		this.basedaoProject.update(entity);
+	}
+	
+	//延期（发送邮件通知）
+	public void delay(ProjectMainEntity entity) {
+		try {
+			Map<String,Object> model = new HashMap<String,Object>() ;
+			
+
+			//项目参与人员-邮件列表
+			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
+			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
+			for (ProjectMailListEntity p : projectmails) {
+				strBuf.append(p.getEmail()+",") ;
+				projectMailList.add(p) ;
+			}
+			model.put("projectMailList", projectMailList) ;
+			
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject("项目延期-" + entity.getName()) ;
+			mail.setRecipientTO("yhqmcq@126.com,yhqmcq@126.com,yhqmcq@126.com") ;
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(this.realPathResolver.get("/WEB-INF/security_views/project/ftl"), "project_delay_mail.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
+		} catch (Exception e) {
+			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
+		}
 	}
 
 	@Override
@@ -182,7 +216,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if (null != ProjectMainEntity && ProjectMainEntity.size() > 0) {
 			for (ProjectMainEntity i : ProjectMainEntity) {
 				ProjectMainForm uf = new ProjectMainForm();
-				BeanUtils.copyProperties(i, uf, new String[]{ "projectmails", "projects", "pwe"});
+				BeanUtils.copyProperties(i, uf);
 
 				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
 				uf.setDateDiff(dateDiff);
@@ -411,49 +445,42 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		//发送异步消息（项目信息邮件）
 		if(json.isStatus()) {
-			try {
-				ProjectMainForm project = new ProjectMainForm() ;
-				BeanUtils.copyProperties(entity, project, new String[]{ "projectmails", "projects", "pwe"}) ;
-				
-				if(null != entity.getProjectmails()) {
-					Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
-					Set<ProjectMailListForm> pmlf = new HashSet<ProjectMailListForm>() ; 
-					for (ProjectMailListEntity e : projectmails) {
-						ProjectMailListForm f = new ProjectMailListForm() ;
-						BeanUtils.copyProperties(e, f) ;
-						pmlf.add(f) ;
-					}
-					project.setProjectmailsform(pmlf) ;
-				}
-				
-				Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
-				if(null != entity.getPwe()) {
-					Set<ProjectEmpWorkingForm> pewf = new HashSet<ProjectEmpWorkingForm>() ; 
-					for (ProjectEmpWorkingEntity e : pwe) {
-						ProjectEmpWorkingForm f = new ProjectEmpWorkingForm() ;
-						BeanUtils.copyProperties(e, f) ;
-						pewf.add(f) ;
-					}
-					project.setPweform(pewf) ;
-				}
-				
-				Set<ProjectMainEntity> ps = entity.getProjects() ;
-				if(null != entity.getPwe()) {
-					Set<ProjectMainForm> psf = new HashSet<ProjectMainForm>() ; 
-					for (ProjectMainEntity e : ps) {
-						ProjectMainForm f = new ProjectMainForm() ;
-						BeanUtils.copyProperties(e, f) ;
-						psf.add(f) ;
-					}
-					project.setProjectsform(psf) ;
-				}
-				
-				this.mailMessageSend.sendMail(project) ;
-			} catch (Exception e) {
-				System.out.println("无法连接到ActiveMQ异步消息服务器！");
-			}
+			this.status(entity) ;
 		}
 
 		return json;
+	}
+	
+	//状态发送改变（发送邮件通知）
+	public void status(ProjectMainEntity entity) {
+		try {
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
+			Map<String,Object> model = new HashMap<String,Object>() ;
+			
+
+			//项目参与人员-邮件列表
+			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
+			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
+			for (ProjectMailListEntity p : projectmails) {
+				strBuf.append(p.getEmail()+",") ;
+				projectMailList.add(p) ;
+			}
+			model.put("projectMailList", projectMailList) ;
+			
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject("项目状态发生变更-["+entity.getName()+"]") ;
+			mail.setRecipientTO("yhqmcq@126.com,yhqmcq@126.com,yhqmcq@126.com") ;
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_status_mail.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
+			
+			//生成HTML
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_status_mail.ftl", model, exportPath, "aa.html") ;
+			
+		} catch (Exception e) {
+			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
+		}
 	}
 }
