@@ -20,4 +20,6 @@ public interface ProjectEmpWorkingServiceI {
 	public void set_workdate(ProjectEmpWorkingForm form) throws Exception ;
 
 	public void revert(String id) throws Exception ;
+	
+	public void saveAndSendMail(ProjectEmpWorkingForm form) throws Exception ;
 }

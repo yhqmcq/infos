@@ -148,6 +148,21 @@
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
 	}
+	
+	function sendmail() {
+		$.post(yhq.basePath+"/project/pwe_emp_working/saveAndSendMail.do", {project_id: "${project.id}"}, function(result) {
+			if (result.status) {
+				$.easyui.messager.show({ icon: "info", msg: "发送邮件通知。" });
+				
+				$.easyui.parent.memberClose() ;
+			} else {
+				$.easyui.messager.show({ icon: "info", msg: "删除记录失败。" });
+			}
+		}, 'json');
+	}
+	function cancel() {
+		alert("将操作全部撤销...") ;
+	}
 </script>
 
 </head>
@@ -205,6 +220,8 @@
 								<tr>
 									<td colspan="2" align="center">
 										<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">设置日期</a>
+										<a onclick="sendmail()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">邮件通知</a>
+										<a onclick="cancel()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">取消</a>
 									</td>
 								</tr>
 							</table>

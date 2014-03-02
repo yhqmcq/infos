@@ -1,10 +1,12 @@
 package com.infox.project.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.freemarker.FreeMarkerToHtmlUtil;
+import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
+import com.infox.common.mail.MailVO;
+import com.infox.common.util.Constants;
 import com.infox.common.web.page.DataGrid;
+import com.infox.common.web.springmvc.RealPathResolver;
+import com.infox.project.asynms.send.MailMessageSenderI;
 import com.infox.project.entity.ProjectEmpWorkingEntity;
+import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectEmpWorkingServiceI;
 import com.infox.project.web.form.ProjectEmpWorkingForm;
@@ -27,7 +36,16 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	private BaseDaoI<ProjectEmpWorkingEntity> basedaoProjectEW;
 	
 	@Autowired
+	private BaseDaoI<ProjectMainEntity> basedaoProjectMain;
+	
+	@Autowired
 	private BaseDaoI<EmployeeEntity> basedaoEmployee;
+	
+	@Autowired
+	private MailMessageSenderI mailMessageSend ;
+	
+	@Autowired
+	private RealPathResolver realPathResolver ;
 
 	@Override
 	public void add(ProjectEmpWorkingForm form) throws Exception {
@@ -56,6 +74,46 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		}
 	}
 	
+	//点击保存，将发送邮件通知
+	@Override
+	public void saveAndSendMail(ProjectEmpWorkingForm form) {
+		ProjectMainEntity p = this.basedaoProjectMain.get(ProjectMainEntity.class, form.getProject_id()) ;
+		
+		//获取项目开发人员
+		Set<ProjectEmpWorkingEntity> pwe = p.getPwe() ;
+		for (ProjectEmpWorkingEntity pp : pwe) {
+			//如果项目开发人为设置起止日期，则将开发人员删除，将已设置起止日期的发送邮件通知
+			if(pp.getStatus() == 0) {
+				this.basedaoProjectEW.delete(pp) ;
+			} 
+			if(pp.getStatus() == 1) {
+				//发送邮件通知
+				System.out.println("保存-发送邮件....");
+			}
+		}
+	}
+	
+	@Override
+	public void revert(String id) throws Exception {
+		ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id) ;
+		
+		//将员工设为空闲人员
+		EmployeeEntity emp = entity.getEmp() ;
+		emp.setWorkStatus(0) ;
+		
+		//如果人员未设置起止日期，和项目的状态为（未开始），则删除人员
+		if(entity.getStatus() == 0 || entity.getProject().getStatus() == 0) {
+			this.basedaoProjectEW.delete(entity) ;
+			return ;
+		}
+		//标记为结束(退出项目组)
+		entity.setStatus(4) ;
+		//修改退出的时间
+		entity.setCreated(new Date()) ;
+		//退出发送邮件通知
+		System.out.println("退出项目-发送邮件....");
+	}
+
 	@Override
 	public void delete(String id) throws Exception {
 		ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id) ;
@@ -69,26 +127,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		}
 		this.basedaoProjectEW.delete(entity);
 	}
-
-	@Override
-	public void revert(String id) throws Exception {
-		ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id) ;
-		
-		//将员工设为空闲人员
-		EmployeeEntity emp = entity.getEmp() ;
-		emp.setWorkStatus(0) ;
-		
-		//如果人员未设置起止日期，则删除人员
-		if(entity.getStatus() == 0) {
-			this.basedaoProjectEW.delete(entity) ;
-			return ;
-		}
-		//标记为结束(退出项目组)
-		entity.setStatus(4) ;
-		//修改退出的时间
-		entity.setCreated(new Date()) ;
-	}
-
+	
 	@Override
 	public void edit(ProjectEmpWorkingForm form) throws Exception {
 		ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, form.getId());
@@ -177,7 +216,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				hql += " and t.project.id=:project_id";
 				params.put("project_id", form.getProject_id());
 			}
-			System.out.println(form.getStatus());
 			if (null != form.getStatus() && !"".equals(form.getStatus())) {
 				hql += " and t.status=:status";
 				params.put("status", form.getStatus());
@@ -218,15 +256,58 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					history.setPew(entity) ;
 					this.basedaoProjectEW.save(history) ;
 					
+					//延期
 					//entity.setStartDate(form.getStartDate()) ;
 					entity.setEndDate(form.getEndDate()) ;
+					//发送开发人员延期（日期变更）邮件
+					this.sendDevMemberDelay(entity) ;
 				}
 				
 				//已到期，不需设置，系统会使用定时器来设置为已过期
-				
 			}
 		}
-		
+	}
+	
+	//开发人员起止日期变更，发送邮件
+	private void sendDevMemberDelay(ProjectEmpWorkingEntity entity) {
+		try {
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
+			Map<String,Object> model = new HashMap<String,Object>() ;
+			
+
+			//项目信息
+			ProjectMainEntity project = entity.getProject() ;
+			//项目参与人员-邮件列表
+			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			Set<ProjectMailListEntity> projectmails = project.getProjectmails() ;
+			for (ProjectMailListEntity p : projectmails) {
+				strBuf.append(p.getEmail()+",") ;
+			}
+			
+			//开发人员历时信息
+			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			Set<ProjectEmpWorkingEntity> pews = entity.getPews() ;
+			for (ProjectEmpWorkingEntity pwork : pews) {
+				ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+				com.infox.common.util.BeanUtils.copyProperties(pwork, p) ;
+			}
+			model.put("pworks", pworks) ;
+			
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject("开发人员日期变更-["+project.getName()+"]") ;
+			mail.setRecipientTO(entity.getEmp().getEmail()) ;
+			mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_status_mail.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
+			
+			//生成HTML
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_status_mail.ftl", model, exportPath, "aa.html") ;
+			
+		} catch (Exception e) {
+			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
+		}
 	}
 
 }

@@ -168,29 +168,28 @@
 			window.open(yhq.basePath+"/project/project_main/project_detail.do", "_blank");
 		}
 	}
-	
+	var dialog ;
 	function devMember() {
 		var rows = dataGrid.datagrid('getChecked');
 		if (rows.length > 0) {
-			var dialog = $.easyui.showDialog({
+			dialog = $.easyui.showDialog({
 	            title: "设置开发团队人员&nbsp;&nbsp;[<font color='red'>"+rows[0].name+"</font>]",
 	            href: yhq.basePath+"/project/project_main/project_member.do?id="+rows[0].id,
-	            iniframe: true,
+	            iniframe: true, closable : false,
 	            width: 950, height: 600,
 	            topMost: true,
 	            autoVCenter: true,
 	            autoHCenter: true,
 	            enableApplyButton: false,
 	            enableSaveButton: false,
-	            enableCloseButton: false,
-	            saveButtonIconCls: "ext_save",
-	            onSave: function() {
-	            	return $.easyui.parent.submitForm(dialog, dataGrid);
-	            }
+	            enableCloseButton: false
 	        });
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
+	}
+	function memberClose() {
+		dialog.dialog('close') ;
 	}
 	
 	function mailList() {
