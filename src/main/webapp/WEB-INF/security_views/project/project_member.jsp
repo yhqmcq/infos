@@ -162,6 +162,7 @@
 	}
 	function cancel() {
 		alert("将操作全部撤销...") ;
+		$.easyui.parent.memberClose() ;
 	}
 </script>
 
