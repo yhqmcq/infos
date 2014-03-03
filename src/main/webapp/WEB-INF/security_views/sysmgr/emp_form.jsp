@@ -45,8 +45,13 @@
 						'sex' : result.sex,
 						'email' : result.email,
 						'tel' : result.tel,
+						'orgid' : result.orgid,
 						'orgname' : result.orgname
 					});
+					var s = result.jobids.split(",") ;
+					var vs = [] ;
+					for(var i=0;i<s.length;i++) {vs[i]=s[i];}
+					$("#select2").combogrid("setValues", vs);
 					$('input[name=id]').attr("readonly","readonly") ;
 				}
 			}, 'json');

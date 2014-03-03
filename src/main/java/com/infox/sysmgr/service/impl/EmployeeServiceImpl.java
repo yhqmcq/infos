@@ -85,6 +85,17 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 			entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
 		}
+		String jobs = form.getJobids() ;
+		if (jobs != null && !"".equalsIgnoreCase(jobs)) {
+			String[] split = jobs.split(",") ;
+			Set<EmpJobEntity> empjobs = new HashSet<EmpJobEntity>() ;
+			for (String jobid : split) {
+				empjobs.add(this.basedaoEmpJob.get(EmpJobEntity.class, jobid)) ;
+			}
+			entity.setEmpjobs(empjobs) ;
+		} else {
+			entity.setEmpjobs(null) ;
+		}
 
 		this.basedaoEmployee.update(entity);
 	}
@@ -98,6 +109,14 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			
 			if (null != entity.getOrg()) {
 				form.setOrgid(entity.getOrg().getId());
+			}
+			Set<EmpJobEntity> empjobs = entity.getEmpjobs() ;
+			if(null != empjobs && empjobs.size() > 0) {
+				StringBuffer s = new StringBuffer() ;
+				for (EmpJobEntity ej : empjobs) {
+					s.append(ej.getId()+",".trim()) ;
+				}
+				form.setJobids(s.deleteCharAt(s.length()-1).toString());
 			}
 			return form;
 		} else {

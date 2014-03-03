@@ -13,7 +13,7 @@
 		dataGrid = $("#d1").datagrid({
 			title: '用户管理',
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
-			idField: 'id', fit: true, border: false, method: "post",
+			idField: 'id', fit: true, border: false, method: "post", singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
