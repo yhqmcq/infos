@@ -210,14 +210,12 @@ public class MailUtil {
 			msg.addRecipients(RecipientType.CC, ccAddress) ;
 			
 			logger.info("抄送人数量："+success + "    抄送地址错误数量：" + unsuccess);
-			StringBuffer strbuf = new StringBuffer() ;
+			logger.info("所有抄送人地址：");
 			Object[] array = list.toArray() ;
 			if(null != array && array.length > 0) {
 				for (int i = 0; i < array.length; i++) {
-					if(i%3==0) strbuf.append("\r\n\t\t\t") ;
-					strbuf.append(array[i]+",") ;
+					logger.info(array[i]);
 				}
-				logger.info("所有抄送人地址："+strbuf.deleteCharAt(strbuf.length()-1));
 			} 
 			success = 0 ; unsuccess = 0 ;
 		}
@@ -232,14 +230,15 @@ public class MailUtil {
 			msg.addRecipients(RecipientType.BCC, bccAddress) ;
 			
 			logger.info("暗送人数量："+success + "    暗送地址错误数量：" + unsuccess);
+			logger.info("所有暗送人地址：");
 			StringBuffer strbuf = new StringBuffer() ;
 			Object[] array = list.toArray() ;
 			if(null != array && array.length > 0) {
 				for (int i = 0; i < array.length; i++) {
 					if(i%3==0) strbuf.append("\r\n\t\t\t") ;
 					strbuf.append(array[i]+",") ;
+					logger.info(array[i]) ;
 				}
-				logger.info("所有暗送人地址："+strbuf.deleteCharAt(strbuf.length()-1));
 			}
 			success = 0 ; unsuccess = 0 ;
 		}

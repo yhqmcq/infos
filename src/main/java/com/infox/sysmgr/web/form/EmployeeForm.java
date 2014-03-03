@@ -53,6 +53,27 @@ public class EmployeeForm extends PageHelper{
 	
 	/** 员工工作状态（0空闲，1已在项目，2出差） */
 	private int workStatus = 0 ;
+	
+	/** 用于IN查询(0,1,2,3,4) */
+	private String inStatus;
+	/** 用于NOT IN查询(0,1,2,3,4) */
+	private String notInStatus;
+
+	public String getInStatus() {
+		return inStatus;
+	}
+
+	public void setInStatus(String inStatus) {
+		this.inStatus = inStatus;
+	}
+
+	public String getNotInStatus() {
+		return notInStatus;
+	}
+
+	public void setNotInStatus(String notInStatus) {
+		this.notInStatus = notInStatus;
+	}
 
 	public int getWorkStatus() {
 		return workStatus;

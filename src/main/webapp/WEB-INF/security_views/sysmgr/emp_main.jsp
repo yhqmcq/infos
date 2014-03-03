@@ -12,7 +12,7 @@
 	$(function() {
 		dataGrid = $("#d1").datagrid({
 			title: '用户管理',
-			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
+			url: yhq.basePath+"/sysmgr/employee/datagrid.do?notInStatus=9999",
 			idField: 'id', fit: true, border: false, method: "post", singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,
 			frozenColumns: [[

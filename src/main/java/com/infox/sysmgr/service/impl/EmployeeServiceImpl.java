@@ -213,9 +213,23 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				hql += " and t.org.id=:orgid";
 				params.put("orgid", form.getOrgid());
 			}
-			if (!"".equals(form.getWorkStatus())) {
-				hql += " and t.workStatus=:workStatus";
-				params.put("workStatus", form.getWorkStatus());
+			if (null != form.getNotInStatus() && !"".equals(form.getNotInStatus())) {
+				hql += " and t.workStatus not in (:workStatus)";
+				String[] split = form.getNotInStatus().split(",");
+				Integer[] states = new Integer[split.length];
+				for (int i = 0; i < states.length; i++) {
+					states[i] = Integer.parseInt(split[i]);
+				}
+				params.put("workStatus", states);
+			}
+			if (null != form.getInStatus() && !"".equals(form.getInStatus())) {
+				hql += " and t.workStatus in (:workStatus)";
+				String[] split = form.getInStatus().split(",") ;
+				Integer[] states = new Integer[split.length] ;
+				for(int i=0;i<states.length;i++) {
+					states[i] = Integer.parseInt(split[i]) ;
+				}
+				params.put("workStatus", states);
 			}
 		}
 		return hql;

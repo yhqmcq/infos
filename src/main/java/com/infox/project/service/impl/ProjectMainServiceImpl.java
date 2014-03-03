@@ -25,6 +25,7 @@ import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
 import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.asynms.send.MailMessageSenderI;
+import com.infox.project.entity.ProjectEmpWorkingEntity;
 import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
@@ -130,13 +131,64 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			entity.setEmp_leader(this.basedaoEmployee.get(EmployeeEntity.class, form.getProject_leader_id()));
 		}
 		this.basedaoProject.update(entity);
+		
+		this.contentChange(entity) ;
 	}
 	
 	//延期（发送邮件通知）
 	public void delay(ProjectMainEntity entity) {
 		try {
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 			
+			//项目参与人员-邮件列表
+			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
+			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
+			for (ProjectMailListEntity p : projectmails) {
+				strBuf.append(p.getEmail()+",") ;
+				projectMailList.add(p) ;
+			}
+			model.put("projectMailList", projectMailList) ;
+			
+			//开发人员信息
+			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
+			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
+			for (ProjectEmpWorkingEntity pwork : pews) {
+				if(pwork.getStatus() == 1) {
+					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					BeanUtils.copyProperties(pwork, p) ;
+				}
+			}
+			model.put("pworks", pworks) ;
+			
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject("项目延期-["+entity.getName()+"]") ;
+			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
+				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
+				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			} else {
+				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			}
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_delay_mail.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
+			
+			//生成HTML
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_delay_mail.ftl", model, exportPath, "aa.html") ;
+		} catch (Exception e) {
+			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
+		}
+	}
+	
+	//项目参数内容发生变化（发送邮件通知）
+	public void contentChange(ProjectMainEntity entity) {
+		try {
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
+			Map<String,Object> model = new HashMap<String,Object>() ;
 
 			//项目参与人员-邮件列表
 			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
@@ -148,12 +200,34 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 			model.put("projectMailList", projectMailList) ;
 			
+			//开发人员信息
+			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
+			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
+			for (ProjectEmpWorkingEntity pwork : pews) {
+				if(pwork.getStatus() == 1) {
+					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					BeanUtils.copyProperties(pwork, p) ;
+				}
+			}
+			model.put("pworks", pworks) ;
+			
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("项目延期-" + entity.getName()) ;
-			mail.setRecipientTO("yhqmcq@126.com,yhqmcq@126.com,yhqmcq@126.com") ;
-			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(this.realPathResolver.get("/WEB-INF/security_views/project/ftl"), "project_delay_mail.ftl", model)) ;
+			mail.setSubject("项目延期-["+entity.getName()+"]") ;
+			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
+				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
+				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			} else {
+				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			}
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_contextChange_mail.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
+			
+			//生成HTML
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_contextChange_mail.ftl", model, exportPath, "aa.html") ;
 		} catch (Exception e) {
 			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
 		}
@@ -457,7 +531,18 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 			
-
+			Integer status = entity.getStatus() ;
+			String statusStr = "" ;
+			if(1 == status) {
+				statusStr = "开始" ;
+			} else if(2 == status) {
+				statusStr = "挂起" ;
+			} else if(4 == status) {
+				statusStr = "激活" ;
+			} else {
+				statusStr = "结束" ;
+			}
+			
 			//项目参与人员-邮件列表
 			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
@@ -468,10 +553,28 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 			model.put("projectMailList", projectMailList) ;
 			
+			//开发人员信息
+			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
+			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
+			for (ProjectEmpWorkingEntity pwork : pews) {
+				if(pwork.getStatus() == 1) {
+					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					BeanUtils.copyProperties(pwork, p) ;
+				}
+			}
+			model.put("pworks", pworks) ;
+			
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("项目状态发生变更-["+entity.getName()+"]") ;
-			mail.setRecipientTO("yhqmcq@126.com,yhqmcq@126.com,yhqmcq@126.com") ;
+			mail.setSubject("项目状态发生变更（"+statusStr+"）-["+entity.getName()+"]") ;
+			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
+				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
+				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			} else {
+				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			}
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_status_mail.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
 			
@@ -480,6 +583,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_status_mail.ftl", model, exportPath, "aa.html") ;
 			
 		} catch (Exception e) {
+			e.printStackTrace() ;
 			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
 		}
 	}

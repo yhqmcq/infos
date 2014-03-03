@@ -86,10 +86,50 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			if(pp.getStatus() == 0) {
 				this.basedaoProjectEW.delete(pp) ;
 			} 
-			if(pp.getStatus() == 1) {
-				//发送邮件通知
-				System.out.println("保存-发送邮件....");
+		}
+		//发送邮件通知
+		sendMailToMemberDate(p) ;
+	}
+	
+	private void sendMailToMemberDate(ProjectMainEntity entity) {
+		try {
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
+			Map<String,Object> model = new HashMap<String,Object>() ;
+			
+			//项目参与人员-邮件列表
+			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
+			for (ProjectMailListEntity p : projectmails) {
+				strBuf.append(p.getEmail()+",") ;
 			}
+			
+			//开发人员信息
+			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
+			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
+			for (ProjectEmpWorkingEntity pwork : pews) {
+				if(pwork.getStatus() == 1) {
+					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					BeanUtils.copyProperties(pwork, p) ;
+				}
+			}
+			model.put("pworks", pworks) ;
+			
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject("开发人员日期变更-["+entity.getName()+"]") ;
+			mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
+			mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
+			
+			//生成HTML
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member.ftl", model, exportPath, "project_member.html") ;
+			
+		} catch (Exception e) {
+			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
 		}
 	}
 	
@@ -259,8 +299,12 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					//延期
 					//entity.setStartDate(form.getStartDate()) ;
 					entity.setEndDate(form.getEndDate()) ;
-					//发送开发人员延期（日期变更）邮件
-					this.sendDevMemberDelay(entity) ;
+					
+					//如果项目的状态不为0（未开始）则发生邮件通知
+					if(entity.getProject().getStatus() != 0) {
+						//发送开发人员延期（日期变更）邮件
+						this.sendDevMemberDelay(entity) ;
+					}
 				}
 				
 				//已到期，不需设置，系统会使用定时器来设置为已过期

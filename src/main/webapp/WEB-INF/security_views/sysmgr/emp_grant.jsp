@@ -13,7 +13,7 @@
 		dataGrid = $("#d1").datagrid({
 			title: '用户授权',
 			method: "get",
-			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
+			url: yhq.basePath+"/sysmgr/employee/datagrid.do?notInStatus=9999",
 			idField: 'id',
 			fit: true,
 			border: false,

@@ -11,8 +11,8 @@
 	var dataGrid2 ;
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
-			title: '空闲员工列表',
-			url: yhq.basePath+"/sysmgr/employee/datagrid.do?workStatus=0",
+			title: '空闲员工列表', 
+			url: yhq.basePath+"/sysmgr/employee/datagrid.do?inStatus=0",
 			idField: 'id', fit: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
 			remoteSort: false, toolbar: '#buttonbar1', striped:true, pagination: true,
 			frozenColumns: [[
@@ -138,9 +138,9 @@
 				$.post(yhq.basePath+"/project/pwe_emp_working/set_workdate.do", data, function(result) {
 					if (result.status) {
 						dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
-						$.easyui.messager.show({ icon: "info", msg: "删除记录成功。" });
+						$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期成功。" });
 					} else {
-						$.easyui.messager.show({ icon: "info", msg: "删除记录失败。" });
+						$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期失败。" });
 					}
 				}, 'json');
 			}
