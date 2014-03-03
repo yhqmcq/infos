@@ -68,6 +68,20 @@ public class ProjectEmpWorking extends BaseController {
 		return j ;
 	}
 	
+	@RequestMapping("/delTempRow.do")
+	@ResponseBody
+	synchronized public Json delTempRow(ProjectEmpWorkingForm form) throws Exception {
+		Json j = new Json() ;
+		try {
+			this.projectEWService.cancelOperate(form) ;
+			j.setStatus(true) ;
+		} catch (Exception e) {
+			e.printStackTrace() ;
+			j.setMsg(e.getMessage()) ;
+		}
+		return j ;
+	}
+	
 	@RequestMapping("/edit.do")
 	@ResponseBody
 	public Json edit(ProjectEmpWorkingForm form) throws Exception {

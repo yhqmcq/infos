@@ -74,6 +74,27 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		}
 	}
 	
+	//点击取消按钮，将取消之前的全部操作，并删除已添加的开发人员
+	@Override
+	public void cancelOperate(ProjectEmpWorkingForm form) {
+		String[] ids = form.getIds().split(",") ;
+		if(null != ids && ids.length > 0) {
+			for (String id : ids) {
+				ProjectEmpWorkingEntity p = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id) ;
+				p.getEmp().setWorkStatus(0) ;
+				this.basedaoProjectEW.delete(p) ;
+			}
+			ProjectMainEntity pm = this.basedaoProjectMain.get(ProjectMainEntity.class, form.getProject_id()) ;
+			Set<ProjectEmpWorkingEntity> pwe = pm.getPwe() ;
+			for (ProjectEmpWorkingEntity p : pwe) {
+				if(p.getStatus() == 0) {
+					this.basedaoProjectEW.delete(p) ;
+				}
+			}
+		}
+		
+	}
+	
 	//点击保存，将发送邮件通知
 	@Override
 	public void saveAndSendMail(ProjectEmpWorkingForm form) {
@@ -84,6 +105,8 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		for (ProjectEmpWorkingEntity pp : pwe) {
 			//如果项目开发人为设置起止日期，则将开发人员删除，将已设置起止日期的发送邮件通知
 			if(pp.getStatus() == 0) {
+				//将员工状态设置回空闲状态。
+				pp.getEmp().setWorkStatus(0) ;
 				this.basedaoProjectEW.delete(pp) ;
 			} 
 		}
@@ -219,6 +242,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			for (ProjectEmpWorkingEntity i : ProjectEmpWorkingEntity) {
 				ProjectEmpWorkingForm uf = new ProjectEmpWorkingForm();
 				BeanUtils.copyProperties(i, uf);
+				uf.setEmpIds(i.getEmp().getId()) ;
 				forms.add(uf);
 			}
 		}
@@ -275,6 +299,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 
 	@Override
 	public void set_workdate(ProjectEmpWorkingForm form) throws Exception {
+		
 		String ids = form.getIds() ;
 		if(null != ids && !"".equals(ids)) {
 			String[] id = ids.split(",") ;
@@ -286,27 +311,35 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					entity.setStartDate(form.getStartDate()) ;
 					entity.setEndDate(form.getEndDate()) ;
 				} else {	//已设置日期，则延期（只修改结束日期）
-					//记录历史信息，树状结构
-					ProjectEmpWorkingEntity history = new ProjectEmpWorkingEntity() ;
-					history.setStartDate(entity.getStartDate()) ;
-					history.setEndDate(entity.getEndDate()) ;
-					history.setEmp_name(entity.getEmp_name()) ;
-					history.setProject_name(entity.getProject_name()) ;
-					history.setStatus(3) ;
-					history.setPew(entity) ;
-					this.basedaoProjectEW.save(history) ;
 					
-					//延期
-					//entity.setStartDate(form.getStartDate()) ;
-					entity.setEndDate(form.getEndDate()) ;
-					
-					//如果项目的状态不为0（未开始）则发生邮件通知
-					if(entity.getProject().getStatus() != 0) {
-						//发送开发人员延期（日期变更）邮件
-						this.sendDevMemberDelay(entity) ;
+					//如果项目的状态是未开始则不记录历史信息和发送邮件通知，只修改日期
+					ProjectMainEntity project = entity.getProject() ;
+					if(project.getStatus() == 0) {
+						entity.setStatus(1) ;
+						entity.setStartDate(form.getStartDate()) ;
+						entity.setEndDate(form.getEndDate()) ;
+					} else {
+						//记录历史信息，树状结构
+						ProjectEmpWorkingEntity history = new ProjectEmpWorkingEntity() ;
+						history.setStartDate(entity.getStartDate()) ;
+						history.setEndDate(entity.getEndDate()) ;
+						history.setEmp_name(entity.getEmp_name()) ;
+						history.setProject_name(entity.getProject_name()) ;
+						history.setStatus(3) ;
+						history.setPew(entity) ;
+						this.basedaoProjectEW.save(history) ;
+						
+						//延期
+						//entity.setStartDate(form.getStartDate()) ;
+						entity.setEndDate(form.getEndDate()) ;
+						
+						//如果项目的状态不为0（未开始）则发生邮件通知
+						if(entity.getProject().getStatus() != 0) {
+							//发送开发人员延期（日期变更）邮件
+							this.sendDevMemberDelay(entity) ;
+						}
 					}
 				}
-				
 				//已到期，不需设置，系统会使用定时器来设置为已过期
 			}
 		}

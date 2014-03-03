@@ -9,6 +9,8 @@
 <script type="text/javascript">
 	var dataGrid1 ;
 	var dataGrid2 ;
+	var flag ;
+	var addIds = [] ;
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
 			title: '空闲员工列表', 
@@ -74,6 +76,11 @@
 	    		dataGrid1.datagrid("load", data) ;
 	    	}
 	    });
+	    
+	    flag = "${project.status}" == 0 ;
+	    if(flag) {
+	    	$("#sendmail").hide() ;
+	    }
 	});
 	
 	function clearSeacher() {
@@ -88,6 +95,7 @@
 			for ( var i = 0; i < rows.length; i++) {
 				for ( var i = 0; i < rows.length; i++) {
 					empIds.push(rows[i].id);
+					addIds.push(rows[i].id);
 				}
 				var workdata = {} ;
 				workdata["empIds"] = empIds.join(',');
@@ -150,19 +158,60 @@
 	}
 	
 	function sendmail() {
+		var flag = true ;
+		var rows = dataGrid2.datagrid('getRows');
+		if (rows.length > 0) {
+			for ( var i = 0; i < rows.length; i++) {
+				if(undefined == rows[i].startDate) {
+					flag = false ;
+					break ;
+				}
+			}
+			if(flag) {
+				sd() ;
+			} else {
+				$.messager.confirm("未设置起止日期的开发人员将恢复空闲状态，是否继续发送邮件？", function (c) {
+					if(c) {
+						sd() ;
+					}
+				});
+			}
+		} else {
+			$.messager.alert("未添加开发人员", "warning");
+		}
+	}
+	function sd() {
 		$.post(yhq.basePath+"/project/pwe_emp_working/saveAndSendMail.do", {project_id: "${project.id}"}, function(result) {
 			if (result.status) {
-				$.easyui.messager.show({ icon: "info", msg: "发送邮件通知。" });
+				$.easyui.messager.show({ icon: "info", msg: "操作成功。" });
 				
 				$.easyui.parent.memberClose() ;
 			} else {
-				$.easyui.messager.show({ icon: "info", msg: "删除记录失败。" });
+				$.easyui.messager.show({ icon: "info", msg: "操作失败。" });
 			}
 		}, 'json');
 	}
 	function cancel() {
-		alert("将操作全部撤销...") ;
-		$.easyui.parent.memberClose() ;
+		var delIds = [] ;
+		$.each(addIds, function(index, value) {
+			var rows = dataGrid2.datagrid('getRows');
+			for ( var i = 0; i < rows.length; i++) {
+				if(rows[i].empIds == value) {
+					delIds.push(rows[i].id);
+				} 
+			}
+		});
+		if(delIds.length > 0) {
+			$.post(yhq.basePath+"/project/pwe_emp_working/delTempRow.do", {project_id: "${project.id}", ids: delIds.join(",")}, function(result) {
+				if (result.status) {
+					$.easyui.messager.show({ icon: "info", msg: "操作成功。" });
+					$.easyui.parent.memberClose() ;
+				} else {
+					$.easyui.messager.show({ icon: "info", msg: "操作失败。" });
+				}
+			}, 'json');
+		} else {$.easyui.parent.memberClose() ;}
+		
 	}
 </script>
 
@@ -221,7 +270,7 @@
 								<tr>
 									<td colspan="2" align="center">
 										<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">设置日期</a>
-										<a onclick="sendmail()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">邮件通知</a>
+										<a id="sendmail" onclick="sendmail()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">邮件通知</a>
 										<a onclick="cancel()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">取消</a>
 									</td>
 								</tr>

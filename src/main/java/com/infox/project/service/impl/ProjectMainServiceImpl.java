@@ -215,7 +215,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("项目延期-["+entity.getName()+"]") ;
+			mail.setSubject("项目参数发生变更-["+entity.getName()+"]") ;
 			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
 				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
 				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;

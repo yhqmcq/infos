@@ -72,8 +72,8 @@ public class MailUtil {
 					throw new Exception("验证账号或密码为空！") ;
 				}
 				
-				logger.info("****************************发送电子邮件[from:"+from+"]****************************");
-				
+				logger.info("****************************发送电子邮件****************************");
+				logger.info("标题：" + mv.getSubject() + "\t 发件人：" + from) ;
 				//如果不指定发件人地址，则以默认的地址发送
 				if(null == mv.getFromAddr() || mv.getFromAddr().trim().equals("")) {
 					username = config.getUserNameAdmin() ;
