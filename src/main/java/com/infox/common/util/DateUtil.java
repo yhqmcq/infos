@@ -474,11 +474,16 @@ public class DateUtil {
 	}
 
 	public static void main(String[] args) {
+		
+		String d = "2014-05-16" ;
+		
+		Calendar c = Calendar.getInstance() ;
+		
+		
+		/*
 		String startDate="2014-02-25";
 		String endDate="2014-02-27";
 		System.out.println(dateDiff(startDate, endDate));
-		
-		/*
 		String startdate = "2013-10-21 17:10:11";
 		String enddate = "2013-10-21 17:10:11";
 
