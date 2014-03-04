@@ -5,14 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.quartz.SchedulerUtil;
-import com.infox.common.util.RandomUtils;
+import com.infox.common.util.BeanUtils;
 import com.infox.common.util.UUIDHexGenerator;
 import com.infox.common.web.page.DataGrid;
 import com.infox.sysmgr.entity.TaskEntity;
@@ -32,14 +31,18 @@ public class TaskSchedulerServiceImpl implements TaskSchedulerServiceI {
 	@Override
 	public void add(TaskForm form) throws Exception {
 		try {
-			form.setTask_code(UUIDHexGenerator.generator()) ;
+			String id = UUIDHexGenerator.generator() ;
+			if(null == form.getTask_code() || form.getTask_code().equals("")) {
+				form.setTask_code(id) ;
+			}
 			this.schedulerUtil.scheduler(form) ;
 			
 			TaskEntity entity = new TaskEntity() ;
 			BeanUtils.copyProperties(form, entity) ;
-			entity.setId(RandomUtils.generateNumber(6)) ;
+			entity.setId(id) ;
 			this.basedaoTask.save(entity) ;
 		} catch (Exception e) {
+			e.printStackTrace() ;
 			throw new Exception(e.getMessage()) ;
 		}
 	}
@@ -69,7 +72,7 @@ public class TaskSchedulerServiceImpl implements TaskSchedulerServiceI {
 			BeanUtils.copyProperties(form, entity);
 			this.basedaoTask.update(entity);
 			
-			//判断任务修改前的状态he修改后的状态是否不相同，不相同则修改任务的状态
+			//判断任务修改前的状态和修改后的状态是否不相同，不相同则修改任务的状态
 			if(!form.getTask_enable().equalsIgnoreCase(currentEnable)) {
 				TaskForm task = new TaskForm() ;
 				BeanUtils.copyProperties(entity, task) ;
@@ -99,9 +102,25 @@ public class TaskSchedulerServiceImpl implements TaskSchedulerServiceI {
 		BeanUtils.copyProperties(entity, form);
 		return form;
 	}
+	
+	@Override
+	public TaskForm get(TaskForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		String hql = "select t from TaskEntity t where 1=1";
+		TaskEntity entity = this.basedaoTask.get(hql, params);
+		
+		if (null != entity) {
+			TaskForm task = new TaskForm() ;
+			BeanUtils.copyProperties(entity, task) ;
+			return task ;
+		} else {
+			return null;
+		}
+	}
 
 	@Override
 	public DataGrid datagrid(TaskForm form) throws Exception {
+		form.setSort("created") ; form.setOrder("desc") ;
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));
@@ -152,6 +171,10 @@ public class TaskSchedulerServiceImpl implements TaskSchedulerServiceI {
 			if(form.getTask_enable() != null && !form.getTask_enable().equals("")) {
 				hql += " and t.task_enable=:task_enable";
 				params.put("task_enable", form.getTask_enable());
+			}
+			if(form.getRelationOperate() != null && !form.getRelationOperate().equals("")) {
+				hql += " and t.relationOperate=:relationOperate";
+				params.put("relationOperate", form.getRelationOperate());
 			}
 		}
 		return hql;

@@ -473,11 +473,49 @@ public class DateUtil {
 		return days1;
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * 日期转换为Cron表达式
+	 * 方法描述 : 
+	 * 创建者：杨浩泉 
+	 * 项目名称： infos
+	 * 类名： DateUtil.java
+	 * 版本： v1.0
+	 * 创建时间： 2014-3-4 下午2:05:46
+	 * @param datetime
+	 * @param day
+	 * @return
+	 * @throws ParseException String[]
+	 */
+	public static String[] getDateCron(String datetime, int day) throws ParseException {
+		String[] cron = new String[2] ;
 		
-		String d = "2014-05-16" ;
+		Date dt = new SimpleDateFormat("yyyy-MM-dd hh:ss:mm").parse(datetime) ;
+		Calendar sc = Calendar.getInstance() ;
+		sc.setTime(dt) ;
 		
-		Calendar c = Calendar.getInstance() ;
+		cron[0] = sc.get(Calendar.MINUTE)+" "+sc.get(Calendar.SECOND)+" "+sc.get(Calendar.HOUR_OF_DAY)+" "+sc.get(Calendar.DAY_OF_MONTH)+" "+(sc.get(Calendar.MONTH)+1)+" ? " ;
+		//提前天数，避开周六日
+		if(day > 0) {
+			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)-day); 
+			
+			if(sc.get(Calendar.DAY_OF_WEEK)-1 == 6) {
+				sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)-1); 
+			}
+			if(sc.get(Calendar.DAY_OF_WEEK)-1 == 0) {
+				sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)-2); 
+			}
+			sc.set(Calendar.YEAR, Integer.parseInt(new SimpleDateFormat("yyyy").format(dt))) ;
+			cron[1] = sc.get(Calendar.MINUTE)+" "+sc.get(Calendar.SECOND)+" "+sc.get(Calendar.HOUR_OF_DAY)+" "+sc.get(Calendar.DAY_OF_MONTH)+" "+(sc.get(Calendar.MONTH)+1)+" ? " ;
+		}
+		return cron ;
+	}
+	
+	public static void main(String[] args) throws ParseException {
+		String datetime = "2014-03-4 14:46:00" ;
+		
+		String[] dateCron = getDateCron(datetime, 2) ;
+		System.out.println(dateCron[0]);
+		System.out.println(dateCron[1]);
 		
 		
 		/*

@@ -1,6 +1,7 @@
 package com.infox.project.service.impl;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +35,8 @@ import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.OrgDeptTreeEntity;
+import com.infox.sysmgr.service.TaskSchedulerServiceI;
+import com.infox.sysmgr.web.form.TaskForm;
 
 @Service
 @Transactional
@@ -59,6 +62,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	
 	@Autowired
 	private RealPathResolver realPathResolver ;
+	
+	@Autowired
+	private TaskSchedulerServiceI taskScheduler ;
 
 	@Override
 	public void add(ProjectMainForm form) throws Exception {
@@ -108,21 +114,26 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	public void edit(ProjectMainForm form) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
 
-		// 如果两个结束日期不相等则为项目延期，记录历史信息
-		if (!DateUtil.formatF(form.getEndDate()).equals(DateUtil.formatF(entity.getEndDate()))) {
-			ProjectMainEntity history = new ProjectMainEntity();
-			history.setId(RandomUtils.generateNumber(6));
-			history.setProject(entity);
-			history.setStartDate(entity.getStartDate());
-			history.setEndDate(entity.getEndDate());
-			history.setStatus(5); 
-
-			BeanUtils.copyProperties(entity, history, new String[] { "id", "status", "project", "projectmails", "projects", "pwe" });
-
-			this.basedaoProject.save(history);
-			
-			this.delay(entity) ;//延期（发送邮件通知）
+		boolean flag = false ;
+		//项目为开始状态才进行历史记录
+		if(entity.getStatus() == 1) {
+			// 如果两个结束日期不相等则为项目延期，记录历史信息
+			if (!DateUtil.formatF(form.getEndDate()).equals(DateUtil.formatF(entity.getEndDate()))) {
+				ProjectMainEntity history = new ProjectMainEntity();
+				history.setId(RandomUtils.generateNumber(6));
+				history.setProject(entity);
+				history.setStartDate(entity.getStartDate());
+				history.setEndDate(entity.getEndDate());
+				history.setStatus(5); 
+				
+				BeanUtils.copyProperties(entity, history, new String[] { "id", "status", "project", "projectmails", "projects", "pwe" });
+				
+				this.basedaoProject.save(history);
+				
+				flag = true ;
+			}
 		}
+		
 		BeanUtils.copyProperties(form, entity, new String[] { "creater", "status", "project_target", "project_desc" });
 		entity.setProject_target(ClobUtil.getClob(form.getProject_target())) ;
 		entity.setProject_desc(ClobUtil.getClob(form.getProject_desc())) ;
@@ -132,7 +143,31 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		}
 		this.basedaoProject.update(entity);
 		
-		this.contentChange(entity) ;
+		if(flag) {
+			//定时任务（重新设定项目的触发时间）
+			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:30:00", 2) ;
+			if(dateCron.length > 1) {
+				for (int i = 0; i < dateCron.length; i++) {
+					//先删除原有的触发器,在建立新的触发器
+					TaskForm task = new TaskForm() ;
+					task.setRelationOperate(entity.getId()+":"+i) ;
+					TaskForm taskForm = this.taskScheduler.get(task) ;
+					this.taskScheduler.delete(taskForm.getId()) ;
+					
+					taskForm.setCron_expression(dateCron[i]) ;
+					this.taskScheduler.add(taskForm) ;
+				}
+			}
+			
+			//延期（发送邮件通知）
+			this.delay(entity) ;
+		}
+		
+		//项目为开始状态才进行邮件发送
+		if(entity.getStatus() != 1) {
+			//发送项目参数变更邮件
+			this.contentChange(entity) ;
+		}
 	}
 	
 	//延期（发送邮件通知）
@@ -180,7 +215,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_delay_mail.ftl", model, exportPath, "aa.html") ;
 		} catch (Exception e) {
-			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
+			e.printStackTrace() ;
 		}
 	}
 	
@@ -278,6 +313,22 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
+		String date = "2014-03-06 19:09:50" ;
+		String[] dateCron = DateUtil.getDateCron(date, 2) ;
+		if(dateCron.length > 1) {
+			for (int i = 0; i < dateCron.length; i++) {
+				TaskForm task = new TaskForm() ;
+		 		task.setTask_type("system") ;
+				task.setTask_type_name("项目结束定时邮件") ;
+				task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+				task.setTask_enable("Y") ;
+				task.setTask_name("项目结束日期提醒") ;
+				task.setRelationOperate("234999:"+i) ;
+				task.setCron_expression(dateCron[i]) ; 
+				//this.taskScheduler.add(task) ;
+			}
+		}
+		
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));
@@ -451,7 +502,21 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					json.setMsg("项目开启成功！");
 					json.setStatus(true);
 					
-					// 邮件通知
+					//设置定时任务
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:30:00", 2) ;
+					if(dateCron.length > 1) {
+						for (int i = 0; i < dateCron.length; i++) {
+							TaskForm task = new TaskForm() ;
+					 		task.setTask_type("system") ;
+							task.setTask_type_name("项目结束定时邮件") ;
+							task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+							task.setTask_enable("Y") ;
+							task.setTask_name("项目结束日期提醒") ;
+							task.setRelationOperate(entity.getId() +":" + i) ;
+							task.setCron_expression(dateCron[i]) ; 
+							this.taskScheduler.add(task) ;
+						}
+					}
 				} else {
 					json.setMsg("项目未设置参与人员邮件列表，请设置后再开始项目。");
 				}
@@ -586,5 +651,78 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			e.printStackTrace() ;
 			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
 		}
+	}
+
+	/**
+	 * 定时器调用
+	 */
+	@Override
+	public void projectNotify(ProjectMainForm form) throws Exception {
+		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId()) ;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd") ;
+		String currentDate = sdf.format(new Date()) ;
+		String endDate = sdf.format(entity.getEndDate()) ;
+		
+		boolean flag = false ;
+		//判断当前日期是否和结束日期相等,相等的话,则是项目结束，否则未结束，将提交两天发送邮件通知该项目还剩余的时间
+		if(currentDate.equals(endDate)) {
+			flag = true ;
+		} else {
+			flag = false ;
+		}
+		
+		try {
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
+			Map<String,Object> model = new HashMap<String,Object>() ;
+
+			//项目参与人员-邮件列表
+			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
+			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
+			for (ProjectMailListEntity p : projectmails) {
+				strBuf.append(p.getEmail()+",") ;
+				projectMailList.add(p) ;
+			}
+			model.put("projectMailList", projectMailList) ;
+			
+			//开发人员信息
+			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
+			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
+			for (ProjectEmpWorkingEntity pwork : pews) {
+				if(pwork.getStatus() == 1) {
+					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					BeanUtils.copyProperties(pwork, p) ;
+				}
+			}
+			model.put("pworks", pworks) ;
+			model.put("title", (flag?"项目结束":"项目时间提醒")) ;
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject((flag?"项目结束-":"项目时间提醒邮件-") + "["+entity.getName()+"]") ;
+			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
+				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
+				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			} else {
+				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			}
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_notify.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
+			
+			//生成HTML
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_notify.ftl", model, exportPath, "aa.html") ;
+			
+			if(flag) {
+				//项目结束
+				entity.setStatus(3) ;
+				this.basedaoProject.update(entity) ;
+			}
+		} catch (Exception e) {
+			e.printStackTrace() ;
+		}
+		
 	}
 }

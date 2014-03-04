@@ -38,7 +38,15 @@ public class TaskForm extends PageHelper {
 	/** 任务创建者Name */
 	private String creater_name ;
 	
+	/** 关联操作，如ID */
+	private String relationOperate ;
+	
 	private Date created = new Date() ;
+
+	@Override
+	public String toString() {
+		return "TaskForm [id=" + id + ", task_code=" + task_code + ", task_type_name=" + task_type_name + ", task_name=" + task_name + ", task_type=" + task_type + ", task_job_class=" + task_job_class + ", cron_expression=" + cron_expression + ", task_enable=" + task_enable + ", task_remark=" + task_remark + ", creater_id=" + creater_id + ", creater_name=" + creater_name + ", relationOperate=" + relationOperate + ", created=" + created + "]";
+	}
 
 	public String getId() {
 		return id;
@@ -46,6 +54,14 @@ public class TaskForm extends PageHelper {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getRelationOperate() {
+		return relationOperate;
+	}
+
+	public void setRelationOperate(String relationOperate) {
+		this.relationOperate = relationOperate;
 	}
 
 	public String getTask_code() {

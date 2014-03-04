@@ -27,6 +27,7 @@ import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectEmpWorkingServiceI;
 import com.infox.project.web.form.ProjectEmpWorkingForm;
 import com.infox.sysmgr.entity.EmployeeEntity;
+import com.infox.sysmgr.service.TaskSchedulerServiceI;
 
 @Service
 @Transactional
@@ -46,6 +47,9 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	
 	@Autowired
 	private RealPathResolver realPathResolver ;
+	
+	@Autowired
+	private TaskSchedulerServiceI taskScheduler ;
 
 	@Override
 	public void add(ProjectEmpWorkingForm form) throws Exception {

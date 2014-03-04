@@ -43,7 +43,7 @@ public class SchedulerUtil {
 			//开始调度任务
 			Date ft = scheduler.scheduleJob(jobDetail, trigger) ;
 			
-			logger.info("开始调度任务["+DateUtil.formatF(ft)+"]  任务名称："+jobDetail.getKey());
+			logger.info("开始调度任务--触发时间：["+DateUtil.formatF(ft)+"]  任务名称："+jobDetail.getKey() + "\t具体工作类：["+task.getTask_job_class()+"]");
 		} catch (org.quartz.ObjectAlreadyExistsException e) {
 			logger.error(e.getMessage()) ;
 			throw new org.quartz.ObjectAlreadyExistsException("该定时工作类已存在！");

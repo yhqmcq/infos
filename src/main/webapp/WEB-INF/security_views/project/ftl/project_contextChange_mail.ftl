@@ -7,7 +7,7 @@
 
 <body>
 	
-	你好：
+	项目参数发生变更
 	<#list projectMailList as pml>
 		${pml.empname}
 	</#list>

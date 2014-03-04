@@ -16,8 +16,11 @@ public interface TaskSchedulerServiceI {
 	
 	public TaskForm get(String id) throws Exception ;
 	
+	public TaskForm get(TaskForm form) throws Exception ;
+	
 	public DataGrid datagrid(TaskForm form) throws Exception ;
 	
 	public List<TaskEntity> find(TaskForm form) throws Exception ;
+	
 	
 }

@@ -47,7 +47,18 @@ public class TaskEntity {
 	/** 任务创建者Name */
 	private String creater_name ;
 	
+	/** 关联操作，如ID */
+	private String relationOperate ;
+	
 	private Date created = new Date() ;
+
+	public String getRelationOperate() {
+		return relationOperate;
+	}
+
+	public void setRelationOperate(String relationOperate) {
+		this.relationOperate = relationOperate;
+	}
 
 	@Id
 	public String getId() {

@@ -27,4 +27,6 @@ public interface ProjectMainServiceI {
 	
 	public Json statusChange(ProjectMainForm form) throws Exception ;
 	
+	public void projectNotify(ProjectMainForm form) throws Exception ;
+	
 }

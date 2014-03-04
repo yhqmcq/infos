@@ -2,16 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>项目管理</title>
+<title>项目提醒</title>
 </head>
 
 <body>
 	
-	项目延期
-	<#list projectMailList as pml>
-		${pml.empname}
-	</#list>
-
+	${title}
 </body>
 
 </html>
