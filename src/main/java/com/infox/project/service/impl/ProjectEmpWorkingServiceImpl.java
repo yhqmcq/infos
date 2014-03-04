@@ -110,7 +110,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	public void saveAndSendMail(ProjectEmpWorkingForm form) {
 		ProjectMainEntity p = this.basedaoProject.get(ProjectMainEntity.class, form.getProject_id()) ;
 		
-		//人员日期延期（重新设定人员期满的触发时间）
+		//定时任务，人员日期延期（重新设定人员期满的触发时间）
 		try {
 			//查询该项目下所有人员期满触发时间
 			TaskForm taskForm = new TaskForm();
