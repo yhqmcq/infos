@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -313,7 +314,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
-		String date = "2014-03-06 19:09:50" ;
+		String date = "2014-03-06 20:58:50" ;
 		String[] dateCron = DateUtil.getDateCron(date, 2) ;
 		if(dateCron.length > 1) {
 			for (int i = 0; i < dateCron.length; i++) {
@@ -502,6 +503,32 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					json.setMsg("项目开启成功！");
 					json.setStatus(true);
 					
+					//项目开发人员期满定时器
+					Set<String> dateGroup = new HashSet<String>() ;
+					Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
+					for (ProjectEmpWorkingEntity member : pwes) {
+						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 08:30:00", 2) ;
+						for (int i = 0; i < dateCron.length; i++) {
+							//将相同日期的归为一组，进行定时
+							dateGroup.add(dateCron[i]) ;
+						}
+					}
+					System.out.println(dateGroup);
+					int i=0;
+					for (String date : dateGroup) {
+						TaskForm task = new TaskForm() ;
+				 		task.setTask_type("system") ;
+						task.setTask_type_name("开发人员期满邮件提醒") ;
+						task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+						task.setTask_enable("Y") ;
+						task.setTask_name("开发人员期满邮件提醒") ;
+						task.setRelationOperate(entity.getId() +":M" + i++) ;
+						task.setCron_expression(date) ; 
+						this.taskScheduler.add(task) ;
+					}
+					
+					
+					/*
 					//设置定时任务
 					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:30:00", 2) ;
 					if(dateCron.length > 1) {
@@ -517,6 +544,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							this.taskScheduler.add(task) ;
 						}
 					}
+					*/
 				} else {
 					json.setMsg("项目未设置参与人员邮件列表，请设置后再开始项目。");
 				}
@@ -659,7 +687,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	@Override
 	public void projectNotify(ProjectMainForm form) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId()) ;
-		
+		System.out.println(entity);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd") ;
 		String currentDate = sdf.format(new Date()) ;
 		String endDate = sdf.format(entity.getEndDate()) ;
@@ -723,6 +751,5 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
-		
 	}
 }

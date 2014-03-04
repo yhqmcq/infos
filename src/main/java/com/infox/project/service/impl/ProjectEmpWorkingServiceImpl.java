@@ -1,9 +1,11 @@
 package com.infox.project.service.impl;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +20,7 @@ import com.infox.common.freemarker.FreeMarkerToHtmlUtil;
 import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
 import com.infox.common.mail.MailVO;
 import com.infox.common.util.Constants;
+import com.infox.common.util.DateUtil;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.asynms.send.MailMessageSenderI;
@@ -26,8 +29,11 @@ import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectEmpWorkingServiceI;
 import com.infox.project.web.form.ProjectEmpWorkingForm;
+import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmployeeEntity;
+import com.infox.sysmgr.entity.TaskEntity;
 import com.infox.sysmgr.service.TaskSchedulerServiceI;
+import com.infox.sysmgr.web.form.TaskForm;
 
 @Service
 @Transactional
@@ -37,7 +43,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	private BaseDaoI<ProjectEmpWorkingEntity> basedaoProjectEW;
 	
 	@Autowired
-	private BaseDaoI<ProjectMainEntity> basedaoProjectMain;
+	private BaseDaoI<ProjectMainEntity> basedaoProject;
 	
 	@Autowired
 	private BaseDaoI<EmployeeEntity> basedaoEmployee;
@@ -88,7 +94,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				p.getEmp().setWorkStatus(0) ;
 				this.basedaoProjectEW.delete(p) ;
 			}
-			ProjectMainEntity pm = this.basedaoProjectMain.get(ProjectMainEntity.class, form.getProject_id()) ;
+			ProjectMainEntity pm = this.basedaoProject.get(ProjectMainEntity.class, form.getProject_id()) ;
 			Set<ProjectEmpWorkingEntity> pwe = pm.getPwe() ;
 			for (ProjectEmpWorkingEntity p : pwe) {
 				if(p.getStatus() == 0) {
@@ -102,7 +108,46 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	//点击保存，将发送邮件通知
 	@Override
 	public void saveAndSendMail(ProjectEmpWorkingForm form) {
-		ProjectMainEntity p = this.basedaoProjectMain.get(ProjectMainEntity.class, form.getProject_id()) ;
+		ProjectMainEntity p = this.basedaoProject.get(ProjectMainEntity.class, form.getProject_id()) ;
+		
+		//人员日期延期（重新设定人员期满的触发时间）
+		try {
+			//查询该项目下所有人员期满触发时间
+			TaskForm taskForm = new TaskForm();
+			taskForm.setRelationOperates(form.getProject_id()+":M") ;
+			List<TaskEntity> find = this.taskScheduler.find(taskForm) ;
+			for (TaskEntity taskEntity : find) {
+				//System.out.println(taskEntity.getId() + "==" + taskEntity.getTask_name() + "===" + taskEntity.getRelationOperate());
+				//先删除现有的触发时间，在重新设定触发时间
+				this.taskScheduler.delete(taskEntity.getId()) ;
+			}
+			
+			//项目开发人员期满定时器
+			Set<String> dateGroup = new HashSet<String>() ;
+			Set<ProjectEmpWorkingEntity> pwes = p.getPwe() ;
+			for (ProjectEmpWorkingEntity member : pwes) {
+				String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 08:30:00", 2) ;
+				for (int i = 0; i < dateCron.length; i++) {
+					//将相同日期的归为一组，进行定时
+					dateGroup.add(dateCron[i]) ;
+				}
+			}
+			System.out.println(dateGroup);
+			int i=0;
+			for (String date : dateGroup) {
+				TaskForm task = new TaskForm() ;
+		 		task.setTask_type("system") ;
+				task.setTask_type_name("开发人员期满邮件提醒") ;
+				task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+				task.setTask_enable("Y") ;
+				task.setTask_name("开发人员期满邮件提醒") ;
+				task.setRelationOperate(p.getId() +":M" + i++) ;
+				task.setCron_expression(date) ; 
+				this.taskScheduler.add(task) ;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		//获取项目开发人员
 		Set<ProjectEmpWorkingEntity> pwe = p.getPwe() ;
@@ -151,7 +196,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("开发人员日期变更-["+entity.getName()+"]") ;
+			mail.setSubject("开发人员变更-["+entity.getName()+"]") ;
 			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
 				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
 				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
@@ -352,5 +397,75 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				//已到期，不需设置，系统会使用定时器来设置为已过期
 			}
 		}
+	}
+
+	@Override
+	public void projectMemberExpireNotify(ProjectMainForm form) throws Exception {
+		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId()) ;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd") ;
+		String currentDate = sdf.format(new Date()) ;
+		String endDate = sdf.format(entity.getEndDate()) ;
+		
+		boolean flag = false ;
+		//判断当前日期是否和结束日期相等,相等的话,则是项目结束，否则未结束，将提交两天发送邮件通知该项目还剩余的时间
+		if(currentDate.equals(endDate)) {
+			flag = true ;
+		} else {
+			flag = false ;
+		}
+		
+		try {
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
+			Map<String,Object> model = new HashMap<String,Object>() ;
+
+			//项目参与人员-邮件列表
+			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
+			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
+			for (ProjectMailListEntity p : projectmails) {
+				strBuf.append(p.getEmail()+",") ;
+				projectMailList.add(p) ;
+			}
+			model.put("projectMailList", projectMailList) ;
+			
+			//开发人员信息
+			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
+			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
+			for (ProjectEmpWorkingEntity pwork : pews) {
+				if(pwork.getStatus() == 1) {
+					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					BeanUtils.copyProperties(pwork, p) ;
+				}
+			}
+			model.put("pworks", pworks) ;
+			model.put("title", (flag?"项目结束":"项目时间提醒")) ;
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject((flag?"项目结束-":"项目时间提醒邮件-") + "["+entity.getName()+"]") ;
+			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
+				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
+				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			} else {
+				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			}
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_notify.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
+			
+			//生成HTML
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_notify.ftl", model, exportPath, "aa.html") ;
+			
+			if(flag) {
+				//项目结束
+				entity.setStatus(3) ;
+				this.basedaoProject.update(entity) ;
+			}
+		} catch (Exception e) {
+			e.printStackTrace() ;
+		}
+		
 	}
 }

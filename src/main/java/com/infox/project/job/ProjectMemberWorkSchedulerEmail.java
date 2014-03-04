@@ -13,18 +13,18 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
 import com.infox.common.util.DateUtil;
-import com.infox.project.service.ProjectMainServiceI;
+import com.infox.project.service.ProjectEmpWorkingServiceI;
 import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.service.TaskSchedulerServiceI;
 import com.infox.sysmgr.web.form.TaskForm;
 
-public class ProjectSchedulerEmail implements Job {
+public class ProjectMemberWorkSchedulerEmail implements Job {
 	
-	private static Logger logger = Logger.getLogger(ProjectSchedulerEmail.class);
+	private static Logger logger = Logger.getLogger(ProjectMemberWorkSchedulerEmail.class);
 	
 	private TaskSchedulerServiceI taskService ;
 	
-	private ProjectMainServiceI projectService ;
+	private ProjectEmpWorkingServiceI projectMemberWork ;
 	
 	private JobKey jobKey ;
 
@@ -35,11 +35,11 @@ public class ProjectSchedulerEmail implements Job {
 			SchedulerContext schCtx = context.getScheduler().getContext();  
 			ApplicationContext appCtx = (ApplicationContext)schCtx.get("applicationContext");
 			taskService = (TaskSchedulerServiceI) appCtx.getBean("taskSchedulerServiceImpl") ;
-			projectService = (ProjectMainServiceI) appCtx.getBean("projectMainServiceImpl") ;
+			projectMemberWork = (ProjectEmpWorkingServiceI) appCtx.getBean("projectEmpWorkingServiceImpl") ;
 			
-			sendProjectDateMail() ;
+			sendProjectMemberExpireNotify() ;
 			
-			logger.info("执行任务"+"[项目结束提前邮件提醒]: " + jobKey + " 运行时间：" + DateUtil.formatF(new Date()));
+			logger.info("执行任务"+"[项目人员到期满提醒]: " + jobKey + " 运行时间：" + DateUtil.formatF(new Date()));
 		} catch (BeansException e) {
 			e.printStackTrace();
 		} catch (SchedulerException e) {
@@ -47,12 +47,13 @@ public class ProjectSchedulerEmail implements Job {
 		}		
 	}
 	
-	public void sendProjectDateMail() {
+	public void sendProjectMemberExpireNotify() {
 		try {
 			TaskForm taskForm = this.taskService.get(jobKey.getName()) ;
 			ProjectMainForm form = new ProjectMainForm() ;
 			form.setId(taskForm.getRelationOperate().split(":")[0]) ;
-			this.projectService.projectNotify(form) ;
+			
+			this.projectMemberWork.projectMemberExpireNotify(form) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

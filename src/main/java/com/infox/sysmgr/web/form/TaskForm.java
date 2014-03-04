@@ -41,11 +41,22 @@ public class TaskForm extends PageHelper {
 	/** 关联操作，如ID */
 	private String relationOperate ;
 	
+	/** 关联操作,条件查询(模糊查询返回多个实体) */
+	private String relationOperates ;
+	
 	private Date created = new Date() ;
 
 	@Override
 	public String toString() {
-		return "TaskForm [id=" + id + ", task_code=" + task_code + ", task_type_name=" + task_type_name + ", task_name=" + task_name + ", task_type=" + task_type + ", task_job_class=" + task_job_class + ", cron_expression=" + cron_expression + ", task_enable=" + task_enable + ", task_remark=" + task_remark + ", creater_id=" + creater_id + ", creater_name=" + creater_name + ", relationOperate=" + relationOperate + ", created=" + created + "]";
+		return "TaskForm [id=" + id + ", task_code=" + task_code + ", task_type_name=" + task_type_name + ", task_name=" + task_name + ", task_type=" + task_type + ", task_job_class=" + task_job_class + ", cron_expression=" + cron_expression + ", task_enable=" + task_enable + ", task_remark=" + task_remark + ", creater_id=" + creater_id + ", creater_name=" + creater_name + ", relationOperate=" + relationOperate + ", relationOperates=" + relationOperates + ", created=" + created + "]";
+	}
+
+	public String getRelationOperates() {
+		return relationOperates;
+	}
+
+	public void setRelationOperates(String relationOperates) {
+		this.relationOperates = relationOperates;
 	}
 
 	public String getId() {

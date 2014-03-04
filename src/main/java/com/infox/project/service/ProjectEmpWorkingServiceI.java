@@ -2,6 +2,7 @@ package com.infox.project.service;
 
 import com.infox.common.web.page.DataGrid;
 import com.infox.project.web.form.ProjectEmpWorkingForm;
+import com.infox.project.web.form.ProjectMainForm;
 
 public interface ProjectEmpWorkingServiceI {
 	
@@ -24,4 +25,6 @@ public interface ProjectEmpWorkingServiceI {
 	public void saveAndSendMail(ProjectEmpWorkingForm form) throws Exception ;
 	
 	public void cancelOperate(ProjectEmpWorkingForm form) throws Exception ;
+	
+	public void projectMemberExpireNotify(ProjectMainForm form) throws Exception ;
 }

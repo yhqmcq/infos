@@ -176,6 +176,10 @@ public class TaskSchedulerServiceImpl implements TaskSchedulerServiceI {
 				hql += " and t.relationOperate=:relationOperate";
 				params.put("relationOperate", form.getRelationOperate());
 			}
+			if (form.getRelationOperates() != null && !"".equals(form.getRelationOperates())) {
+				hql += " and t.relationOperate like :relationOperates";
+				params.put("relationOperates", "%%" + form.getRelationOperates() + "%%");
+			}
 		}
 		return hql;
 	}
