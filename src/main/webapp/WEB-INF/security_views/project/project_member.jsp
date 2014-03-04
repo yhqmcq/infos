@@ -196,9 +196,12 @@
 		$.each(addIds, function(index, value) {
 			var rows = dataGrid2.datagrid('getRows');
 			for ( var i = 0; i < rows.length; i++) {
-				if(rows[i].empIds == value) {
+				if(rows[i].empIds == value && "${project.status}" != 0) {
 					delIds.push(rows[i].id);
 				} 
+				if(rows[i].empIds == value && "${project.status}" == 0 && rows[i].startDate == undefined) {
+					delIds.push(rows[i].id);
+				}
 			}
 		});
 		if(delIds.length > 0) {
@@ -211,7 +214,6 @@
 				}
 			}, 'json');
 		} else {$.easyui.parent.memberClose() ;}
-		
 	}
 </script>
 

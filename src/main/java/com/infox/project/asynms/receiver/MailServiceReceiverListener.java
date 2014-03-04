@@ -30,7 +30,6 @@ public class MailServiceReceiverListener implements MessageListener {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				System.out.println("接收到发送邮件的信息[队列的名称："+msg.getJMSDestination()+"]");
 			} catch (JMSException e) {
 				e.printStackTrace();
 			}

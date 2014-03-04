@@ -102,16 +102,22 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		
 		//获取项目开发人员
 		Set<ProjectEmpWorkingEntity> pwe = p.getPwe() ;
-		for (ProjectEmpWorkingEntity pp : pwe) {
-			//如果项目开发人为设置起止日期，则将开发人员删除，将已设置起止日期的发送邮件通知
-			if(pp.getStatus() == 0) {
-				//将员工状态设置回空闲状态。
-				pp.getEmp().setWorkStatus(0) ;
-				this.basedaoProjectEW.delete(pp) ;
-			} 
+		if(null != pwe) {
+			int i=pwe.size() ;
+			for (ProjectEmpWorkingEntity pp : pwe) {
+				//如果项目开发人为设置起止日期，则将开发人员删除，将已设置起止日期的发送邮件通知
+				if(pp.getStatus() == 0) {
+					//将员工状态设置回空闲状态。
+					pp.getEmp().setWorkStatus(0) ;
+					this.basedaoProjectEW.delete(pp) ;
+					i-- ;
+				} 
+			}
+			if(i>0) {
+				//发送邮件通知
+				sendMailToMemberDate(p) ;
+			}
 		}
-		//发送邮件通知
-		sendMailToMemberDate(p) ;
 	}
 	
 	private void sendMailToMemberDate(ProjectMainEntity entity) {
@@ -142,8 +148,12 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			
 			MailVO mail = new MailVO() ;
 			mail.setSubject("开发人员日期变更-["+entity.getName()+"]") ;
-			mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
-			mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
+				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
+				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			} else {
+				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			}
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
 			
@@ -152,7 +162,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member.ftl", model, exportPath, "project_member.html") ;
 			
 		} catch (Exception e) {
-			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
+			e.printStackTrace() ;
 		}
 	}
 	
