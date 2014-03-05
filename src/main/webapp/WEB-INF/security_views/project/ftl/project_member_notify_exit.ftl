@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>项目开发人员日期和人员变更</title>
+<title>项目开发人员起止日期提醒</title>
 <meta charset="utf-8" />
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -153,11 +153,14 @@
     	
     	<div class="footer">
     		广州华智科技有限公司&copy;品质保证部&nbsp;&nbsp;&nbsp;&nbsp;系统日期：2014-05-14
-    		<#list allMember as ams>${ams.emp_name}</#list><br>
+    		<#list allMembers as cc>${cc}</#list><br>
+    		<#list projectmails as c>${c}</#list><br>
+    		<#list allMembers as d>${d}</#list><br>
+    		<#list exitProjectMember as e>${e}</#list><br>
+    		<#list notifyMember as ew>${ew}</#list><br>
     		${project}<br>
-    		${server_root}<br>
-    		${context_path}<br>
     		<br>
+    		${context_path}<br>
     	</div>
     	
     </div>

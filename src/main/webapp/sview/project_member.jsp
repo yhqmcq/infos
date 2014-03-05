@@ -1,10 +1,10 @@
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>项目开发人员日期和人员变更</title>
-<meta charset="utf-8" />
-<meta name="keywords" content="">
-<meta name="description" content="">
+<title>项目开发人员起止日期提醒</title>
+<%@ include file="/common/base/meta.jsp"%>
+<%@ include file="/common/base/script.jsp"%>
 <style type="text/css">
 	dt{margin:0px;padding:0px;}
 	dd{margin:0px;padding:0px;}
@@ -26,7 +26,7 @@
 		top:35px;
 		width:180px;
 		height:40px;
-		background: url("${context_path}/images/logo.gif") no-repeat;
+		background: url("logo.gif") no-repeat;
 	}
 	.header .title{
 		position: relative;
@@ -153,11 +153,6 @@
     	
     	<div class="footer">
     		广州华智科技有限公司&copy;品质保证部&nbsp;&nbsp;&nbsp;&nbsp;系统日期：2014-05-14
-    		<#list allMember as ams>${ams.emp_name}</#list><br>
-    		${project}<br>
-    		${server_root}<br>
-    		${context_path}<br>
-    		<br>
     	</div>
     	
     </div>

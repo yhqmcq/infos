@@ -16,4 +16,6 @@ public interface RealPathResolver {
 	public String getContextPath();
 	
 	public String getParentDir() ;
+	
+	public String getWebRoot() ;
 }

@@ -21,7 +21,7 @@ import com.infox.sysmgr.web.form.TaskForm;
 public class ProjectMemberWorkSchedulerEmail implements Job {
 	
 	private static Logger logger = Logger.getLogger(ProjectMemberWorkSchedulerEmail.class);
-	
+
 	private TaskSchedulerServiceI taskService ;
 	
 	private ProjectEmpWorkingServiceI projectMemberWork ;
