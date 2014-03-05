@@ -18,4 +18,8 @@ public interface RealPathResolver {
 	public String getParentDir() ;
 	
 	public String getWebRoot() ;
+	
+	public String getLocalIp() ;
+	
+	public String getServerRoot() ;
 }

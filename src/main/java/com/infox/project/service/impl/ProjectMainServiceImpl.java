@@ -314,6 +314,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
+		this.realPathResolver.getContextPath() ;
 		String date = "2014-03-06 20:58:50" ;
 		String[] dateCron = DateUtil.getDateCron(date, 2) ;
 		if(dateCron.length > 1) {

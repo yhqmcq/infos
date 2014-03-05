@@ -153,7 +153,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			Set<ProjectEmpWorkingEntity> pwes = p.getPwe();
 			for (ProjectEmpWorkingEntity member : pwes) {
 				if (member.getStatus() == 1) {
-					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 01:06:40", 2);
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 01:37:55", 2);
 					for (int i = 0; i < dateCron.length; i++) {
 						// 将相同日期的归为一组，进行定时
 						dateGroup.add(dateCron[i]);
@@ -585,15 +585,12 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			}
 			
 			
-			System.out.println("--------------");
-			System.out.println(this.realPathResolver.getContextPath());
-			
 			model.put("project", entity) ;//项目信息
 			model.put("projectmails", projectmails) ;//项目参与人员
 			model.put("allMembers", allMembers) ;//所有开发人员
 			model.put("exitProjectMember", exitProjectMember) ;//今天为结束日期的人员
 			model.put("notifyMember", notifyMember) ;//需提醒的人员
-			model.put("context_path",this.realPathResolver.getContextPath()) ;
+			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
 			
 			
 			MailVO mail = new MailVO() ;
