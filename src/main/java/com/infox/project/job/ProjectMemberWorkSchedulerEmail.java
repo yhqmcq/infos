@@ -39,7 +39,7 @@ public class ProjectMemberWorkSchedulerEmail implements Job {
 			
 			sendProjectMemberExpireNotify() ;
 			
-			logger.info("执行任务"+"[项目人员到期满提醒]: " + jobKey + " 运行时间：" + DateUtil.formatF(new Date()));
+			logger.info("执行任务"+"[项目人员期满提醒]: " + jobKey + " 运行时间：" + DateUtil.formatF(new Date()));
 		} catch (BeansException e) {
 			e.printStackTrace();
 		} catch (SchedulerException e) {
@@ -51,7 +51,7 @@ public class ProjectMemberWorkSchedulerEmail implements Job {
 		try {
 			TaskForm taskForm = this.taskService.get(jobKey.getName()) ;
 			ProjectMainForm form = new ProjectMainForm() ;
-			form.setId(taskForm.getRelationOperate().split(":")[0]) ;
+			form.setId(taskForm.getRelationOperate().split(":M")[0]) ;
 			
 			this.projectMemberWork.projectMemberExpireNotify(form) ;
 		} catch (Exception e) {

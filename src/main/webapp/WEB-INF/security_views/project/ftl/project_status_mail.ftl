@@ -7,7 +7,7 @@
 
 <body>
 	
-	你好：
+	项目状态发送便跟
 	<#list projectMailList as pml>
 		${pml.empname}
 	</#list>

@@ -1,8 +1,10 @@
 package com.infox.project.service.impl;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -110,44 +112,8 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	public void saveAndSendMail(ProjectEmpWorkingForm form) {
 		ProjectMainEntity p = this.basedaoProject.get(ProjectMainEntity.class, form.getProject_id()) ;
 		
-		//定时任务，人员日期延期（重新设定人员期满的触发时间）
-		try {
-			//查询该项目下所有人员期满触发时间
-			TaskForm taskForm = new TaskForm();
-			taskForm.setRelationOperates(form.getProject_id()+":M") ;
-			List<TaskEntity> find = this.taskScheduler.find(taskForm) ;
-			for (TaskEntity taskEntity : find) {
-				//System.out.println(taskEntity.getId() + "==" + taskEntity.getTask_name() + "===" + taskEntity.getRelationOperate());
-				//先删除现有的触发时间，在重新设定触发时间
-				this.taskScheduler.delete(taskEntity.getId()) ;
-			}
-			
-			//项目开发人员期满定时器
-			Set<String> dateGroup = new HashSet<String>() ;
-			Set<ProjectEmpWorkingEntity> pwes = p.getPwe() ;
-			for (ProjectEmpWorkingEntity member : pwes) {
-				String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 08:30:00", 2) ;
-				for (int i = 0; i < dateCron.length; i++) {
-					//将相同日期的归为一组，进行定时
-					dateGroup.add(dateCron[i]) ;
-				}
-			}
-			System.out.println(dateGroup);
-			int i=0;
-			for (String date : dateGroup) {
-				TaskForm task = new TaskForm() ;
-		 		task.setTask_type("system") ;
-				task.setTask_type_name("开发人员期满邮件提醒") ;
-				task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
-				task.setTask_enable("Y") ;
-				task.setTask_name("开发人员期满邮件提醒") ;
-				task.setRelationOperate(p.getId() +":M" + i++) ;
-				task.setCron_expression(date) ; 
-				this.taskScheduler.add(task) ;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// 定时任务，人员日期延期（重新设定人员期满的触发时间）
+		memberSchedulerReset(p);
 		
 		//获取项目开发人员
 		Set<ProjectEmpWorkingEntity> pwe = p.getPwe() ;
@@ -167,6 +133,50 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				sendMailToMemberDate(p) ;
 			}
 		}
+	}
+	
+	public void memberSchedulerReset(ProjectMainEntity p) {
+		// 定时任务，人员日期延期（重新设定人员期满的触发时间）
+		try {
+			// 查询该项目下所有人员期满触发时间
+			TaskForm taskForm = new TaskForm();
+			taskForm.setRelationOperates(p.getId() + ":M");
+			List<TaskEntity> find = this.taskScheduler.find(taskForm);
+			for (TaskEntity taskEntity : find) {
+				// System.out.println(taskEntity.getId() + "==" + taskEntity.getTask_name() + "===" + taskEntity.getRelationOperate());
+				// 先删除现有的触发时间，在重新设定触发时间
+				this.taskScheduler.delete(taskEntity.getId());
+			}
+
+			// 项目开发人员期满定时器
+			Set<String> dateGroup = new HashSet<String>();
+			Set<ProjectEmpWorkingEntity> pwes = p.getPwe();
+			for (ProjectEmpWorkingEntity member : pwes) {
+				if (member.getStatus() == 1) {
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 18:55:50", 2);
+					for (int i = 0; i < dateCron.length; i++) {
+						// 将相同日期的归为一组，进行定时
+						dateGroup.add(dateCron[i]);
+					}
+				}
+			}
+			System.out.println(dateGroup + "===1111");
+			int i = 0;
+			for (String date : dateGroup) {
+				TaskForm task = new TaskForm();
+				task.setTask_type("system");
+				task.setTask_type_name("开发人员期满邮件提醒");
+				task.setTask_job_class("com.infox.project.job.ProjectMemberWorkSchedulerEmail");
+				task.setTask_enable("Y");
+				task.setTask_name("开发人员期满邮件提醒");
+				task.setRelationOperate(p.getId() + ":M" + i++);
+				task.setCron_expression(date);
+				this.taskScheduler.add(task);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	private void sendMailToMemberDate(ProjectMainEntity entity) {
@@ -216,24 +226,87 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	}
 	
 	@Override
-	public void revert(String id) throws Exception {
-		ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id) ;
-		
-		//将员工设为空闲人员
-		EmployeeEntity emp = entity.getEmp() ;
-		emp.setWorkStatus(0) ;
-		
-		//如果人员未设置起止日期，和项目的状态为（未开始），则删除人员
-		if(entity.getStatus() == 0 || entity.getProject().getStatus() == 0) {
-			this.basedaoProjectEW.delete(entity) ;
-			return ;
+	public void revert(ProjectEmpWorkingForm form) throws Exception {
+		List<ProjectEmpWorkingEntity> exitProjectMember = null ;
+		if(null != form.getIds() && !form.getIds().equalsIgnoreCase("")) {
+			exitProjectMember = new ArrayList<ProjectEmpWorkingEntity>() ;
+			String[] id = form.getIds().split(",") ;
+			
+			for(int i=0;i<id.length;i++) {
+				ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id) ;
+				
+				//将员工设为空闲人员
+				EmployeeEntity emp = entity.getEmp() ;
+				emp.setWorkStatus(0) ;
+				
+				//如果人员未设置起止日期，和项目的状态为（未开始），则删除人员
+				if(entity.getStatus() == 0 || entity.getProject().getStatus() == 0) {
+					this.basedaoProjectEW.delete(entity) ;
+					return ;
+				}
+				//标记为结束(退出项目组)
+				entity.setStatus(4) ;
+				//修改退出的时间
+				entity.setCreated(new Date()) ;
+				
+				exitProjectMember.add(entity) ;
+			}
 		}
-		//标记为结束(退出项目组)
-		entity.setStatus(4) ;
-		//修改退出的时间
-		entity.setCreated(new Date()) ;
+		
+		ProjectMainEntity projectMainEntity = this.basedaoProject.get(ProjectMainEntity.class, form.getProject_id()) ;
+		
 		//退出发送邮件通知
-		System.out.println("退出项目-发送邮件....");
+		exitProjectMember(projectMainEntity, exitProjectMember) ;
+		
+		// 定时任务，人员退出项目（重新设定人员期满的触发时间）
+		this.memberSchedulerReset(projectMainEntity);
+	}
+	
+	//开发人员退出项目组-发送邮件通知
+	private void exitProjectMember(ProjectMainEntity entity, List<ProjectEmpWorkingEntity> exitProjectMember) {
+		try {
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
+			Map<String,Object> model = new HashMap<String,Object>() ;
+			
+			//项目参与人员-邮件列表
+			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
+			for (ProjectMailListEntity p : projectmails) {
+				strBuf.append(p.getEmail()+",") ;
+			}
+			
+			//开发人员信息
+			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
+			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
+			for (ProjectEmpWorkingEntity pwork : pews) {
+				if(pwork.getStatus() == 1) {
+					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					BeanUtils.copyProperties(pwork, p) ;
+				}
+			}
+			model.put("pworks", pworks) ;
+			
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject("开发人员退出项目-["+entity.getName()+"]") ;
+			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
+				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
+				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			} else {
+				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
+			}
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
+			
+			//生成HTML
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member.ftl", model, exportPath, "project_member.html") ;
+			
+		} catch (Exception e) {
+			e.printStackTrace() ;
+		}
 	}
 
 	@Override
@@ -398,74 +471,146 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			}
 		}
 	}
+	
+	public static void main(String[] args) throws ParseException {
+		
+		String endDate = "2014-03-07" ;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d") ;
+		String currentDate = sdf.format(new Date()) ;
+		System.out.println("对照：" +currentDate + "==" + endDate);
+		
+		//通过当前触发触日期加上2天获得开发人员期满的日期，来作为条件检索日期
+		Calendar sc = Calendar.getInstance() ;
+		sc.setTime(sdf.parse(endDate)) ;
+		
+		
+		System.out.println(sc.get(Calendar.DAY_OF_WEEK)-1);
+		System.out.println(sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH));
+		
+		sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
+		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 6){	//加两天如果是星期六，则再加两天，则为星期一
+			System.out.println("加2天");
+			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
+		}
+		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 0){	//加一天如果是星期日，则再加一天，则为星期一
+			System.out.println("加1天");
+			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+1);
+		}
+		
+		System.out.println(sc.get(Calendar.DAY_OF_WEEK)-1);
+		System.out.println(sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH));
+		
+		
+		
+	}
 
 	@Override
 	public void projectMemberExpireNotify(ProjectMainForm form) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId()) ;
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd") ;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d") ;
 		String currentDate = sdf.format(new Date()) ;
-		String endDate = sdf.format(entity.getEndDate()) ;
 		
-		boolean flag = false ;
-		//判断当前日期是否和结束日期相等,相等的话,则是项目结束，否则未结束，将提交两天发送邮件通知该项目还剩余的时间
-		if(currentDate.equals(endDate)) {
-			flag = true ;
-		} else {
-			flag = false ;
+		//通过当前触发触日期加上2天获得开发人员期满的日期，来作为条件检索日期
+		Calendar sc = Calendar.getInstance() ;
+		sc.setTime(sdf.parse(currentDate)) ;
+		sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
+		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 6){	//加两天如果是星期六，则再加两天，则为星期一
+			System.out.println("加2天");
+			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
 		}
+		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 0){	//加一天如果是星期日，则再加一天，则为星期一
+			System.out.println("加1天");
+			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+1);
+		}
+		String notifyDate = sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH);
+		
+		List<ProjectEmpWorkingEntity> allMembers = new ArrayList<ProjectEmpWorkingEntity>();
+		List<ProjectEmpWorkingEntity> exitProjectMember = new ArrayList<ProjectEmpWorkingEntity>();
+		List<ProjectEmpWorkingEntity> unExitProjectMember = new ArrayList<ProjectEmpWorkingEntity>();
+		List<ProjectEmpWorkingEntity> notifyMember = new ArrayList<ProjectEmpWorkingEntity>();
+		
+		//获取项目开发人员列表（状态为1）
+		Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
+		for (ProjectEmpWorkingEntity pwe : pwes) {
+			if(pwe.getStatus() == 1) {
+				allMembers.add(pwe) ;
+				System.out.println("是否当天结束：" +currentDate.equals(sdf.format(pwe.getEndDate())));
+				System.out.println(currentDate + "===" + sdf.format(pwe.getEndDate()));
+				//判断该人员结束日期是否今天，如果是则装入集合，并将该人员设置为空闲状态和退出项目状态
+				if(currentDate.equals(sdf.format(pwe.getEndDate()))) {
+					exitProjectMember.add(pwe) ;            
+					//将员工设为空闲人员
+					EmployeeEntity emp = pwe.getEmp() ;
+					emp.setWorkStatus(0) ;
+					this.basedaoEmployee.update(emp);
+					
+					pwe.setStatus(4) ;//修改退出的时间
+					pwe.setCreated(new Date()) ;//修改退出的时间	
+					this.basedaoProjectEW.update(pwe);
+					
+				} else {
+					//如果开发人员的结束日期不是今天，则装入集合，后续判断，进行邮件提醒
+					unExitProjectMember.add(pwe) ;
+				}
+			}
+		}
+		
+		System.out.println("需提醒的开发人员:" + unExitProjectMember);
+		//需提醒的开发人员
+		if(!unExitProjectMember.isEmpty()) {
+			for (ProjectEmpWorkingEntity unExit : unExitProjectMember) {
+				if(notifyDate.equals(sdf.format(unExit.getEndDate()))) {
+					notifyMember.add(unExit);
+				}
+			}
+		}
+		
 		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
-
+			
 			//项目参与人员-邮件列表
-			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
 				strBuf.append(p.getEmail()+",") ;
-				projectMailList.add(p) ;
 			}
-			model.put("projectMailList", projectMailList) ;
+			model.put("projectmails", projectmails) ;
 			
 			//开发人员信息
-			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
-			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
-			for (ProjectEmpWorkingEntity pwork : pews) {
+			for (ProjectEmpWorkingEntity pwork : allMembers) {
 				if(pwork.getStatus() == 1) {
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
 					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
 					BeanUtils.copyProperties(pwork, p) ;
 				}
 			}
-			model.put("pworks", pworks) ;
-			model.put("title", (flag?"项目结束":"项目时间提醒")) ;
+			model.put("projectmails", allMembers) ;
+			
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject((flag?"项目结束-":"项目时间提醒邮件-") + "["+entity.getName()+"]") ;
+			mail.setSubject("开发人员退出项目-["+entity.getName()+"]") ;
 			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
 				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
 				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
 			} else {
 				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
 			}
-			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_notify.ftl", model)) ;
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
 			
 			//生成HTML
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
-			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_notify.ftl", model, exportPath, "aa.html") ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member.ftl", model, exportPath, "project_member.html") ;
 			
-			if(flag) {
-				//项目结束
-				entity.setStatus(3) ;
-				this.basedaoProject.update(entity) ;
-			}
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
+		
 		
 	}
 }

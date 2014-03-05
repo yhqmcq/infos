@@ -513,7 +513,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							dateGroup.add(dateCron[i]) ;
 						}
 					}
-					System.out.println(dateGroup);
+					System.out.println(dateGroup+"====");
 					int j=0;
 					for (String date : dateGroup) {
 						TaskForm task = new TaskForm() ;

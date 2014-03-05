@@ -115,16 +115,11 @@ public class ProjectEmpWorking extends BaseController {
 	
 	@RequestMapping("/revert.do")
 	@ResponseBody
-	public Json revert(String ids) throws Exception {
+	public Json revert(ProjectEmpWorkingForm form) throws Exception {
 		Json j = new Json();
 		try {
-			if(null != ids && !ids.equalsIgnoreCase("")) {
-				String[] id = ids.split(",") ;
-				for(int i=0;i<id.length;i++) {
-					this.projectEWService.revert(id[i]) ;
-				}
-				j.setStatus(true);
-			}
+			this.projectEWService.revert(form) ;
+			j.setStatus(true);
 		} catch (Exception e) {
 			throw e;
 		}
