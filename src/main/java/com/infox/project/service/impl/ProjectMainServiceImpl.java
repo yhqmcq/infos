@@ -514,7 +514,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						}
 					}
 					System.out.println(dateGroup);
-					int i=0;
+					int j=0;
 					for (String date : dateGroup) {
 						TaskForm task = new TaskForm() ;
 				 		task.setTask_type("system") ;
@@ -522,13 +522,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
 						task.setTask_enable("Y") ;
 						task.setTask_name("开发人员期满邮件提醒") ;
-						task.setRelationOperate(entity.getId() +":M" + i++) ;
+						task.setRelationOperate(entity.getId() +":M" + j++) ;
 						task.setCron_expression(date) ; 
 						this.taskScheduler.add(task) ;
 					}
 					
 					
-					/*
+					
 					//设置定时任务
 					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:30:00", 2) ;
 					if(dateCron.length > 1) {
@@ -544,7 +544,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							this.taskScheduler.add(task) ;
 						}
 					}
-					*/
+					
 				} else {
 					json.setMsg("项目未设置参与人员邮件列表，请设置后再开始项目。");
 				}
