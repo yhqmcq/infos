@@ -5,6 +5,7 @@
 <meta charset="utf-8" />
 <meta name="keywords" content="">
 <meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <style type="text/css">
 	dt{margin:0px;padding:0px;display: table;}
 	dd{margin:0px;padding:0px;display: table;}

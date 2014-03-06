@@ -5,6 +5,7 @@
 <meta charset="utf-8" />
 <meta name="keywords" content="">
 <meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <style type="text/css">
 	dt{margin:0px;padding:0px;display: table;}
 	dd{margin:0px;padding:0px;display: table;}
@@ -164,7 +165,7 @@
     							<td class="devlist">
     								<ul>
     									<#list currentMembers as c>
-    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${project.startDate?string("yyyy-MM-dd")} - ${project.endDate?string("yyyy-MM-dd")}</div></li>
+    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
 			    							<#if !c_has_next >
 				    							<li>${currentMembers?size}（人） </li>
 				    						</#if>

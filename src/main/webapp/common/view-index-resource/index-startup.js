@@ -35,7 +35,7 @@ $(function(){
  * 浏览器版本检测
  */
 window.mainpage.browse = function() {
-	var lameIE = $.util.browser.msie && $.util.browser.version < 9;
+	var lameIE = $.util.browser.msie && $.util.browser.version > 8;
 	if(lameIE || lameIE==undefined) {
 		var $mask = $('#maskContainer-loading .datagrid-mask');
 		var $mask_msg = $('#maskContainer-loading .datagrid-mask-msg');

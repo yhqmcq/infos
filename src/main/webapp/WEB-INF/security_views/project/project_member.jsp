@@ -5,7 +5,6 @@
 <title>设置项目开发人员</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
-
 <script type="text/javascript">
 	var dataGrid1 ;
 	var dataGrid2 ;
