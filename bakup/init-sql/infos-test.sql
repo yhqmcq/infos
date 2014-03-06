@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50522
 File Encoding         : 65001
 
-Date: 2014-03-04 22:07:49
+Date: 2014-03-06 13:14:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,22 +42,100 @@ CREATE TABLE `infox_project_emp_working` (
 -- ----------------------------
 -- Records of infox_project_emp_working
 -- ----------------------------
-INSERT INTO `infox_project_emp_working` VALUES ('008443', '2014-03-04 21:14:56', '老李', '2014-03-10', 'mm', '2014-03-04', '1', '111', null, '123073');
-INSERT INTO `infox_project_emp_working` VALUES ('049519', '2014-03-04 21:52:11', '张三', '2014-03-20', 'mm', '2014-03-04', '3', null, '801650', null);
-INSERT INTO `infox_project_emp_working` VALUES ('072355', '2014-03-04 21:50:03', '张三', '2014-03-23', 'mm', '2014-03-04', '3', null, '801650', null);
-INSERT INTO `infox_project_emp_working` VALUES ('177026', '2014-03-04 10:23:19', '张三', '2014-03-20', '华智DRP', '2014-03-04', '4', '1038', null, '234999');
-INSERT INTO `infox_project_emp_working` VALUES ('318767', '2014-03-04 20:07:41', '杨浩泉', '2014-03-20', '华智DRP', '2014-03-04', '4', '1039', null, '234999');
-INSERT INTO `infox_project_emp_working` VALUES ('326151', '2014-03-04 21:51:37', '张三', '2014-03-25', 'mm', '2014-03-04', '3', null, '801650', null);
-INSERT INTO `infox_project_emp_working` VALUES ('345426', '2014-03-04 20:11:03', '杨浩泉', '2014-03-20', '华智DRP', '2014-03-04', '4', '1039', null, '234999');
-INSERT INTO `infox_project_emp_working` VALUES ('410771', '2014-03-04 22:01:49', '张三', '2014-03-24', 'mm', '2014-03-04', '3', null, '801650', null);
-INSERT INTO `infox_project_emp_working` VALUES ('470271', '2014-03-04 22:00:40', '张三', '2014-03-19', 'mm', '2014-03-04', '3', null, '801650', null);
-INSERT INTO `infox_project_emp_working` VALUES ('486978', '2014-03-04 21:50:52', '张三', '2014-03-31', 'mm', '2014-03-04', '3', null, '801650', null);
-INSERT INTO `infox_project_emp_working` VALUES ('505718', '2014-03-04 10:23:45', '网吧', '2014-03-19', '123', '2014-03-04', '1', '0251', null, '302956');
-INSERT INTO `infox_project_emp_working` VALUES ('541502', '2014-03-04 20:11:55', '杨浩泉', '2014-03-25', '华智DRP', '2014-03-04', '4', '1039', null, '234999');
-INSERT INTO `infox_project_emp_working` VALUES ('611855', '2014-03-04 21:14:56', '杨浩泉', '2014-03-10', 'mm', '2014-03-04', '1', '1039', null, '123073');
-INSERT INTO `infox_project_emp_working` VALUES ('739906', '2014-03-04 21:56:31', '张三', '2014-03-19', 'mm', '2014-03-04', '3', null, '801650', null);
-INSERT INTO `infox_project_emp_working` VALUES ('789577', '2014-03-04 22:03:05', '张三', '2014-03-31', 'mm', '2014-03-04', '3', null, '801650', null);
-INSERT INTO `infox_project_emp_working` VALUES ('801650', '2014-03-04 21:14:56', '张三', '2014-03-12', 'mm', '2014-03-04', '1', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('000196', '2014-03-06 12:35:51', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('001750', '2014-03-06 10:29:43', '杨浩泉', '2014-03-10', 'mm', '2014-03-05', '3', null, '123540', null);
+INSERT INTO `infox_project_emp_working` VALUES ('003681', '2014-03-06 12:37:51', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('004849', '2014-03-06 13:13:31', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('018089', '2014-03-06 11:54:43', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('027695', '2014-03-06 13:11:31', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('058156', '2014-03-06 00:08:50', '杨浩泉', '2014-03-08', 'mm', '2014-03-05', '3', null, '123540', null);
+INSERT INTO `infox_project_emp_working` VALUES ('059974', '2014-03-06 11:33:43', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('062125', '2014-03-05 13:32:17', '杨浩泉', '2014-03-27', 'mm', '2014-03-05', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('083769', '2014-03-06 11:08:53', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('086489', '2014-03-06 00:06:13', '张三', '2014-03-07', 'mm', '2014-03-05', '3', null, '141102', null);
+INSERT INTO `infox_project_emp_working` VALUES ('091020', '2014-03-06 11:24:43', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('096504', '2014-03-06 13:11:31', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('104226', '2014-03-06 11:08:53', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('119279', '2014-03-06 11:06:33', '李四', '2014-03-06', 'mm', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('123540', '2014-03-06 10:30:11', '杨浩泉', '2014-03-06', 'mm', '2014-03-05', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('128434', '2014-03-06 13:13:31', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('129413', '2014-03-05 13:32:17', '李四', '2014-03-26', 'mm', '2014-03-05', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('130458', '2014-03-06 00:48:52', '杨浩泉', '2014-03-08', 'mm', '2014-03-05', '3', null, '123540', null);
+INSERT INTO `infox_project_emp_working` VALUES ('139897', '2014-03-06 11:33:43', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('141102', '2014-03-06 10:30:11', '张三', '2014-03-06', 'mm', '2014-03-05', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('163846', '2014-03-06 11:06:33', '杨浩泉', '2014-03-06', 'mm', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('171964', '2014-03-06 12:50:31', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('193158', '2014-03-06 10:53:21', '杨浩泉', '2014-03-06', 'mm', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('202020', '2014-03-06 12:57:21', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('221145', '2014-03-06 10:39:51', '杨浩泉', '2014-03-06', 'mm', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('224779', '2014-03-06 11:24:43', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('231087', '2014-03-06 11:24:43', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('256874', '2014-03-05 13:32:17', '张三', '2014-03-27', 'mm', '2014-03-05', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('258246', '2014-03-06 10:21:32', '杨浩泉', '2014-03-08', 'mm', '2014-03-05', '3', null, '123540', null);
+INSERT INTO `infox_project_emp_working` VALUES ('263560', '2014-03-06 10:48:31', '张三', '2014-03-06', 'mm', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('265674', '2014-03-06 12:39:31', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('267535', '2014-03-05 13:35:20', '老李', '2014-03-26', 'mm', '2014-03-05', '3', null, '729844', null);
+INSERT INTO `infox_project_emp_working` VALUES ('270563', '2014-03-06 11:33:43', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('274940', '2014-03-05 13:35:20', '杨浩泉', '2014-03-26', 'mm', '2014-03-05', '3', null, '401864', null);
+INSERT INTO `infox_project_emp_working` VALUES ('276462', '2014-03-06 12:57:21', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('282485', '2014-03-06 11:06:33', '老李', '2014-03-06', 'mm', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('300876', '2014-03-06 00:09:53', '张三', '2014-03-08', 'mm', '2014-03-05', '3', null, '141102', null);
+INSERT INTO `infox_project_emp_working` VALUES ('325920', '2014-03-05 13:35:20', '张三', '2014-03-26', 'mm', '2014-03-05', '3', null, '841721', null);
+INSERT INTO `infox_project_emp_working` VALUES ('349644', '2014-03-06 11:04:05', '老李', '2014-03-06', 'mm', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('385338', '2014-03-06 10:55:41', '张三', '2014-03-06', 'mm', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('401864', '2014-03-05 13:49:14', '杨浩泉', '2014-03-10', 'mm', '2014-03-05', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('416866', '2014-03-05 13:31:56', '李四', '2014-03-29', 'mm', '2014-03-05', '3', null, '129413', null);
+INSERT INTO `infox_project_emp_working` VALUES ('424814', '2014-03-06 11:08:53', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('456413', '2014-03-06 10:55:41', '李四', '2014-03-06', 'mm', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('456487', '2014-03-06 12:35:51', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('460007', '2014-03-06 11:06:33', '张三', '2014-03-06', 'mm', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('461599', '2014-03-06 10:55:41', '杨浩泉', '2014-03-06', 'mm', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('462289', '2014-03-06 11:24:43', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('466956', '2014-03-06 12:53:51', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('477997', '2014-03-06 12:39:31', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('480195', '2014-03-06 12:39:31', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('487587', '2014-03-06 10:39:51', '张三', '2014-03-06', 'mm', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('488117', '2014-03-06 11:04:05', '张三', '2014-03-06', 'mm', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('533667', '2014-03-06 11:04:05', '杨浩泉', '2014-03-06', 'mm', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('534352', '2014-03-06 12:50:31', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('536877', '2014-03-05 13:29:10', '李四', '2014-03-20', 'mm', '2014-03-05', '3', null, '129413', null);
+INSERT INTO `infox_project_emp_working` VALUES ('594222', '2014-03-06 00:48:52', '张三', '2014-03-08', 'mm', '2014-03-05', '3', null, '141102', null);
+INSERT INTO `infox_project_emp_working` VALUES ('612445', '2014-03-06 10:29:43', '张三', '2014-03-10', 'mm', '2014-03-05', '3', null, '141102', null);
+INSERT INTO `infox_project_emp_working` VALUES ('623442', '2014-03-06 10:53:21', '张三', '2014-03-06', 'mm', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('632420', '2014-03-06 10:55:41', '老李', '2014-03-06', 'mm', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('632693', '2014-03-06 10:53:21', '老李', '2014-03-06', 'mm', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('656984', '2014-03-06 12:39:31', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('658175', '2014-03-06 12:53:51', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('659726', '2014-03-06 12:37:51', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('676297', '2014-03-06 11:54:43', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('693228', '2014-03-06 12:37:51', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('708619', '2014-03-06 11:04:05', '李四', '2014-03-06', 'mm', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('718005', '2014-03-06 12:37:51', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('729844', '2014-03-05 13:49:14', '老李', '2014-03-10', 'mm', '2014-03-05', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('735390', '2014-03-06 10:53:21', '李四', '2014-03-06', 'mm', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('748925', '2014-03-06 12:35:51', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('815098', '2014-03-06 13:13:31', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('836138', '2014-03-06 12:35:51', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('841721', '2014-03-05 13:49:00', '张三', '2014-03-10', 'mm', '2014-03-05', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('845861', '2014-03-06 12:53:51', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('848563', '2014-03-06 12:53:51', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('857643', '2014-03-05 18:55:50', '杨浩泉', '2014-03-05', 'mm', '2014-03-05', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('858138', '2014-03-06 10:48:31', '杨浩泉', '2014-03-06', 'mm', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('881694', '2014-03-06 13:11:31', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('898769', '2014-03-06 12:57:21', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('900511', '2014-03-06 13:13:31', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('909338', '2014-03-06 10:21:32', '张三', '2014-03-08', 'mm', '2014-03-05', '3', null, '141102', null);
+INSERT INTO `infox_project_emp_working` VALUES ('909374', '2014-03-06 12:57:21', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('911424', '2014-03-06 00:06:14', '杨浩泉', '2014-03-07', 'mm', '2014-03-05', '3', null, '123540', null);
+INSERT INTO `infox_project_emp_working` VALUES ('923523', '2014-03-06 12:50:31', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('943682', '2014-03-06 11:54:43', '杨浩泉', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1039', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('949701', '2014-03-06 12:50:31', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('952974', '2014-03-06 11:33:43', '张三', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('957793', '2014-03-05 18:55:50', '张三', '2014-03-05', 'mm', '2014-03-05', '4', '1038', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('967633', '2014-03-06 11:54:43', '老李', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '111', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('970736', '2014-03-06 13:11:31', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('970909', '2014-03-06 11:08:53', '李四', '2014-03-06', '查询该项目下所有人员期满触发时间', '2014-03-06', '4', '1254', null, '123073');
+INSERT INTO `infox_project_emp_working` VALUES ('982216', '2014-03-06 00:08:50', '张三', '2014-03-08', 'mm', '2014-03-05', '3', null, '141102', null);
 
 -- ----------------------------
 -- Table structure for `infox_project_maillist`
@@ -128,7 +206,7 @@ CREATE TABLE `infox_project_project` (
 -- ----------------------------
 INSERT INTO `infox_project_project` VALUES ('054314', 'whizen-drp', '2014-03-04 19:33:45', '9999', '超级管理员', '开发三部', '2014-03-21 00:00:00', '2014-03-04 19:33:45', '华智DRP', '老李', '0', '2014-03-03 00:00:00', '5', 'drp-team', '979739', '111', '234999', '<p>不好<br/></p>', '<p>123123<br/></p>');
 INSERT INTO `infox_project_project` VALUES ('096504', 'CMS', '2014-03-03 08:42:58', '000000', '超级管理员', '开发一部', '2014-03-13 00:00:00', '2014-03-03 08:42:58', '内容管理系统CMS', '杨浩泉', '0', '2014-03-03 00:00:00', '5', 'tt_cms', '705624', '1039', '383087', null, null);
-INSERT INTO `infox_project_project` VALUES ('123073', 'mm', '2014-03-04 19:16:40', '9999', '超级管理员', '开发一部', '2014-03-12 00:00:00', '2014-03-04 19:16:40', 'mm', '杨浩泉', '0', '2014-03-04 00:00:00', '1', '123', '705624', '1039', null, '', '<p>123<br/></p>');
+INSERT INTO `infox_project_project` VALUES ('123073', '累死了', '2014-03-06 11:07:46', '9999', '超级管理员', '开发一部', '2014-03-12 00:00:00', '2014-03-06 11:07:46', '查询该项目下所有人员期满触发时间', '杨浩泉', '0', '2014-03-04 00:00:00', '4', '123', '705624', '1039', null, '<p>// 查询该项目下所有人员期满触发时间<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;TaskForm taskForm = new TaskForm();<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;taskForm.setRelationOperates(p.getId() + &quot;:M&quot;);<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;TaskEntity&gt; find = this.taskScheduler.find(taskForm);<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (TaskEntity taskEntity : find) {<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 先删除现有的触发时间，在重新设定触发时间<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;this.taskScheduler.delete(taskEntity.getId());<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}</p>', '<p>// 查询该项目下所有人员期满触发时间<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;TaskForm taskForm = new TaskForm();<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;taskForm.setRelationOperates(p.getId() + &quot;:M&quot;);<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;TaskEntity&gt; find = this.taskScheduler.find(taskForm);<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (TaskEntity taskEntity : find) {<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 先删除现有的触发时间，在重新设定触发时间<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;this.taskScheduler.delete(taskEntity.getId());<br/>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}</p>');
 INSERT INTO `infox_project_project` VALUES ('125658', 'whizen-drp', '2014-03-04 19:26:06', '9999', '超级管理员', '开发三部', '2014-03-19 00:00:00', '2014-03-04 19:26:06', '华智DRP', '老李', '0', '2014-03-03 00:00:00', '5', 'drp-team', '979739', '111', '234999', '<p>不好<br/></p>', '<p>123123<br/></p>');
 INSERT INTO `infox_project_project` VALUES ('125660', 'whizen-drp', '2014-03-04 19:34:50', '9999', '超级管理员', '开发三部', '2014-03-20 00:00:00', '2014-03-04 19:34:50', '华智DRP', '老李', '0', '2014-03-03 00:00:00', '5', 'drp-team', '979739', '111', '234999', '<p>不好<br/></p>', '<p>123123<br/></p>');
 INSERT INTO `infox_project_project` VALUES ('208862', 'whizen-drp', '2014-03-04 19:29:12', '9999', '超级管理员', '开发三部', '2014-03-04 00:00:00', '2014-03-04 19:29:12', '华智DRP', '老李', '0', '2014-03-03 00:00:00', '5', 'drp-team', '979739', '111', '234999', '<p>不好<br/></p>', '<p>123123<br/></p>');
@@ -188,9 +266,9 @@ CREATE TABLE `infox_sysmgr_emp` (
 -- Records of infox_sysmgr_emp
 -- ----------------------------
 INSERT INTO `infox_sysmgr_emp` VALUES ('0251', null, '2014-03-03 09:04:46', null, null, 'yhqmcq@126.com', '2014-03-03 09:04:46', null, '开发二部', null, 'male', 'Y', '', '网吧', '498779', null, '项目经理', '1');
-INSERT INTO `infox_sysmgr_emp` VALUES ('1038', null, '2014-03-03 09:55:20', null, null, 'yhqmcq@126.com', '2014-03-03 09:55:20', null, '开发三部', null, 'male', 'Y', '', '张三', '979739', null, '程序员', '1');
-INSERT INTO `infox_sysmgr_emp` VALUES ('1039', null, '2014-03-03 09:55:31', null, null, 'yhqmcq@126.com', '2014-03-03 09:55:31', null, '开发一部', null, 'male', 'Y', '', '杨浩泉', '705624', null, '系统工程师', '1');
-INSERT INTO `infox_sysmgr_emp` VALUES ('111', null, '2014-03-03 09:55:51', null, null, 'yhqmcq@126.com', '2014-03-03 09:55:51', null, '开发三部', null, 'male', 'Y', '', '老李', '979739', null, '项目经理,系统工程师', '1');
+INSERT INTO `infox_sysmgr_emp` VALUES ('1038', null, '2014-03-03 09:55:20', null, null, 'yhqmcq@126.com', '2014-03-03 09:55:20', null, '开发三部', null, 'male', 'Y', '', '张三', '979739', null, '程序员', '0');
+INSERT INTO `infox_sysmgr_emp` VALUES ('1039', null, '2014-03-03 09:55:31', null, null, 'yhqmcq@126.com', '2014-03-03 09:55:31', null, '开发一部', null, 'male', 'Y', '', '杨浩泉', '705624', null, '系统工程师', '0');
+INSERT INTO `infox_sysmgr_emp` VALUES ('111', null, '2014-03-03 09:55:51', null, null, 'yhqmcq@126.com', '2014-03-03 09:55:51', null, '开发三部', null, 'male', 'Y', '', '老李', '979739', null, '项目经理,系统工程师', '0');
 INSERT INTO `infox_sysmgr_emp` VALUES ('1254', null, '2014-03-03 09:55:55', null, null, 'yhqmcq@126.com', '2014-03-03 09:55:55', null, '开发一部', null, 'male', 'Y', '', '李四', '705624', null, '系统工程师', '0');
 INSERT INTO `infox_sysmgr_emp` VALUES ('9999', 'admin', null, null, null, null, null, null, null, 'admin', null, 'Y', null, '超级管理员', null, '1', null, '9999');
 
@@ -287,6 +365,25 @@ INSERT INTO `infox_sysmgr_emponline` VALUES ('40288182448cdaa601448d1608f20013',
 INSERT INTO `infox_sysmgr_emponline` VALUES ('40288182448cdaa601448d2a27d60014', 'admin', '9999', '本地', '2014-03-04 20:55:54', '超级管理员', '1');
 INSERT INTO `infox_sysmgr_emponline` VALUES ('40288182448d3b6c01448d3b6c6e0000', 'admin', '9999', '本地', '2014-03-04 21:14:45', '超级管理员', '1');
 INSERT INTO `infox_sysmgr_emponline` VALUES ('40288182448d59db01448d59db4a0000', 'admin', '9999', '本地', '2014-03-04 21:48:00', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854490ae5c014490ae5c4d0000', 'admin', '9999', '127.0.0.1', '2014-03-05 13:19:09', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854490c782014490c782ff0000', 'admin', '9999', '127.0.0.1', '2014-03-05 13:46:38', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854490c782014490dc52b60007', 'admin', '9999', '127.0.0.1', '2014-03-05 14:09:22', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854490c782014491d3ceed0008', 'admin', '9999', '127.0.0.1', '2014-03-05 18:39:41', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854491d6a0014491d6a0c70000', 'admin', '9999', '127.0.0.1', '2014-03-05 18:42:46', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854491d6a0014491f583c2000b', 'admin', '9999', '127.0.0.1', '2014-03-05 19:16:30', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854492969c014492969c360000', 'admin', '9999', '127.0.0.1', '2014-03-05 22:12:27', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854492969c014492d8112e0003', 'admin', '9999', '127.0.0.1', '2014-03-05 23:23:57', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854492969c014492f17eb00004', 'admin', '9999', '127.0.0.1', '2014-03-05 23:51:44', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854492fe6b014492fe6b4c0000', 'admin', '9999', '127.0.0.1', '2014-03-06 00:05:51', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('40288185449311ae01449311ae7d0000', 'admin', '9999', '127.0.0.1', '2014-03-06 00:26:53', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('40288185449315ae01449315ae900000', 'admin', '9999', '127.0.0.1', '2014-03-06 00:31:15', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('40288185449328f801449328f88b0000', 'admin', '9999', '127.0.0.1', '2014-03-06 00:52:19', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('4028818544932cd50144932cd54c0000', 'admin', '9999', '127.0.0.1', '2014-03-06 00:56:32', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854493520c014493520c6f0000', 'admin', '9999', '127.0.0.1', '2014-03-06 01:37:11', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854495161e014495161ed30000', 'admin', '9999', '127.0.0.1', '2014-03-06 09:50:58', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854495161e014495a05dc20028', 'admin', '9999', '127.0.0.1', '2014-03-06 12:21:58', '超级管理员', '0');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854495161e014495a709e90029', 'admin', '9999', '127.0.0.1', '2014-03-06 12:29:16', '超级管理员', '1');
+INSERT INTO `infox_sysmgr_emponline` VALUES ('402881854495cd38014495cd38b10000', 'admin', '9999', '127.0.0.1', '2014-03-06 13:10:58', '超级管理员', '1');
 INSERT INTO `infox_sysmgr_emponline` VALUES ('40288483448561c401448561c4ac0000', 'admin', '000000', '本地', '2014-03-03 08:39:40', '超级管理员', '1');
 INSERT INTO `infox_sysmgr_emponline` VALUES ('40288483448567520144856752790000', 'admin', '000000', '本地', '2014-03-03 08:45:44', '超级管理员', '1');
 INSERT INTO `infox_sysmgr_emponline` VALUES ('40288483448575ba01448575ba5e0000', 'admin', '000000', '本地', '2014-03-03 09:01:29', '超级管理员', '1');
@@ -475,12 +572,7 @@ CREATE TABLE `infox_sysmgr_task` (
 -- ----------------------------
 -- Records of infox_sysmgr_task
 -- ----------------------------
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448cdaa601448d2c807e0017', '2014-03-04 20:58:27', null, null, '50 59 20 6 3 ? ', '234999:0', '40288182448cdaa601448d2c807e0017', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '项目结束日期提醒', null, 'system', '项目结束定时邮件');
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448cdaa601448d2c807f0018', '2014-03-04 20:58:27', null, null, '50 59 20 4 3 ? ', '234999:1', '40288182448cdaa601448d2c807f0018', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '项目结束日期提醒', null, 'system', '项目结束定时邮件');
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448cdaa601448d2cbcd90019', '2014-03-04 20:58:43', null, null, '50 58 20 6 3 ? ', '234999:0', '40288182448cdaa601448d2cbcd90019', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '项目结束日期提醒', null, 'system', '项目结束定时邮件');
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448cdaa601448d2cbcda001a', '2014-03-04 20:58:43', null, null, '50 58 20 4 3 ? ', '234999:1', '40288182448cdaa601448d2cbcda001a', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '项目结束日期提醒', null, 'system', '项目结束定时邮件');
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448d3b6c01448d3b70720001', '2014-03-04 21:14:46', null, null, '50 58 20 6 3 ? ', '234999:0', '40288182448d3b6c01448d3b70720001', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '项目结束日期提醒', null, 'system', '项目结束定时邮件');
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448d3b6c01448d3b70780002', '2014-03-04 21:14:46', null, null, '50 58 20 4 3 ? ', '234999:1', '40288182448d3b6c01448d3b70780002', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '项目结束日期提醒', null, 'system', '项目结束定时邮件');
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448d59db01448d67ad0b0019', '2014-03-04 22:03:05', null, null, '0 30 8 12 3 ? ', '123073:M0', '40288182448d59db01448d67ad0b0019', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '开发人员期满邮件提醒', null, 'system', '开发人员期满邮件提醒');
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448d59db01448d67ad0b001a', '2014-03-04 22:03:05', null, null, '0 30 8 10 3 ? ', '123073:M1', '40288182448d59db01448d67ad0b001a', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '开发人员期满邮件提醒', null, 'system', '开发人员期满邮件提醒');
-INSERT INTO `infox_sysmgr_task` VALUES ('40288182448d59db01448d67ad0b001b', '2014-03-04 22:03:05', null, null, '0 30 8 7 3 ? ', '123073:M2', '40288182448d59db01448d67ad0b001b', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '开发人员期满邮件提醒', null, 'system', '开发人员期满邮件提醒');
+INSERT INTO `infox_sysmgr_task` VALUES ('402881854490ae5c014490b606d1000d', '2014-03-05 13:27:32', null, null, '0 30 8 12 3 ? ', '123073:0', '402881854490ae5c014490b606d1000d', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '项目结束日期提醒', null, 'system', '项目结束定时邮件');
+INSERT INTO `infox_sysmgr_task` VALUES ('402881854490ae5c014490b606d3000e', '2014-03-05 13:27:32', null, null, '0 30 8 10 3 ? ', '123073:1', '402881854490ae5c014490b606d3000e', 'Y', 'com.infox.project.job.ProjectSchedulerEmail', '项目结束日期提醒', null, 'system', '项目结束定时邮件');
+INSERT INTO `infox_sysmgr_task` VALUES ('402881854495cd38014495cf6ba90003', '2014-03-06 13:13:22', null, null, '31 13 13 4 3 ? ', '123073:M0', '402881854495cd38014495cf6ba90003', 'Y', 'com.infox.project.job.ProjectMemberWorkSchedulerEmail', '开发人员期满邮件提醒', null, 'system', '开发人员期满邮件提醒');
+INSERT INTO `infox_sysmgr_task` VALUES ('402881854495cd38014495cf6bab0004', '2014-03-06 13:13:22', null, null, '31 13 13 6 3 ? ', '123073:M1', '402881854495cd38014495cf6bab0004', 'Y', 'com.infox.project.job.ProjectMemberWorkSchedulerEmail', '开发人员期满邮件提醒', null, 'system', '开发人员期满邮件提醒');

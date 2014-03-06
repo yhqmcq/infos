@@ -107,6 +107,20 @@ public class DateUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_STYLE_H);
 		return sdf.format(date);
 	}
+	
+	public static String getCurrentDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_STYLE_G);
+		return sdf.format(new Date());
+	}
+	public static String getCurrentDateTime() {
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_STYLE_F);
+		return sdf.format(new Date());
+	}
+	public static String getCurrentDateTimes() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ddHHmmss");
+		Date d = new Date() ;
+		return sdf.format(d)+"-"+d.getTime() ;
+	}
 
 	/**
 	 * 获得上、下午
@@ -489,7 +503,7 @@ public class DateUtil {
 	public static String[] getDateCron(String datetime, int day) throws ParseException {
 		String[] cron = new String[2] ;
 		
-		Date dt = new SimpleDateFormat("yyyy-MM-dd hh:ss:mm").parse(datetime) ;
+		Date dt = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(datetime) ;
 		Calendar sc = Calendar.getInstance() ;
 		sc.setTime(dt) ;
 		
@@ -511,7 +525,7 @@ public class DateUtil {
 	}
 	
 	public static void main(String[] args) throws ParseException {
-		String datetime = "2014-03-4 14:46:00" ;
+		String datetime = "2014-03-4 12:46:00" ;
 		
 		String[] dateCron = getDateCron(datetime, 2) ;
 		System.out.println(dateCron[0]);

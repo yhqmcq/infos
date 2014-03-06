@@ -6,9 +6,11 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <style type="text/css">
-	dt{margin:0px;padding:0px;}
-	dd{margin:0px;padding:0px;}
+	dt{margin:0px;padding:0px;display: table;}
+	dd{margin:0px;padding:0px;display: table;}
+	ul{list-style: none;margin:0px;padding:0px;} ul li{margin:0px;padding:0px;}
 	table{border-spacing: 0px;border-collapse: 0px;}
+	a{text-decoration: none; color: blue;}
 	#main{
 		width:980px;
 		display: block; 
@@ -60,8 +62,32 @@
 		border-top:2px solid red;
 		text-align:right;
 		width:100%;
+		display:table;
 		height:30px;
 		line-height: 30px;
+		position: relative;
+	}
+	.footer .zy{
+		position: absolute;
+		top:0px;
+		left:0px;
+		font-size: 12px;
+		color:red;
+	}
+	.lname{
+		width:100px;float:left;
+	}
+	.ltime{
+		width:230px;
+		*width:220px;
+		float:left;text-align: right;
+	}
+	.devlist{
+		width:321px;
+		font-weight: normal;
+	}
+	.devlist ul {
+		padding:8px 0px;
 	}
 </style>
 </head>
@@ -78,63 +104,91 @@
     		<table>
     			<tr>
     				<th width="140">项目名称：</th>
-    				<td>广州华智CMS内容管理系统</td>
+    				<td width="320">${project.name}</td>
     				<th width="140">项目代号：</th>
-    				<td>广州华智CMS内容管理系统</td>
+    				<td width="320">${project.code}</td>
     			</tr>
     			<tr>
     				<th>开始日期：</th>
-    				<td>广州华智CMS内容管理系统</td>
+    				<td>${project.startDate?string("yyyy-MM-dd")}</td>
     				<th>结束日期：</th>
-    				<td>广州华智CMS内容管理系统</td>
+    				<td>${project.endDate?string("yyyy-MM-dd")}</td>
     			</tr>
     			<tr>
     				<th>项目类型：</th>
-    				<td>广州华智CMS内容管理系统</td>
+    				<td>${project.project_type}</td>
     				<th>团队名称：</th>
-    				<td>广州华智CMS内容管理系统</td>
+    				<td>${project.team_name}</td>
     			</tr>
     			<tr>
     				<th>所属部门：</th>
-    				<td>广州华智CMS内容管理系统</td>
+    				<td>${project.deptname}</td>
     				<th>项目负责人：</th>
-    				<td>广州华智CMS内容管理系统</td>
+    				<td>${project.project_leader}</td>
     			</tr>
     			<tr>
-    				<th>项目参与人员：</th>
-    				<td height="100">
-    					<dl>
-							<dt>张三</dt>
-							<dt>李四</dt>
-							<dt>王八</dt>
-							<dt>老六</dt>
-							<dd>4（人） </dd>
-						</dl>
+    				<th width="140px">项目参与人员：</th>
+    				<td class="devlist">
+    					<ul>
+							<#list projectmails as c>
+								<li>${c.empname}</li>
+								<#if !c_has_next >
+	    							<li>${projectmails?size}（人） </li>
+	    						</#if>
+							</#list>
+							<#if (projectmails?size lt 1) >
+								<li>项目暂无参与人员</li>
+							</#if>
+						</ul>
     				</td>
     				<th colspan="2" style="padding:0px;">
     					<table width="100%" height="100%">
     						<tr>
-    							<th width="140">两天后到期人员：</th>
-    							<td style="font-weight: normal;">
-    								<dl>
-										<dt>张三</dt>
-										<dt>李四</dt>
-										<dt>王八</dt>
-										<dt>老六</dt>
-										<dd>4（人） </dd>
-									</dl>
+    							<th style="width:140px;">当天退出人员：</th>
+    							<td class="devlist">
+    								<ul>
+    									<#list exitProjectMembers as c>
+    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${project.startDate?string("yyyy-MM-dd")} - ${project.endDate?string("yyyy-MM-dd")}</div></li>
+			    							<#if !c_has_next >
+				    							<li>${exitProjectMembers?size}（人） </li>
+				    						</#if>
+			    						</#list>
+			    						<#if (exitProjectMembers?size lt 1) >
+			    							<li>暂无人员退出项目</li>
+			    						</#if>
+    								</ul>
     							</td>
     						</tr>
     						<tr>
-    							<th>开发人员：</th>
-    							<td style="font-weight: normal;">
-    								<dl>
-										<dt>张三</dt>
-										<dt>李四</dt>
-										<dt>王八</dt>
-										<dt>老六</dt>
-										<dd>4（人） </dd>
-									</dl>
+    							<th width="140px">即将到期人员：</th>
+    							<td class="devlist">
+    								<ul>
+    									<#list notifyMembers as c>
+    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${project.startDate?string("yyyy-MM-dd")} - ${project.endDate?string("yyyy-MM-dd")}</div></li>
+			    							<#if !c_has_next >
+				    							<li>${notifyMembers?size}（人） </li>
+				    						</#if>
+			    						</#list>
+			    						<#if (notifyMembers?size lt 1) >
+			    							<li>暂无即将到期人员</li>
+			    						</#if>
+    								</ul>
+    							</td>
+    						</tr>
+    						<tr>
+    							<th width="140">目前开发人员：</th>
+    							<td class="devlist">
+    								<ul>
+    									<#list currentMembers as c>
+    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${project.startDate?string("yyyy-MM-dd")} - ${project.endDate?string("yyyy-MM-dd")}</div></li>
+			    							<#if !c_has_next >
+				    							<li>${currentMembers?size}（人） </li>
+				    						</#if>
+			    						</#list>
+			    						<#if (currentMembers?size lt 1) >
+			    							<li>目前暂无开发人员</li>
+			    						</#if>
+    								</ul>
     							</td>
     						</tr>
     					</table>
@@ -142,25 +196,25 @@
     			</tr>
     			<tr>
     				<th>项目目标：</th>
-    				<td colspan="3">广州华智CMS内容管理系统</td>
+    				<td colspan="3">${project.project_target}</td>
     			</tr>
     			<tr>
     				<th>项目描述：</th>
-    				<td colspan="3">广州华智CMS内容管理系统</td> 
+    				<td colspan="3">${project.project_desc}</td> 
     			</tr>
     		</table>
     	</div>
     	
     	<div class="footer">
-    		广州华智科技有限公司&copy;品质保证部&nbsp;&nbsp;&nbsp;&nbsp;系统日期：2014-05-14
-    		<#list allMembers as cc>${cc}</#list><br>
-    		<#list projectmails as c>${c}</#list><br>
-    		<#list allMembers as d>${d}</#list><br>
-    		<#list exitProjectMember as e>${e}</#list><br>
-    		<#list notifyMember as ew>${ew}</#list><br>
-    		${project}<br>
-    		<br>
-    		${context_path}<br>
+    		<div class="zy">
+    			如无法正常显示，请猛砸<a href="${reportURL}">&nbsp;这里&nbsp;</a>（仅华智内部使用）
+    		</div>
+    		<div>
+	    		<ul>
+	    			<li>广州华智科技有限公司&copy;品质保证部</li>
+	    			<li>系统日期：2014-05-14</li>
+	    		</ul>
+    		</div>
     	</div>
     	
     </div>

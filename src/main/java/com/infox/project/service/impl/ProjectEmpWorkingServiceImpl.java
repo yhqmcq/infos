@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +20,8 @@ import com.infox.common.dao.BaseDaoI;
 import com.infox.common.freemarker.FreeMarkerToHtmlUtil;
 import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
 import com.infox.common.mail.MailVO;
+import com.infox.common.util.BeanUtils;
+import com.infox.common.util.ClobUtil;
 import com.infox.common.util.Constants;
 import com.infox.common.util.DateUtil;
 import com.infox.common.web.page.DataGrid;
@@ -143,7 +144,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			taskForm.setRelationOperates(p.getId() + ":M");
 			List<TaskEntity> find = this.taskScheduler.find(taskForm);
 			for (TaskEntity taskEntity : find) {
-				// System.out.println(taskEntity.getId() + "==" + taskEntity.getTask_name() + "===" + taskEntity.getRelationOperate());
 				// 先删除现有的触发时间，在重新设定触发时间
 				this.taskScheduler.delete(taskEntity.getId());
 			}
@@ -153,7 +153,9 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			Set<ProjectEmpWorkingEntity> pwes = p.getPwe();
 			for (ProjectEmpWorkingEntity member : pwes) {
 				if (member.getStatus() == 1) {
-					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 01:37:55", 2);
+					/** ---------------------------------------------------------------------------------- */
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(
+							member.getEndDate()) + " 13:13:31", 2);
 					for (int i = 0; i < dateCron.length; i++) {
 						// 将相同日期的归为一组，进行定时
 						dateGroup.add(dateCron[i]);
@@ -476,7 +478,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	
 	public static void main(String[] args) throws ParseException {
 		
-		String endDate = "2014-03-07" ;
+		String endDate = "2014-03-08" ;
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d") ;
 		String currentDate = sdf.format(new Date()) ;
@@ -511,6 +513,13 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	public void projectMemberExpireNotify(ProjectMainForm form) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId()) ;
 		
+		ProjectMainForm project = new ProjectMainForm() ;
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
+		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d") ;
 		String currentDate = sdf.format(new Date()) ;
 		
@@ -528,24 +537,28 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		}
 		String notifyDate = sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH);
 		
-		List<ProjectEmpWorkingEntity> allMembers = new ArrayList<ProjectEmpWorkingEntity>();
-		List<ProjectEmpWorkingEntity> exitProjectMember = new ArrayList<ProjectEmpWorkingEntity>();
-		List<ProjectEmpWorkingEntity> unExitProjectMember = new ArrayList<ProjectEmpWorkingEntity>();
-		List<ProjectEmpWorkingEntity> notifyMember = new ArrayList<ProjectEmpWorkingEntity>();
+		List<ProjectEmpWorkingForm> allMembers = new ArrayList<ProjectEmpWorkingForm>();
+		List<ProjectEmpWorkingForm> exitProjectMembers = new ArrayList<ProjectEmpWorkingForm>();
+		List<ProjectEmpWorkingForm> currentMembers = new ArrayList<ProjectEmpWorkingForm>();
+		List<ProjectEmpWorkingForm> notifyMembers = new ArrayList<ProjectEmpWorkingForm>();
 		
 		StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 		//获取项目开发人员列表（状态为1）
 		Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
 		for (ProjectEmpWorkingEntity pwe : pwes) {
 			if(pwe.getStatus() == 1) {
-				allMembers.add(pwe) ;
+				ProjectEmpWorkingForm allMembersForm = new ProjectEmpWorkingForm() ;
+				BeanUtils.copyProperties(pwe, allMembersForm) ;
+				allMembers.add(allMembersForm) ;
 				devMemberBuf.append(pwe.getEmp().getEmail()+",") ;
 				
 				System.out.println("是否当天结束：" +currentDate.equals(sdf.format(pwe.getEndDate())));
 				System.out.println(currentDate + "===" + sdf.format(pwe.getEndDate()));
 				//判断该人员结束日期是否今天，如果是则装入集合，并将该人员设置为空闲状态和退出项目状态
 				if(currentDate.equals(sdf.format(pwe.getEndDate()))) {
-					exitProjectMember.add(pwe) ;            
+					ProjectEmpWorkingForm exitProjectMembersForm = new ProjectEmpWorkingForm() ;
+					BeanUtils.copyProperties(pwe, exitProjectMembersForm) ;
+					exitProjectMembers.add(exitProjectMembersForm) ;            
 					//将员工设为空闲人员
 					EmployeeEntity emp = pwe.getEmp() ;
 					emp.setWorkStatus(0) ;
@@ -557,17 +570,19 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					
 				} else {
 					//如果开发人员的结束日期不是今天，则装入集合，后续判断，进行邮件提醒
-					unExitProjectMember.add(pwe) ;
+					ProjectEmpWorkingForm unExitProjectMembersForm = new ProjectEmpWorkingForm() ;
+					BeanUtils.copyProperties(pwe, unExitProjectMembersForm) ;
+					currentMembers.add(unExitProjectMembersForm) ;
 				}
 			}
 		}
 		
-		System.out.println("需提醒的开发人员:" + unExitProjectMember);
-		//需提醒的开发人员
-		if(!unExitProjectMember.isEmpty()) {
-			for (ProjectEmpWorkingEntity unExit : unExitProjectMember) {
+		System.out.println("需提醒的开发人员:" + currentMembers);
+		if(!currentMembers.isEmpty()) {
+			//需提醒的开发人员
+			for (ProjectEmpWorkingForm unExit : currentMembers) {
 				if(notifyDate.equals(sdf.format(unExit.getEndDate()))) {
-					notifyMember.add(unExit);
+					notifyMembers.add(unExit);
 				}
 			}
 		}
@@ -585,11 +600,13 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			}
 			
 			
-			model.put("project", entity) ;//项目信息
+			String htmlId = DateUtil.getCurrentDateTimes() ;
+			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectmails) ;//项目参与人员
-			model.put("allMembers", allMembers) ;//所有开发人员
-			model.put("exitProjectMember", exitProjectMember) ;//今天为结束日期的人员
-			model.put("notifyMember", notifyMember) ;//需提醒的人员
+			model.put("currentMembers", currentMembers) ;//目前开发人员
+			model.put("exitProjectMembers", exitProjectMembers) ;//今天为结束日期的人员
+			model.put("notifyMembers", notifyMembers) ;//需提醒的人员
+			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_member_notify_exit_"+htmlId+".html") ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
 			
 			
@@ -605,8 +622,9 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			this.mailMessageSend.sendMail(mail) ;
 			
 			//生成HTML
-			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
-			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member_notify_exit.ftl", model, exportPath, "project_member_notify_exit.html") ;
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member_notify_exit.ftl", model, 
+					exportPath, "project_member_notify_exit_"+htmlId+".html") ;
 			
 		} catch (Exception e) {
 			e.printStackTrace() ;
