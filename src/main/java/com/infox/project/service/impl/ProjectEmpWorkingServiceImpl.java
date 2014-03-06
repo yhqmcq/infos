@@ -208,7 +208,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					System.out.println(DateUtil.formatF(pwork.getEndDate()));
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;

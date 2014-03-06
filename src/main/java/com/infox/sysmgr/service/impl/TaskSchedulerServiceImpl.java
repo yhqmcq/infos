@@ -107,6 +107,8 @@ public class TaskSchedulerServiceImpl implements TaskSchedulerServiceI {
 	public TaskForm get(TaskForm form) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select t from TaskEntity t where 1=1";
+		hql = addWhere(hql, form, params) ;
+		
 		TaskEntity entity = this.basedaoTask.get(hql, params);
 		
 		if (null != entity) {

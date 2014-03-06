@@ -31,6 +31,7 @@ import com.infox.project.entity.ProjectEmpWorkingEntity;
 import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectMainServiceI;
+import com.infox.project.web.form.ProjectEmpWorkingForm;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
@@ -114,7 +115,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	@Override
 	public void edit(ProjectMainForm form) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
-
+		
 		boolean flag = false ;
 		//项目为开始状态才进行历史记录
 		if(entity.getStatus() == 1) {
@@ -146,17 +147,25 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		if(flag) {
 			//定时任务（重新设定项目的触发时间）
-			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:30:00", 2) ;
+			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 20:14:50", 2) ;
 			if(dateCron.length > 1) {
 				for (int i = 0; i < dateCron.length; i++) {
 					//先删除原有的触发器,在建立新的触发器
 					TaskForm task = new TaskForm() ;
 					task.setRelationOperate(entity.getId()+":"+i) ;
 					TaskForm taskForm = this.taskScheduler.get(task) ;
+					
 					this.taskScheduler.delete(taskForm.getId()) ;
 					
-					taskForm.setCron_expression(dateCron[i]) ;
-					this.taskScheduler.add(taskForm) ;
+					TaskForm taskadd = new TaskForm() ;
+					taskadd.setTask_type("system") ;
+					taskadd.setTask_type_name("项目结束定时邮件") ;
+					taskadd.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+					taskadd.setTask_enable("Y") ;
+					taskadd.setTask_name("项目结束日期提醒") ;
+					taskadd.setRelationOperate(entity.getId() +":" + i) ;
+					taskadd.setCron_expression(dateCron[i]) ; 
+					this.taskScheduler.add(taskadd) ;
 				}
 			}
 			
@@ -165,7 +174,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		}
 		
 		//项目为开始状态才进行邮件发送
-		if(entity.getStatus() != 1) {
+		if(entity.getStatus() == 1) {
 			//发送项目参数变更邮件
 			this.contentChange(entity) ;
 		}
@@ -173,33 +182,47 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	
 	//延期（发送邮件通知）
 	public void delay(ProjectMainEntity entity) {
+		
+		//项目信息
+		ProjectMainForm project = new ProjectMainForm() ;
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
+		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 			
 			//项目参与人员-邮件列表
-			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
 				strBuf.append(p.getEmail()+",") ;
-				projectMailList.add(p) ;
 			}
-			model.put("projectMailList", projectMailList) ;
 			
 			//开发人员信息
-			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			List<ProjectEmpWorkingForm> currentMembers = new ArrayList<ProjectEmpWorkingForm>() ;
 			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
+					System.out.println(DateUtil.formatF(pwork.getEndDate()));
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
-					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					currentMembers.add(p) ;
 				}
 			}
-			model.put("pworks", pworks) ;
 			
+			String htmlId = DateUtil.getCurrentDateTimes() ;
+			model.put("project", project) ;//项目信息
+			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("currentMembers", currentMembers) ;//目前开发人员
+			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_delay_mail_"+htmlId+".html") ;
+			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
+			model.put("currentdate", new Date()) ;
 			
 			MailVO mail = new MailVO() ;
 			mail.setSubject("项目延期-["+entity.getName()+"]") ;
@@ -213,8 +236,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			this.mailMessageSend.sendMail(mail) ;
 			
 			//生成HTML
-			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
-			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_delay_mail.ftl", model, exportPath, "aa.html") ;
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_delay_mail.ftl", model, 
+					exportPath, "project_delay_mail_"+htmlId+".html") ;
+			
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -222,33 +247,46 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	
 	//项目参数内容发生变化（发送邮件通知）
 	public void contentChange(ProjectMainEntity entity) {
+		
+		//项目信息
+		ProjectMainForm project = new ProjectMainForm() ;
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
+		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 
 			//项目参与人员-邮件列表
-			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
 				strBuf.append(p.getEmail()+",") ;
-				projectMailList.add(p) ;
 			}
-			model.put("projectMailList", projectMailList) ;
 			
 			//开发人员信息
-			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			List<ProjectEmpWorkingForm> currentMembers = new ArrayList<ProjectEmpWorkingForm>() ;
 			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
-					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					currentMembers.add(p) ;
 				}
 			}
-			model.put("pworks", pworks) ;
 			
+			String htmlId = DateUtil.getCurrentDateTimes() ;
+			model.put("project", project) ;//项目信息
+			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("currentMembers", currentMembers) ;//目前开发人员
+			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_contextChange_mail_"+htmlId+".html") ;
+			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
+			model.put("currentdate", new Date()) ;
 			
 			MailVO mail = new MailVO() ;
 			mail.setSubject("项目参数发生变更-["+entity.getName()+"]") ;
@@ -262,10 +300,12 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			this.mailMessageSend.sendMail(mail) ;
 			
 			//生成HTML
-			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
-			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_contextChange_mail.ftl", model, exportPath, "aa.html") ;
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_contextChange_mail.ftl", model, 
+					exportPath, "project_contextChange_mail_"+htmlId+".html") ;
+			
 		} catch (Exception e) {
-			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
+			e.printStackTrace() ;
 		}
 	}
 
@@ -314,23 +354,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
-		this.realPathResolver.getContextPath() ;
-		String date = "2014-03-06 20:58:50" ;
-		String[] dateCron = DateUtil.getDateCron(date, 2) ;
-		if(dateCron.length > 1) {
-			for (int i = 0; i < dateCron.length; i++) {
-				TaskForm task = new TaskForm() ;
-		 		task.setTask_type("system") ;
-				task.setTask_type_name("项目结束定时邮件") ;
-				task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
-				task.setTask_enable("Y") ;
-				task.setTask_name("项目结束日期提醒") ;
-				task.setRelationOperate("234999:"+i) ;
-				task.setCron_expression(dateCron[i]) ; 
-				//this.taskScheduler.add(task) ;
-			}
-		}
-		
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));
@@ -504,7 +527,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					json.setMsg("项目开启成功！");
 					json.setStatus(true);
 					
-					//项目开发人员期满定时器
+					//项目开发人员起止日期提醒（定时器）
 					Set<String> dateGroup = new HashSet<String>() ;
 					Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
 					for (ProjectEmpWorkingEntity member : pwes) {
@@ -514,20 +537,18 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							dateGroup.add(dateCron[i]) ;
 						}
 					}
-					System.out.println(dateGroup+"====");
 					int j=0;
 					for (String date : dateGroup) {
 						TaskForm task = new TaskForm() ;
 				 		task.setTask_type("system") ;
-						task.setTask_type_name("开发人员期满邮件提醒") ;
-						task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+						task.setTask_type_name("项目开发人员起止日期提醒") ;
+						task.setTask_job_class("com.infox.project.job.ProjectMemberWorkSchedulerEmail") ;
 						task.setTask_enable("Y") ;
-						task.setTask_name("开发人员期满邮件提醒") ;
+						task.setTask_name("项目开发人员起止日期提醒") ;
 						task.setRelationOperate(entity.getId() +":M" + j++) ;
 						task.setCron_expression(date) ; 
 						this.taskScheduler.add(task) ;
 					}
-					
 					
 					
 					//设置定时任务
@@ -621,6 +642,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	
 	//状态发送改变（发送邮件通知）
 	public void status(ProjectMainEntity entity) {
+		//项目信息
+		ProjectMainForm project = new ProjectMainForm() ;
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
+		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
@@ -638,27 +667,33 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 			
 			//项目参与人员-邮件列表
-			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
 				strBuf.append(p.getEmail()+",") ;
-				projectMailList.add(p) ;
 			}
-			model.put("projectMailList", projectMailList) ;
 			
 			//开发人员信息
-			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			List<ProjectEmpWorkingForm> currentMembers = new ArrayList<ProjectEmpWorkingForm>() ;
 			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
+					System.out.println(DateUtil.formatF(pwork.getEndDate()));
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
-					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					currentMembers.add(p) ;
 				}
 			}
-			model.put("pworks", pworks) ;
+			
+			String htmlId = DateUtil.getCurrentDateTimes() ;
+			model.put("project", project) ;//项目信息
+			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("currentMembers", currentMembers) ;//目前开发人员
+			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_status_mail_"+htmlId+".html") ;
+			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
+			model.put("currentdate", new Date()) ;
 			
 			
 			MailVO mail = new MailVO() ;
@@ -673,12 +708,12 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			this.mailMessageSend.sendMail(mail) ;
 			
 			//生成HTML
-			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
-			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_status_mail.ftl", model, exportPath, "aa.html") ;
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_status_mail.ftl", model, 
+					exportPath, "project_status_mail_"+htmlId+".html") ;
 			
 		} catch (Exception e) {
 			e.printStackTrace() ;
-			System.out.println("无法连接到ActiveMQ异步消息服务器！"+e.getMessage());
 		}
 	}
 
@@ -688,7 +723,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	@Override
 	public void projectNotify(ProjectMainForm form) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId()) ;
-		System.out.println(entity);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd") ;
 		String currentDate = sdf.format(new Date()) ;
 		String endDate = sdf.format(entity.getEndDate()) ;
@@ -701,32 +735,45 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			flag = false ;
 		}
 		
+		//项目信息
+		ProjectMainForm project = new ProjectMainForm() ;
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
+		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 
 			//项目参与人员-邮件列表
-			List<ProjectMailListEntity> projectMailList = new ArrayList<ProjectMailListEntity>() ;
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
 				strBuf.append(p.getEmail()+",") ;
-				projectMailList.add(p) ;
 			}
-			model.put("projectMailList", projectMailList) ;
 			
 			//开发人员信息
-			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			List<ProjectEmpWorkingForm> currentMembers = new ArrayList<ProjectEmpWorkingForm>() ;
 			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
-					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					currentMembers.add(p) ;
 				}
 			}
-			model.put("pworks", pworks) ;
+			
+			String htmlId = DateUtil.getCurrentDateTimes() ;
+			model.put("project", project) ;//项目信息
+			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("currentMembers", currentMembers) ;//目前开发人员
+			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_notify_"+htmlId+".html") ;
+			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
+			model.put("currentdate", new Date()) ;
 			model.put("title", (flag?"项目结束":"项目时间提醒")) ;
 			
 			MailVO mail = new MailVO() ;
@@ -740,9 +787,11 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_notify.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
 			
+
 			//生成HTML
-			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
-			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_notify.ftl", model, exportPath, "aa.html") ;
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_notify.ftl", model, 
+					exportPath, "project_notify_"+htmlId+".html") ;
 			
 			if(flag) {
 				//项目结束
