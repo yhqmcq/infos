@@ -34,7 +34,7 @@
 			    	} else  if(value == 3) { 
 			    		return "<font color='red'>已结束</font>" ; 
 			    	} else { 
-			    		return "激活" ; 
+			    		return "历史" ; 
 			    	}
 			    } },
 			    { field: 'sedate', title: '项目起止日期', width: 180, sortable: true, formatter:function(value,row){
@@ -79,7 +79,7 @@
 					{ field: 'deptname', title: '所属部门', width: 100, sortable: true },
 					{ field: 'project_leader', title: '项目负责人', width: 100, sortable: true },
 					{ field: 'status', title: '状态', width: 100, sortable: true, formatter:function(value,row){
-						if(value == 0){ return "未开始" ; } else  if(value == 1) { return "<font color='green'>进行中</font>" ; } else  if(value == 2) { return "<font color='green'>已挂起</font>" ; } else  if(value == 3) { return "已完成" ; } else { return "激活" ; }
+						if(value == 0){ return "未开始" ; } else  if(value == 1) { return "<font color='green'>进行中</font>" ; } else  if(value == 2) { return "<font color='green'>已挂起</font>" ; } else  if(value == 3) { return "已完成" ; } else { return "历史" ; }
 					} },
 					{ field: 'team_name', title: '团队名称', width: 100, sortable: true }
 				]],

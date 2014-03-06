@@ -117,7 +117,15 @@
     			</tr>
     			<tr>
     				<th>项目类型：</th>
-    				<td>${project.project_type}</td>
+    				<td>
+    					<#if project.project_type == 0>
+    						短期迭代
+    					<#elseif project.project_type == 1>
+    						长期项目
+    					<#else>
+    						运维项目
+    					</#if>
+    				</td>
     				<th>团队名称：</th>
     				<td>${project.team_name}</td>
     			</tr>
@@ -126,6 +134,22 @@
     				<td>${project.deptname}</td>
     				<th>项目负责人：</th>
     				<td>${project.project_leader}</td>
+    			</tr>
+    			<tr>
+    				<th>项目状态：</th>
+    				<td>
+    					<#if project.status == 0>
+    						<font color='blue'>未开始</font>
+    					<#elseif project.status == 1>
+    						<font color='green'>进行中</font>
+    					<#elseif project.status == 2>
+    						<font color='orange'>已挂起</font>
+    					<#else>
+    						<font color='red'>已结束</font>
+    					</#if>
+    				</td>
+    				<th>项目创建者：</th>
+    				<td>${project.createrName}</td>
     			</tr>
     			<tr>
     				<th width="140px">项目参与人员：</th>
