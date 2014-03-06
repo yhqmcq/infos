@@ -182,6 +182,15 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	}
 	
 	private void sendMailToMemberDate(ProjectMainEntity entity) {
+		
+		//项目信息
+		ProjectMainForm project = new ProjectMainForm() ;
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
+		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
@@ -194,20 +203,27 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			}
 			
 			//开发人员信息
-			List<ProjectEmpWorkingEntity> allMember = new ArrayList<ProjectEmpWorkingEntity>() ;
+			List<ProjectEmpWorkingForm> currentMembers = new ArrayList<ProjectEmpWorkingForm>() ;
 			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
+					System.out.println(DateUtil.formatF(pwork.getEndDate()));
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
-					allMember.add(pwork) ;
- 				}
+					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
+					BeanUtils.copyProperties(pwork, p) ;
+					currentMembers.add(p) ;
+				}
 			}
-			model.put("project", entity) ;//项目信息
-			model.put("allMember", allMember) ;
-			model.put("server_root", this.realPathResolver.getWebRoot()) ;
-			model.put("context_path", this.realPathResolver.getWebRoot() + this.realPathResolver.getContextPath()) ;
 			
+			
+			String htmlId = DateUtil.getCurrentDateTimes() ;
+			model.put("project", project) ;//项目信息
+			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("currentMembers", currentMembers) ;//目前开发人员
+			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_member_date_"+htmlId+".html") ;
+			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
+			model.put("currentdate", new Date()) ;
 			
 			
 			MailVO mail = new MailVO() ;
@@ -218,12 +234,13 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			} else {
 				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
 			}
-			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member.ftl", model)) ;
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member_date.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
 			
 			//生成HTML
-			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
-			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member.ftl", model, exportPath, "project_member.html") ;
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member_date.ftl", model, 
+					exportPath, "project_member_date_"+htmlId+".html") ;
 			
 		} catch (Exception e) {
 			e.printStackTrace() ;
@@ -232,13 +249,13 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	
 	@Override
 	public void revert(ProjectEmpWorkingForm form) throws Exception {
-		List<ProjectEmpWorkingEntity> exitProjectMember = null ;
+		List<ProjectEmpWorkingForm> exitProjectMember = null ;
 		if(null != form.getIds() && !form.getIds().equalsIgnoreCase("")) {
-			exitProjectMember = new ArrayList<ProjectEmpWorkingEntity>() ;
+			exitProjectMember = new ArrayList<ProjectEmpWorkingForm>() ;
 			String[] id = form.getIds().split(",") ;
 			
 			for(int i=0;i<id.length;i++) {
-				ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id) ;
+				ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id[i]) ;
 				
 				//将员工设为空闲人员
 				EmployeeEntity emp = entity.getEmp() ;
@@ -254,10 +271,11 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				//修改退出的时间
 				entity.setCreated(new Date()) ;
 				
-				exitProjectMember.add(entity) ;
+				ProjectEmpWorkingForm f = new ProjectEmpWorkingForm() ;
+				BeanUtils.copyProperties(entity, f) ;
+				exitProjectMember.add(f) ;
 			}
 		}
-		
 		ProjectMainEntity projectMainEntity = this.basedaoProject.get(ProjectMainEntity.class, form.getProject_id()) ;
 		
 		//退出发送邮件通知
@@ -268,7 +286,16 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	}
 	
 	//开发人员退出项目组-发送邮件通知
-	private void exitProjectMember(ProjectMainEntity entity, List<ProjectEmpWorkingEntity> exitProjectMember) {
+	private void exitProjectMember(ProjectMainEntity entity, List<ProjectEmpWorkingForm> exitProjectMembers) {
+		
+		//项目信息
+		ProjectMainForm project = new ProjectMainForm() ;
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
+		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
@@ -281,33 +308,43 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			}
 			
 			//开发人员信息
-			List<ProjectEmpWorkingEntity> pworks = new ArrayList<ProjectEmpWorkingEntity>() ;
+			List<ProjectEmpWorkingForm> currentMembers = new ArrayList<ProjectEmpWorkingForm>() ;
 			Set<ProjectEmpWorkingEntity> pews = entity.getPwe() ;
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
-					ProjectEmpWorkingEntity p = new ProjectEmpWorkingEntity() ;
+					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					currentMembers.add(p) ;
 				}
 			}
-			model.put("pworks", pworks) ;
 			
+			
+			String htmlId = DateUtil.getCurrentDateTimes() ;
+			model.put("project", project) ;//项目信息
+			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("currentMembers", currentMembers) ;//目前开发人员
+			model.put("exitProjectMembers", exitProjectMembers) ;//今天为结束日期的人员
+			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_member_exit_"+htmlId+".html") ;
+			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
+			model.put("currentdate", new Date()) ;
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("开发人员退出项目-["+entity.getName()+"]") ;
+			mail.setSubject("开发人员退出项目组-["+entity.getName()+"]") ;
 			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
 				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
 				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
 			} else {
 				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
 			}
-			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member.ftl", model)) ;
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member_exit.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
 			
 			//生成HTML
-			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/chat_html/" ;
-			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member.ftl", model, exportPath, "project_member.html") ;
+			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
+			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member_exit.ftl", model, 
+					exportPath, "project_member_exit_"+htmlId+".html") ;
 			
 		} catch (Exception e) {
 			e.printStackTrace() ;
@@ -608,7 +645,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			model.put("notifyMembers", notifyMembers) ;//需提醒的人员
 			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_member_notify_exit_"+htmlId+".html") ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
-			
+			model.put("currentdate", new Date()) ;
 			
 			MailVO mail = new MailVO() ;
 			mail.setSubject("项目开发人员起止日期提醒-["+entity.getName()+"]") ;

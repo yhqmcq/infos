@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>项目开发人员起止日期提醒</title>
+<title>开发人员退出项目组</title>
 <meta charset="utf-8" />
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -97,7 +97,7 @@
     <div id="main">
     	<div class="header">
     		<div class="logo"></div>
-    		<div class="title">项目开发人员起止日期提醒</div>
+    		<div class="title">开发人员退出项目组</div>
     	</div>
     	
     	<div class="content">
@@ -144,7 +144,7 @@
     				<th colspan="2" style="padding:0px;">
     					<table width="100%" height="100%">
     						<tr>
-    							<th style="width:140px;">当天退出人员：</th>
+    							<th style="width:140px;">退出人员：</th>
     							<td class="devlist">
     								<ul>
     									<#list exitProjectMembers as c>
@@ -160,27 +160,11 @@
     							</td>
     						</tr>
     						<tr>
-    							<th width="140px">即将到期人员：</th>
-    							<td class="devlist">
-    								<ul>
-    									<#list notifyMembers as c>
-    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
-			    							<#if !c_has_next >
-				    							<li>${notifyMembers?size}（人） </li>
-				    						</#if>
-			    						</#list>
-			    						<#if (notifyMembers?size lt 1) >
-			    							<li>暂无即将到期人员</li>
-			    						</#if>
-    								</ul>
-    							</td>
-    						</tr>
-    						<tr>
-    							<th width="140">目前开发人员：</th>
+    							<th width="140">开发人员：</th>
     							<td class="devlist">
     								<ul>
     									<#list currentMembers as c>
-    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
+    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${project.startDate?string("yyyy-MM-dd")} - ${project.endDate?string("yyyy-MM-dd")}</div></li>
 			    							<#if !c_has_next >
 				    							<li>${currentMembers?size}（人） </li>
 				    						</#if>

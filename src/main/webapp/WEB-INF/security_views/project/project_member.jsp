@@ -121,7 +121,7 @@
 			for ( var i = 0; i < rows.length; i++) {
 				ids.push(rows[i].id);
 			}
-			$.post(yhq.basePath+"/project/pwe_emp_working/revert.do", {ids : ids.join(',')}, function(result) {
+			$.post(yhq.basePath+"/project/pwe_emp_working/revert.do", {ids : ids.join(','), project_id: "${project.id}"}, function(result) {
 				if (result.status) {
 					dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
 					dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked');dataGrid1.datagrid('reload') ;
