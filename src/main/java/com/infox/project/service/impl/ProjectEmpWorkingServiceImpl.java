@@ -417,6 +417,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				BeanUtils.copyProperties(i, uf);
 				uf.setEmpIds(i.getEmp().getId()) ;
 				uf.setEmp_name(i.getEmp().getTruename()) ;
+				uf.setDept_name(i.getEmp().getOrg().getFullname()) ;
 				forms.add(uf);
 			}
 		}

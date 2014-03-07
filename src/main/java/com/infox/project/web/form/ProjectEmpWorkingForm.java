@@ -14,6 +14,9 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	/** 员工名称 */
 	private String emp_name ;
 	
+	/** 员工部门 */
+	private String dept_name ;
+	
 	/** 项目ID */
 	private String project_id ;
 	
@@ -26,7 +29,7 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	/** 结束日期 */
 	private Date endDate ;
 	
-	/** 员工ID */
+	/** 员工IDs */
 	private String empIds ;
 	
 	/** 状态标记（0.未设置日期，1.已设置日期，2.已到期，3.历史信息，4.结束-退出项目组） */
@@ -38,6 +41,14 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	
 	public String getInStatus() {
 		return inStatus;
+	}
+
+	public String getDept_name() {
+		return dept_name;
+	}
+
+	public void setDept_name(String dept_name) {
+		this.dept_name = dept_name;
 	}
 
 	public void setInStatus(String inStatus) {

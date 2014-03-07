@@ -552,13 +552,13 @@ public class DateUtil {
 		System.out.println(getBabyAge("1988-05-11"));
 		*/
 		
-		String strDateStart = "2014-03-07";
+		String strDateStart = "2014-03-06";
 		String strDateEnd = "2014-03-20";
 		
 		System.out.println(dateDiff(strDateStart, strDateEnd));
 		
-		int dutyDays = getDutyDays(formatGG(strDateStart), formatGG(strDateEnd)) ;
-		System.out.println(dutyDays);
+		//int dutyDays = getDutyDays(formatGG(strDateStart), formatGG(strDateEnd)) ;
+		//System.out.println(dutyDays);
 		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -587,6 +587,7 @@ public class DateUtil {
 	 * @param endDate
 	 * @return int
 	 */
+	/*
 	public static int getDutyDays(java.util.Date startDate, java.util.Date endDate) {
 		int result = 0;
 		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
@@ -596,6 +597,6 @@ public class DateUtil {
 			startDate.setDate(startDate.getDate() + 1);
 		}
 		return result;
-	}
+	}*/
 
 }

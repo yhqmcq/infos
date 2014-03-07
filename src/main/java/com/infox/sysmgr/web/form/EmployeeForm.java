@@ -51,6 +51,9 @@ public class EmployeeForm extends PageHelper{
 	
 	private String empjobsName ;
 	
+	/** 是否主管 */
+	private String isLeader ;
+	
 	/** 日语级别 */
 	private String japanese ;
 	
@@ -72,6 +75,14 @@ public class EmployeeForm extends PageHelper{
 
 	public String getNotInStatus() {
 		return notInStatus;
+	}
+
+	public String getIsLeader() {
+		return isLeader;
+	}
+
+	public void setIsLeader(String isLeader) {
+		this.isLeader = isLeader;
 	}
 
 	public String getJapanese() {

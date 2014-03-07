@@ -10,6 +10,8 @@ import com.infox.common.web.BaseController;
 import com.infox.common.web.page.DataGrid;
 import com.infox.project.service.ProjectEmpWorkingServiceI;
 import com.infox.project.service.ProjectMainServiceI;
+import com.infox.project.service.ProjectTaskTimeServiceI;
+import com.infox.project.web.form.ProjectTaskTimeForm;
 import com.infox.sysmgr.service.EmployeeServiceI;
 
 @Controller
@@ -25,6 +27,9 @@ public class ProjectTaskTime extends BaseController {
 	@Autowired
 	private ProjectEmpWorkingServiceI projectWorkService ;
 	
+	@Autowired
+	private ProjectTaskTimeServiceI projectTaskTimeService ;
+	
 	@RequestMapping("/project_tasktime_main.do")
 	public String project_tasktime_main() {
 		return  Constants.PROJECT + "project_tasktime_main" ;
@@ -32,9 +37,8 @@ public class ProjectTaskTime extends BaseController {
 	
 	@RequestMapping("/employeeTaskTimeReport.do")
 	@ResponseBody
-	public DataGrid employeeTaskTimeReport() {
-		
-		return null ;
+	public DataGrid employeeTaskTimeReport(ProjectTaskTimeForm form) throws Exception {
+		return this.projectTaskTimeService.datagrid(form) ;
 	}
 	
 }

@@ -88,7 +88,7 @@
 </script>
 
 <form id="form" class="easyui-form">
-	<table id="tab_box" style="">
+	<table id="tab_box" style="width:100%">
 		<tr>
 			<th>工号：</th>
 			<td><input name="id" validType="length[4,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-numberbox" type="text" data-options="required:true, prompt: '工号'" /></td>
@@ -125,8 +125,13 @@
 		</tr>
 		<tr>
 			<th>日语级别：</th>
+			<td><input name="japanese" class="easyui-validatebox" type="text" /></td>
+			<th>是否主管：</th>
 			<td>
-				<input name="japanese" class="easyui-validatebox" type="text" />
+				<input class="easyui-combobox" style="width:157px;" name="isLeader" data-options="
+					valueField: 'label', textField: 'value', editable: false, value : 'Y',
+					data: [{ label: 'Y', value: '是' },{ label: 'N', value: '否' }],
+					panelHeight:'auto', editable:false" />
 			</td>
 		</tr>
 	</table>

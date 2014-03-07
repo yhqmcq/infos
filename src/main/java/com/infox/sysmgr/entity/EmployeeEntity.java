@@ -12,12 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.infox.common.util.StringUtil;
+import com.infox.project.entity.ProjectEmpWorkingEntity;
 
 @Entity
 @Table(name = "INFOX_SYSMGR_EMP")
@@ -57,6 +59,9 @@ public class EmployeeEntity implements Serializable{
 	
 	private String onlineState = "0" ;
 	
+	/** 是否主管 */
+	private String isLeader ;
+	
 	/** 日语级别 */
 	private String japanese ;
 	
@@ -68,11 +73,23 @@ public class EmployeeEntity implements Serializable{
 	
 	private OrgDeptTreeEntity org ;
 	
+	private Set<ProjectEmpWorkingEntity> empWorks = new HashSet<ProjectEmpWorkingEntity>(0) ;
+	
 	private Set<RoleEntity> roles = new HashSet<RoleEntity>(0) ;
 	
 	/** 员工职位角色 */
 	private Set<EmpJobEntity> empjobs = new HashSet<EmpJobEntity>() ;
 	
+	@OneToMany
+	@JoinColumn(name = "EMP_ID")
+	public Set<ProjectEmpWorkingEntity> getEmpWorks() {
+		return empWorks;
+	}
+
+	public void setEmpWorks(Set<ProjectEmpWorkingEntity> empWorks) {
+		this.empWorks = empWorks;
+	}
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "INFOX_SYSMGR_EMP_JOB", joinColumns = { @JoinColumn(name = "EMP_ID", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "EMPJOB_ID", nullable = false, updatable = false) })
 	public Set<EmpJobEntity> getEmpjobs() {
@@ -91,6 +108,14 @@ public class EmployeeEntity implements Serializable{
 
 	public void setRoles(Set<RoleEntity> roles) {
 		this.roles = roles;
+	}
+
+	public String getIsLeader() {
+		return isLeader;
+	}
+
+	public void setIsLeader(String isLeader) {
+		this.isLeader = isLeader;
 	}
 
 	public String getOnlineState() {

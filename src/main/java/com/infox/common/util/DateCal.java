@@ -5,12 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 计算有效工作日,排除周六日
- * 类描述： 
- * 创建者： 杨浩泉
- * 项目名称： infos
- * 创建时间： 2014-3-7 下午6:35:08
- * 版本号： v1.0
+ * 计算有效工作日,排除周六日 类描述： 创建者： 杨浩泉 项目名称： infos 创建时间： 2014-3-7 下午6:35:08 版本号： v1.0
  */
 public class DateCal {
 
@@ -68,9 +63,9 @@ public class DateCal {
 			d2 = swap;
 		}
 
-		int betweendays = getDaysBetween(d1, d2);
+		// 相差天数
+		// int betweendays = getDaysBetween(d1, d2);
 
-		int charge_date = 0;
 		int charge_start_date = 0;// 开始日期的日期偏移量
 		int charge_end_date = 0;// 结束日期的日期偏移量
 		// 日期不在同一个日期内
@@ -84,22 +79,14 @@ public class DateCal {
 		if (etmp != 0 && etmp != 6) {// 结束日期为星期六和星期日时偏移量为0
 			charge_end_date = etmp - 1;
 		}
-		// }
 		result = (getDaysBetween(this.getNextMonday(d1), this.getNextMonday(d2)) / 7) * 5 + charge_start_date - charge_end_date;
-		// System.out.println("charge_start_date>" + charge_start_date);
-		// System.out.println("charge_end_date>" + charge_end_date);
-		// System.out.println("between day is-->" + betweendays);
 		return result;
 	}
 
 	public String getChineseWeek(Calendar date) {
 		final String dayNames[] = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
-
 		int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
-
-		// System.out.println(dayNames[dayOfWeek - 1]);
 		return dayNames[dayOfWeek - 1];
-
 	}
 
 	/**
@@ -126,9 +113,6 @@ public class DateCal {
 	 */
 	public int getHolidays(Calendar d1, Calendar d2) {
 		return this.getDaysBetween(d1, d2) - this.getWorkingDay(d1, d2);
-
 	}
-	
-	
 
 }

@@ -51,7 +51,8 @@
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'empIds', title: '工号', width: 60, sortable: true },
-			    { field: 'emp_name', title: '姓名', width: 100, sortable: true }
+			    { field: 'emp_name', title: '姓名', width: 100, sortable: true },
+			    { field: 'dept_name', title: '部门', width: 100, sortable: true }
 			]],
 			columns: [[
 			    { field: 'startDate', title: '起始日期', width:110, sortable: true, formatter:function(value,row){

@@ -17,8 +17,14 @@
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: '工号', width: 80, sortable: true },
-			    { field: 'truename', title: '姓名', width: 120, sortable: true }
+			    { field: 'id', title: '工号', width: 60, sortable: true },
+			    { field: 'truename', title: '姓名', width: 120, sortable: true, formatter:function(value,row){
+			    	if(row.isLeader == "Y") {
+			    		return "<font color='red'>"+value+"</font>";
+			    	} else {
+			    		return value;
+			    	}
+			    }},
 			]],
 			columns: [[
 			    { field: 'orgname', title: '机构部门', width: 150, sortable: true },
@@ -41,6 +47,10 @@
 			    { field: 'tel', title: '联系电话', width: 180, sortable: true },
 			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]],
+			onLoadSuccess: function(data) {
+		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
+		        dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');
+		    },
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
 	        selectOnRowContextMenu: false,      //此属性开启当右键点击行时自动选择该行的功能
@@ -48,7 +58,7 @@
 	    });
 		s1 = $("#select1").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
-			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
+			width:180, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
 				dataGrid.datagrid("load",{"orgid": node.id});
@@ -71,7 +81,7 @@
             title: "表单",
             href: form_url,
             iniframe: false,
-            width: 500, height: 280,
+            width: 550, height: 280,
             topMost: true,
             autoVCenter: true,
             autoHCenter: true,
