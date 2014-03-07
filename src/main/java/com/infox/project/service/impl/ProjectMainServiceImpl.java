@@ -97,12 +97,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			entity.setStatus(0);
 			entity.setProject_target(ClobUtil.getClob(form.getProject_target())) ;
 			entity.setProject_desc(ClobUtil.getClob(form.getProject_desc())) ;
-
 			this.basedaoProject.save(entity);
 		} else {
 			throw new Exception("该项目已存在！ ");
 		}
-
 	}
 
 	@Override
