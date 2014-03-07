@@ -36,12 +36,6 @@ public class ProjectEmpWorkingEntity {
 
 	private String id ;
 	
-	/** 员工名称 */
-	private String emp_name ;
-	
-	/** 项目名称 */
-	private String project_name ;
-	
 	/** 开始日期 */
 	private Date startDate ;
 	
@@ -54,7 +48,8 @@ public class ProjectEmpWorkingEntity {
 	/** 关联项目 */
 	private ProjectMainEntity project ;
 	
-	/** 状态标记（0.未设置日期，1.已设置日期，2.已到期，3.历史信息） */
+	/** 状态标记（0.未设置日期，1.已设置日期，2.已到期，3.历史信息，4.结束-退出项目组） */
+	/** 状态2暂时没有用到，因为人员到期后则标记该人员已退出项目 */
 	private Integer status ;
 	
 	private Date created = new Date() ;
@@ -72,9 +67,6 @@ public class ProjectEmpWorkingEntity {
 		this.status = status;
 	}
 
-	public String getEmp_name() {
-		return emp_name;
-	}
 
 	public Date getCreated() {
 		return created;
@@ -82,18 +74,6 @@ public class ProjectEmpWorkingEntity {
 
 	public void setCreated(Date created) {
 		this.created = created;
-	}
-
-	public void setEmp_name(String emp_name) {
-		this.emp_name = emp_name;
-	}
-
-	public String getProject_name() {
-		return project_name;
-	}
-
-	public void setProject_name(String project_name) {
-		this.project_name = project_name;
 	}
 
 	@Temporal(TemporalType.DATE)

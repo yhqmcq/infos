@@ -30,6 +30,7 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	private String empIds ;
 	
 	/** 状态标记（0.未设置日期，1.已设置日期，2.已到期，3.历史信息，4.结束-退出项目组） */
+	/** 状态2暂时没有用到，因为人员到期后则标记该人员已退出项目 */
 	private Integer status ;
 	
 	/** 用于IN查询(0,1,2,3,4) */

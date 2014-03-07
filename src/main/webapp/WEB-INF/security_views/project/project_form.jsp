@@ -5,11 +5,6 @@
 	var form_url = yhq.basePath+"/project/project_main/add.do" ;
 	$(function() {
 		$("#t").tabs({ width:738, lineHeight: 0 });
-		$("#s1").datebox({ required: true,autoShowPanel: false, value: $.date.format(new Date(), "yyyy-MM-dd") });
-		$("#e1").datebox({ required:true,autoShowPanel: false, onSelect : function(date) {
-			var t = $.date.compare($.date.format(date,"yyyy-MM-dd"), $("#s1").datebox('getValue')) ;
-			if(t<0) { $("#e1").datebox('setValue','') ; $.easyui.messager.show({ icon: "warning", msg: "项目结束日期不能小于项目开始日期！" }); }
-		} });
 		$("#project_type").combobox({
 			width: 258, valueField: 'label', textField: 'value', value: '0',
 			data: [{ label: '0', value: '对日短期保守项目' },{ label: '1', value: '对日长期保守项目' },{ label: '2', value: '对日新规项目' },{ label: '3', value: '国内项目' },{ label: '4', value: '公司内部项目' }],
@@ -115,13 +110,13 @@
 				<th>项目名称：</th>
 				<td><input type="text" name="name" style="width:250px;" class="easyui-validatebox" ></td>
 				<th>开始日期：</th>
-				<td><input id="s1" type="text" name="startDate" /></td>
+				<td><input name="startDate" class="easyui-datebox" required="true" missingMessage="日期必须填写" editable="false"></input></td>
 			</tr>
 			<tr>
 				<th>项目代号：</th>
 				<td><input type="text" style="width:250px;" name="code" class="easyui-validatebox" ></td>
 				<th>结束日期：</th>
-				<td><input id="e1" type="text" name="endDate" /></td>
+				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false"></input></td>
 			</tr>
 			<tr>
 				<th>项目类型：</th>

@@ -90,8 +90,8 @@
 <form id="form" class="easyui-form">
 	<table id="tab_box" style="">
 		<tr>
-			<th>编号：</th>
-			<td><input name="id" value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
+			<th>工号：</th>
+			<td><input name="id" validType="length[4,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-numberbox" type="text" data-options="required:true, prompt: '工号'" /></td>
 			<th>账号状态：</th>
 			<td>
 				<input class="easyui-combobox" style="width:157px;" name="status" data-options="
@@ -115,7 +115,7 @@
 			<th>电话：</th>
 			<td><input name="tel" class="easyui-validatebox" type="text" data-options="prompt: '联系电话'" /></td>
 			<th>邮箱：</th>
-			<td><input name="email" class="easyui-validatebox" type="text" data-options="required:true, prompt: '邮箱地址'" /></td>
+			<td><input name="email" validType="email" class="easyui-validatebox" type="text" data-options="required:true, prompt: '邮箱地址'" /></td>
 		</tr>
 		<tr>
 			<th>机构部门：</th>

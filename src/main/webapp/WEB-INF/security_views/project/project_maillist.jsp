@@ -21,8 +21,8 @@
 			    { field: 'truename', title: '姓名', width: 100, sortable: true }
 			]],
 			columns: [[
-			    { field: 'orgname', title: '机构部门', width: 100, sortable: true },
-			    { field: 'empjobsName', title: '职位', width: 100, sortable: true },
+			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
+			    { field: 'empjobsName', title: '公司岗位', width: 100, sortable: true },
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
@@ -49,7 +49,7 @@
 			remoteSort: false, striped:true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: '工号', width: 60, sortable: true },
+			    { field: 'empid', title: '工号', width: 60, sortable: true },
 			    { field: 'empname', title: '姓名', width: 100, sortable: true }
 			]],
 			columns: [[ 

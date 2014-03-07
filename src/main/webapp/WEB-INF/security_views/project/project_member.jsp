@@ -50,7 +50,7 @@
 			remoteSort: false, striped:true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: '工号', width: 60, sortable: true },
+			    { field: 'empIds', title: '工号', width: 60, sortable: true },
 			    { field: 'emp_name', title: '姓名', width: 100, sortable: true }
 			]],
 			columns: [[

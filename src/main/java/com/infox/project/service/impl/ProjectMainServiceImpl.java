@@ -206,7 +206,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmail()+",") ;
+				strBuf.append(p.getEmployee().getEmail()+",") ;
 			}
 			
 			//开发人员信息
@@ -270,7 +270,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmail()+",") ;
+				strBuf.append(p.getEmployee().getEmail()+",") ;
 			}
 			
 			//开发人员信息
@@ -455,20 +455,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, empIdsSplit[i]);
 
 					ProjectMailListEntity entity = new ProjectMailListEntity();
-					entity.setEmpid(employeeEntity.getId());
-					entity.setEmpname(employeeEntity.getTruename());
-					entity.setEmail(employeeEntity.getEmail());
-
-					OrgDeptTreeEntity dept = employeeEntity.getOrg();
-					entity.setDeptid(dept.getId());
-					entity.setDeptname(dept.getFullname());
-
-					EmpJobEntity job = employeeEntity.getEmpjobs().iterator().next();
-					entity.setEmpjobid(job.getId());
-					entity.setEmpjobname(job.getJob_name());
+					entity.setEmployee(employeeEntity) ;
 
 					entity.setProjectmain(this.basedaoProject.get(ProjectMainEntity.class, form.getProjectid()));
-					entity.setProject_name(form.getProject_name());
 
 					this.basedaoMailList.save(entity);
 				}
@@ -492,7 +481,21 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		List<ProjectMailListForm> forms = new ArrayList<ProjectMailListForm>();
 		for (ProjectMailListEntity p : entitys) {
 			ProjectMailListForm f = new ProjectMailListForm();
-			com.infox.common.util.BeanUtils.copyProperties(p, f);
+			
+			StringBuffer sb = new StringBuffer() ;
+			Set<EmpJobEntity> empjobs = p.getEmployee().getEmpjobs() ;
+			for (EmpJobEntity eje : empjobs) {
+				sb.append(eje.getJob_name()) ;
+			}
+			f.setEmpid(p.getEmployee().getId()) ;
+			f.setEmpjobname(sb.toString()) ;
+			f.setEmpname(p.getEmployee().getTruename()) ;
+			f.setEmail(p.getEmployee().getEmail()) ;
+			
+			f.setDeptname(p.getEmployee().getOrg().getFullname()) ;
+			
+			f.setProject_name(p.getProjectmain().getName()) ;
+			
 			forms.add(f);
 		}
 
@@ -677,7 +680,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmail()+",") ;
+				strBuf.append(p.getEmployee().getEmail()+",") ;
 			}
 			
 			//开发人员信息
@@ -757,7 +760,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmail()+",") ;
+				strBuf.append(p.getEmployee().getEmail()+",") ;
 			}
 			
 			//开发人员信息

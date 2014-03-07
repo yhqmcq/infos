@@ -74,7 +74,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					BeanUtils.copyProperties(form, entity);
 					
 					entity.setEmp(employeeEntity) ;
-					entity.setEmp_name(employeeEntity.getTruename()) ;
 					
 					ProjectMainEntity project = new ProjectMainEntity() ;
 					project.setId(form.getProject_id()) ;
@@ -198,7 +197,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmail()+",") ;
+				strBuf.append(p.getEmployee().getEmail()+",") ;
 			}
 			
 			//开发人员信息
@@ -304,7 +303,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmail()+",") ;
+				strBuf.append(p.getEmployee().getEmail()+",") ;
 			}
 			
 			//开发人员信息
@@ -417,6 +416,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				ProjectEmpWorkingForm uf = new ProjectEmpWorkingForm();
 				BeanUtils.copyProperties(i, uf);
 				uf.setEmpIds(i.getEmp().getId()) ;
+				uf.setEmp_name(i.getEmp().getTruename()) ;
 				forms.add(uf);
 			}
 		}
@@ -496,8 +496,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 						ProjectEmpWorkingEntity history = new ProjectEmpWorkingEntity() ;
 						history.setStartDate(entity.getStartDate()) ;
 						history.setEndDate(entity.getEndDate()) ;
-						history.setEmp_name(entity.getEmp_name()) ;
-						history.setProject_name(entity.getProject_name()) ;
 						history.setStatus(3) ;
 						history.setPew(entity) ;
 						this.basedaoProjectEW.save(history) ;
@@ -628,7 +626,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmail()+",") ;
+				strBuf.append(p.getEmployee().getEmail()+",") ;
 			}
 			
 			

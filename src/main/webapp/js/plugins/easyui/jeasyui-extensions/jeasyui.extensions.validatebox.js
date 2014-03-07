@@ -106,6 +106,14 @@
             validator: function (value) { return $.string.isDate(value); },
             message: "输入的内容必须是长日期时间(yyyy-MM-dd hh:mm:ss)或短日期(yyyy-MM-dd)格式."
         },
+        //	比较两个日期大小
+        TimeCheck:{ 
+        	validator:function(value,param){     
+        		var s = $("input[name="+param[0]+"]").val(); 
+        		return value>s; 
+        	}, 
+        	message:'非法数据' 
+        },
         //  电话号码(中国)格式
         tel: {
             validator: function (value) { return $.string.isTel(value); },
