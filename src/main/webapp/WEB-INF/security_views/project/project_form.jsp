@@ -12,7 +12,7 @@
 		} });
 		$("#project_type").combobox({
 			width: 157, valueField: 'label', textField: 'value', value: '0',
-			data: [{ label: '0', value: '短期迭代' },{ label: '1', value: '长期项目' },{ label: '2', value: '运维项目' }],
+			data: [{ label: '0', value: '对日短期保守项目' },{ label: '1', value: '对日长期保守项目' },{ label: '2', value: '对日新规项目' },{ label: '3', value: '国内项目' },{ label: '4', value: '公司内部项目' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true
 	    });
 		$("#deptid").combotree({
@@ -44,6 +44,7 @@
 				if (result.id != undefined) {
 					$('form').form('load', {
 						'id' : result.id,
+						'projectNum' : result.projectNum,
 						'name' : result.name,
 						'code' : result.code,
 						'project_type' : result.project_type,
@@ -56,7 +57,7 @@
 					});
 					$("#s1").datebox('setValue',$.date.format($.string.toDate(result.startDate), "yyyy-MM-dd")) ;
 					$("#e1").datebox('setValue',$.date.format($.string.toDate(result.endDate), "yyyy-MM-dd")) ;
-					
+					$("input[name=projectNum]").attr("readonly","readonly") ;
 					$("#form input:visible")[0].focus();
 				}
 			}, 'json');
@@ -106,6 +107,10 @@
 	<input type="hidden" name="createrName" value="${_LOGIN_EMP_KEY.emp.truename}" />
 	<div class="form_base">
 		<table>
+			<tr>
+				<th>项目编号：</th>
+				<td><input type="text" name="projectNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '项目编号'" ></td>
+			</tr>
 			<tr>
 				<th>项目名称：</th>
 				<td><input type="text" name="name" style="width:250px;" class="easyui-validatebox" ></td>

@@ -162,7 +162,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					}
 				}
 			}
-			System.out.println(dateGroup + "===1111");
 			int i = 0;
 			for (String date : dateGroup) {
 				TaskForm task = new TaskForm();
@@ -564,11 +563,9 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		sc.setTime(sdf.parse(currentDate)) ;
 		sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
 		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 6){	//加两天如果是星期六，则再加两天，则为星期一
-			System.out.println("加2天");
 			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
 		}
 		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 0){	//加一天如果是星期日，则再加一天，则为星期一
-			System.out.println("加1天");
 			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+1);
 		}
 		String notifyDate = sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH);
@@ -588,8 +585,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				allMembers.add(allMembersForm) ;
 				devMemberBuf.append(pwe.getEmp().getEmail()+",") ;
 				
-				System.out.println("是否当天结束：" +currentDate.equals(sdf.format(pwe.getEndDate())));
-				System.out.println(currentDate + "===" + sdf.format(pwe.getEndDate()));
 				//判断该人员结束日期是否今天，如果是则装入集合，并将该人员设置为空闲状态和退出项目状态
 				if(currentDate.equals(sdf.format(pwe.getEndDate()))) {
 					ProjectEmpWorkingForm exitProjectMembersForm = new ProjectEmpWorkingForm() ;
@@ -613,7 +608,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			}
 		}
 		
-		System.out.println("需提醒的开发人员:" + currentMembers);
 		if(!currentMembers.isEmpty()) {
 			//需提醒的开发人员
 			for (ProjectEmpWorkingForm unExit : currentMembers) {

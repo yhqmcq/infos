@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EasyUI Administrator</title>
+<title>whizen-miniOA</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 

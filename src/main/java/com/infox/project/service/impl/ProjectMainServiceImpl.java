@@ -23,6 +23,7 @@ import com.infox.common.util.ClobUtil;
 import com.infox.common.util.Constants;
 import com.infox.common.util.DateUtil;
 import com.infox.common.util.RandomUtils;
+import com.infox.common.util.StringUtil;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
 import com.infox.common.web.springmvc.RealPathResolver;
@@ -70,6 +71,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public void add(ProjectMainForm form) throws Exception {
+		if(form.getProjectNum() == null || form.getProjectNum().equals("")) {
+			throw new Exception("项目编号不能为空！ ") ;
+		}
+		Long count = this.basedaoProject.count("select count(t.projectNum) from ProjectMainEntity t where t.projectNum='"+form.getProjectNum()+"'") ;
+		if(count >= 1) {
+			throw new Exception("项目编号已存在！ ") ;
+		}
 		ProjectMainForm project = this.get(form.getCode());
 		if (null == project) {
 			ProjectMainEntity entity = new ProjectMainEntity();
@@ -209,7 +217,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					System.out.println(DateUtil.formatF(pwork.getEndDate()));
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
@@ -367,7 +374,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if (null != ProjectMainEntity && ProjectMainEntity.size() > 0) {
 			for (ProjectMainEntity i : ProjectMainEntity) {
 				ProjectMainForm uf = new ProjectMainForm();
-				BeanUtils.copyProperties(i, uf);
+				BeanUtils.copyProperties(i, uf, new String[]{"project_target", "project_desc"});
+				uf.setProject_target(StringUtil.removeHTMLLable(ClobUtil.getString(i.getProject_target()))) ;
 
 				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
 				uf.setDateDiff(dateDiff);
@@ -680,7 +688,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					System.out.println(DateUtil.formatF(pwork.getEndDate()));
 					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;

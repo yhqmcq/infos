@@ -10,6 +10,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
+	
+	/** 项目编号-唯一 */
+	private String projectNum ;
 
 	/** 项目名称 */
 	private String name;
@@ -193,6 +196,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public String getTeam_name() {
 		return team_name;
+	}
+
+	public String getProjectNum() {
+		return projectNum;
+	}
+
+	public void setProjectNum(String projectNum) {
+		this.projectNum = projectNum;
 	}
 
 	public void setTeam_name(String team_name) {

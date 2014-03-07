@@ -46,6 +46,13 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 	@Override
 	public void add(EmployeeForm form) throws Exception {
+		if(form.getEmail() == null || form.getEmail().equals("")) {
+			throw new Exception("邮箱不能为空！ ") ;
+		}
+		Long count = this.basedaoEmployee.count("select count(t.email) from EmployeeEntity t where t.email='"+form.getEmail()+"'") ;
+		if(count >= 1) {
+			throw new Exception("该邮箱已存在！ ") ;
+		}
 		EmployeeForm employee = this.get(form.getId()) ;
 		if(null == employee) {
 			EmployeeEntity entity = new EmployeeEntity();

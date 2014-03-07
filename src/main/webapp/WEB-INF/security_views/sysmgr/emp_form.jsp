@@ -42,6 +42,7 @@
 						'password' : result.password,
 						'status' : result.status,
 						'truename' : result.truename,
+						'japanese' : result.japanese,
 						'sex' : result.sex,
 						'email' : result.email,
 						'tel' : result.tel,
@@ -114,13 +115,19 @@
 			<th>电话：</th>
 			<td><input name="tel" class="easyui-validatebox" type="text" data-options="prompt: '联系电话'" /></td>
 			<th>邮箱：</th>
-			<td><input name="email" class="easyui-validatebox" type="text" data-options="prompt: '邮箱地址'" /></td>
+			<td><input name="email" class="easyui-validatebox" type="text" data-options="required:true, prompt: '邮箱地址'" /></td>
 		</tr>
 		<tr>
 			<th>机构部门：</th>
 			<td><input id="select1" name="orgid" /><input name="orgname" id="orgname" type="hidden"/></td>
-			<th>职位：</th>
+			<th>公司岗位：</th>
 			<td><input id="select2" /></td>
+		</tr>
+		<tr>
+			<th>日语级别：</th>
+			<td>
+				<input name="japanese" class="easyui-validatebox" type="text" />
+			</td>
 		</tr>
 	</table>
 	

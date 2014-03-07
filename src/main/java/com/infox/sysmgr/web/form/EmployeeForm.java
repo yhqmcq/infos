@@ -51,6 +51,9 @@ public class EmployeeForm extends PageHelper{
 	
 	private String empjobsName ;
 	
+	/** 日语级别 */
+	private String japanese ;
+	
 	/** 员工工作状态（0空闲，1已在项目，2出差） */
 	private int workStatus = 0 ;
 	
@@ -69,6 +72,14 @@ public class EmployeeForm extends PageHelper{
 
 	public String getNotInStatus() {
 		return notInStatus;
+	}
+
+	public String getJapanese() {
+		return japanese;
+	}
+
+	public void setJapanese(String japanese) {
+		this.japanese = japanese;
 	}
 
 	public void setNotInStatus(String notInStatus) {

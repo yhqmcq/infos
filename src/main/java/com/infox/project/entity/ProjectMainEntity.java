@@ -40,6 +40,9 @@ public class ProjectMainEntity implements Serializable {
 
 	private String id ;
 	
+	/** 项目编号-唯一 */
+	private String projectNum ;
+	
 	/** 项目名称 */
 	private String name ;
 	
@@ -263,6 +266,14 @@ public class ProjectMainEntity implements Serializable {
 
 	public String getCreaterName() {
 		return createrName;
+	}
+
+	public String getProjectNum() {
+		return projectNum;
+	}
+
+	public void setProjectNum(String projectNum) {
+		this.projectNum = projectNum;
 	}
 
 	public void setCreaterName(String createrName) {

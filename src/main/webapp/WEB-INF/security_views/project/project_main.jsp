@@ -18,13 +18,14 @@
 			    { field: 'ck', checkbox: true }
 		    ]],
 			columns: [[
-			    { field: 'id', title: 'ID', width: 80, sortable: true },
-			    { field: 'name', title: '项目名称', width: 180, sortable: true, formatter:function(value,row,index){
+			    { field: 'id', title: 'ID', width: 80, sortable: true, hidden: true },
+			    { field: 'projectNum', title: '项目编号', width: 80, sortable: true },
+			    { field: 'name', title: '项目名称', width: 250, sortable: true, tooltip: true, formatter:function(value,row,index){
 		    		var opa = $.string.format("<a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a>", index, value);
 		    		return opa ;
 		    	}},
-			    { field: 'code', title: '项目代号', width: 180, sortable: true },
-			    { field: 'status', title: '状态', width: 100, sortable: true, formatter:function(value,row){
+			    { field: 'code', title: '项目代号', width: 110, sortable: true },
+			    { field: 'status', title: '状态', width: 60, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='blue'>未开始</font>" ; 
 			    	} else  if(value == 1) {
@@ -43,12 +44,13 @@
 			    } },
 			    { field: 'dateDiff', title: '总天数', width: 80, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
 			    { field: 'lastdateDiff', title: '剩余天数', width: 80, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
-			    { field: 'project_type', title: '项目类型', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value == 0){ return "短期迭代" ; } else  if(value == 1) { return "长期项目" ; } else { return "运维项目" ; }
+			    { field: 'project_type', title: '项目类型', width: 120, sortable: true, formatter:function(value,row){
+			    	if(value == 0){ return "对日短期保守项目" ; } else  if(value == 1) { return "对日长期保守项目" ; } else  if(value == 2) { return "对日新规项目" ; } else  if(value == 3) { return "国内项目" ; } else { return "公司内部项目" ; }
 			    } },
 			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
 			    { field: 'project_leader', title: '项目负责人', width: 100, sortable: true },
 			    { field: 'team_name', title: '团队名称', width: 100, sortable: true },
+			    { field: 'project_target', title: '项目目标', width: 200, sortable: true },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
 			]],
 			detailFormatter:function(index,row){

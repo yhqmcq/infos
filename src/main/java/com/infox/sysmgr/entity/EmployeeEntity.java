@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.infox.common.util.StringUtil;
+
 @Entity
 @Table(name = "INFOX_SYSMGR_EMP")
 @DynamicUpdate(true)
@@ -54,6 +56,9 @@ public class EmployeeEntity implements Serializable{
 	private String orgname ;
 	
 	private String onlineState = "0" ;
+	
+	/** 日语级别 */
+	private String japanese ;
 	
 	/** 员工工作状态（0空闲，1已在项目，2出差） */
 	private int workStatus = 0 ;
@@ -98,6 +103,14 @@ public class EmployeeEntity implements Serializable{
 
 	public int getWorkStatus() {
 		return workStatus;
+	}
+
+	public String getJapanese() {
+		return japanese;
+	}
+
+	public void setJapanese(String japanese) {
+		this.japanese = japanese;
 	}
 
 	public void setWorkStatus(int workStatus) {
@@ -155,6 +168,9 @@ public class EmployeeEntity implements Serializable{
 
 
 	public String getTruename() {
+		if(this.truename != null && !"".equals(this.truename)) {
+			return StringUtil.replaceBlank(this.truename) ;
+		}
 		return truename;
 	}
 
