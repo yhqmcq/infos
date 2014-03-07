@@ -195,9 +195,11 @@
 		$.each(addIds, function(index, value) {
 			var rows = dataGrid2.datagrid('getRows');
 			for ( var i = 0; i < rows.length; i++) {
+				//如果项目的状态为开始状态，将刚加入项目组的人员清除
 				if(rows[i].empIds == value && "${project.status}" != 0) {
 					delIds.push(rows[i].id);
 				} 
+				//如果项目的状态为未开始状态，并且未设置人员起止日期的。按关闭按钮则将这些人员清除
 				if(rows[i].empIds == value && "${project.status}" == 0 && rows[i].startDate == undefined) {
 					delIds.push(rows[i].id);
 				}
@@ -272,7 +274,7 @@
 									<td colspan="2" align="center">
 										<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">设置日期</a>
 										<a id="sendmail" onclick="sendmail()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">邮件通知</a>
-										<a onclick="cancel()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">取消</a>
+										<a onclick="cancel()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">关闭或取消</a>
 									</td>
 								</tr>
 							</table>

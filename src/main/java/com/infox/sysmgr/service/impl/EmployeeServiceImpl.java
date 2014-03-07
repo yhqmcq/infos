@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		if(null == employee) {
 			EmployeeEntity entity = new EmployeeEntity();
 			BeanUtils.copyProperties(form, entity);
-			entity.setTruename(StringUtil.replaceBlank(form.getTruename())) ;
+			entity.setTruename(StringUtil.replaceAllSpace(form.getTruename())) ;
 			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
@@ -86,8 +86,8 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	@Override
 	public void edit(EmployeeForm form) throws Exception {
 		EmployeeEntity entity = this.basedaoEmployee.get(EmployeeEntity.class, form.getId());
-		entity.setTruename(StringUtil.replaceBlank(form.getTruename())) ;
 		BeanUtils.copyProperties(form, entity ,new String[]{"creater"});
+		entity.setTruename(StringUtil.replaceAllSpace(form.getTruename())) ;
 
 		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 			entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));

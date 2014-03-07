@@ -11,13 +11,13 @@
 			if(t<0) { $("#e1").datebox('setValue','') ; $.easyui.messager.show({ icon: "warning", msg: "项目结束日期不能小于项目开始日期！" }); }
 		} });
 		$("#project_type").combobox({
-			width: 157, valueField: 'label', textField: 'value', value: '0',
+			width: 258, valueField: 'label', textField: 'value', value: '0',
 			data: [{ label: '0', value: '对日短期保守项目' },{ label: '1', value: '对日长期保守项目' },{ label: '2', value: '对日新规项目' },{ label: '3', value: '国内项目' },{ label: '4', value: '公司内部项目' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true
 	    });
 		$("#deptid").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
-			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
+			width:258, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){$("#deptname").val(node.text);}
 	    });
@@ -82,7 +82,7 @@
 		var form_data = {} ; form_data = $("#form").form("getData") ; 
 		$.post(form_url, form_data, function(result) {
 			if (result.status) {
-				$datagrid.datagrid('reload') ;
+				$datagrid.datagrid('clearSelections');$datagrid.datagrid('clearChecked');$datagrid.datagrid('reload') ;
 				$.easyui.messager.show({ icon: "info", msg: "保存记录成功。" });
 			} else {
 				$.easyui.messager.show({ icon: "warning", msg: result.msg });
@@ -109,17 +109,17 @@
 		<table>
 			<tr>
 				<th>项目编号：</th>
-				<td><input type="text" name="projectNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '项目编号'" ></td>
+				<td colspan="3"><input type="text" name="projectNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '项目编号'" ></td>
 			</tr>
-			<tr>
+			<tr> 
 				<th>项目名称：</th>
 				<td><input type="text" name="name" style="width:250px;" class="easyui-validatebox" ></td>
-				<th>项目代号：</th>
-				<td><input type="text" name="code" class="easyui-validatebox" ></td>
-			</tr>
-			<tr>
 				<th>开始日期：</th>
 				<td><input id="s1" type="text" name="startDate" /></td>
+			</tr>
+			<tr>
+				<th>项目代号：</th>
+				<td><input type="text" style="width:250px;" name="code" class="easyui-validatebox" ></td>
 				<th>结束日期：</th>
 				<td><input id="e1" type="text" name="endDate" /></td>
 			</tr>
@@ -133,8 +133,8 @@
 				<th>项目所属部门：</th>
 				<td><input id="deptid" name="deptid" /><input id="deptname" name="deptname" type="hidden"></td>
 				<th>项目负责人：</th>
-				 <td>
-				 	<input id="select2" name="project_leader_id" /><input id="project_leader" name="project_leader" type="hidden">
+				 <td> 
+				 	<input id="select2" style="width:250px;" name="project_leader_id" /><input id="project_leader" name="project_leader" type="hidden">
 				 </td>
 			</tr>
 		</table>

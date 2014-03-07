@@ -266,7 +266,9 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				}
 				//标记为结束(退出项目组)
 				entity.setStatus(4) ;
-				//修改退出的时间
+				//重新设置结束日期为当天退出的日期
+				entity.setEndDate(new Date()) ;
+				//最后修改日期
 				entity.setCreated(new Date()) ;
 				
 				ProjectEmpWorkingForm f = new ProjectEmpWorkingForm() ;

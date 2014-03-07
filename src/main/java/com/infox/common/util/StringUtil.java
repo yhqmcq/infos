@@ -1849,8 +1849,26 @@ public class StringUtil {
 		}
 	}
 
-	public static void main(String[] args) {
-		System.out.println("-黄  イ聰-");
+	/**
+	 * 去除全角和攀交空格
+	 * 方法描述 : 
+	 * 创建者：杨浩泉 
+	 * 项目名称： infos
+	 * 类名： StringUtil.java
+	 * 版本： v1.0
+	 * 创建时间： 2014-3-7 下午3:17:12
+	 * @param str
+	 * @return String
+	 */
+	public static String replaceAllSpace(String str) {
+		return replaceBlank(str.replace((char) 12288, ' ')) ;
 	}
-
+	
+	public static void main(String[] args) {
+		System.out.println(replaceBlank(StringFilter("文　兆明")).replaceAll(" ", ""));
+		
+		System.out.println(replaceBlank("a　a aaa"));
+		System.out.println("a　a aaa".replace("\\s+", ""));
+		System.out.println(replaceAllSpace("文　兆明a　a aaa"));
+	}
 }
