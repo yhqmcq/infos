@@ -466,7 +466,9 @@ public class DateUtil {
 		try {
 			times = sd.parse(endDate).getTime() - sd.parse(startDate).getTime();
 			long days = times / (1000 * 24 * 60 * 60);
+			
 			days1 = (days / 7) * 5;
+			
 			long days2 = days % 7;
 			endGC.setTime(sd.parse(endDate));
 			int weekDay = endGC.get(Calendar.DAY_OF_WEEK);
@@ -549,6 +551,51 @@ public class DateUtil {
 		
 		System.out.println(getBabyAge("1988-05-11"));
 		*/
+		
+		String strDateStart = "2014-03-07";
+		String strDateEnd = "2014-03-20";
+		
+		System.out.println(dateDiff(strDateStart, strDateEnd));
+		
+		int dutyDays = getDutyDays(formatGG(strDateStart), formatGG(strDateEnd)) ;
+		System.out.println(dutyDays);
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date_start = sdf.parse(strDateStart);
+		Date date_end = sdf.parse(strDateEnd);
+		DateCal app = new DateCal();
+		Calendar cal_start = Calendar.getInstance();
+		Calendar cal_end = Calendar.getInstance();
+		cal_start.setTime(date_start);
+		cal_end.setTime(date_end);
+		System.out.println("星期-->" + app.getChineseWeek(cal_start) + " 日期-->" + cal_start.get(Calendar.YEAR) + "-" + (cal_start.get(Calendar.MONTH) + 1) + "-" + cal_start.get(Calendar.DAY_OF_MONTH));
+		System.out.println("星期-->" + app.getChineseWeek(cal_end) + " 日期-->" + cal_end.get(Calendar.YEAR) + "-" + (cal_end.get(Calendar.MONTH) + 1) + "-" + cal_end.get(Calendar.DAY_OF_MONTH));
+		System.out.println("工作日为-->" + app.getWorkingDay(cal_start, cal_end));
+		System.out.println("休息日-->" + app.getHolidays(cal_start, cal_end));
+	}
+	
+	/**
+	 * 包含今天
+	 * 方法描述 : 
+	 * 创建者：杨浩泉 
+	 * 项目名称： infos
+	 * 类名： DateUtil.java
+	 * 版本： v1.0
+	 * 创建时间： 2014-3-7 下午6:35:45
+	 * @param startDate
+	 * @param endDate
+	 * @return int
+	 */
+	public static int getDutyDays(java.util.Date startDate, java.util.Date endDate) {
+		int result = 0;
+		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		while (startDate.compareTo(endDate) <= 0) {
+			if (startDate.getDay() != 6 && startDate.getDay() != 0)
+				result++;
+			startDate.setDate(startDate.getDate() + 1);
+		}
+		return result;
 	}
 
 }

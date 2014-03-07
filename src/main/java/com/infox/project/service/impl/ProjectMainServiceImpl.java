@@ -375,16 +375,24 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				BeanUtils.copyProperties(i, uf, new String[]{"project_target", "project_desc"});
 				uf.setProject_target(StringUtil.removeHTMLLable(ClobUtil.getString(i.getProject_target()))) ;
 
+				//计算项目的天数(不包括周六日)
 				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
 				uf.setDateDiff(dateDiff);
 				if(i.getStatus() != 3) {	//项目为结束状态，无需计算剩余天数
 					long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate()));
 					uf.setLastdateDiff(lastdateDiff);
 				}
-
 				if (null != i.getDept()) {
 					uf.setDeptname(i.getDept().getFullname());
 				}
+				
+				System.out.println(i.getName() + "      " + DateUtil.formatG(i.getStartDate()) +"<-->"+DateUtil.formatG(i.getEndDate()) + "   有效天数：" +dateDiff);
+				Set<ProjectEmpWorkingEntity> pwe = i.getPwe() ;
+				for (ProjectEmpWorkingEntity pw : pwe) {
+					System.out.println(pw.getEmp().getTruename()+"=="+DateUtil.formatG(pw.getStartDate())+"<-->"+DateUtil.formatG(pw.getEndDate()) +"  有效天数："+ DateUtil.dateDiff(DateUtil.formatG(pw.getStartDate()), DateUtil.formatG(pw.getEndDate())));
+				}
+				
+				System.out.println("");
 
 				forms.add(uf);
 			}
