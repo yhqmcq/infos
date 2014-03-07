@@ -147,7 +147,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		if(flag) {
 			//定时任务（重新设定项目的触发时间）
-			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 21:25:10", 2) ;
+			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 09:54:52", 2) ;
 			if(dateCron.length > 1) {
 				for (int i = 0; i < dateCron.length; i++) {
 					//先删除原有的触发器,在建立新的触发器

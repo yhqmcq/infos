@@ -15,7 +15,7 @@
 		cg = $("#select2").combogrid({
 			url: yhq.basePath+"/sysmgr/empjob/treegrid.do",
 			panelWidth: 500,
-			multiple: true,
+			multiple: false,
 			idField: 'id',
 			textField: 'job_name',
 			method: 'get',
