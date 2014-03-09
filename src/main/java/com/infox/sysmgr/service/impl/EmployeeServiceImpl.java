@@ -300,7 +300,6 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 					states[i] = Integer.parseInt(split[i]) ;
 				}
 				params.put("workStatus", states);
-				System.out.println(hql);
 			}
 		}
 		return hql;
