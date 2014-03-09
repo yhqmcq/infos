@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>用户管理</title>
+<title>人员稼动率管理</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 
@@ -11,20 +11,22 @@
 	var s1 ;
 	$(function() {
 		dataGrid = $("#d1").datagrid({
-			title: '用户管理',
+			title: '人员稼动率管理',
 			url: yhq.basePath+"/project/project_report/employeeTaskTimeReport.do",
-			idField: 'id', fit: true, border: false, method: "post", singleSelect: true,
+			idField: 'emp_id', fit: true, border: false, method: "post", singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: '工号', width: 80, sortable: true },
+			    { field: 'emp_id', title: '工号', width: 80, sortable: true },
 			    { field: 'emp_name', title: '姓名', width: 120, sortable: true }
 			]],
 			columns: [[
-			    { field: 'orgname', title: '部门', width: 150, sortable: true },
-			    { field: 'empjobsName', title: '职位', width: 120, sortable: true },
-			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
-			    { field: 'created', title: '日期', width: 140, sortable: true }
+			    { field: 'dept_name', title: '部门', width: 150, sortable: true },
+			    { field: 'position_name', title: '岗位', width: 120, sortable: true },
+			    { field: 'totalTaskYear', title: '总月数', width: 80, sortable: true, formatter: function(value, row){
+			    	return (row.totalTaskTime / 20) +"&nbsp;月" ;
+			    } },
+			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true }
 			]],
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
@@ -36,61 +38,12 @@
 			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
-				dataGrid.datagrid("load",{"orgid": node.id});
+				if("D" == node.type) {
+					dataGrid.datagrid("load",{"dept_id": node.id});
+				}
 			}
 	    });
 	});
-	
-	function form_edit(form) {
-		var form_url = yhq.basePath+"/sysmgr/employee/emp_form.do" ;
-		if("E" == form) {
-			var node = dataGrid.datagrid('getSelected');
-			if (node) {
-				form_url = yhq.basePath+"/sysmgr/employee/emp_form.do?id="+node.id ;
-			} else {
-				$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
-				return ;
-			}
-		}
-		var dialog = $.easyui.showDialog({
-            title: "表单",
-            href: form_url,
-            iniframe: false,
-            width: 500, height: 240,
-            topMost: true,
-            autoVCenter: true,
-            autoHCenter: true,
-            enableApplyButton: false,
-            saveButtonIconCls: "ext_save",
-            onSave: function() {
-            	return $.easyui.parent.submitForm(dialog, dataGrid);
-            }
-        });
-	}
-	
-	function del() {
-		var rows = dataGrid.datagrid('getChecked');
-		var ids = [];
-		if (rows.length > 0) {
-			$.messager.confirm("您确定要进行该操作？", function (c) { 
-				if(c) {
-					for ( var i = 0; i < rows.length; i++) {
-						ids.push(rows[i].id);
-					}
-					$.post(yhq.basePath+"/sysmgr/employee/delete.do", {ids : ids.join(',')}, function(result) {
-						if (result.status) {
-							dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
-							$.easyui.messager.show({ icon: "info", msg: "删除记录成功。" });
-						} else {
-							$.easyui.messager.show({ icon: "info", msg: "删除记录失败。" });
-						}
-					}, 'json');
-				}
-			});
-		} else {
-			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
-		}
-	}
 	
 </script>
 
@@ -101,12 +54,9 @@
 		<div data-options="region: 'center', border: false" style="overflow: hidden;">
 			<div id="d1">
 				<div id="buttonbar">
-                    <a onClick="form_edit('A');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_add'">添加</a>
-                    <a onClick="form_edit('E');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">编辑</a>
-                    <a onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 					部门：<input id="select1" name="pid" />
-                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">取消筛选</a>
+                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_cancel'">取消筛选</a>
                 </div>
 			</div>
 		</div>

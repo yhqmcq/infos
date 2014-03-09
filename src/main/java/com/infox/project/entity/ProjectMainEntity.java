@@ -73,9 +73,6 @@ public class ProjectMainEntity implements Serializable {
 	/** 所属部门（Name） */
 	private String deptname ;
 	
-	/** 项目负责人 */
-	private String project_leader ;
-	
 	/** 项目目标 */
 	private Clob project_target ;
 	
@@ -89,7 +86,7 @@ public class ProjectMainEntity implements Serializable {
 	private Date lastmod = new Date() ;
 	
 	/** 项目负责人 */
-	private EmployeeEntity emp_leader ;
+	private EmployeeEntity emp ;
 	
 	/** 项目所属公司部门 */
 	private OrgDeptTreeEntity dept ;
@@ -126,12 +123,12 @@ public class ProjectMainEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "EMP_ID")
-	public EmployeeEntity getEmp_leader() {
-		return emp_leader;
+	public EmployeeEntity getEmp() {
+		return emp;
 	}
 
-	public void setEmp_leader(EmployeeEntity emp_leader) {
-		this.emp_leader = emp_leader;
+	public void setEmp(EmployeeEntity emp) {
+		this.emp = emp;
 	}
 
 	@ManyToOne
@@ -194,14 +191,6 @@ public class ProjectMainEntity implements Serializable {
 
 	public void setProject_desc(Clob project_desc) {
 		this.project_desc = project_desc;
-	}
-
-	public String getProject_leader() {
-		return project_leader;
-	}
-
-	public void setProject_leader(String project_leader) {
-		this.project_leader = project_leader;
 	}
 
 	public void setDeptname(String deptname) {

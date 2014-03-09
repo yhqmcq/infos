@@ -130,7 +130,7 @@
 			<td>
 				<input class="easyui-combobox" style="width:157px;" name="isLeader" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : 'Y',
-					data: [{ label: 'Y', value: '是' },{ label: 'N', value: '否' }],
+					data: [{ label: 'N', value: '否' },{ label: 'Y', value: '是' }],
 					panelHeight:'auto', editable:false" />
 			</td>
 		</tr>

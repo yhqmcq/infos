@@ -90,9 +90,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 
 			if (null != form.getProject_leader_id() && !"".equalsIgnoreCase(form.getProject_leader_id())) {
-				EmployeeEntity emp_leader = new EmployeeEntity();
-				emp_leader.setId(form.getProject_leader_id());
-				entity.setEmp_leader(emp_leader);
+				EmployeeEntity Emp = new EmployeeEntity();
+				Emp.setId(form.getProject_leader_id());
+				entity.setEmp(Emp);
 			}
 			entity.setStatus(0);
 			entity.setProject_target(ClobUtil.getClob(form.getProject_target())) ;
@@ -147,7 +147,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		entity.setProject_desc(ClobUtil.getClob(form.getProject_desc())) ;
 
 		if (null != form.getProject_leader_id() && !"".equals(form.getProject_leader_id())) {
-			entity.setEmp_leader(this.basedaoEmployee.get(EmployeeEntity.class, form.getProject_leader_id()));
+			entity.setEmp(this.basedaoEmployee.get(EmployeeEntity.class, form.getProject_leader_id()));
 		}
 		this.basedaoProject.update(entity);
 		
@@ -194,7 +194,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_leader(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -258,7 +258,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_leader(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -328,10 +328,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			if (null != dept) {
 				form.setDeptid(dept.getId());
 			}
-			EmployeeEntity emp_leader = entity.getEmp_leader();
-			if (null != emp_leader) {
-				form.setProject_leader_id(emp_leader.getId());
-				form.setProject_leader(emp_leader.getTruename());
+			EmployeeEntity Emp = entity.getEmp();
+			if (null != Emp) {
+				form.setProject_leader_id(Emp.getId());
+				form.setProject_leader(Emp.getTruename());
 			}
 
 			return form;
@@ -371,9 +371,12 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 		if (null != ProjectMainEntity && ProjectMainEntity.size() > 0) {
 			for (ProjectMainEntity i : ProjectMainEntity) {
+				long allTotalDays = 0 ;
+				float allTotalMM = 0f ;
 				ProjectMainForm uf = new ProjectMainForm();
 				BeanUtils.copyProperties(i, uf, new String[]{"project_target", "project_desc"});
 				uf.setProject_target(StringUtil.removeHTMLLable(ClobUtil.getString(i.getProject_target()))) ;
+				uf.setProject_leader(i.getEmp().getTruename()) ;
 
 				//计算项目的天数(不包括周六日)
 				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
@@ -389,8 +392,16 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				System.out.println(i.getName() + "      " + DateUtil.formatG(i.getStartDate()) +"<-->"+DateUtil.formatG(i.getEndDate()) + "   有效天数：" +dateDiff);
 				Set<ProjectEmpWorkingEntity> pwe = i.getPwe() ;
 				for (ProjectEmpWorkingEntity pw : pwe) {
-					System.out.println(pw.getEmp().getTruename()+"=="+DateUtil.formatG(pw.getStartDate())+"<-->"+DateUtil.formatG(pw.getEndDate()) +"  有效天数："+ DateUtil.dateDiff(DateUtil.formatG(pw.getStartDate()), DateUtil.formatG(pw.getEndDate())));
+					long totalDays = DateUtil.dateDiff(DateUtil.formatG(pw.getStartDate()), DateUtil.formatG(pw.getEndDate())) ;
+					float mm = (1*((float)totalDays/30)) ;
+					allTotalDays += totalDays ;
+					allTotalMM += mm ;
+					
+					System.out.println(pw.getEmp().getTruename()+"=="+DateUtil.formatG(pw.getStartDate())+"<-->"+DateUtil.formatG(pw.getEndDate()) +"  有效天数："+ totalDays+"\t 人月"+mm);
 				}
+				System.out.println("项目总人员有效天数："+(allTotalDays) +"天");
+				System.out.println("项目总人员有效工时："+(allTotalDays*8) +"小时");
+				System.out.println("项目总人月："+(allTotalMM) +"人月");
 				
 				System.out.println("");
 
@@ -664,7 +675,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_leader(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -756,7 +767,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_leader(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		

@@ -26,7 +26,7 @@
 			]],
 			columns: [[
 			    { field: 'type', title: '类型', width: 50, formatter:function(value,row){
-			    	if(value == "O"){return "机构";}else{return "部门";}
+			    	if(value == "O"){return "<font color='red'>公司</font>";}else{return "<font color='green'>部门</font>";}
 			    }},
 			    { field: 'fullname', title: '名称', width: 180, sortable: true },
 			    { field: 'code', title: '代码', width: 180, sortable: true },

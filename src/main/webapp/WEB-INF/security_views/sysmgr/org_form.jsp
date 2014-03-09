@@ -11,8 +11,8 @@
 			onSelect:function(node){$("#pname").val(node.text);}
 	    });
 		$("#select3").combobox({
-			width: 157, valueField: 'label', textField: 'value', value: 'O',
-			data: [{ label: 'O', value: '' },{ label: 'D', value: '部门' }],
+			width: 157, valueField: 'label', textField: 'value', value: 'O', required: false,
+			data: [{ label: 'O', value: '公司' },{ label: 'D', value: '部门' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node){
 				if("D" == node.label) {	//是部门，则必填
@@ -38,6 +38,7 @@
 						'fax' : result.fax,
 						'description' : result.description,
 						'pid' : result.pid,
+						'type' : result.type,
 						'pname' : result.pname
 					});
 				}
@@ -94,10 +95,10 @@
 			<td><input name="fax" class="easyui-validatebox" type="text" data-options="" /></td>
 		</tr>
 		<tr>
-			<th>上级：</th>
-			<td><input id="select1" name="pid" /><input name="pname" id="pname"  type="hidden"/></td>
 			<th>类型：</th>
 			<td><input id="select3" name="type" /></td>
+			<th>上级：</th>
+			<td><input id="select1" name="pid" /><input name="pname" id="pname"  type="hidden"/></td>
 		</tr>
 		<tr>
 			<td colspan="4">

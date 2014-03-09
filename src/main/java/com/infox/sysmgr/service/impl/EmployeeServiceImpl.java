@@ -126,11 +126,14 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			}
 			Set<EmpJobEntity> empjobs = entity.getEmpjobs() ;
 			if(null != empjobs && empjobs.size() > 0) {
-				StringBuffer s = new StringBuffer() ;
+				StringBuffer sIds = new StringBuffer() ;
+				StringBuffer sNames = new StringBuffer() ;
 				for (EmpJobEntity ej : empjobs) {
-					s.append(ej.getId()+",".trim()) ;
+					sIds.append(ej.getId()+",".trim()) ;
+					sNames.append(ej.getJob_name()+",".trim()) ;
 				}
-				form.setJobids(s.deleteCharAt(s.length()-1).toString());
+				form.setJobids(sIds.deleteCharAt(sIds.length()-1).toString());
+				form.setPosition(sNames.deleteCharAt(sNames.length()-1).toString());
 			}
 			return form;
 		} else {
@@ -140,19 +143,35 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 	@Override
 	public DataGrid datagrid(EmployeeForm form) throws Exception {
+		form.setNotInStatus("9999") ;
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));
 		return datagrid;
 	}
 
-	private List<EmployeeForm> changeModel(List<EmployeeEntity> EmployeeEntity) {
+	private List<EmployeeForm> changeModel(List<EmployeeEntity> entity) {
 		List<EmployeeForm> forms = new ArrayList<EmployeeForm>();
 
-		if (null != EmployeeEntity && EmployeeEntity.size() > 0) {
-			for (EmployeeEntity i : EmployeeEntity) {
+		if (null != entity && entity.size() > 0) {
+			for (EmployeeEntity i : entity) {
 				EmployeeForm uf = new EmployeeForm();
 				BeanUtils.copyProperties(i, uf);
+				OrgDeptTreeEntity org = i.getOrg() ;
+				if(null != org) {
+					uf.setOrgname(org.getFullname()) ;
+				}
+				Set<EmpJobEntity> empjobs = i.getEmpjobs() ;
+				if(null != empjobs && empjobs.size() > 0) {
+					StringBuffer sIds = new StringBuffer() ;
+					StringBuffer sNames = new StringBuffer() ;
+					for (EmpJobEntity ej : empjobs) {
+						sIds.append(ej.getId()+",".trim()) ;
+						sNames.append(ej.getJob_name()+",".trim()) ;
+					}
+					uf.setJobids(sIds.deleteCharAt(sIds.length()-1).toString());
+					uf.setPosition(sNames.deleteCharAt(sNames.length()-1).toString());
+				}
 				forms.add(uf);
 			}
 		}

@@ -185,7 +185,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_leader(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -291,7 +291,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_leader(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -552,7 +552,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp_leader().getTruename()) ;
+		project.setProject_leader(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		

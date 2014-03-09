@@ -55,8 +55,6 @@ public class EmployeeEntity implements Serializable{
 	
 	private String modifyer;
 	
-	private String orgname ;
-	
 	private String onlineState = "0" ;
 	
 	/** 是否主管 */
@@ -67,9 +65,6 @@ public class EmployeeEntity implements Serializable{
 	
 	/** 员工工作状态（0空闲，1已在项目，2出差） */
 	private int workStatus = 0 ;
-	
-	/** 员工角色名称 */
-	private String empjobsName ;
 	
 	private OrgDeptTreeEntity org ;
 	
@@ -122,10 +117,6 @@ public class EmployeeEntity implements Serializable{
 		return onlineState;
 	}
 
-	public String getEmpjobsName() {
-		return empjobsName;
-	}
-
 	public int getWorkStatus() {
 		return workStatus;
 	}
@@ -140,10 +131,6 @@ public class EmployeeEntity implements Serializable{
 
 	public void setWorkStatus(int workStatus) {
 		this.workStatus = workStatus;
-	}
-
-	public void setEmpjobsName(String empjobsName) {
-		this.empjobsName = empjobsName;
 	}
 
 	public void setOnlineState(String onlineState) {
@@ -257,14 +244,6 @@ public class EmployeeEntity implements Serializable{
 
 	public void setModifyer(String modifyer) {
 		this.modifyer = modifyer;
-	}
-
-	public String getOrgname() {
-		return orgname;
-	}
-
-	public void setOrgname(String orgname) {
-		this.orgname = orgname;
 	}
 
 	@ManyToOne

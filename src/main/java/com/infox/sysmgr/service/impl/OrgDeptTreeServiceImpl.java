@@ -45,13 +45,6 @@ public class OrgDeptTreeServiceImpl implements OrgDeptTreeServiceI {
 	@Override
 	public void delete(String id) throws Exception {
 		OrgDeptTreeEntity t = this.basedaoOrg.get(OrgDeptTreeEntity.class, id);
-		
-		//删除机构或部门，先解除与之关联的员工，不删除员工
-		String hql = "update EmployeeEntity t set t.org.id=null , t.orgname='' where t.org.id=:orgid" ;
-		Map<String, Object> params = new HashMap<String, Object>() ;
-		params.put("orgid", t.getId()) ;
-		this.basedaoEmployee.delete(hql, params) ;
-		
 		del(t);
 	}
 

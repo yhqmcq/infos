@@ -49,7 +49,7 @@ public class EmployeeForm extends PageHelper{
 	
 	private String jobids ;
 	
-	private String empjobsName ;
+	private String position ;
 	
 	/** 是否主管 */
 	private String isLeader ;
@@ -113,13 +113,12 @@ public class EmployeeForm extends PageHelper{
 		this.jobids = jobids;
 	}
 
-
-	public String getEmpjobsName() {
-		return empjobsName;
+	public String getPosition() {
+		return position;
 	}
 
-	public void setEmpjobsName(String empjobsName) {
-		this.empjobsName = empjobsName;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	public String getOnlineState() {
