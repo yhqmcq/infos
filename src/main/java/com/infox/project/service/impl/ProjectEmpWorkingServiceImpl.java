@@ -32,6 +32,7 @@ import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.ProjectEmpWorkingServiceI;
 import com.infox.project.web.form.ProjectEmpWorkingForm;
+import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.TaskEntity;
@@ -185,7 +186,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp().getTruename()) ;
+		project.setLeader_name(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -195,9 +196,14 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			
 			//项目参与人员-邮件列表
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			List<ProjectMailListForm> projectMailsForm = new ArrayList<ProjectMailListForm>() ;
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmployee().getEmail()+",") ;
+				EmployeeEntity e = p.getEmployee() ;
+				ProjectMailListForm pmf = new ProjectMailListForm() ;
+				pmf.setEmpname(e.getTruename()) ;
+				strBuf.append(e.getEmail()+",") ;
+				projectMailsForm.add(pmf) ;
 			}
 			
 			//开发人员信息
@@ -206,9 +212,11 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					EmployeeEntity e = pwork.getEmp() ;
+					devMemberBuf.append(e.getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					p.setEmp_name(e.getTruename()) ;
 					currentMembers.add(p) ;
 				}
 			}
@@ -216,7 +224,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
-			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("projectmails", projectMailsForm) ;//项目参与人员
 			model.put("currentMembers", currentMembers) ;//目前开发人员
 			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_member_date_"+htmlId+".html") ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
@@ -291,7 +299,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp().getTruename()) ;
+		project.setLeader_name(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -301,9 +309,14 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			
 			//项目参与人员-邮件列表
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			List<ProjectMailListForm> projectMailsForm = new ArrayList<ProjectMailListForm>() ;
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmployee().getEmail()+",") ;
+				EmployeeEntity e = p.getEmployee() ;
+				ProjectMailListForm pmf = new ProjectMailListForm() ;
+				pmf.setEmpname(e.getTruename()) ;
+				strBuf.append(e.getEmail()+",") ;
+				projectMailsForm.add(pmf) ;
 			}
 			
 			//开发人员信息
@@ -312,9 +325,11 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					EmployeeEntity e = pwork.getEmp() ;
+					devMemberBuf.append(e.getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					p.setEmp_name(e.getTruename()) ;
 					currentMembers.add(p) ;
 				}
 			}
@@ -322,7 +337,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
-			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("projectmails", projectMailsForm) ;//项目参与人员
 			model.put("currentMembers", currentMembers) ;//目前开发人员
 			model.put("exitProjectMembers", exitProjectMembers) ;//今天为结束日期的人员
 			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_member_exit_"+htmlId+".html") ;
@@ -512,6 +527,19 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		}
 	}
 	
+	@Override
+	public void set_projectRole(ProjectEmpWorkingForm form) throws Exception {
+		String ids = form.getIds() ;
+		if(null != ids && !"".equals(ids)) {
+			String[] id = ids.split(",") ;
+			for (int i = 0; i < id.length; i++) {
+				ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id[i]) ;
+				entity.setProject_role(form.getProject_role()) ;
+				this.basedaoProjectEW.update(entity) ;
+			}
+		}
+	}
+	
 	public static void main(String[] args) throws ParseException {
 		
 		String endDate = "2014-03-08" ;
@@ -552,7 +580,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp().getTruename()) ;
+		project.setLeader_name(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -625,15 +653,20 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			
 			//项目参与人员-邮件列表
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			List<ProjectMailListForm> projectMailsForm = new ArrayList<ProjectMailListForm>() ;
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmployee().getEmail()+",") ;
+				EmployeeEntity e = p.getEmployee() ;
+				ProjectMailListForm pmf = new ProjectMailListForm() ;
+				pmf.setEmpname(e.getTruename()) ;
+				strBuf.append(e.getEmail()+",") ;
+				projectMailsForm.add(pmf) ;
 			}
 			
 			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
-			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("projectmails", projectMailsForm) ;//项目参与人员
 			model.put("currentMembers", currentMembers) ;//目前开发人员
 			model.put("exitProjectMembers", exitProjectMembers) ;//今天为结束日期的人员
 			model.put("notifyMembers", notifyMembers) ;//需提醒的人员

@@ -22,6 +22,7 @@ import com.infox.common.util.BeanUtils;
 import com.infox.common.util.ClobUtil;
 import com.infox.common.util.Constants;
 import com.infox.common.util.DateUtil;
+import com.infox.common.util.NumberUtils;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.util.StringUtil;
 import com.infox.common.web.page.DataGrid;
@@ -89,9 +90,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				entity.setDept(dept);
 			}
 
-			if (null != form.getProject_leader_id() && !"".equalsIgnoreCase(form.getProject_leader_id())) {
+			if (null != form.getLeader_id() && !"".equalsIgnoreCase(form.getLeader_id())) {
 				EmployeeEntity Emp = new EmployeeEntity();
-				Emp.setId(form.getProject_leader_id());
+				Emp.setId(form.getLeader_id());
 				entity.setEmp(Emp);
 			}
 			entity.setStatus(0);
@@ -146,8 +147,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		entity.setProject_target(ClobUtil.getClob(form.getProject_target())) ;
 		entity.setProject_desc(ClobUtil.getClob(form.getProject_desc())) ;
 
-		if (null != form.getProject_leader_id() && !"".equals(form.getProject_leader_id())) {
-			entity.setEmp(this.basedaoEmployee.get(EmployeeEntity.class, form.getProject_leader_id()));
+		if (null != form.getLeader_id() && !"".equals(form.getLeader_id())) {
+			entity.setEmp(this.basedaoEmployee.get(EmployeeEntity.class, form.getLeader_id()));
 		}
 		this.basedaoProject.update(entity);
 		
@@ -194,7 +195,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp().getTruename()) ;
+		project.setLeader_name(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -204,9 +205,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			
 			//项目参与人员-邮件列表
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			List<ProjectMailListForm> projectMailsForm = new ArrayList<ProjectMailListForm>() ;
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmployee().getEmail()+",") ;
+				EmployeeEntity e = p.getEmployee() ;
+				ProjectMailListForm pmf = new ProjectMailListForm() ;
+				pmf.setEmpname(e.getTruename()) ;
+				strBuf.append(e.getEmail()+",") ;
+				projectMailsForm.add(pmf) ;
 			}
 			
 			//开发人员信息
@@ -215,16 +221,18 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					EmployeeEntity e = pwork.getEmp() ;
+					devMemberBuf.append(e.getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					p.setEmp_name(e.getTruename()) ;
 					currentMembers.add(p) ;
 				}
 			}
 			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
-			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("projectmails", projectMailsForm) ;//项目参与人员
 			model.put("currentMembers", currentMembers) ;//目前开发人员
 			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_delay_mail_"+htmlId+".html") ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
@@ -258,7 +266,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp().getTruename()) ;
+		project.setLeader_name(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -268,9 +276,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 			//项目参与人员-邮件列表
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			List<ProjectMailListForm> projectMailsForm = new ArrayList<ProjectMailListForm>() ;
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmployee().getEmail()+",") ;
+				EmployeeEntity e = p.getEmployee() ;
+				ProjectMailListForm pmf = new ProjectMailListForm() ;
+				pmf.setEmpname(e.getTruename()) ;
+				strBuf.append(e.getEmail()+",") ;
+				projectMailsForm.add(pmf) ;
 			}
 			
 			//开发人员信息
@@ -279,16 +292,18 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					EmployeeEntity e = pwork.getEmp() ;
+					devMemberBuf.append(e.getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					p.setEmp_name(e.getTruename()) ;
 					currentMembers.add(p) ;
 				}
 			}
 			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
-			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("projectmails", projectMailsForm) ;//项目参与人员
 			model.put("currentMembers", currentMembers) ;//目前开发人员
 			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_contextChange_mail_"+htmlId+".html") ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
@@ -330,8 +345,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 			EmployeeEntity Emp = entity.getEmp();
 			if (null != Emp) {
-				form.setProject_leader_id(Emp.getId());
-				form.setProject_leader(Emp.getTruename());
+				form.setLeader_id(Emp.getId());
+				form.setLeader_name(Emp.getTruename());
 			}
 
 			return form;
@@ -376,7 +391,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				ProjectMainForm uf = new ProjectMainForm();
 				BeanUtils.copyProperties(i, uf, new String[]{"project_target", "project_desc"});
 				uf.setProject_target(StringUtil.removeHTMLLable(ClobUtil.getString(i.getProject_target()))) ;
-				uf.setProject_leader(i.getEmp().getTruename()) ;
+				uf.setLeader_name(i.getEmp().getTruename()) ;
 
 				//计算项目的天数(不包括周六日)
 				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
@@ -402,9 +417,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				System.out.println("项目总人员有效天数："+(allTotalDays) +"天");
 				System.out.println("项目总人员有效工时："+(allTotalDays*8) +"小时");
 				System.out.println("项目总人月："+(allTotalMM) +"人月");
-				
 				System.out.println("");
 
+				uf.setMm(NumberUtils.formatNum(allTotalMM)) ;
 				forms.add(uf);
 			}
 		}
@@ -675,7 +690,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp().getTruename()) ;
+		project.setLeader_name(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -697,9 +712,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			
 			//项目参与人员-邮件列表
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			List<ProjectMailListForm> projectMailsForm = new ArrayList<ProjectMailListForm>() ;
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmployee().getEmail()+",") ;
+				EmployeeEntity e = p.getEmployee() ;
+				ProjectMailListForm pmf = new ProjectMailListForm() ;
+				pmf.setEmpname(e.getTruename()) ;
+				strBuf.append(e.getEmail()+",") ;
+				projectMailsForm.add(pmf) ;
 			}
 			
 			//开发人员信息
@@ -708,16 +728,18 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					EmployeeEntity e = pwork.getEmp() ;
+					devMemberBuf.append(e.getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					p.setEmp_name(e.getTruename()) ;
 					currentMembers.add(p) ;
 				}
 			}
 			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
-			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("projectmails", projectMailsForm) ;//项目参与人员
 			model.put("currentMembers", currentMembers) ;//目前开发人员
 			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_status_mail_"+htmlId+".html") ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
@@ -767,7 +789,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
 		project.setDeptname(entity.getDept().getFullname()) ;
-		project.setProject_leader(entity.getEmp().getTruename()) ;
+		project.setLeader_name(entity.getEmp().getTruename()) ;
 		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
@@ -777,9 +799,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 			//项目参与人员-邮件列表
 			StringBuffer strBuf = new StringBuffer() ; //群发邮件地址列表
+			List<ProjectMailListForm> projectMailsForm = new ArrayList<ProjectMailListForm>() ;
 			Set<ProjectMailListEntity> projectmails = entity.getProjectmails() ;
 			for (ProjectMailListEntity p : projectmails) {
-				strBuf.append(p.getEmployee().getEmail()+",") ;
+				EmployeeEntity e = p.getEmployee() ;
+				ProjectMailListForm pmf = new ProjectMailListForm() ;
+				pmf.setEmpname(e.getTruename()) ;
+				strBuf.append(e.getEmail()+",") ;
+				projectMailsForm.add(pmf) ;
 			}
 			
 			//开发人员信息
@@ -788,16 +815,18 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			StringBuffer devMemberBuf = new StringBuffer() ; //群发邮件地址列表
 			for (ProjectEmpWorkingEntity pwork : pews) {
 				if(pwork.getStatus() == 1) {
-					devMemberBuf.append(pwork.getEmp().getEmail()+",") ;
+					EmployeeEntity e = pwork.getEmp() ;
+					devMemberBuf.append(e.getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
+					p.setEmp_name(e.getTruename()) ;
 					currentMembers.add(p) ;
 				}
 			}
 			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
-			model.put("projectmails", projectmails) ;//项目参与人员
+			model.put("projectmails", projectMailsForm) ;//项目参与人员
 			model.put("currentMembers", currentMembers) ;//目前开发人员
 			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_notify_"+htmlId+".html") ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;

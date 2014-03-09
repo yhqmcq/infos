@@ -50,11 +50,20 @@
 			remoteSort: false, striped:true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'empIds', title: '工号', width: 60, sortable: true },
-			    { field: 'emp_name', title: '姓名', width: 100, sortable: true },
-			    { field: 'dept_name', title: '部门', width: 100, sortable: true }
+			    { field: 'empIds', title: '工号', width: 60, sortable: true }
 			]],
 			columns: [[
+			    { field: 'emp_name', title: '姓名', width: 70, sortable: true },
+			    { field: 'dept_name', title: '部门', width: 80, sortable: true },
+			    { field: 'project_role', title: '项目角色', width: 80, sortable: true, formatter:function(value,row){
+			    	if(value == 0) {
+			    		return "未设置角色" ;
+			    	} else if(value == 1) {
+			    		return "PG" ;
+			    	} else if(value == 2) {
+			    		return "SE" ;
+			    	}
+			    }},
 			    { field: 'startDate', title: '起始日期', width:110, sortable: true, formatter:function(value,row){
 			    	if(undefined == value || "" == value) { return "未设置"; } else { return $.date.format($.string.toDate(value), "yyyy-MM-dd"); }
 			    }},
@@ -149,6 +158,31 @@
 						$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期成功。" });
 					} else {
 						$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期失败。" });
+					}
+				}, 'json');
+			}
+		} else {
+			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
+		}
+	}
+	
+	function setMemberRole() {
+		var rows = dataGrid2.datagrid('getChecked');
+		var ids = [];
+		if (rows.length > 0) {
+			for ( var i = 0; i < rows.length; i++) {
+				ids.push(rows[i].id);
+			}
+			if($('#project_role').form('validate')) {
+				var data = {} ; data = $("#dateform").form("getData") ;
+				data["ids"] = ids.join(",");
+				
+				$.post(yhq.basePath+"/project/pwe_emp_working/set_projectRole.do", data, function(result) {
+					if (result.status) {
+						dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
+						$.easyui.messager.show({ icon: "info", msg: "设置项目角色成功。" });
+					} else {
+						$.easyui.messager.show({ icon: "info", msg: "设置项目角色失败。" });
 					}
 				}, 'json');
 			}
@@ -269,13 +303,29 @@
 								</tr>
 								<tr>
 									<th>结束日期：</th>
-									<td><input id="e1" type="text" name="endDate" /></td>
+									<td>
+										<input id="e1" type="text" name="endDate" />
+										<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">设置日期</a>
+									</td>
+								</tr>
+								<tr>
+									<th>项目角色：</th>
+									<td>
+									<input class="easyui-combobox" style="width:157px;" name="project_role" data-options="
+										valueField: 'label', textField: 'value', editable: false, value : '0',
+										data: [
+										{ label: '0', value: '无' },
+										{ label: '1', value: 'PG' },
+										{ label: '2', value: 'SE' }
+										],
+										panelHeight:'auto', editable:false" />
+									<a onclick="setMemberRole()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-user-gray'">设置角色</a>
+									</td>
 								</tr>
 								<tr>
 									<td colspan="2" align="center">
-										<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">设置日期</a>
-										<a id="sendmail" onclick="sendmail()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">邮件通知</a>
-										<a onclick="cancel()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">关闭或取消</a>
+										<a id="sendmail" onclick="sendmail()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-email'">邮件通知</a>
+										<a onclick="cancel()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'ext_cancel'">关闭或取消</a>
 									</td>
 								</tr>
 							</table>

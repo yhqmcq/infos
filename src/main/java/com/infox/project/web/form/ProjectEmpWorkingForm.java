@@ -23,6 +23,9 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	/** 项目名称 */
 	private String project_name ;
 	
+	/** 人员在项目中的角色 */
+	private String project_role ;
+	
 	/** 开始日期 */
 	private Date startDate ;
 	
@@ -53,6 +56,14 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 
 	public void setInStatus(String inStatus) {
 		this.inStatus = inStatus;
+	}
+
+	public String getProject_role() {
+		return project_role;
+	}
+
+	public void setProject_role(String project_role) {
+		this.project_role = project_role;
 	}
 
 	public Integer getStatus() {

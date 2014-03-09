@@ -42,8 +42,12 @@ public class ProjectEmpWorkingEntity {
 	/** 结束日期 */
 	private Date endDate ;
 	
+	/** 项目角色 */
+	private String project_role ;
+	
 	/** 关联员工 */
 	private EmployeeEntity emp ; 
+	
 	
 	/** 关联项目 */
 	private ProjectMainEntity project ;
@@ -58,6 +62,13 @@ public class ProjectEmpWorkingEntity {
 	private ProjectEmpWorkingEntity pew ;
 	private Set<ProjectEmpWorkingEntity> pews = new HashSet<ProjectEmpWorkingEntity>() ;
 	
+	public String getProject_role() {
+		return project_role;
+	}
+
+	public void setProject_role(String project_role) {
+		this.project_role = project_role;
+	}
 
 	public Integer getStatus() {
 		return status;

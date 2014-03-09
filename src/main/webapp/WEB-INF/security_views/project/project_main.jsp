@@ -39,17 +39,18 @@
 			    	}
 			    } },
 			    { field: 'sedate', title: '项目起止日期', width: 180, sortable: true, formatter:function(value,row){
-			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd")
+			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd") ;
 			    	return sed ;
 			    } },
 			    { field: 'month', title: '月数', width: 60, sortable: true, formatter:function(value,row){return row.dateDiff/20+"&nbsp;月";} },
 			    { field: 'dateDiff', title: '总天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
 			    { field: 'lastdateDiff', title: '剩余天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
+			    { field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return value+"&nbsp;人月";} },
 			    { field: 'project_type', title: '项目类型', width: 120, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ return "对日短期保守项目" ; } else  if(value == 1) { return "对日长期保守项目" ; } else  if(value == 2) { return "对日新规项目" ; } else  if(value == 3) { return "国内项目" ; } else { return "公司内部项目" ; }
 			    } },
 			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
-			    { field: 'project_leader', title: '项目负责人', width: 100, sortable: true },
+			    { field: 'leader_name', title: '项目负责人', width: 100, sortable: true },
 			    { field: 'team_name', title: '团队名称', width: 100, sortable: true },
 			    { field: 'project_target', title: '项目目标', width: 200, sortable: true, tooltip: true },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
@@ -71,7 +72,7 @@
 					}},
 					{ field: 'code', title: '项目代号', width: 180, sortable: true },
 					{ field: 'sedate', title: '项目起止日期', width: 180, sortable: true, formatter:function(value,row){
-						var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd")
+						var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd");
 						return sed ;
 					} },
 					{ field: 'dateDiff', title: '总天数', width: 80, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },

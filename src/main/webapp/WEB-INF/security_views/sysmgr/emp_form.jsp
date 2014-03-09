@@ -14,11 +14,8 @@
 	    });
 		cg = $("#select2").combogrid({
 			url: yhq.basePath+"/sysmgr/empjob/treegrid.do",
-			panelWidth: 500,
-			multiple: false,
-			idField: 'id',
-			textField: 'job_name',
-			method: 'get',
+			panelWidth: 500, multiple: false,
+			idField: 'id', textField: 'job_name', method: 'get',
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: 'ID(id)', width: 80, sortable: true }
@@ -44,10 +41,9 @@
 						'truename' : result.truename,
 						'japanese' : result.japanese,
 						'sex' : result.sex,
-						'email' : result.email,
+						//'email' : result.email,
 						'tel' : result.tel,
-						'orgid' : result.orgid,
-						'orgname' : result.orgname
+						'orgid' : result.orgid
 					});
 					var s = result.jobids.split(",") ;
 					var vs = [] ;
@@ -91,7 +87,7 @@
 	<table id="tab_box" style="width:100%">
 		<tr>
 			<th>工号：</th>
-			<td><input name="id" validType="length[4,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-numberbox" type="text" data-options="required:true, prompt: '工号'" /></td>
+			<td><input name="id" validType="length[4,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
 			<th>账号状态：</th>
 			<td>
 				<input class="easyui-combobox" style="width:157px;" name="status" data-options="
@@ -114,22 +110,24 @@
 		<tr>
 			<th>电话：</th>
 			<td><input name="tel" class="easyui-validatebox" type="text" data-options="prompt: '联系电话'" /></td>
+			<th>日语级别：</th>
+			<td><input name="japanese" class="easyui-validatebox" type="text" data-options="prompt: '日语级别'" /></td>
+			<!-- 
 			<th>邮箱：</th>
 			<td><input name="email" validType="email" class="easyui-validatebox" type="text" data-options="required:true, prompt: '邮箱地址'" /></td>
+			 -->
 		</tr>
 		<tr>
-			<th>机构部门：</th>
-			<td><input id="select1" name="orgid" /><input name="orgname" id="orgname" type="hidden"/></td>
+			<th>公司部门：</th>
+			<td><input id="select1" name="orgid" /></td>
 			<th>公司岗位：</th>
 			<td><input id="select2" /></td>
 		</tr>
 		<tr>
-			<th>日语级别：</th>
-			<td><input name="japanese" class="easyui-validatebox" type="text" /></td>
 			<th>是否主管：</th>
 			<td>
 				<input class="easyui-combobox" style="width:157px;" name="isLeader" data-options="
-					valueField: 'label', textField: 'value', editable: false, value : 'Y',
+					valueField: 'label', textField: 'value', editable: false, value : 'N',
 					data: [{ label: 'N', value: '否' },{ label: 'Y', value: '是' }],
 					panelHeight:'auto', editable:false" />
 			</td>

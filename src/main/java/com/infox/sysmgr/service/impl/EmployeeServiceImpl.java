@@ -14,9 +14,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
+import com.infox.common.mail.MailConfiguraton;
+import com.infox.common.mail.MailVO;
+import com.infox.common.util.PinyinUtil;
+import com.infox.common.util.RandomUtils;
 import com.infox.common.util.StringUtil;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.LoginInfoSession;
+import com.infox.common.web.springmvc.RealPathResolver;
+import com.infox.project.asynms.send.MailMessageSenderI;
 import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.MenuEntity;
@@ -42,24 +49,32 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	private BaseDaoI<RoleEntity> basedaoRole;
 	
 	@Autowired
+	private MailMessageSenderI mailMessageSend ;
+	
+	@Autowired
 	private BaseDaoI<MenuEntity> basedaoMenu;
+	
+	@Autowired
+	private RealPathResolver realPathResolver ;
 
 	@Override
 	public void add(EmployeeForm form) throws Exception {
-		if(form.getEmail() == null || form.getEmail().equals("")) {
+		/*if(form.getEmail() == null || form.getEmail().equals("")) {
 			throw new Exception("邮箱不能为空！ ") ;
-		}
+		}*/
 		if(form.getId() == null || form.getId().equals("")) {
 			throw new Exception("工号不能为空！ ") ;
 		}
+		String accountPY = PinyinUtil.getPinYin(form.getTruename()) ;
+		Long accountCount = this.basedaoEmployee.count("select count(t.truename) from EmployeeEntity t where t.truename='"+accountPY+"'") ;
 		Long idCount = this.basedaoEmployee.count("select count(t.id) from EmployeeEntity t where t.id='"+form.getId()+"'") ;
-		Long emailCount = this.basedaoEmployee.count("select count(t.email) from EmployeeEntity t where t.email='"+form.getEmail()+"'") ;
+		//Long emailCount = this.basedaoEmployee.count("select count(t.email) from EmployeeEntity t where t.email='"+form.getEmail()+"'") ;
 		if(idCount >= 1) {
 			throw new Exception("该工号已存在！ ") ;
 		}
-		if(emailCount >= 1) {
+		/*if(emailCount >= 1) {
 			throw new Exception("该邮箱已存在！ ") ;
-		}
+		}*/
 		EmployeeForm employee = this.get(form.getId()) ;
 		if(null == employee) {
 			EmployeeEntity entity = new EmployeeEntity();
@@ -78,7 +93,30 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				}
 				entity.setEmpjobs(empjobs) ;
 			}
+			if(accountCount > 0) {
+				accountPY = accountPY+accountCount ;
+			}
+			
+			entity.setAccount(accountPY) ;
+			entity.setPassword(RandomUtils.generateNumber(6)) ;
+			entity.setEmail(accountPY+MailConfiguraton.getEmailDomain()) ;
+			
+			
 			this.basedaoEmployee.save(entity);
+			
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
+			Map<String,Object> model = new HashMap<String,Object>() ;
+			model.put("name", entity.getTruename()) ;
+			model.put("account", entity.getAccount()) ;
+			model.put("password", entity.getPassword()) ;
+			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
+			model.put("currentdate", new Date()) ;
+			
+			MailVO mail = new MailVO() ;
+			mail.setSubject("华智[miniOA办公自动化管理系统-登录账号和密码]") ;
+			mail.setRecipientTO(entity.getEmail()) ;
+			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "login_account.ftl", model)) ;
+			this.mailMessageSend.sendMail(mail) ;
 		} else {
 			throw new Exception("该用户已存在！ ") ;
 		}
@@ -143,7 +181,6 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 	@Override
 	public DataGrid datagrid(EmployeeForm form) throws Exception {
-		form.setNotInStatus("9999") ;
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));
@@ -263,6 +300,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 					states[i] = Integer.parseInt(split[i]) ;
 				}
 				params.put("workStatus", states);
+				System.out.println(hql);
 			}
 		}
 		return hql;

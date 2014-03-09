@@ -133,7 +133,7 @@
     				<th>所属部门：</th>
     				<td>${project.deptname}</td>
     				<th>项目负责人：</th>
-    				<td>${project.project_leader}</td>
+    				<td>${project.leader_name}</td>
     			</tr>
     			<tr>
     				<th>项目状态：</th>

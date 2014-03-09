@@ -45,10 +45,10 @@
 						'project_type' : result.project_type,
 						'team_name' : result.team_name,
 						'deptid' : result.deptid,
-						'project_leader_id' : result.project_leader_id,
+						'leader_id' : result.leader_id,
 						'project_target' : result.project_target,
 						'project_desc' : result.project_desc,
-						'project_leader' : result.project_leader
+						'leader_name' : result.leader_name
 					});
 					$("#s1").datebox('setValue',$.date.format($.string.toDate(result.startDate), "yyyy-MM-dd")) ;
 					$("#e1").datebox('setValue',$.date.format($.string.toDate(result.endDate), "yyyy-MM-dd")) ;
@@ -129,7 +129,7 @@
 				<td><input id="deptid" name="deptid" /><input id="deptname" name="deptname" type="hidden"></td>
 				<th>项目负责人：</th>
 				 <td> 
-				 	<input id="select2" style="width:250px;" name="project_leader_id" /><input id="project_leader" name="project_leader" type="hidden">
+				 	<input id="select2" style="width:250px;" name="leader_id" /><input id="leader_name" name="project_leader" type="hidden">
 				 </td>
 			</tr>
 		</table>

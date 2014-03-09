@@ -145,4 +145,17 @@ public class ProjectEmpWorking extends BaseController {
 		return j ;
 	}
 	
+	@RequestMapping("/set_projectRole.do")
+	@ResponseBody
+	public Json set_projectRole(ProjectEmpWorkingForm form) throws Exception {
+		Json j = new Json();
+		try {
+			this.projectEWService.set_projectRole(form) ;
+			j.setStatus(true);
+		} catch (Exception e) {
+			throw e;
+		}
+		return j ;
+	}
+	
 }

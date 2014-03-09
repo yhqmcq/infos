@@ -1,9 +1,6 @@
 package com.infox.common.mail;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import org.apache.log4j.Logger;
+import com.infox.common.util.ConfigUtil;
 
 /**
  * 说明：单例模式，加载配置信息
@@ -11,8 +8,6 @@ import org.apache.log4j.Logger;
  * <br/>日期：2009-10-1
  */
 public class MailConfiguraton {
-	private static final Logger logger = Logger.getLogger(MailConfiguraton.class);
-	private static Properties pros ;
 	
 	private String mailSMTPHost ;	/** 缺省的主机名称 */
 	
@@ -36,16 +31,6 @@ public class MailConfiguraton {
 	
 	private static MailConfiguraton intance = null ; /** 加载属性文件中的SMTP信息 */
 	
-	static{
-		pros = System.getProperties() ;
-		try {
-			pros.load(MailUtil.class.getClassLoader().getResourceAsStream("resources/mail.properties")) ;
-		} catch (IOException e) {
-			logger.info("加载mail.properites文件出错");
-			e.printStackTrace();
-		}
-	} 
-	
 	public static MailConfiguraton getInstance() {
 		if(null == intance) {
 			intance = new MailConfiguraton() ;
@@ -56,18 +41,24 @@ public class MailConfiguraton {
 	}
 	
 	private MailConfiguraton() {
-		this.setMailSMTPHost(pros.getProperty("mail.smtp.host")) ;
-		this.setMailSMTPPort(pros.getProperty("mail.smtp.port")) ;
-		this.setMailPOP3Host( pros.getProperty("mail.pop3.host")) ;
-		this.setMailPOP3Port(pros.getProperty("mail.pop3.port")) ;
-		this.setMailPOP3Protocol(pros.getProperty("mail.pop3.protocol")) ;
-		this.setMailAuth(pros.getProperty("mail.smtp.auth")) ;
-		this.setMailAliasName(pros.getProperty("mail.aliasname")) ;
-		this.setMailFromAdmin( pros.getProperty("mail.from")) ;
-		this.setUserNameAdmin(pros.getProperty("mail.username")) ;
-		this.setPassWordAdmin(pros.getProperty("mail.password")) ;
+		this.setMailSMTPHost(ConfigUtil.get("mail.smtp.host")) ;
+		this.setMailSMTPPort(ConfigUtil.get("mail.smtp.port")) ;
+		this.setMailPOP3Host( ConfigUtil.get("mail.pop3.host")) ;
+		this.setMailPOP3Port(ConfigUtil.get("mail.pop3.port")) ;
+		this.setMailPOP3Protocol(ConfigUtil.get("mail.pop3.protocol")) ;
+		this.setMailAuth(ConfigUtil.get("mail.smtp.auth")) ;
+		this.setMailAliasName(ConfigUtil.get("mail.aliasname")) ;
+		this.setMailFromAdmin( ConfigUtil.get("mail.from")) ;
+		this.setUserNameAdmin(ConfigUtil.get("mail.username")) ;
+		this.setPassWordAdmin(ConfigUtil.get("mail.password")) ;
 	}
 
+	/** 获取邮箱域名 */
+	public static String getEmailDomain() {
+		String domain = ConfigUtil.get("mail.smtp.host") ;
+		return "@"+domain.substring(domain.indexOf(".")+1, domain.length()) ; 
+	}
+	
 	public String getMailSMTPHost() {
 		return mailSMTPHost;
 	}

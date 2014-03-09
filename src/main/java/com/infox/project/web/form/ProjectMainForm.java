@@ -42,10 +42,10 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	private String deptname;
 
 	/** 项目负责人ID */
-	private String project_leader_id;
+	private String leader_id;
 
 	/** 项目负责人名称 */
-	private String project_leader;
+	private String leader_name;
 
 	/** 创建者ID */
 	private String createrId;
@@ -64,6 +64,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	/** 剩余天数 */
 	private long lastdateDiff;
+	
+	/** 项目总人员 */
+	private float mm ;
 
 	/** 用于IN查询(0,1,2,3,4) */
 	private String inStatus;
@@ -80,6 +83,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public String getPid() {
 		return pid;
+	}
+
+	public float getMm() {
+		return mm;
+	}
+
+	public void setMm(float mm) {
+		this.mm = mm;
 	}
 
 	public void setPid(String pid) {
@@ -124,14 +135,6 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setLastdateDiff(long lastdateDiff) {
 		this.lastdateDiff = lastdateDiff;
-	}
-
-	public String getProject_leader_id() {
-		return project_leader_id;
-	}
-
-	public void setProject_leader_id(String project_leader_id) {
-		this.project_leader_id = project_leader_id;
 	}
 
 	public long getDateDiff() {
@@ -182,12 +185,21 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 		return endDate;
 	}
 
-	public String getProject_leader() {
-		return project_leader;
+
+	public String getLeader_id() {
+		return leader_id;
 	}
 
-	public void setProject_leader(String project_leader) {
-		this.project_leader = project_leader;
+	public void setLeader_id(String leader_id) {
+		this.leader_id = leader_id;
+	}
+
+	public String getLeader_name() {
+		return leader_name;
+	}
+
+	public void setLeader_name(String leader_name) {
+		this.leader_name = leader_name;
 	}
 
 	public void setEndDate(Date endDate) {

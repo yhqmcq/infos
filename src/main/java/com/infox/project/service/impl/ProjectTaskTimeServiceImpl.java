@@ -82,7 +82,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 			}
 		}
 		*/
-		form.setNotInStatus("9999") ;
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));

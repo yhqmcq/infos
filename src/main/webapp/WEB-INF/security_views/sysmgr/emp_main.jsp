@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>用户管理</title>
+<title>员工管理</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 
@@ -11,7 +11,7 @@
 	var s1 ;
 	$(function() {
 		dataGrid = $("#d1").datagrid({
-			title: '用户管理',
+			title: '员工管理',
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do?notInStatus=9999",
 			idField: 'id', fit: true, border: false, method: "post", singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,

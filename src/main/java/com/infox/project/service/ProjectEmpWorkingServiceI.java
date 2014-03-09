@@ -19,6 +19,8 @@ public interface ProjectEmpWorkingServiceI {
 	public DataGrid datagrid(ProjectEmpWorkingForm form) throws Exception ;
 	
 	public void set_workdate(ProjectEmpWorkingForm form) throws Exception ;
+	
+	public void set_projectRole(ProjectEmpWorkingForm form) throws Exception ;
 
 	public void revert(ProjectEmpWorkingForm form) throws Exception ;
 	
