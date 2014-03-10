@@ -8,12 +8,11 @@
 
 <script type="text/javascript">
 	var dataGrid1 ;
-	var dataGrid2 ;
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
 			title: '员工列表',
 			url: yhq.basePath+"/project/project_main/get_ProjectDevList.do?id=${id}",
-			idField: 'emp_id', fit: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
+			idField: 'emp_id', fit: true, fitColumns: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
 			remoteSort: false, striped:true, pagination: true,showFooter: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
@@ -42,19 +41,6 @@
 		    }
 	    });
 	});
-	function fmoney(s, n)   
-	{   
-	   n = n > 0 && n <= 20 ? n : 2;   
-	   s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";   
-	   var l = s.split(".")[0].split("").reverse(),   
-	   r = s.split(".")[1];   
-	   t = "";   
-	   for(var i = 0; i < l.length; i ++ )   
-	   {   
-	      t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");   
-	   }   
-	   return t.split("").reverse().join("") + "." + r;   
-	} 
 </script>
 
 </head>

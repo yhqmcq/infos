@@ -70,6 +70,9 @@ public class ProjectMainEntity implements Serializable {
 	/** 创建者名称 */
 	private String createrName ;
 	
+	/** 作业范围 */
+	private String taskScope ;
+	
 	/** 所属部门（Name） */
 	private String deptname ;
 	
@@ -136,6 +139,14 @@ public class ProjectMainEntity implements Serializable {
 	@JoinColumn(name = "DEPT_PID")
 	public OrgDeptTreeEntity getDept() {
 		return dept;
+	}
+
+	public String getTaskScope() {
+		return taskScope;
+	}
+
+	public void setTaskScope(String taskScope) {
+		this.taskScope = taskScope;
 	}
 
 	public void setDept(OrgDeptTreeEntity dept) {

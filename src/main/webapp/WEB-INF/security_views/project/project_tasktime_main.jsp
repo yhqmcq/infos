@@ -11,23 +11,66 @@
 	var s1 ;
 	$(function() {
 		dataGrid = $("#d1").datagrid({
-			title: '人员稼动率管理',
+			title: '人员稼动率管理', view: detailview, fitColumns: true,
 			url: yhq.basePath+"/project/project_report/employeeTaskTimeReport.do?notInStatus=9999",
 			idField: 'emp_id', fit: true, border: false, method: "post", singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'emp_id', title: '工号', width: 80, sortable: true },
-			    { field: 'emp_name', title: '姓名', width: 120, sortable: true }
+			    { field: 'emp_id', title: '工号', width: 80, sortable: true }
 			]],
 			columns: [[
+			    { field: 'emp_name', title: '姓名', width: 120, sortable: true },
 			    { field: 'dept_name', title: '部门', width: 150, sortable: true },
 			    { field: 'position_name', title: '岗位', width: 120, sortable: true },
 			    { field: 'totalTaskYear', title: '总月数', width: 80, sortable: true, formatter: function(value, row){
-			    	return (row.totalTaskTime / 20) +"&nbsp;月" ;
+			    	return infosUtil.numberf(value, 2) +"&nbsp;月" ;
 			    } },
-			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true }
+			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true, formatter: function(value, row){
+			    	return value +"&nbsp;天" ;
+			    } },
+			    { field: 'allMM', title: '总人月', width: 80, sortable: true, formatter: function(value, row){
+			    	return infosUtil.numberf(value, 2) +"&nbsp;人月" ;
+			    } },
 			]],
+			detailFormatter:function(index,row){
+			 	return '<div class="ddv" style="padding:5px 0"></div>';
+		 	},
+		 	onExpandRow: function(index,row){
+			 	var ddv = $(this).datagrid('getRowDetail',index).find('div.ddv');
+			 	ddv.datagrid({
+				url:yhq.basePath+"/project/project_report/getMemberInfoList.do?emp_id="+row.emp_id,
+				singleSelect:true,
+				fitColumns: true,
+				rownumbers:true,
+				height:'auto',
+				columns:[[
+					{ field: 'project_name', title: '项目名称', width: 200, sortable: true },
+					{ field: 'sd', title: '开始时间', width: 80, sortable: true },
+				    { field: 'ed', title: '结束时间', width: 80, sortable: true }, 
+				    { field: 'totalTaskTime', title: '天数', width: 80, sortable: true },
+				    { field: 'mm', title: '人月', width: 80, sortable: true, formatter: function(value,row){
+				    	return infosUtil.numberf(value, 2) ;
+				    }},
+				    { field: 'expendDays', title: '已消耗天数', width: 80, sortable: true},
+				    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
+				    	return infosUtil.numberf(value, 2) ;
+				    }},
+				    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
+				    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
+				    }}
+				]],
+				onResize:function(){
+					dataGrid.datagrid('fixDetailRowHeight',index);
+				},
+				onLoadSuccess:function(){
+					setTimeout(function(){
+						dataGrid.datagrid('fixDetailRowHeight',index);
+					},0);
+				}
+					 });
+	 			dataGrid.datagrid('fixDetailRowHeight',index);
+		 	},
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
 	        selectOnRowContextMenu: false,      //此属性开启当右键点击行时自动选择该行的功能

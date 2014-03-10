@@ -40,7 +40,7 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	private Integer Status ;
 	
 	/** 总月数 */
-	private long totalTaskYear ;
+	private float totalTaskYear ;
 	
 	/** 总有效工作天数 */
 	private long totalTaskTime ;
@@ -77,6 +77,14 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public String getSd() {
 		return sd;
+	}
+
+	public float getTotalTaskYear() {
+		return totalTaskYear;
+	}
+
+	public void setTotalTaskYear(float totalTaskYear) {
+		this.totalTaskYear = totalTaskYear;
 	}
 
 	public void setSd(String sd) {
@@ -219,14 +227,6 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 		Status = status;
 	}
 
-
-	public long getTotalTaskYear() {
-		return totalTaskYear;
-	}
-
-	public void setTotalTaskYear(long totalTaskYear) {
-		this.totalTaskYear = totalTaskYear;
-	}
 
 	public long getTotalTaskTime() {
 		return totalTaskTime;

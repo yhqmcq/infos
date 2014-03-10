@@ -74,6 +74,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus;
 
+	/** 作业范围 */
+	private String taskScope ;
+	
 	/** 项目目标 */
 	private String project_target;
 
@@ -111,6 +114,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public String getProject_target() {
 		return project_target;
+	}
+
+	public String getTaskScope() {
+		return taskScope;
+	}
+
+	public void setTaskScope(String taskScope) {
+		this.taskScope = taskScope;
 	}
 
 	public void setProject_target(String project_target) {

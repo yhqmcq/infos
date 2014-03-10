@@ -17,6 +17,7 @@
 			idField: 'id',
 			fit: true,
 			border: false,
+			fitColumns: true,
 			remoteSort: false,
 			singleSelect:false,
 			toolbar: '#buttonbar',
@@ -114,7 +115,7 @@
 <body style="padding: 0px; margin: 0px;">
 	<div class="easyui-layout" data-options="fit: true">
 	
-		<div data-options="region: 'west', border: false, split:true" style="width:530px;overflow: hidden;">
+		<div data-options="region: 'west', border: false, split:true" style="width:550px;overflow: hidden;">
 			<div id="d1">
 				<div id="buttonbar">
 					<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="ext_set1" plain="true" onclick="savePermission();">保存设置</a>

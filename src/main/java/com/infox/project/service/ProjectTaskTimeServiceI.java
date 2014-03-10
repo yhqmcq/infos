@@ -12,4 +12,6 @@ public interface ProjectTaskTimeServiceI {
 	
 	public DataGrid datagrid(ProjectTaskTimeForm form) throws Exception ;
 	
+	public DataGrid getMemberInfoList(ProjectTaskTimeForm form) throws Exception ;
+	
 }

@@ -41,4 +41,10 @@ public class ProjectTaskTime extends BaseController {
 		return this.projectTaskTimeService.datagrid(form) ;
 	}
 	
+	@RequestMapping("/getMemberInfoList.do")
+	@ResponseBody
+	public DataGrid getMemberInfoList(ProjectTaskTimeForm form) throws Exception {
+		return this.projectTaskTimeService.getMemberInfoList(form) ;
+	}
+	
 }

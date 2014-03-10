@@ -17,6 +17,7 @@
 			treeField: 'job_name',
 			fit: true,
 			border: false,
+			fitColumns: true,
 			remoteSort: false,
 			toolbar: '#buttonbar',
 			striped:true,

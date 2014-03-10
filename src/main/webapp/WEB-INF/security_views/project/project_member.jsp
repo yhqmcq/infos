@@ -78,12 +78,14 @@
 			    }},
 			]]
 	    });
-		
+		$("input[name=projectStartDate]").val(infosUtil.str2date("${project.startDate}").format("YYYY-MM-dd"));
+		/*
 		$("#s1").datebox({ required: true, value: $.date.format(new Date(), "yyyy-MM-dd") });
 		$("#e1").datebox({ required:true, onSelect : function(date) {
 			var t = $.date.compare($.date.format(date,"yyyy-MM-dd"), $("#s1").datebox('getValue')) ;
 			if(t<0) { $("#e1").datebox('setValue','') ; $.easyui.messager.show({ icon: "warning", msg: "项目结束日期不能小于项目开始日期！" }); }
 		} });
+		*/
 		
 	    $('#gridSearchbox').searchbox({
 	    	searcher:function(value, name) {
@@ -264,7 +266,8 @@
 <body style="padding: 0px; margin: 0px;">
 	<div class="easyui-layout" data-options="fit: true">
 		<div data-options="region: 'north', border: false" style="overflow: hidden;width:100%;height:55px;padding:10px;">
-			1、在这里可以设置项目组开发人员，并设置开发人员在项目的工作起止日期。<br>
+			1、在这里可以设置项目组开发人员，并设置开发人员在项目的工作起止日期及项目角色。<br>
+			2、<font color="red">如果项目的状态为（已开始），再追加人员，并设置好起止日期后，需点击邮件通知按钮，如点击关闭或取消，则本次操作视为无效。</font>
 		</div>
 		<div data-options="region: 'west', border: true" style="overflow: hidden;width:480px; border-left:0px;border-left:0px; border-bottom:0px;">
 			<div id="d1">
@@ -305,12 +308,17 @@
 							<table style="margin:0px;">
 								<tr rowspan="2">
 									<th>起始日期：</th>
-									<td><input id="s1" type="text" name="startDate" /></td>
+									<td>
+										<!-- 项目开始日期，用于判断人员的开始日期是否小于项目的开始日期 -->
+										<input name="projectStartDate" type="hidden" />
+										
+										<input name="startDate" class="easyui-datebox" required="true" validType="TimeCheck['projectStartDate']" invalidMessage="开始日期必须大于项目的开始日期" editable="false" />
+									</td>
 								</tr>
 								<tr>
 									<th>结束日期：</th>
 									<td>
-										<input id="e1" type="text" name="endDate" />
+										<input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false">
 										<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">设置日期</a>
 									</td>
 								</tr>

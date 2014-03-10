@@ -124,7 +124,7 @@
 			<td><input id="select2" /></td>
 		</tr>
 		<tr>
-			<th>是否主管：</th>
+			<th>是否部长：</th>
 			<td>
 				<input class="easyui-combobox" style="width:157px;" name="isLeader" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : 'N',

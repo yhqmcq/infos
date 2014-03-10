@@ -1,6 +1,7 @@
 package com.infox.project.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,12 +89,69 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		return datagrid;
 	}
 	
+	@Override
+	public DataGrid getMemberInfoList(ProjectTaskTimeForm form) throws Exception {
+		DataGrid datagrid = new DataGrid();
+		
+		List<ProjectTaskTimeForm> forms = new ArrayList<ProjectTaskTimeForm>();
+		
+		String hql = "select t from ProjectEmpWorkingEntity t where 1=1 and t.emp.id=:emp_id" ;
+		Map<String, Object> params = new HashMap<String, Object>() ;
+		params.put("emp_id", form.getEmp_id()) ;
+		List<ProjectEmpWorkingEntity> find = this.basedaoProjectEW.find(hql, params) ;
+		
+		for (ProjectEmpWorkingEntity p : find) {
+			ProjectTaskTimeForm pf = new ProjectTaskTimeForm() ;
+			EmployeeEntity e = p.getEmp() ;
+			pf.setEmp_id(e.getId()) ;
+			pf.setEmp_name(e.getTruename()) ;
+			pf.setDept_name(e.getOrg().getFullname()) ;
+			pf.setSd(DateUtil.formatG(p.getStartDate())) ;
+			pf.setEd(DateUtil.formatG(p.getEndDate())) ;
+			pf.setProject_name(p.getProject().getName()) ;
+			
+			long dateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
+			long lastdateDiff = 0 ;
+			
+			//如果结束日期大于今天，已消耗天数的则不以当前的日期来计算
+			int compare_date2 = DateUtil.compare_date2(DateUtil.formatF(new Date()), DateUtil.formatF(p.getEndDate())) ;
+			if(compare_date2 == 1) {
+				lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate())) ;
+			} else {
+				lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(new Date())) ;
+			}
+			
+			int compare_date3 = DateUtil.compare_date2(DateUtil.formatF(p.getStartDate()), DateUtil.formatF(new Date())) ;
+			if(compare_date3 == 1) {
+				pf.setTotalTaskTime(0) ;
+				pf.setExpendDays(0) ;
+				pf.setMm(0) ;
+				pf.setExpendMM(0) ;
+			} else {
+				pf.setTotalTaskTime(dateDiff) ;
+				pf.setExpendDays(lastdateDiff) ;
+				pf.setMm(dateDiff/21f) ;
+				pf.setExpendMM((pf.getExpendDays()/21f)) ;
+			}
+			
+			pf.setStatus(p.getStatus()) ;
+			
+			forms.add(pf) ;
+		}
+		
+		
+		datagrid.setRows(forms);
+		return datagrid;
+	}
+	
 	private List<ProjectTaskTimeForm> changeModel(List<EmployeeEntity> entitys) {
 		List<ProjectTaskTimeForm> forms = new ArrayList<ProjectTaskTimeForm>();
 
 		if (null != entitys && entitys.size() > 0) {
 			for (EmployeeEntity e : entitys) {
+				//总天数
 				long allTotalDays = 0 ;
+				
 				ProjectTaskTimeForm uf = new ProjectTaskTimeForm();
 				
 				uf.setEmp_id(e.getId()) ;
@@ -120,16 +178,15 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				//获得所有工时
 				Set<ProjectEmpWorkingEntity> empWorks = e.getEmpWorks() ;
 				for (ProjectEmpWorkingEntity ew : empWorks) {
-					System.out.println(e.getId() + "==" + e.getTruename()+"=="+DateUtil.formatG(ew.getStartDate()) + "<-->" + DateUtil.formatG(ew.getEndDate()));
-					
 					//计算有效天数（减去周六日）
 					long totalDays = DateUtil.dateDiff(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
-					System.out.println(totalDays);
 					
 					allTotalDays += totalDays ;
 					
 				}
 				uf.setTotalTaskTime(allTotalDays) ;
+				uf.setTotalTaskYear((float)allTotalDays / 21f) ;	//总月数
+				uf.setAllMM((float)uf.getTotalTaskTime() / 21f) ;	//总人月
 				
 				forms.add(uf);
 			}
@@ -158,7 +215,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		String hql = "select count(*) from EmployeeEntity t where 1=1";
 
 		hql = addWhere(hql, form, params);
-		System.out.println(hql);
 
 		return this.basedaoProjectEW.count(hql, params);
 	}

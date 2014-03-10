@@ -46,6 +46,7 @@
 						'team_name' : result.team_name,
 						'deptid' : result.deptid,
 						'leader_id' : result.leader_id,
+						'taskScope' : result.taskScope,
 						'project_target' : result.project_target,
 						'project_desc' : result.project_desc,
 						'leader_name' : result.leader_name
@@ -110,13 +111,13 @@
 				<th>项目名称：</th>
 				<td><input type="text" name="name" style="width:250px;" class="easyui-validatebox" ></td>
 				<th>开始日期：</th>
-				<td><input name="startDate" class="easyui-datebox" required="true" missingMessage="日期必须填写" editable="false"></input></td>
+				<td><input name="startDate" class="easyui-datebox" required="true" missingMessage="日期必须填写" editable="false" /></td>
 			</tr>
 			<tr>
 				<th>项目代号：</th>
 				<td><input type="text" style="width:250px;" name="code" class="easyui-validatebox" ></td>
 				<th>结束日期：</th>
-				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false"></input></td>
+				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false" /></td>
 			</tr>
 			<tr>
 				<th>项目类型：</th>
@@ -128,9 +129,11 @@
 				<th>项目所属部门：</th>
 				<td><input id="deptid" name="deptid" /><input id="deptname" name="deptname" type="hidden"></td>
 				<th>项目负责人：</th>
-				 <td> 
-				 	<input id="select2" style="width:250px;" name="leader_id" /><input id="leader_name" name="project_leader" type="hidden">
-				 </td>
+			 	<td><input id="select2" style="width:250px;" name="leader_id" /><input id="leader_name" name="project_leader" type="hidden"></td>
+			</tr>
+			<tr>
+				<th>作业范围：</th>
+				<td colspan="3"><input id="taskScope" class="easyui-validatebox" name="taskScope" style="width:610px;" /></td>
 			</tr>
 		</table>
 	</div>
@@ -138,10 +141,10 @@
 	<div class="form_base">
 		<div id="t">
 		    <div data-options="title: '项目目标', refreshable: false, selected: true">
-		    	<textarea id="editor1" name="project_target" style="margin-top:5px;height:150px;width:99.7%;"></textarea>
+		    	<textarea id="editor1" name="project_target" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
 		    <div data-options="title: '项目描述', refreshable: false">
-		    	<textarea id="editor2" name="project_desc" style="margin-top:5px;height:150px;width:99.7%;"></textarea>
+		    	<textarea id="editor2" name="project_desc" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
 		</div>
 	</div>

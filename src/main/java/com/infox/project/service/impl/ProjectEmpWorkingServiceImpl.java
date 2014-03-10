@@ -1,7 +1,6 @@
 package com.infox.project.service.impl;
 
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -540,7 +539,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		}
 	}
 	
-	public static void main(String[] args) throws ParseException {
+	/*public static void main(String[] args) throws ParseException {
 		
 		String endDate = "2014-03-08" ;
 		
@@ -568,10 +567,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		
 		System.out.println(sc.get(Calendar.DAY_OF_WEEK)-1);
 		System.out.println(sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH));
-		
-		
-		
-	}
+	}*/
 
 	@Override
 	public void projectMemberExpireNotify(ProjectMainForm form) throws Exception {
