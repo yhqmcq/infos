@@ -46,9 +46,9 @@
 			    	return sed ;
 			    } },
 			    { field: 'month', title: '月数', width: 60, sortable: true, formatter:function(value,row){return fmoney(row.dateDiff/21,2)+"&nbsp;月";} },
+			    { field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return fmoney(value,2)+"&nbsp;人月";} },
 			    { field: 'dateDiff', title: '总天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
 			    { field: 'lastdateDiff', title: '剩余天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
-			    { field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return fmoney(value,2)+"&nbsp;人月";} },
 			    { field: 'project_type', title: '项目类型', width: 120, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ return "对日短期保守项目" ; } else  if(value == 1) { return "对日长期保守项目" ; } else  if(value == 2) { return "对日新规项目" ; } else  if(value == 3) { return "国内项目" ; } else { return "公司内部项目" ; }
 			    } },

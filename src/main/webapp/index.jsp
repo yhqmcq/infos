@@ -141,22 +141,14 @@
                        	<div data-options="region: 'center', border: false" style="overflow: hidden;">
                             <div id="portal" class="easyui-portal" data-options="fit: true, border: false">
                                 <div style="width: 33%;">
-                                    <div data-options="title: '项目信息', height: 310, collapsible: true, closable: true">
+                                    <div style="text-align:center" data-options="height: 310, collapsible: true, closable: true">
+                                    	<span style="font-size:33px;font-weight:bold;margin-top:50px;display:block;">欢迎进入项目管理系统</span>
                                     </div>
-                                    <div data-options="title: '功能简介', height: 310, collapsible: true, closable: true">
+                                    <!-- 
+                                    <div data-options="title: '项目信息', topMost: true, height: 310, collapsible: true, closable: true">
+                                    	<iframe style="width:100%;height:100%;border:0px;" src="<%=basePath%>/sview/chat.jsp"></iframe>
                                     </div>
-                                </div>
-                                <div style="width: 33%;">
-                                    <div data-options="title: '项目信息', height: 310, collapsible: true, closable: true">
-                                    </div>
-                                    <div data-options="title: '功能简介', height: 310, collapsible: true, closable: true">
-                                    </div>
-                                </div>
-                                <div style="width: 33%;">
-                                    <div data-options="title: '项目信息', height: 310, collapsible: true, closable: true">
-                                    </div>
-                                    <div data-options="title: '功能简介', height: 310, collapsible: true, closable: true">
-                                    </div>                                    
+                                     -->
                                 </div>
                             </div>
                         </div>
