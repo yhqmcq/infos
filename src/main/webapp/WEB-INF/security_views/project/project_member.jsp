@@ -61,7 +61,13 @@
 			    	} else if(value == 1) {
 			    		return "PG" ;
 			    	} else if(value == 2) {
+			    		return "PL" ;
+			    	} else if(value == 3) {
 			    		return "SE" ;
+			    	} else if(value == 4) {
+			    		return "PG" ;
+			    	} else if(value == 5) {
+			    		return "初级PG1" ;
 			    	}
 			    }},
 			    { field: 'startDate', title: '起始日期', width:110, sortable: true, formatter:function(value,row){
@@ -315,8 +321,11 @@
 										valueField: 'label', textField: 'value', editable: false, value : '0',
 										data: [
 										{ label: '0', value: '无' },
-										{ label: '1', value: 'PG' },
-										{ label: '2', value: 'SE' }
+										{ label: '1', value: 'PM' },
+										{ label: '2', value: 'PL' },
+										{ label: '3', value: 'SE' },
+										{ label: '4', value: 'PG' },
+										{ label: '5', value: '初级PG1' }
 										],
 										panelHeight:'auto', editable:false" />
 									<a onclick="setMemberRole()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-user-gray'">设置角色</a>
