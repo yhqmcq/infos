@@ -517,7 +517,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 						this.basedaoProjectEW.save(history) ;
 						
 						//延期
-						//entity.setStartDate(form.getStartDate()) ;
+						entity.setStartDate(form.getStartDate()) ;
 						entity.setEndDate(form.getEndDate()) ;
 						
 					}

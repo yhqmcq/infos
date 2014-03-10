@@ -33,6 +33,10 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private Date endDate ;
 	
+	/** 开始和结束日期，字符串 */
+	private String sd ;
+	private String ed ;
+	
 	private Integer Status ;
 	
 	/** 总月数 */
@@ -41,11 +45,55 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	/** 总有效工作天数 */
 	private long totalTaskTime ;
 	
+	/** 已消耗天数 */
+	private long expendDays ;
+	
+	/** 个人人月 */
+	private float mm ;
+	
+	/** 个人，已消耗人月 */
+	private float expendMM ;
+	
+	/** 所有人月的累加 */
+	private float allMM ;
+	
 	/** 用于IN查询(0,1,2,3,4) */
 	private String inStatus;
 	
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus;
+
+	public float getMm() {
+		return mm;
+	}
+
+	public void setMm(float mm) {
+		this.mm = mm;
+	}
+
+	public float getAllMM() {
+		return allMM;
+	}
+
+	public String getSd() {
+		return sd;
+	}
+
+	public void setSd(String sd) {
+		this.sd = sd;
+	}
+
+	public String getEd() {
+		return ed;
+	}
+
+	public void setEd(String ed) {
+		this.ed = ed;
+	}
+
+	public void setAllMM(float allMM) {
+		this.allMM = allMM;
+	}
 
 	public String getId() {
 		return id;
@@ -57,6 +105,26 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public void setPosition_id(String position_id) {
 		this.position_id = position_id;
+	}
+
+	public float getExpendMM() {
+		return expendMM;
+	}
+
+	public void setExpendMM(float expendMM) {
+		this.expendMM = expendMM;
+	}
+
+	public long getExpendDays() {
+		return expendDays;
+	}
+
+	public void setExpendDays(long expendDays) {
+		this.expendDays = expendDays;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getPosition_name() {

@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
-import com.infox.common.mail.MailConfiguraton;
 import com.infox.common.mail.MailVO;
 import com.infox.common.util.PinyinUtil;
 import com.infox.common.util.RandomUtils;
@@ -99,7 +98,8 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			
 			entity.setAccount(accountPY) ;
 			entity.setPassword(RandomUtils.generateNumber(6)) ;
-			entity.setEmail(accountPY+MailConfiguraton.getEmailDomain()) ;
+			//entity.setEmail(accountPY+MailConfiguraton.getEmailDomain()) ;
+			entity.setEmail("yanghaoquan@whzien.com") ;
 			
 			
 			this.basedaoEmployee.save(entity);

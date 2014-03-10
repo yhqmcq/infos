@@ -53,10 +53,30 @@ public class ProjectMain extends BaseController {
 	
 	@RequestMapping("/project_detail.do")
 	public String project_detail(ProjectMainForm form, HttpServletRequest request) throws Exception {
-		if(null != form.getIds() && !"".equals(form.getIds())) {
-			request.setAttribute("ids", form.getIds()) ;
+		if(null != form.getId() && !"".equals(form.getId())) {
+			request.setAttribute("id", form.getId()) ;
 		}
 		return Constants.PROJECT + "project_detail" ;
+	}
+	
+	@RequestMapping("/project_Devdetail.do")
+	public String project_Devdetail(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		if(null != form.getId() && !"".equals(form.getId())) {
+			request.setAttribute("id", form.getId()) ;
+		}
+		return Constants.PROJECT + "project_dev_list" ;
+	}
+	
+	@RequestMapping("/get_ProjectDevList.do")
+	@ResponseBody
+	public DataGrid get_ProjectDevList(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		return this.projectService.get_ProjectDevList(form.getId()) ;
+	}
+	
+	@RequestMapping("/get_ProjectDetail.do")
+	@ResponseBody
+	public ProjectMainForm get_ProjectDetail(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		return this.projectService.get_ProjectDetail(form.getId()) ;
 	}
 	
 	@RequestMapping("/get.do")

@@ -1,9 +1,12 @@
 package com.infox.project.service;
 
+import java.util.List;
+
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
+import com.infox.project.web.form.ProjectTaskTimeForm;
 
 public interface ProjectMainServiceI {
 	
@@ -16,6 +19,10 @@ public interface ProjectMainServiceI {
 	public ProjectMainForm get(String id) throws Exception ;
 	
 	public ProjectMainForm get(ProjectMainForm form) throws Exception ;
+	
+	public ProjectMainForm get_ProjectDetail(String id) throws Exception ;
+	
+	public DataGrid get_ProjectDevList(String id) throws Exception ;
 	
 	public DataGrid datagrid(ProjectMainForm form) throws Exception ;
 

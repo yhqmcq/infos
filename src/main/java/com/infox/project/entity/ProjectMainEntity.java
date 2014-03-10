@@ -113,6 +113,7 @@ public class ProjectMainEntity implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="PROJECT_ID")
+	@OrderBy("id")
 	public Set<ProjectEmpWorkingEntity> getPwe() {
 		return pwe;
 	}

@@ -36,6 +36,7 @@ import com.infox.project.service.ProjectMainServiceI;
 import com.infox.project.web.form.ProjectEmpWorkingForm;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
+import com.infox.project.web.form.ProjectTaskTimeForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.OrgDeptTreeEntity;
@@ -338,6 +339,107 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			BeanUtils.copyProperties(entity, form, new String[] { "project_target", "project_desc" });
 			form.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 			form.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
+			
+			OrgDeptTreeEntity dept = entity.getDept();
+			if (null != dept) {
+				form.setDeptid(dept.getId());
+			}
+			EmployeeEntity Emp = entity.getEmp();
+			if (null != Emp) {
+				form.setLeader_id(Emp.getId());
+				form.setLeader_name(Emp.getTruename());
+			}
+			
+			return form;
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public DataGrid get_ProjectDevList(String id) throws Exception {
+		DataGrid datagrid = new DataGrid();
+		
+		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
+		
+		List<ProjectTaskTimeForm> devList = new ArrayList<ProjectTaskTimeForm>() ;
+		List<Map<String, Object>> footer = new ArrayList<Map<String, Object>>() ;
+		long allTaskTime = 0 ;
+		long allExpendDays = 0 ;
+		float allExpendmm = 0f ;
+		float allmm = 0f ;
+		if (null != entity) {
+			Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
+			for (ProjectEmpWorkingEntity p : pwe) {
+				ProjectTaskTimeForm pf = new ProjectTaskTimeForm() ;
+				EmployeeEntity e = p.getEmp() ;
+				pf.setEmp_id(e.getId()) ;
+				pf.setEmp_name(e.getTruename()) ;
+				pf.setDept_name(e.getOrg().getFullname()) ;
+				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
+				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
+				
+				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
+				long lastdateDiff = 0 ;
+				
+				//如果结束日期大于今天，已消耗天数的则不以当前的日期来计算
+				int compare_date2 = DateUtil.compare_date2(DateUtil.formatF(new Date()), DateUtil.formatF(p.getEndDate())) ;
+				if(compare_date2 == 1) {
+					lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate())) ;
+				} else {
+					lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(new Date())) ;
+				}
+				
+				int compare_date3 = DateUtil.compare_date2(DateUtil.formatF(p.getStartDate()), DateUtil.formatF(new Date())) ;
+				if(compare_date3 == 1) {
+					pf.setTotalTaskTime(0) ;
+					pf.setExpendDays(0) ;
+					pf.setMm(0) ;
+					pf.setExpendMM(0) ;
+				} else {
+					pf.setTotalTaskTime(dateDiff) ;
+					pf.setExpendDays(lastdateDiff) ;
+					pf.setMm(dateDiff/21f) ;
+					pf.setExpendMM((pf.getExpendDays()/21f)) ;
+				}
+				
+				
+				pf.setStatus(p.getStatus()) ;
+				
+				devList.add(pf) ;
+				
+				allTaskTime += dateDiff ;
+				allExpendDays += pf.getExpendDays();
+				allExpendmm += pf.getExpendMM() ;
+				allmm += pf.getMm() ;
+			}
+			
+			Map<String, Object> map = new HashMap<String, Object>() ;
+			map.put("ed", "统计：") ;
+			map.put("totalTaskTime", allTaskTime) ;
+			map.put("expendDays", allExpendDays) ;
+			map.put("mm", allmm) ;
+			map.put("expendMM", allExpendmm) ;
+			footer.add(map) ;
+			
+			datagrid.setTotal((long) pwe.size());
+			datagrid.setRows(devList);
+			datagrid.setFooter(footer) ;
+			
+			return datagrid;
+		} else {
+			return datagrid;
+		}
+	}
+	@Override
+	public ProjectMainForm get_ProjectDetail(String id) throws Exception {
+		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
+		
+		if (null != entity) {
+			ProjectMainForm form = new ProjectMainForm();
+			BeanUtils.copyProperties(entity, form, new String[] { "project_target", "project_desc" });
+			form.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
+			form.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
 
 			OrgDeptTreeEntity dept = entity.getDept();
 			if (null != dept) {
@@ -348,6 +450,30 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				form.setLeader_id(Emp.getId());
 				form.setLeader_name(Emp.getTruename());
 			}
+			
+			List<ProjectTaskTimeForm> devList = new ArrayList<ProjectTaskTimeForm>() ;
+			Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
+			for (ProjectEmpWorkingEntity p : pwe) {
+				ProjectTaskTimeForm pf = new ProjectTaskTimeForm() ;
+				EmployeeEntity e = p.getEmp() ;
+				pf.setEmp_id(e.getId()) ;
+				pf.setEmp_name(e.getTruename()) ;
+				pf.setDept_name(e.getOrg().getFullname()) ;
+				pf.setStartDate(p.getStartDate()) ;
+				pf.setEndDate(p.getEndDate()) ;
+				
+				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
+				long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(p.getEndDate()));
+				pf.setTotalTaskTime(dateDiff) ;
+				pf.setExpendDays(lastdateDiff) ;
+				pf.setExpendMM(((float)dateDiff - (float)lastdateDiff)/21f) ;
+				
+				
+				devList.add(pf) ;
+				
+				form.setDevMemList(devList) ;
+			}
+			
 
 			return form;
 		} else {
@@ -375,6 +501,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
+		form.setSort("startDate") ;
+		form.setOrder("asc") ;
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
 		datagrid.setRows(this.changeModel(this.find(form)));
@@ -484,7 +612,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				Map<String, Object> params = new HashMap<String, Object>();
 				params.put("empid", empIdsSplit[i]);
 				params.put("projectid", form.getProjectid());
-				ProjectMailListEntity pml = this.basedaoMailList.get("select t from ProjectMailListEntity t where t.empid=:empid and t.projectmain.id=:projectid", params);
+				ProjectMailListEntity pml = this.basedaoMailList.get("select t from ProjectMailListEntity t where t.employee.id=:empid and t.projectmain.id=:projectid", params);
 				if (pml == null) {
 					EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, empIdsSplit[i]);
 

@@ -2,6 +2,7 @@ package com.infox.project.web.form;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.infox.common.web.page.PageHelper;
 
@@ -80,7 +81,10 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	private String project_desc;
 
 	private String pid;
-
+	
+	/** 用于项目详细信息 的开发人员统计 */
+	private List<ProjectTaskTimeForm> devMemList ;
+ 
 	public String getPid() {
 		return pid;
 	}
@@ -95,6 +99,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setPid(String pid) {
 		this.pid = pid;
+	}
+
+	public List<ProjectTaskTimeForm> getDevMemList() {
+		return devMemList;
+	}
+
+	public void setDevMemList(List<ProjectTaskTimeForm> devMemList) {
+		this.devMemList = devMemList;
 	}
 
 	public String getProject_target() {

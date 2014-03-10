@@ -12,7 +12,7 @@
 		dataGrid = $("#d1").datagrid({
 			title: '项目管理',view: detailview,
 			url: yhq.basePath+"/project/project_main/datagrid.do?notInStatus=5",
-			idField: 'id', fit: true, method: "post", border: false, remoteSort: false,
+			idField: 'id', fit: true, method: "post", border: false, remoteSort: false, rownumbers :true,
 			toolbar: '#buttonbar', singleSelect: true, striped:true, pagination: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true }
@@ -21,9 +21,12 @@
 			    { field: 'id', title: 'ID', width: 80, sortable: true, hidden: true },
 			    { field: 'projectNum', title: '项目编号', width: 80, sortable: true }, 
 			    { field: 'name', title: '项目名称', width: 250, sortable: true, tooltip: true, formatter:function(value,row,index){
-		    		var opa = $.string.format("<p><a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a><p/>", index, value);
+		    		//var opa = $.string.format("<p><a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a><p/>", row.id, value);
+		    		var opa = $.string.format("<p><a href='javascript:;' onclick='getDevList(\"{0}\",\"{1}\")'>{1}</a><p/>", row.id, value, value);
 		    		return opa ;
 		    	}},
+			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
+			    { field: 'leader_name', title: '项目负责人', width: 100, sortable: true },
 			    { field: 'code', title: '项目代号', width: 110, sortable: true },
 			    { field: 'status', title: '状态', width: 60, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
@@ -42,15 +45,13 @@
 			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd") ;
 			    	return sed ;
 			    } },
-			    { field: 'month', title: '月数', width: 60, sortable: true, formatter:function(value,row){return row.dateDiff/20+"&nbsp;月";} },
+			    { field: 'month', title: '月数', width: 60, sortable: true, formatter:function(value,row){return fmoney(row.dateDiff/21,2)+"&nbsp;月";} },
 			    { field: 'dateDiff', title: '总天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
 			    { field: 'lastdateDiff', title: '剩余天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
-			    { field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return value+"&nbsp;人月";} },
+			    { field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return fmoney(value,2)+"&nbsp;人月";} },
 			    { field: 'project_type', title: '项目类型', width: 120, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ return "对日短期保守项目" ; } else  if(value == 1) { return "对日长期保守项目" ; } else  if(value == 2) { return "对日新规项目" ; } else  if(value == 3) { return "国内项目" ; } else { return "公司内部项目" ; }
 			    } },
-			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
-			    { field: 'leader_name', title: '项目负责人', width: 100, sortable: true },
 			    { field: 'team_name', title: '团队名称', width: 100, sortable: true },
 			    { field: 'project_target', title: '项目目标', width: 200, sortable: true, tooltip: true },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
@@ -157,6 +158,7 @@
 	}
 	
 	function project_detail(type) {
+		console.info(type) ;
 		if(undefined != type && type === 'S') {
 			var rows = dataGrid.datagrid('getChecked');
 			var ids = [] ;
@@ -164,14 +166,16 @@
 				for ( var i = 0; i < rows.length; i++) {
 					ids.push(rows[i].id);
 				}
-				window.open(yhq.basePath+"/project/project_main/project_detail.do?ids="+ids.join(","), "_blank");
+				window.open(yhq.basePath+"/project/project_main/project_detail.do?id="+ids.join(","), "_blank");
 			} else {
 				$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 			}
 		} else {
-			window.open(yhq.basePath+"/project/project_main/project_detail.do", "_blank");
+			var project_id = type ;
+			window.open(yhq.basePath+"/project/project_main/project_detail.do?id="+project_id, "_blank");
 		}
 	}
+	
 	var dialog ;
 	function devMember() {
 		var rows = dataGrid.datagrid('getChecked');
@@ -194,6 +198,28 @@
 	}
 	function memberClose() {
 		dialog.dialog('close') ;
+	}
+	
+	
+	
+	function getDevList(id,name) {
+		var dialog = $.easyui.showDialog({
+            title: "开发人员详细列表&nbsp;&nbsp;[<font color='red'>"+name+"</font>]",
+            href: yhq.basePath+"/project/project_main/project_Devdetail.do?id="+id,
+            iniframe: true,
+            width: 950, height: 600,
+            topMost: true,
+            autoVCenter: true,
+            autoHCenter: true,
+            enableApplyButton: false,
+            enableSaveButton: false,
+            enableCloseButton: true,
+            saveButtonIconCls: "ext_cancel",
+            onSave: function() {
+            	return $.easyui.parent.submitForm(dialog, dataGrid);
+            }
+        });
+		
 	}
 	
 	function mailList() {
@@ -237,7 +263,19 @@
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
 	}
-	
+	function fmoney(s, n)   
+	{   
+	   n = n > 0 && n <= 20 ? n : 2;   
+	   s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";   
+	   var l = s.split(".")[0].split("").reverse(),   
+	   r = s.split(".")[1];   
+	   t = "";   
+	   for(var i = 0; i < l.length; i ++ )   
+	   {   
+	      t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");   
+	   }   
+	   return t.split("").reverse().join("") + "." + r;   
+	} 
 </script>
 
 </head>
@@ -272,6 +310,7 @@
 		                    	<div onclick="devMember()" data-options="iconCls: 'icon-metro-expand'">项目开发人员</div>
 	                    	</div>
 	                    </div>
+	                    <!-- 
 	                    <div class="menu-sep"></div>
 	                    <div data-options="iconCls: 'icon-metro-contract'">
 	                    	<span>浏览项目详情</span>
@@ -280,6 +319,7 @@
 		                    	<div onclick="project_detail('A')" data-options="iconCls: 'icon-metro-expand'">浏览全部</div>
 	                    	</div>
 	                    </div>
+	                     -->
                 	</div>
                 </div>
 			</div>
