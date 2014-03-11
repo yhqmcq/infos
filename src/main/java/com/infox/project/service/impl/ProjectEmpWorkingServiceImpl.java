@@ -62,7 +62,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 
 	@Override
 	public void add(ProjectEmpWorkingForm form) throws Exception {
-		String empIds = form.getEmpIds() ;
+		String empIds = form.getEmpId() ;
 		if(null != empIds && !"".equals(empIds)) {
 			String[] empIdsSplit = empIds.split(",") ;
 			for(int i=0;i<empIdsSplit.length;i++) {
@@ -215,7 +215,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					devMemberBuf.append(e.getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
-					p.setEmp_name(e.getTruename()) ;
+					p.setTruename(e.getTruename()) ;
 					currentMembers.add(p) ;
 				}
 			}
@@ -278,7 +278,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				entity.setCreated(new Date()) ;
 				
 				ProjectEmpWorkingForm f = new ProjectEmpWorkingForm() ;
-				f.setEmp_name(entity.getEmp().getTruename()) ;
+				f.setTruename(entity.getEmp().getTruename()) ;
 				f.setStartDate(entity.getStartDate()) ;
 				f.setEndDate(entity.getEndDate()) ;
 				exitProjectMember.add(f) ;
@@ -334,7 +334,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					devMemberBuf.append(e.getEmail()+",") ;
 					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwork, p) ;
-					p.setEmp_name(e.getTruename()) ;
+					p.setTruename(e.getTruename()) ;
 					currentMembers.add(p) ;
 				}
 			}
@@ -434,9 +434,9 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			for (ProjectEmpWorkingEntity i : ProjectEmpWorkingEntity) {
 				ProjectEmpWorkingForm uf = new ProjectEmpWorkingForm();
 				BeanUtils.copyProperties(i, uf);
-				uf.setEmpIds(i.getEmp().getId()) ;
-				uf.setEmp_name(i.getEmp().getTruename()) ;
-				uf.setDept_name(i.getEmp().getOrg().getFullname()) ;
+				uf.setEmpId(i.getEmp().getId()) ;
+				uf.setTruename(i.getEmp().getTruename()) ;
+				uf.setOrgname(i.getEmp().getOrg().getFullname()) ;
 				forms.add(uf);
 			}
 		}

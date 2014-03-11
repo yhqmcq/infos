@@ -12,10 +12,10 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	private String id ;
 	
 	/** 员工名称 */
-	private String emp_name ;
+	private String truename ;
 	
 	/** 员工部门 */
-	private String dept_name ;
+	private String orgname ;
 	
 	/** 项目ID */
 	private String project_id ;
@@ -33,7 +33,7 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	private Date endDate ;
 	
 	/** 员工IDs */
-	private String empIds ;
+	private String empId ;
 	
 	/** 状态标记（0.未设置日期，1.已设置日期，2.已到期，3.历史信息，4.结束-退出项目组） */
 	/** 状态2暂时没有用到，因为人员到期后则标记该人员已退出项目 */
@@ -44,14 +44,6 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	
 	public String getInStatus() {
 		return inStatus;
-	}
-
-	public String getDept_name() {
-		return dept_name;
-	}
-
-	public void setDept_name(String dept_name) {
-		this.dept_name = dept_name;
 	}
 
 	public void setInStatus(String inStatus) {
@@ -82,12 +74,12 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 		this.project_id = project_id;
 	}
 
-	public String getEmpIds() {
-		return empIds;
+	public String getEmpId() {
+		return empId;
 	}
 
-	public void setEmpIds(String empIds) {
-		this.empIds = empIds;
+	public void setEmpId(String empId) {
+		this.empId = empId;
 	}
 
 	public String getId() {
@@ -98,12 +90,20 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 		this.id = id;
 	}
 
-	public String getEmp_name() {
-		return emp_name;
+	public String getTruename() {
+		return truename;
 	}
 
-	public void setEmp_name(String emp_name) {
-		this.emp_name = emp_name;
+	public void setTruename(String truename) {
+		this.truename = truename;
+	}
+
+	public String getOrgname() {
+		return orgname;
+	}
+
+	public void setOrgname(String orgname) {
+		this.orgname = orgname;
 	}
 
 	public String getProject_name() {

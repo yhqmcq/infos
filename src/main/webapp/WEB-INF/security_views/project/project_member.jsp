@@ -27,8 +27,7 @@
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
-			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
-			    { field: 'tel', title: '联系电话', width: 100, sortable: true }
+			    { field: 'email', title: '邮箱地址', width: 180, sortable: true }
 			]],
 			onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
@@ -50,11 +49,11 @@
 			remoteSort: false, striped:true,rownumbers: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'empIds', title: '工号', width: 60, sortable: true }
+			    { field: 'empId', title: '工号', width: 60, sortable: true }
 			]],
 			columns: [[
-			    { field: 'emp_name', title: '姓名', width: 70, sortable: true },
-			    { field: 'dept_name', title: '部门', width: 80, sortable: true },
+			    { field: 'truename', title: '姓名', width: 70, sortable: true },
+			    { field: 'orgname', title: '部门', width: 80, sortable: true },
 			    { field: 'project_role', title: '项目角色', width: 80, sortable: true, formatter:function(value,row){
 			    	if(value == 0) {
 			    		return "未设置角色" ;
@@ -120,7 +119,7 @@
 					addIds.push(rows[i].id);
 				}
 				var workdata = {} ;
-				workdata["empIds"] = empIds.join(',');
+				workdata["empId"] = empIds.join(',');
 				workdata["project_id"] = "${project.id}";
 				workdata["project_name"] = "${project.name}";
 				$.post(yhq.basePath+"/project/pwe_emp_working/add.do", workdata, function(result) {
@@ -250,15 +249,16 @@
 			var rows = dataGrid2.datagrid('getRows');
 			for ( var i = 0; i < rows.length; i++) {
 				//如果项目的状态为开始状态，将刚加入项目组的人员清除
-				if(rows[i].empIds == value && "${project.status}" != 0) {
+				if(rows[i].empId == value && "${project.status}" != 0) {
 					delIds.push(rows[i].id);
 				} 
 				//如果项目的状态为未开始状态，并且未设置人员起止日期的。按关闭按钮则将这些人员清除
-				if(rows[i].empIds == value && "${project.status}" == 0 && rows[i].startDate == undefined) {
+				if(rows[i].empId == value && "${project.status}" == 0 && rows[i].startDate == undefined) {
 					delIds.push(rows[i].id);
 				}
 			}
 		});
+		console.info(delIds) ;
 		if(delIds.length > 0) {
 			$.post(yhq.basePath+"/project/pwe_emp_working/delTempRow.do", {project_id: "${project.id}", ids: delIds.join(",")}, function(result) {
 				if (result.status) {

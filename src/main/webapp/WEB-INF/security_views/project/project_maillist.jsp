@@ -26,8 +26,7 @@
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
-			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
-			    { field: 'tel', title: '联系电话', width: 100, sortable: true }
+			    { field: 'email', title: '邮箱地址', width: 180, sortable: true }
 			]],
 			onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。

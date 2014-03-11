@@ -173,7 +173,7 @@
     							<td class="devlist">
     								<ul>
     									<#list exitProjectMembers as c>
-    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
+    										<li><div class="lname">${c.truename}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
 			    							<#if !c_has_next >
 				    							<li>${exitProjectMembers?size}（人） </li>
 				    						</#if>
@@ -189,7 +189,7 @@
     							<td class="devlist">
     								<ul>
     									<#list notifyMembers as c>
-    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
+    										<li><div class="lname">${c.truename}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
 			    							<#if !c_has_next >
 				    							<li>${notifyMembers?size}（人） </li>
 				    						</#if>
@@ -205,7 +205,7 @@
     							<td class="devlist">
     								<ul>
     									<#list currentMembers as c>
-    										<li><div class="lname">${c.emp_name}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
+    										<li><div class="lname">${c.truename}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
 			    							<#if !c_has_next >
 				    							<li>${currentMembers?size}（人） </li>
 				    						</#if>
