@@ -19,7 +19,7 @@
 		$("#select2").combogrid({
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
 			method: "get", idField: 'id', textField: 'truename', pagination: true,
-			panelWidth: 500, panelHeight: 200, multiple: false, mode:'remote',
+			panelWidth: 500, panelHeight: 200, multiple: false, mode:'remote',required:true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: '工号', width: 60, sortable: true }
@@ -44,6 +44,8 @@
 						'code' : result.code,
 						'project_type' : result.project_type,
 						'team_name' : result.team_name,
+						'startDate' : $.date.format($.string.toDate(result.startDate), "yyyy-MM-dd"),
+						'endDate' : $.date.format($.string.toDate(result.endDate), "yyyy-MM-dd"),
 						'deptid' : result.deptid,
 						'leader_id' : result.leader_id,
 						'taskScope' : result.taskScope,
@@ -51,8 +53,6 @@
 						'project_desc' : result.project_desc,
 						'leader_name' : result.leader_name
 					});
-					$("#s1").datebox('setValue',$.date.format($.string.toDate(result.startDate), "yyyy-MM-dd")) ;
-					$("#e1").datebox('setValue',$.date.format($.string.toDate(result.endDate), "yyyy-MM-dd")) ;
 					$("input[name=projectNum]").attr("readonly","readonly") ;
 					$("#form input:visible")[0].focus();
 				}
@@ -70,13 +70,6 @@
 			editor.render('editor2');
 			
 		},100);
-		
-		$("input[name=projectNum]").blur(function() {
-			//$.easyui.parent.$($.util.currentFrame).closest("div.window-body").dialog("close");
-			//console.info($.easyui.parent.$($.util.currentFrame).closest("div.window-body").dialog("close")) ;
-			console.info($.easyui.parent);
-			
-		});
 	});
 	
 	//提交表单数据
@@ -87,21 +80,17 @@
 			if (result.status) {
 				$datagrid.datagrid('clearSelections');$datagrid.datagrid('clearChecked');$datagrid.datagrid('reload') ;
 				$.easyui.messager.show({ icon: "info", msg: "保存记录成功。" });
+				$dialog.dialog("close") ;
 			} else {
 				$.easyui.messager.show({ icon: "warning", msg: result.msg });
-				return false ;
 			}
 		}, 'json');
 	};
 	
 	//验证表单
 	var submitForm = function($dialog, $datagrid) {
-		console.info($dialog);
 		if($('#form').form('validate')) {
-			return false ;
-			//return submitNow($dialog, $datagrid) ;
-		} else{
-			return false ;
+			submitNow($dialog, $datagrid) ;
 		}
 	};
 </script>

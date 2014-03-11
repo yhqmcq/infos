@@ -64,11 +64,11 @@
 		
 		$.post(form_url, form_data, function(result) {
 			if (result.status) {
-				$datagrid.datagrid('reload') ;
+				$datagrid.datagrid('clearSelections');$datagrid.datagrid('clearChecked');$datagrid.datagrid('reload') ;
 				$.easyui.messager.show({ icon: "info", msg: "保存记录成功。" });
+				$dialog.dialog("close") ;
 			} else {
 				$.easyui.messager.show({ icon: "warning", msg: result.msg });
-				return false ;
 			}
 		}, 'json');
 	};
@@ -76,9 +76,7 @@
 	//验证表单
 	var submitForm = function($dialog, $datagrid) {
 		if($('#form').form('validate')) {
-			return submitNow($dialog, $datagrid) ;
-		} else{
-			return false ;
+			submitNow($dialog, $datagrid) ;
 		}
 	};
 </script>

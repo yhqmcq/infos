@@ -70,7 +70,7 @@
 				return ;
 			}
 		}
-		var dialog = $.easyui.showDialog({
+		var $dialog = $.easyui.showDialog({
             title: "表单",
             href: form_url,
             iniframe: false,
@@ -79,10 +79,12 @@
             autoVCenter: true,
             autoHCenter: true,
             enableApplyButton: false,
-            saveButtonIconCls: "ext_save",
-            onSave: function() {
-            	return $.easyui.parent.submitForm(dialog, dataGrid);
-            }
+            enableCloseButton: false,
+            enableSaveButton: false,
+            buttons : [ 
+              { text : '保存', iconCls : 'ext_save', handler : function() { $.easyui.parent.submitForm($dialog, dataGrid) ; } },
+              { text : '关闭', iconCls : 'ext_cancel', handler : function() { $dialog.dialog('destroy'); } } 
+           	]
         });
 	}
 	

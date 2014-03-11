@@ -120,19 +120,21 @@
 				return ;
 			}
 		}
-		var dialog = $.easyui.showDialog({
+		var $dialog = $.easyui.showDialog({
             title: "表单",
             href: form_url,
             iniframe: false,
             width: 760, height: 530,
             topMost: true,
-            autoVCenter: true,
-            autoHCenter: true,
+            autoVCenter: false,
+            autoHCenter: false,
             enableApplyButton: false,
-            saveButtonIconCls: "ext_save",
-            onSave: function() {
-            	return $.easyui.parent.submitForm(dialog, dataGrid);
-            }
+            enableCloseButton: false,
+            enableSaveButton: false,
+            buttons : [ 
+              { text : '保存', iconCls : 'ext_save', handler : function() { $.easyui.parent.submitForm($dialog, dataGrid) ; } },
+              { text : '关闭', iconCls : 'ext_cancel', handler : function() { $dialog.dialog('destroy'); } } 
+           	]
         });
 	}
 	
@@ -161,7 +163,6 @@
 	}
 	
 	function project_detail(type) {
-		console.info(type) ;
 		if(undefined != type && type === 'S') {
 			var rows = dataGrid.datagrid('getChecked');
 			var ids = [] ;
