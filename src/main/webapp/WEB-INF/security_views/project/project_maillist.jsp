@@ -14,7 +14,7 @@
 			title: '员工列表',
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do?workStatus=0",
 			idField: 'id', fit: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
-			remoteSort: false, toolbar: '#buttonbar1', striped:true, pagination: true,
+			remoteSort: false, toolbar: '#buttonbar1', striped:true, pagination: true,rownumbers: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: '工号', width: 60, sortable: true },
@@ -46,7 +46,7 @@
 			title: '参与人员邮件列表',
 			url: yhq.basePath+"/project/project_main/datagrid_MailList.do?projectid=${project.id}",
 			idField: 'id', fit: true, toolbar: '#buttonbar2', border: false, method: "post",
-			remoteSort: false, striped:true,
+			remoteSort: false, striped:true,rownumbers: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'empid', title: '工号', width: 60, sortable: true },
