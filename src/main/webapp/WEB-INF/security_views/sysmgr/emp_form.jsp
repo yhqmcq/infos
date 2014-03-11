@@ -108,29 +108,25 @@
 			</td>
 		</tr>
 		<tr>
-			<th>电话：</th>
-			<td><input name="tel" class="easyui-validatebox" type="text" data-options="prompt: '联系电话'" /></td>
 			<th>日语级别：</th>
 			<td><input name="japanese" class="easyui-validatebox" type="text" data-options="prompt: '日语级别'" /></td>
 			<!-- 
 			<th>邮箱：</th>
 			<td><input name="email" validType="email" class="easyui-validatebox" type="text" data-options="required:true, prompt: '邮箱地址'" /></td>
 			 -->
-		</tr>
-		<tr>
-			<th>公司部门：</th>
-			<td><input id="select1" name="orgid" /></td>
-			<th>公司岗位：</th>
-			<td><input id="select2" /></td>
-		</tr>
-		<tr>
-			<th>是否部长：</th>
+		 	<th>是否部长：</th>
 			<td>
 				<input class="easyui-combobox" style="width:157px;" name="isLeader" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : 'N',
 					data: [{ label: 'N', value: '否' },{ label: 'Y', value: '是' }],
 					panelHeight:'auto', editable:false" />
 			</td>
+		</tr>
+		<tr>
+			<th>公司部门：</th>
+			<td><input id="select1" name="orgid" /></td>
+			<th>公司岗位：</th>
+			<td><input id="select2" /></td>
 		</tr>
 	</table>
 	

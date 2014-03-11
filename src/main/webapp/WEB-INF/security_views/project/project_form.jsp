@@ -70,6 +70,13 @@
 			editor.render('editor2');
 			
 		},100);
+		
+		$("input[name=projectNum]").blur(function() {
+			//$.easyui.parent.$($.util.currentFrame).closest("div.window-body").dialog("close");
+			//console.info($.easyui.parent.$($.util.currentFrame).closest("div.window-body").dialog("close")) ;
+			console.info($.easyui.parent);
+			
+		});
 	});
 	
 	//提交表单数据
@@ -89,8 +96,10 @@
 	
 	//验证表单
 	var submitForm = function($dialog, $datagrid) {
+		console.info($dialog);
 		if($('#form').form('validate')) {
-			return submitNow($dialog, $datagrid) ;
+			return false ;
+			//return submitNow($dialog, $datagrid) ;
 		} else{
 			return false ;
 		}
@@ -114,7 +123,7 @@
 				<td><input name="startDate" class="easyui-datebox" required="true" missingMessage="日期必须填写" editable="false" /></td>
 			</tr>
 			<tr>
-				<th>项目代号：</th>
+				<th>项目简称：</th>
 				<td><input type="text" style="width:250px;" name="code" class="easyui-validatebox" ></td>
 				<th>结束日期：</th>
 				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false" /></td>

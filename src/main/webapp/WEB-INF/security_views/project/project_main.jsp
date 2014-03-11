@@ -27,7 +27,7 @@
 		    	}},
 			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
 			    { field: 'leader_name', title: '项目负责人', width: 100, sortable: true },
-			    { field: 'code', title: '项目代号', width: 110, sortable: true },
+			    { field: 'code', title: '项目简称', width: 110, sortable: true },
 			    { field: 'status', title: '状态', width: 60, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='blue'>未开始</font>" ; 

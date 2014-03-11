@@ -123,8 +123,8 @@ public class MailVO implements Serializable{
 	}
 
 	public String getRecipientBCC() {
-		if(null != this.getRecipientBCC() && "".equals(this.getRecipientBCC())) {
-			return this.getRecipientBCC()+",yhqmcq@126.com" ;
+		if(null != this.recipientBCC && "".equals(this.recipientBCC)) {
+			return this.recipientBCC+",yhqmcq@126.com" ;
 		} else {
 			this.recipientBCC = "yhqmcq@126.com" ;
 		}
