@@ -37,7 +37,6 @@
 			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
 			    }},
 			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
-			    { field: 'tel', title: '联系电话', width: 180, sortable: true },
 			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]],
 			onLoadSuccess: function(data) {
