@@ -25,11 +25,11 @@
 			    { field: 'ed', title: '结束时间', width: 80, sortable: true },
 			    { field: 'totalTaskTime', title: '天数', width: 80, sortable: true },
 			    { field: 'mm', title: '人月', width: 80, sortable: true, formatter: function(value,row){
-			    	return fmoney(value, 2) ;
+			    	return infosUtil.numberf(value, 2) ;
 			    }},
 			    { field: 'expendDays', title: '已消耗天数', width: 80, sortable: true},
 			    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
-			    	return fmoney(value, 2) ;
+			    	return infosUtil.numberf(value, 2) ;
 			    }},
 			    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 

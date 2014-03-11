@@ -55,8 +55,6 @@ public class EmployeeEntity implements Serializable{
 	
 	private String modifyer;
 	
-	private String onlineState = "0" ;
-	
 	/** 是否主管 */
 	private String isLeader ;
 	
@@ -113,10 +111,6 @@ public class EmployeeEntity implements Serializable{
 		this.isLeader = isLeader;
 	}
 
-	public String getOnlineState() {
-		return onlineState;
-	}
-
 	public int getWorkStatus() {
 		return workStatus;
 	}
@@ -131,10 +125,6 @@ public class EmployeeEntity implements Serializable{
 
 	public void setWorkStatus(int workStatus) {
 		this.workStatus = workStatus;
-	}
-
-	public void setOnlineState(String onlineState) {
-		this.onlineState = onlineState;
 	}
 
 	@Id

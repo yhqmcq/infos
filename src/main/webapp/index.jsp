@@ -19,6 +19,7 @@
 		<div id="northPanel" data-options="region: 'north', border: false" style="height: 80px; overflow: hidden;">
 			<div id="topbar" class="top-bar">
                 <div class="top-bar-left">
+                	<img src="<%=basePath%>/images/logo.gif">
                 	<!-- 
                     <h1 style="margin-left: 10px; margin-top: 10px;">info-x</h1>
                 	 -->
@@ -144,10 +145,10 @@
                                     <div style="text-align:center" data-options="height: 310, border: false, collapsible: true, closable: true">
                                     	<span style="font-size:33px;font-weight:bold;margin-top:50px;display:block;">欢迎进入项目管理系统</span>
                                     </div>
-                                    <!-- 
                                     <div data-options="title: '项目信息', topMost: true, height: 310, collapsible: true, closable: true">
                                     	<iframe style="width:100%;height:100%;border:0px;" src="<%=basePath%>/sview/chat.jsp"></iframe>
                                     </div>
+                                    <!-- 
                                      -->
                                 </div>
                             </div>

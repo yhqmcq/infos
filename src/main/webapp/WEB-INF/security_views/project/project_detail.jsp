@@ -95,19 +95,6 @@
 $(function() {
 	detail() ;
 });
-function fmoney(s, n)   
-{   
-   n = n > 0 && n <= 20 ? n : 2;   
-   s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";   
-   var l = s.split(".")[0].split("").reverse(),   
-   r = s.split(".")[1];   
-   t = "";   
-   for(var i = 0; i < l.length; i ++ )   
-   {   
-      t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");   
-   }   
-   return t.split("").reverse().join("") + "." + r;   
-} 
 function detail() {
 	
 	$.post(yhq.basePath+"/project/project_main/get_ProjectDetail.do", {id : "${id}"}, function(result) {
@@ -145,7 +132,7 @@ function detail() {
 				var _t4 = $("<td>").html($.date.format($.string.toDate(p.endDate), "yyyy-MM-dd")) ;
 				var _t5 = $("<td>").html(p.totalTaskTime) ;
 				var _t6 = $("<td>").html(p.expendDays) ;
-				var _t7 = $("<td>").html(fmoney(p.expendMM,2)) ;
+				var _t7 = $("<td>").html(infosUtil.numberf(p.expendMM,2)) ;
 				
 				_tr.append(_t1) ;
 				_tr.append(_t2) ;

@@ -102,6 +102,9 @@
 	 			dataGrid.datagrid('fixDetailRowHeight',index);
 		 	},
 		 	*/
+		 	onDblClickRow : function(rowIndex, rowData) {
+		 		getDevList(+rowData.id, rowData.name) ;
+		 	},
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
 	        selectOnRowContextMenu: false,      //此属性开启当右键点击行时自动选择该行的功能

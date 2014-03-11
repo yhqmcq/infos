@@ -256,10 +256,10 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		List<ProjectEmpWorkingForm> exitProjectMember = null ;
 		if(null != form.getIds() && !form.getIds().equalsIgnoreCase("")) {
 			exitProjectMember = new ArrayList<ProjectEmpWorkingForm>() ;
-			String[] id = form.getIds().split(",") ;
+			String[] ids = form.getIds().split(",") ;
 			
-			for(int i=0;i<id.length;i++) {
-				ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id[i]) ;
+			for(int i=0;i<ids.length;i++) {
+				ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, ids[i]) ;
 				
 				//将员工设为空闲人员
 				EmployeeEntity emp = entity.getEmp() ;
@@ -268,7 +268,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				//如果人员未设置起止日期，和项目的状态为（未开始），则删除人员
 				if(entity.getStatus() == 0 || entity.getProject().getStatus() == 0) {
 					this.basedaoProjectEW.delete(entity) ;
-					return ;
+					continue ;
 				}
 				//标记为结束(退出项目组)
 				entity.setStatus(4) ;
@@ -278,17 +278,23 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				entity.setCreated(new Date()) ;
 				
 				ProjectEmpWorkingForm f = new ProjectEmpWorkingForm() ;
-				BeanUtils.copyProperties(entity, f) ;
+				f.setEmp_name(entity.getEmp().getTruename()) ;
+				f.setStartDate(entity.getStartDate()) ;
+				f.setEndDate(entity.getEndDate()) ;
 				exitProjectMember.add(f) ;
 			}
 		}
-		ProjectMainEntity projectMainEntity = this.basedaoProject.get(ProjectMainEntity.class, form.getProject_id()) ;
 		
-		//退出发送邮件通知
-		exitProjectMember(projectMainEntity, exitProjectMember) ;
-		
-		// 定时任务，人员退出项目（重新设定人员期满的触发时间）
-		this.memberSchedulerReset(projectMainEntity);
+		//如果集合中没有退出的人员,则说明全部人员都未设置日期。不需发送邮件
+		if(!exitProjectMember.isEmpty()) {
+			ProjectMainEntity projectMainEntity = this.basedaoProject.get(ProjectMainEntity.class, form.getProject_id()) ;
+			
+			//退出发送邮件通知
+			exitProjectMember(projectMainEntity, exitProjectMember) ;
+			
+			// 定时任务，人员退出项目（重新设定人员期满的触发时间）
+			this.memberSchedulerReset(projectMainEntity);
+		}
 	}
 	
 	//开发人员退出项目组-发送邮件通知
@@ -332,7 +338,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					currentMembers.add(p) ;
 				}
 			}
-			
 			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息

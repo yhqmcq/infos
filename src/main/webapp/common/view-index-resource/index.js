@@ -565,7 +565,7 @@
      */
     window.mainpage.online = function() {
     	var o = $(online).datagrid({
-			url: yhq.basePath+"/sysmgr/emponline/doNotNeedSession_datagrid.do",
+			//url: yhq.basePath+"/sysmgr/emponline/doNotNeedSession_datagrid.do",
 			method: "post",
 			idField: "id",
 			rownumbers: true,

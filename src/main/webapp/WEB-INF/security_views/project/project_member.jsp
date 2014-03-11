@@ -79,13 +79,11 @@
 			]]
 	    });
 		$("input[name=projectStartDate]").val(infosUtil.str2date("${project.startDate}").format("YYYY-MM-dd"));
-		/*
-		$("#s1").datebox({ required: true, value: $.date.format(new Date(), "yyyy-MM-dd") });
-		$("#e1").datebox({ required:true, onSelect : function(date) {
-			var t = $.date.compare($.date.format(date,"yyyy-MM-dd"), $("#s1").datebox('getValue')) ;
-			if(t<0) { $("#e1").datebox('setValue','') ; $.easyui.messager.show({ icon: "warning", msg: "项目结束日期不能小于项目开始日期！" }); }
-		} });
-		*/
+		
+		$("<a data-options=\"plain: true, iconCls: 'pagination-last'\" style=\"cursor: pointer;position: absolute;left:5px; top:110px;\"></a>").linkbutton().tooltip({ content: "选择全部" }).appendTo($("#aaa")).click(function () {addAllMember();}) ;
+		$("<a data-options=\"plain: true, iconCls: 'pagination-next'\" style=\"cursor: pointer;position: absolute;left:5px; top:140px;\"></a>").linkbutton().tooltip({ content: "选择勾选部分" }).appendTo($("#aaa")).click(function () {addMember();}) ;
+		$("<a data-options=\"plain: true, iconCls: 'pagination-prev'\" style=\"cursor: pointer;position: absolute;left:5px; top:170px;\"></a>").linkbutton().tooltip({ content: "取消勾选部分" }).appendTo($("#aaa")).click(function () {revertMember();}) ;
+		$("<a data-options=\"plain: true, iconCls: 'pagination-first'\" style=\"cursor: pointer;position: absolute;left:5px; top:200px;\"></a>").linkbutton().tooltip({ content: "取消全部" }).appendTo($("#aaa")).click(function () {revertAllMember();}) ;
 		
 	    $('#gridSearchbox').searchbox({
 	    	searcher:function(value, name) {
@@ -105,8 +103,15 @@
 		dataGrid1.datagrid("load", {}) ;
 	}
 	
+	function addAllMember() {
+		dataGrid1.datagrid("checkAll");
+		var rows = dataGrid1.datagrid("getSelections");
+		if(rows.length > 0) {
+			addMember() ;
+		}
+	}
 	function addMember() {
-		var rows = dataGrid1.datagrid('getChecked');
+		var rows = dataGrid1.datagrid("getSelections");
 		var empIds = [] ;
 		if (rows.length > 0) {
 			for ( var i = 0; i < rows.length; i++) {
@@ -130,9 +135,15 @@
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
 	}
-	
+	function revertAllMember() {
+		dataGrid2.datagrid("checkAll");
+		var rows = dataGrid2.datagrid("getSelections");
+		if(rows.length > 0) {
+			revertMember() ;
+		}
+	}
 	function revertMember() {
-		var rows = dataGrid2.datagrid('getChecked');
+		var rows = dataGrid2.datagrid("getSelections");
 		var ids = [];
 		if (rows.length > 0) {
 			for ( var i = 0; i < rows.length; i++) {
@@ -288,9 +299,11 @@
 			<div class="easyui-layout" data-options="fit: true">
 				<div data-options="region: 'north', border: false" style="overflow: hidden;width:200px;height:370px;">
 					<div class="easyui-layout" data-options="fit: true">
-						<div data-options="region: 'west', border: true" style="position: relative;overflow: hidden;background:#e3e3e3; border-bottom:0px;width:40px;height:220px;">
+						<div id="aaa" data-options="region: 'west', border: true" style="position: relative;overflow: hidden;background:#e3e3e3; border-bottom:0px;width:40px;height:220px;">
+							<!-- 
 							<a onclick="addMember()" class='imgIcon icon-hamburg-right' style="cursor: pointer;position: absolute;left:5px; top:110px;"></a>							
 							<a onclick="revertMember()" class='imgIcon icon-hamburg-left' style="cursor: pointer;position: absolute;left:5px; top:160px;"></a>							
+							 -->
 						</div>
 						
 						<div data-options="region: 'center', border: true" style="overflow: hidden;width:100px;height:200px; border-right:0px; border-bottom:0px;">
