@@ -141,7 +141,7 @@
                        	<div data-options="region: 'center', border: false" style="overflow: hidden;">
                             <div id="portal" class="easyui-portal" data-options="fit: true, border: false">
                                 <div style="width: 33%;">
-                                    <div style="text-align:center" data-options="height: 310, collapsible: true, closable: true">
+                                    <div style="text-align:center" data-options="height: 310, border: false, collapsible: true, closable: true">
                                     	<span style="font-size:33px;font-weight:bold;margin-top:50px;display:block;">欢迎进入项目管理系统</span>
                                     </div>
                                     <!-- 
