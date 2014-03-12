@@ -53,7 +53,7 @@
 			    	if(value == 0){ return "对日短期保守项目" ; } else  if(value == 1) { return "对日长期保守项目" ; } else  if(value == 2) { return "对日新规项目" ; } else  if(value == 3) { return "国内项目" ; } else { return "公司内部项目" ; }
 			    } },
 			    { field: 'team_name', title: '团队名称', width: 100, sortable: true },
-			    { field: 'taskScope', title: '作业范围', width: 200, sortable: true, tooltip: true },
+			    { field: 'taskScope', title: '作业范围', width: 100, sortable: true, tooltip: true },
 			    { field: 'project_target', title: '项目目标', width: 200, sortable: true, tooltip: true },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
 			]],
