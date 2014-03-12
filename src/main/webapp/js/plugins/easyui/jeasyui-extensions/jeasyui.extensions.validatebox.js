@@ -110,7 +110,7 @@
         TimeCheck:{ 
         	validator:function(value,param){     
         		var s = $("input[name="+param[0]+"]").val(); 
-        		return value>s; 
+        		return value>=s; 
         	}, 
         	message:'非法数据' 
         },

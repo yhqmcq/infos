@@ -40,7 +40,7 @@
 			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
-				dataGrid1.datagrid("load",{"orgid": node.id});
+				dataGrid1.datagrid("load",{"orgid": node.id, "inStatus": 0});
 			}
 	    });
 		dataGrid2 = $("#d2").datagrid({

@@ -13,7 +13,7 @@
 			title: '员工列表',
 			url: yhq.basePath+"/project/project_main/get_ProjectDevList.do?id=${id}",
 			idField: 'emp_id', fit: true, fitColumns: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
-			remoteSort: false, striped:true, pagination: true,showFooter: true,
+			remoteSort: false, striped:true, pagination: true,showFooter: true,pageSize: 50,pageList: [10,20,30,50],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'emp_id', title: '工号', width: 60, sortable: true },

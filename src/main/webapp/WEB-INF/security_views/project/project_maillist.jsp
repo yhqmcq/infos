@@ -12,7 +12,7 @@
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
 			title: '员工列表',
-			url: yhq.basePath+"/sysmgr/employee/datagrid.do?workStatus=0",
+			url: yhq.basePath+"/sysmgr/employee/datagrid.do?notInStatus=9999",
 			idField: 'id', fit: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
 			remoteSort: false, toolbar: '#buttonbar1', striped:true, pagination: true,rownumbers: true,
 			frozenColumns: [[
@@ -39,7 +39,7 @@
 			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
-				dataGrid1.datagrid("load",{"orgid": node.id});
+				dataGrid1.datagrid("load",{"orgid": node.id, "notInStatus":9999});
 			}
 	    });
 		dataGrid2 = $("#d2").datagrid({

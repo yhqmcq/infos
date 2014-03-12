@@ -135,27 +135,5 @@
 			 	</table>
 			</form>
 		</div>
-		
-		<div data-options="title: 'LDAP模式', refreshable: false">
-			<form id="form-login" class="easyui-form">
-			 	<table id="login_box">
-					<tr>
-						<th style="width:90px;text-align:right;">账&nbsp;&nbsp;号：</th>
-						<td><input name="a" value="admin" class="easyui-validatebox" style="width:250px;height:25px;" type="text" data-options="required:true, prompt: '登陆账号'" ></td>
-					</tr>	
-					<tr>
-						<th style="width:90px;text-align:right;">账&nbsp;&nbsp;号：</th>
-						<td><input name="b" value="admin" class="easyui-validatebox" style="width:250px;height:25px;" type="text" data-options="required:true, prompt: '登陆账号'" ></td>
-					</tr>	
-					<tr>
-						<th style="width:90px;text-align:right;">验证码：</th> 
-						<td>
-							<input name="kaptcha" class="easyui-validatebox" style="float:left;width:120px;height:25px;" type="text" >
-							<img id="kaptcha" src="${pageContext.request.contextPath}/images/loading5.gif">
-						</td>
-					</tr>	
-			 	</table>
-			</form>
-		</div>
 	</div>
 </div>

@@ -12,7 +12,7 @@
 	$(function() {
 		dataGrid = $("#d1").datagrid({
 			title: '员工管理',
-			url: yhq.basePath+"/sysmgr/employee/datagrid.do?notInStatus=9999",
+			url: yhq.basePath+"/sysmgr/employee/datagrid.do?inStatus=0",
 			idField: 'id', fit: true, border: false, method: "post", singleSelect: true, rownumbers: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 20,pageList: [10,20,30,50],
 			frozenColumns: [[
@@ -33,10 +33,6 @@
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
-			    { field: 'account', title: '账号', width: 120, sortable: true },
-			    { field: 'status', title: '账号状态', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
-			    }},
 			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
 			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]],
@@ -54,63 +50,10 @@
 			width:180, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
-				dataGrid.datagrid("load",{"orgid": node.id, "notInStatus":9999});
+				dataGrid.datagrid("load",{"orgid": node.id, "inStatus":0});
 			}
 	    });
 	});
-	
-	function form_edit(form) {
-		var form_url = yhq.basePath+"/sysmgr/employee/emp_form.do" ;
-		if("E" == form) {
-			var node = dataGrid.datagrid('getSelected');
-			if (node) {
-				form_url = yhq.basePath+"/sysmgr/employee/emp_form.do?id="+node.id ;
-			} else {
-				$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
-				return ;
-			}
-		}
-		var $dialog = $.easyui.showDialog({
-            title: "表单",
-            href: form_url,
-            iniframe: false,
-            width: 550, height: 280,
-            topMost: true,
-            autoVCenter: true,
-            autoHCenter: true,
-            enableApplyButton: false,
-            enableCloseButton: false,
-            enableSaveButton: false,
-            buttons : [ 
-              { text : '保存', iconCls : 'ext_save', handler : function() { $.easyui.parent.submitForm($dialog, dataGrid) ; } },
-              { text : '关闭', iconCls : 'ext_cancel', handler : function() { $dialog.dialog('destroy'); } } 
-           	]
-        });
-	}
-	
-	function del() {
-		var rows = dataGrid.datagrid('getChecked');
-		var ids = [];
-		if (rows.length > 0) {
-			$.messager.confirm("您确定要进行该操作？", function (c) { 
-				if(c) {
-					for ( var i = 0; i < rows.length; i++) {
-						ids.push(rows[i].id);
-					}
-					$.post(yhq.basePath+"/sysmgr/employee/delete.do", {ids : ids.join(',')}, function(result) {
-						if (result.status) {
-							dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
-							$.easyui.messager.show({ icon: "info", msg: "删除记录成功。" });
-						} else {
-							$.easyui.messager.show({ icon: "info", msg: "删除记录失败。" });
-						}
-					}, 'json');
-				}
-			});
-		} else {
-			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
-		}
-	}
 	
 </script>
 
@@ -121,9 +64,6 @@
 		<div data-options="region: 'center', border: false" style="overflow: hidden;">
 			<div id="d1">
 				<div id="buttonbar">
-                    <a onClick="form_edit('A');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_add'">添加</a>
-                    <a onClick="form_edit('E');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">编辑</a>
-                    <a onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 					部门：<input id="select1" name="pid" />
                     <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">取消筛选</a>
