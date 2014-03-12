@@ -1,5 +1,6 @@
 package com.infox.common.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,20 +18,19 @@ public class DateCal {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date date_start = sdf.parse(strDateStart);
 			Date date_end = sdf.parse(strDateEnd);
-			DateCal app = new DateCal();
 			Calendar cal_start = Calendar.getInstance();
 			Calendar cal_end = Calendar.getInstance();
 			cal_start.setTime(date_start);
 			cal_end.setTime(date_end);
-			System.out.println("星期-->" + app.getChineseWeek(cal_start) + " 日期-->" + cal_start.get(Calendar.YEAR) + "-" + (cal_start.get(Calendar.MONTH) + 1) + "-" + cal_start.get(Calendar.DAY_OF_MONTH));
-			System.out.println("星期-->" + app.getChineseWeek(cal_end) + " 日期-->" + cal_end.get(Calendar.YEAR) + "-" + (cal_end.get(Calendar.MONTH) + 1) + "-" + cal_end.get(Calendar.DAY_OF_MONTH));
-			System.out.println("工作日为-->" + app.getWorkingDay(cal_start, cal_end));
-			System.out.println("休息日-->" + app.getHolidays(cal_start, cal_end));
+			System.out.println("星期-->" + getChineseWeek(cal_start) + " 日期-->" + cal_start.get(Calendar.YEAR) + "-" + (cal_start.get(Calendar.MONTH) + 1) + "-" + cal_start.get(Calendar.DAY_OF_MONTH));
+			System.out.println("星期-->" + getChineseWeek(cal_end) + " 日期-->" + cal_end.get(Calendar.YEAR) + "-" + (cal_end.get(Calendar.MONTH) + 1) + "-" + cal_end.get(Calendar.DAY_OF_MONTH));
+			System.out.println("工作日为-->" + getWorkingDay(cal_start, cal_end));
+			System.out.println("休息日-->" + getHolidays(cal_start, cal_end));
 		} catch (Exception e) {
 		}
 	}
 
-	public int getDaysBetween(java.util.Calendar d1, java.util.Calendar d2) {
+	public static int getDaysBetween(java.util.Calendar d1, java.util.Calendar d2) {
 		if (d1.after(d2)) { // swap dates so that d1 is start and d2 is end
 			java.util.Calendar swap = d1;
 			d1 = d2;
@@ -55,7 +55,7 @@ public class DateCal {
 	 * @param d2
 	 * @return
 	 */
-	public int getWorkingDay(java.util.Calendar d1, java.util.Calendar d2) {
+	public static int getWorkingDay(java.util.Calendar d1, java.util.Calendar d2) {
 		int result = -1;
 		if (d1.after(d2)) { // swap dates so that d1 is start and d2 is end
 			java.util.Calendar swap = d1;
@@ -74,16 +74,17 @@ public class DateCal {
 		stmp = 7 - d1.get(Calendar.DAY_OF_WEEK);
 		etmp = 7 - d2.get(Calendar.DAY_OF_WEEK);
 		if (stmp != 0 && stmp != 6) {// 开始日期为星期六和星期日时偏移量为0
-			charge_start_date = stmp - 1;
+			//charge_start_date = stmp - 1;
+			charge_start_date = stmp;
 		}
 		if (etmp != 0 && etmp != 6) {// 结束日期为星期六和星期日时偏移量为0
 			charge_end_date = etmp - 1;
 		}
-		result = (getDaysBetween(this.getNextMonday(d1), this.getNextMonday(d2)) / 7) * 5 + charge_start_date - charge_end_date;
+		result = (getDaysBetween(getNextMonday(d1), getNextMonday(d2)) / 7) * 5 + charge_start_date - charge_end_date;
 		return result;
 	}
 
-	public String getChineseWeek(Calendar date) {
+	public static String getChineseWeek(Calendar date) {
 		final String dayNames[] = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
 		int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
 		return dayNames[dayOfWeek - 1];
@@ -95,7 +96,7 @@ public class DateCal {
 	 * @param date
 	 * @return
 	 */
-	public Calendar getNextMonday(Calendar date) {
+	public static Calendar getNextMonday(Calendar date) {
 		Calendar result = null;
 		result = date;
 		do {
@@ -111,8 +112,26 @@ public class DateCal {
 	 * @param d2
 	 * @return
 	 */
-	public int getHolidays(Calendar d1, Calendar d2) {
-		return this.getDaysBetween(d1, d2) - this.getWorkingDay(d1, d2);
+	public static int getHolidays(Calendar d1, Calendar d2) {
+		return getDaysBetween(d1, d2) - getWorkingDay(d1, d2);
 	}
 
+	public static int getWorkingDays(String strDateStart, String strDateEnd) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date date_start = sdf.parse(strDateStart);
+			Date date_end = sdf.parse(strDateEnd);
+			
+			Calendar cal_start = Calendar.getInstance();
+			Calendar cal_end = Calendar.getInstance();
+			cal_start.setTime(date_start);
+			cal_end.setTime(date_end);
+			return getWorkingDay(cal_start, cal_end);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return 0 ;
+	}
+	
+	
 }

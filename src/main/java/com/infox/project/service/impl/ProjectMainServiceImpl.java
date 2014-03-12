@@ -21,6 +21,7 @@ import com.infox.common.mail.MailVO;
 import com.infox.common.util.BeanUtils;
 import com.infox.common.util.ClobUtil;
 import com.infox.common.util.Constants;
+import com.infox.common.util.DateCal;
 import com.infox.common.util.DateUtil;
 import com.infox.common.util.NumberUtils;
 import com.infox.common.util.RandomUtils;
@@ -389,15 +390,15 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
 				
-				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
+				long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
 				long lastdateDiff = 0 ;
 				
 				//如果结束日期大于今天，已消耗天数的则不以当前的日期来计算
 				int compare_date2 = DateUtil.compare_date2(DateUtil.formatF(new Date()), DateUtil.formatF(p.getEndDate())) ;
 				if(compare_date2 == 1) {
-					lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate())) ;
+					lastdateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate())) ;
 				} else {
-					lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(new Date())) ;
+					lastdateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(new Date())) ;
 				}
 				
 				int compare_date3 = DateUtil.compare_date2(DateUtil.formatF(p.getStartDate()), DateUtil.formatF(new Date())) ;
@@ -472,8 +473,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				pf.setStartDate(p.getStartDate()) ;
 				pf.setEndDate(p.getEndDate()) ;
 				
-				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
-				long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(p.getEndDate()));
+				long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
+				long lastdateDiff = DateCal.getWorkingDays(DateUtil.formatG(new Date()), DateUtil.formatG(p.getEndDate()));
 				pf.setTotalTaskTime(dateDiff) ;
 				pf.setExpendDays(lastdateDiff) ;
 				pf.setExpendMM(((float)dateDiff - (float)lastdateDiff)/21f) ;
@@ -531,10 +532,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				uf.setLeader_name(i.getEmp().getTruename()) ;
 
 				//计算项目的天数(不包括周六日)
-				long dateDiff = DateUtil.dateDiff(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
+				long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
 				uf.setDateDiff(dateDiff);
 				if(i.getStatus() != 3) {	//项目为结束状态，无需计算剩余天数
-					long lastdateDiff = DateUtil.dateDiff(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate()));
+					long lastdateDiff = DateCal.getWorkingDays(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate()));
 					uf.setLastdateDiff(lastdateDiff);
 				}
 				if (null != i.getDept()) {
@@ -548,7 +549,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						pw.getEmp().setWorkStatus(0) ;
 						this.basedaoProjectEW.delete(pw) ;
 					} else {
-						long totalDays = DateUtil.dateDiff(DateUtil.formatG(pw.getStartDate()), DateUtil.formatG(pw.getEndDate())) ;
+						long totalDays = DateCal.getWorkingDays(DateUtil.formatG(pw.getStartDate()), DateUtil.formatG(pw.getEndDate())) ;
 						float mm = (1*((float)totalDays/30)) ;
 						allTotalMM += mm ;
 					}

@@ -514,7 +514,7 @@ public class DateUtil {
 		if(day > 0) {
 			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)-day); 
 			
-			if(sc.get(Calendar.DAY_OF_WEEK)-1 == 6) {
+			if(sc.get(Calendar.DAY_OF_WEEK) == 6) {
 				sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)-1); 
 			}
 			if(sc.get(Calendar.DAY_OF_WEEK)-1 == 0) {
@@ -527,11 +527,11 @@ public class DateUtil {
 	}
 	
 	public static void main(String[] args) throws ParseException {
-		String datetime = "2014-03-4 12:46:00" ;
+		//String datetime = "2014-03-4 12:46:00" ;
 		
-		String[] dateCron = getDateCron(datetime, 2) ;
-		System.out.println(dateCron[0]);
-		System.out.println(dateCron[1]);
+		//String[] dateCron = getDateCron(datetime, 2) ;
+		//System.out.println(dateCron[0]);
+		//System.out.println(dateCron[1]);
 		
 		
 		/*
@@ -552,10 +552,10 @@ public class DateUtil {
 		System.out.println(getBabyAge("1988-05-11"));
 		*/
 		
-		String strDateStart = "2014-03-06";
-		String strDateEnd = "2014-03-20";
+		String strDateStart = "2013-12-02";
+		String strDateEnd = "2014-03-31";
 		
-		System.out.println(dateDiff(strDateStart, strDateEnd));
+		//System.out.println(dateDiff(strDateStart, strDateEnd));
 		
 		//int dutyDays = getDutyDays(formatGG(strDateStart), formatGG(strDateEnd)) ;
 		//System.out.println(dutyDays);
@@ -564,15 +564,16 @@ public class DateUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date_start = sdf.parse(strDateStart);
 		Date date_end = sdf.parse(strDateEnd);
-		DateCal app = new DateCal();
 		Calendar cal_start = Calendar.getInstance();
 		Calendar cal_end = Calendar.getInstance();
 		cal_start.setTime(date_start);
 		cal_end.setTime(date_end);
-		System.out.println("星期-->" + app.getChineseWeek(cal_start) + " 日期-->" + cal_start.get(Calendar.YEAR) + "-" + (cal_start.get(Calendar.MONTH) + 1) + "-" + cal_start.get(Calendar.DAY_OF_MONTH));
-		System.out.println("星期-->" + app.getChineseWeek(cal_end) + " 日期-->" + cal_end.get(Calendar.YEAR) + "-" + (cal_end.get(Calendar.MONTH) + 1) + "-" + cal_end.get(Calendar.DAY_OF_MONTH));
-		System.out.println("工作日为-->" + app.getWorkingDay(cal_start, cal_end));
-		System.out.println("休息日-->" + app.getHolidays(cal_start, cal_end));
+		System.out.println("星期-->" + DateCal.getChineseWeek(cal_start) + " 日期-->" + cal_start.get(Calendar.YEAR) + "-" + (cal_start.get(Calendar.MONTH) + 1) + "-" + cal_start.get(Calendar.DAY_OF_MONTH));
+		System.out.println("星期-->" + DateCal.getChineseWeek(cal_end) + " 日期-->" + cal_end.get(Calendar.YEAR) + "-" + (cal_end.get(Calendar.MONTH) + 1) + "-" + cal_end.get(Calendar.DAY_OF_MONTH));
+		System.out.println("工作日为-->" + DateCal.getWorkingDay(cal_start, cal_end));
+		System.out.println("休息日-->" + DateCal.getHolidays(cal_start, cal_end));
+		
+		System.out.println(DateCal.getWorkingDays(formatG(date_start), formatG(date_end)));
 	}
 	
 	/**
@@ -587,8 +588,8 @@ public class DateUtil {
 	 * @param endDate
 	 * @return int
 	 */
-	/*
-	public static int getDutyDays(java.util.Date startDate, java.util.Date endDate) {
+	
+	/*public static int getDutyDays(java.util.Date startDate, java.util.Date endDate) {
 		int result = 0;
 		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		while (startDate.compareTo(endDate) <= 0) {
