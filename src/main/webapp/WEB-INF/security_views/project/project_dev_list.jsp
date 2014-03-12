@@ -20,7 +20,27 @@
 			    { field: 'emp_name', title: '姓名', width: 70, sortable: true }
 			]],
 			columns: [[
-			    { field: 'dept_name', title: '部门', width: 100, sortable: true },
+			    { field: 'dept_name', title: '部门', width: 120, sortable: true },
+			    { field: 'position_name', title: '公司岗位', width: 120, sortable: true },
+			    { field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
+					if(value == 0) {
+			    		return "未设置角色" ;
+			    	} else if(value == 1) {
+			    		return "PG" ;
+			    	} else if(value == 2) {
+			    		return "PL" ;
+			    	} else if(value == 3) {
+			    		return "SE" ;
+			    	} else if(value == 4) {
+			    		return "PM" ;
+			    	} else if(value == 5) {
+			    		return "初级PG1" ;
+			    	}else if(value == 6) {
+			    		return "初级PG2" ;
+			    	}else if(value == 7) {
+			    		return "初级PG3" ;
+			    	}
+			    }},
 			    { field: 'sd', title: '开始时间', width: 80, sortable: true },
 			    { field: 'ed', title: '结束时间', width: 80, sortable: true },
 			    { field: 'totalTaskTime', title: '天数', width: 80, sortable: true },
@@ -48,7 +68,7 @@
 <body style="padding: 0px; margin: 0px;">
 	<div class="easyui-layout" data-options="fit: true">
 		<div data-options="region: 'north', border: false" style="overflow: hidden;width:100%;height:55px;padding:10px;">
-			1、在这里可以设置项目参与人员的邮件列表，项目的相关变更系统都会自动发送邮件到邮件列表中。<br>
+			1、项目开发人员详细列表。<br>
 		</div>
 		<div data-options="region: 'center', border: true" style="overflow: hidden;width:480px; border-left:0px;border-left:0px; border-bottom:0px;">
 			<div id="d1">

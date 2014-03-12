@@ -152,9 +152,8 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			Set<ProjectEmpWorkingEntity> pwes = p.getPwe();
 			for (ProjectEmpWorkingEntity member : pwes) {
 				if (member.getStatus() == 1) {
-					/** ---------------------------------------------------------------------------------- */
 					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(
-							member.getEndDate()) + " 13:13:31", 2);
+							member.getEndDate()) + " 08:35:30", 2);
 					for (int i = 0; i < dateCron.length; i++) {
 						// 将相同日期的归为一组，进行定时
 						dateGroup.add(dateCron[i]);

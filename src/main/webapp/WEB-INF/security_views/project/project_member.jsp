@@ -19,14 +19,15 @@
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: '工号', width: 60, sortable: true },
-			    { field: 'truename', title: '姓名', width: 100, sortable: true }
+			    { field: 'truename', title: '姓名', width: 80, sortable: true }
 			]],
 			columns: [[
-			    { field: 'orgname', title: '机构部门', width: 100, sortable: true },
-			    { field: 'empjobsName', title: '职位', width: 100, sortable: true },
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
+			    { field: 'orgname', title: '部门', width: 110, sortable: true },
+ 			    { field: 'position', title: '职位', width: 110, sortable: true },
+			    { field: 'japanese', title: '日语级别', width: 90, sortable: true },
 			    { field: 'email', title: '邮箱地址', width: 180, sortable: true }
 			]],
 			onLoadSuccess: function(data) {
@@ -64,9 +65,13 @@
 			    	} else if(value == 3) {
 			    		return "SE" ;
 			    	} else if(value == 4) {
-			    		return "PG" ;
+			    		return "PM" ;
 			    	} else if(value == 5) {
 			    		return "初级PG1" ;
+			    	}else if(value == 6) {
+			    		return "初级PG2" ;
+			    	}else if(value == 7) {
+			    		return "初级PG3" ;
 			    	}
 			    }},
 			    { field: 'startDate', title: '起始日期', width:110, sortable: true, formatter:function(value,row){
@@ -345,8 +350,10 @@
 										{ label: '1', value: 'PM' },
 										{ label: '2', value: 'PL' },
 										{ label: '3', value: 'SE' },
-										{ label: '4', value: 'PG' },
-										{ label: '5', value: '初级PG1' }
+										{ label: '4', value: 'PM' },
+										{ label: '5', value: '初级PG1' },
+										{ label: '6', value: '初级PG2' },
+										{ label: '7', value: '初级PG3' }
 										],
 										panelHeight:'auto', editable:false" />
 									<a onclick="setMemberRole()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-user-gray'">设置角色</a>

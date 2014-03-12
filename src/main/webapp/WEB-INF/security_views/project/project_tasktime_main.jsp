@@ -22,16 +22,12 @@
 			columns: [[
 			    { field: 'emp_name', title: '姓名', width: 120, sortable: true },
 			    { field: 'dept_name', title: '部门', width: 150, sortable: true },
-			    { field: 'position_name', title: '岗位', width: 120, sortable: true },
 			    { field: 'totalTaskYear', title: '总月数', width: 80, sortable: true, formatter: function(value, row){
 			    	return infosUtil.numberf(value, 2) +"&nbsp;月" ;
 			    } },
 			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true, formatter: function(value, row){
 			    	return value +"&nbsp;天" ;
-			    } },
-			    { field: 'allMM', title: '总人月', width: 80, sortable: true, formatter: function(value, row){
-			    	return infosUtil.numberf(value, 2) +"&nbsp;人月" ;
-			    } },
+			    } }
 			]],
 			detailFormatter:function(index,row){
 			 	return '<div class="ddv" style="padding:5px 0"></div>';
@@ -46,6 +42,25 @@
 				height:'auto',
 				columns:[[
 					{ field: 'project_name', title: '项目名称', width: 200, sortable: true },
+					{ field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
+						if(value == 0) {
+				    		return "未设置角色" ;
+				    	} else if(value == 1) {
+				    		return "PG" ;
+				    	} else if(value == 2) {
+				    		return "PL" ;
+				    	} else if(value == 3) {
+				    		return "SE" ;
+				    	} else if(value == 4) {
+				    		return "PM" ;
+				    	} else if(value == 5) {
+				    		return "初级PG1" ;
+				    	}else if(value == 6) {
+				    		return "初级PG2" ;
+				    	}else if(value == 7) {
+				    		return "初级PG3" ;
+				    	}
+				    }},
 					{ field: 'sd', title: '开始时间', width: 80, sortable: true },
 				    { field: 'ed', title: '结束时间', width: 80, sortable: true }, 
 				    { field: 'totalTaskTime', title: '天数', width: 80, sortable: true },
@@ -64,12 +79,13 @@
 					dataGrid.datagrid('fixDetailRowHeight',index);
 				},
 				onLoadSuccess:function(){
+					//parent.$("#mainLayout").layout("collapse", "east");
 					setTimeout(function(){
 						dataGrid.datagrid('fixDetailRowHeight',index);
 					},0);
 				}
-					 });
-	 			dataGrid.datagrid('fixDetailRowHeight',index);
+		 	});
+ 				dataGrid.datagrid('fixDetailRowHeight',index);
 		 	},
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单

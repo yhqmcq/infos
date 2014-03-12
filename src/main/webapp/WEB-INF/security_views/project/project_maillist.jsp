@@ -16,18 +16,19 @@
 			idField: 'id', fit: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
 			remoteSort: false, toolbar: '#buttonbar1', striped:true, pagination: true,rownumbers: true,
 			frozenColumns: [[
-			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: '工号', width: 60, sortable: true },
-			    { field: 'truename', title: '姓名', width: 100, sortable: true }
-			]],
-			columns: [[
-			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
-			    { field: 'empjobsName', title: '公司岗位', width: 100, sortable: true },
-			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
-			    	if(value == "male"){return "男";}else{return "女";}
-			    }},
-			    { field: 'email', title: '邮箱地址', width: 180, sortable: true }
-			]],
+ 			    { field: 'ck', checkbox: true },
+ 			    { field: 'id', title: '工号', width: 60, sortable: true },
+ 			    { field: 'truename', title: '姓名', width: 80, sortable: true }
+ 			]],
+ 			columns: [[
+ 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
+ 			    	if(value == "male"){return "男";}else{return "女";}
+ 			    }},
+ 			    { field: 'orgname', title: '部门', width: 110, sortable: true },
+ 			    { field: 'position', title: '职位', width: 110, sortable: true },
+ 			    { field: 'japanese', title: '日语级别', width: 90, sortable: true },
+ 			    { field: 'email', title: '邮箱地址', width: 180, sortable: true }
+ 			]],
 			onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
 		        dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked');

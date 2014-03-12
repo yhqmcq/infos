@@ -29,6 +29,7 @@
 			columns: [[
 			    { field: 'orgname', title: '公司部门', width: 150, sortable: true },
 			    { field: 'position', title: '公司岗位', width: 120, sortable: true },
+			    { field: 'japanese', title: '日语级别', width: 120, sortable: true },
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},

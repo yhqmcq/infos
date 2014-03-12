@@ -29,6 +29,8 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private String project_name ;
 	
+	private String project_role ;
+	
 	private Date startDate ;
 	
 	private Date endDate ;
@@ -65,6 +67,14 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public float getMm() {
 		return mm;
+	}
+
+	public String getProject_role() {
+		return project_role;
+	}
+
+	public void setProject_role(String project_role) {
+		this.project_role = project_role;
 	}
 
 	public void setMm(float mm) {

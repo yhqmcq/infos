@@ -158,7 +158,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		if(flag) {
 			//定时任务（重新设定项目的触发时间）
-			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 09:54:52", 2) ;
+			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:35:30", 2) ;
 			if(dateCron.length > 1) {
 				for (int i = 0; i < dateCron.length; i++) {
 					//先删除原有的触发器,在建立新的触发器
@@ -378,6 +378,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				EmployeeEntity e = p.getEmp() ;
 				pf.setEmp_id(e.getId()) ;
 				pf.setEmp_name(e.getTruename()) ;
+				StringBuffer sb = new StringBuffer() ;
+				Set<EmpJobEntity> empjobs = p.getEmp().getEmpjobs() ;
+				for (EmpJobEntity eje : empjobs) {
+					sb.append(eje.getJob_name()) ;
+				}
+				pf.setPosition_name(sb.toString()) ;
+				pf.setProject_role(p.getProject_role()) ;
 				pf.setDept_name(e.getOrg().getFullname()) ;
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
@@ -703,7 +710,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					Set<String> dateGroup = new HashSet<String>() ;
 					Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
 					for (ProjectEmpWorkingEntity member : pwes) {
-						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 08:30:00", 2) ;
+						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 08:35:30", 2) ;
 						for (int i = 0; i < dateCron.length; i++) {
 							//将相同日期的归为一组，进行定时
 							dateGroup.add(dateCron[i]) ;

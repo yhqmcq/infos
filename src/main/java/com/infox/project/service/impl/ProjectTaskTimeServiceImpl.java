@@ -109,6 +109,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 			pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 			pf.setEd(DateUtil.formatG(p.getEndDate())) ;
 			pf.setProject_name(p.getProject().getName()) ;
+			pf.setProject_role(p.getProject_role()) ;
 			
 			long dateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
 			long lastdateDiff = 0 ;

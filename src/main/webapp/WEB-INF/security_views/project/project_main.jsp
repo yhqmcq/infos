@@ -46,7 +46,7 @@
 			    	return sed ;
 			    } },
 			    { field: 'month', title: '月数', width: 60, sortable: true, formatter:function(value,row){return fmoney(row.dateDiff/21,2)+"&nbsp;月";} },
-			    { field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return fmoney(value,2)+"&nbsp;人月";} },
+			    //{ field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return fmoney(value,2)+"&nbsp;人月";} },
 			    { field: 'dateDiff', title: '总天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
 			    { field: 'lastdateDiff', title: '剩余天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
 			    { field: 'project_type', title: '项目类型', width: 120, sortable: true, formatter:function(value,row){
@@ -105,6 +105,10 @@
 		 	onDblClickRow : function(rowIndex, rowData) {
 		 		getDevList(+rowData.id, rowData.name) ;
 		 	},
+		 	onLoadSuccess: function(data) {
+		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
+		        dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');
+		    },
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
 	        selectOnRowContextMenu: false,      //此属性开启当右键点击行时自动选择该行的功能
@@ -191,7 +195,7 @@
 	            title: "设置开发团队人员&nbsp;&nbsp;[<font color='red'>"+rows[0].name+"</font>]",
 	            href: yhq.basePath+"/project/project_main/project_member.do?id="+rows[0].id,
 	            iniframe: true, closable : false,
-	            width: 950, height: 600,
+	            width: 1024, height: 600,
 	            topMost: true,
 	            autoVCenter: true,
 	            autoHCenter: true,
