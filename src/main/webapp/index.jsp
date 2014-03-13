@@ -145,9 +145,11 @@
                                     <div style="text-align:center;" data-options="height: 300, border: false, collapsible: true, closable: true">
                                     	<span style="font-size:33px;font-weight:bold;margin-top:50px;display:block;">欢迎进入项目管理系统</span>
                                     </div>
+                                    <!-- 
                                     <div data-options="topMost: true, height: 300, border: false, collapsible: true, closable: true">
                                     	<iframe style="width:100%;height:100%;border:0px;" src="<%=basePath%>/project/project_charts/doNotNeedSession_chart_projectST_page.do"></iframe>
                                     </div>
+                                     -->
                                 </div>
                             </div>
                         </div>

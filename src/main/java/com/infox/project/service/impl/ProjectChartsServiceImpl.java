@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.infox.common.dao.BaseDaoI;
-import com.infox.common.util.DateUtil;
 import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.asynms.send.MailMessageSenderI;
 import com.infox.project.entity.ProjectEmpWorkingEntity;
@@ -108,12 +107,12 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 		Calendar c = Calendar.getInstance(); 
         c.add(Calendar.MONTH, (0-month+1));
         c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-        System.out.println("当前月第一天:"+DateUtil.formatG(c.getTime()));
+        //System.out.println("当前月第一天:"+DateUtil.formatG(c.getTime()));
         //获取当前月最后一天
         Calendar ca = Calendar.getInstance();  
         ca.add(Calendar.MONTH, (12-month));
         ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
-        System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
+        //System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
         form.setStartDate(c.getTime()) ;
 		form.setEndDate(ca.getTime()) ;
 		int run = 0 ;
@@ -135,7 +134,6 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 		list.add(data1) ;
 		list.add(data2) ;
 		
-		System.out.println(JSON.toJSONString(list));
 		
 		return JSON.toJSONString(list) ;
 	}
