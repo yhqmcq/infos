@@ -21,13 +21,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.infox.common.util.HtmlUtil;
 import com.infox.common.util.ValidateEmail;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
 
 /**
  * 说明：邮件发送
