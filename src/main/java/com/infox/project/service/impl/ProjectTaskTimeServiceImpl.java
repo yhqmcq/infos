@@ -111,6 +111,16 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 			pf.setProject_name(p.getProject().getName()) ;
 			pf.setProject_role(p.getProject_role()) ;
 			
+			StringBuffer sb1 = new StringBuffer() ;
+			StringBuffer sb2 = new StringBuffer() ;
+			Set<EmpJobEntity> empjobs = p.getEmp().getEmpjobs() ;
+			for (EmpJobEntity eje : empjobs) {
+				sb1.append(eje.getJob_name()) ;
+				sb2.append(eje.getJob_sname()) ;
+			}
+			pf.setPosition_name(sb1.toString()) ;
+			pf.setPosition_sname(sb2.toString()) ;
+			
 			long dateDiff = DateUtil.dateDiff(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
 			long lastdateDiff = 0 ;
 			

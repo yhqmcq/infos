@@ -42,17 +42,18 @@
 				height:'auto',
 				columns:[[
 					{ field: 'project_name', title: '项目名称', width: 200, sortable: true },
+					{ field: 'position_sname', title: '公司岗位', width: 80, sortable: true },
 					{ field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
 						if(value == 0) {
 				    		return "未设置角色" ;
 				    	} else if(value == 1) {
-				    		return "PG" ;
+				    		return "PM" ;
 				    	} else if(value == 2) {
 				    		return "PL" ;
 				    	} else if(value == 3) {
 				    		return "SE" ;
 				    	} else if(value == 4) {
-				    		return "PM" ;
+				    		return "PG" ;
 				    	} else if(value == 5) {
 				    		return "初级PG1" ;
 				    	}else if(value == 6) {
@@ -87,6 +88,9 @@
 		 	});
  				dataGrid.datagrid('fixDetailRowHeight',index);
 		 	},
+		 	onDblClickRow : function(rowIndex, rowData) {
+		 		getMemberInfoList(rowData.emp_id, rowData.emp_name) ;
+		 	},
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
 	        selectOnRowContextMenu: false,      //此属性开启当右键点击行时自动选择该行的功能
@@ -104,6 +108,24 @@
 	    });
 	});
 	
+	function getMemberInfoList(id,name) {
+		var dialog = $.easyui.showDialog({
+            title: "员工稼动率详细列表&nbsp;&nbsp;[<font color='red'>"+name+"</font>]",
+            href: yhq.basePath+"/project/project_report/getMemberInfoListDialog.do?id="+id,
+            iniframe: true,
+            width: 950, height: 600,
+            topMost: true,
+            autoVCenter: true,
+            autoHCenter: true,
+            enableApplyButton: false,
+            enableSaveButton: false,
+            enableCloseButton: true,
+            saveButtonIconCls: "ext_cancel",
+            onSave: function() {
+            	return $.easyui.parent.submitForm(dialog, dataGrid);
+            }
+        });
+	}
 </script>
 
 </head>

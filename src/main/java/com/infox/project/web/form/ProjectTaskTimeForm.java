@@ -25,6 +25,8 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private String position_name ;
 	
+	private String position_sname ;
+	
 	private String project_id ;
 	
 	private String project_name ;
@@ -64,6 +66,14 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus;
+
+	public String getPosition_sname() {
+		return position_sname;
+	}
+
+	public void setPosition_sname(String position_sname) {
+		this.position_sname = position_sname;
+	}
 
 	public float getMm() {
 		return mm;

@@ -379,12 +379,15 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				EmployeeEntity e = p.getEmp() ;
 				pf.setEmp_id(e.getId()) ;
 				pf.setEmp_name(e.getTruename()) ;
-				StringBuffer sb = new StringBuffer() ;
+				StringBuffer sb1 = new StringBuffer() ;
+				StringBuffer sb2 = new StringBuffer() ;
 				Set<EmpJobEntity> empjobs = p.getEmp().getEmpjobs() ;
 				for (EmpJobEntity eje : empjobs) {
-					sb.append(eje.getJob_name()) ;
+					sb1.append(eje.getJob_name()) ;
+					sb2.append(eje.getJob_sname()) ;
 				}
-				pf.setPosition_name(sb.toString()) ;
+				pf.setPosition_name(sb1.toString()) ;
+				pf.setPosition_sname(sb2.toString()) ;
 				pf.setProject_role(p.getProject_role()) ;
 				pf.setDept_name(e.getOrg().getFullname()) ;
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;

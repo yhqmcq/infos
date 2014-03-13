@@ -103,7 +103,7 @@
 		 	},
 		 	*/
 		 	onDblClickRow : function(rowIndex, rowData) {
-		 		getDevList(+rowData.id, rowData.name) ;
+		 		getDevList(rowData.id, rowData.name) ;
 		 	},
 		 	onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
@@ -230,7 +230,6 @@
             	return $.easyui.parent.submitForm(dialog, dataGrid);
             }
         });
-		
 	}
 	
 	function mailList() {

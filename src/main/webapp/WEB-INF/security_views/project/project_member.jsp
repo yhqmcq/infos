@@ -26,7 +26,7 @@
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
 			    { field: 'orgname', title: '部门', width: 110, sortable: true },
- 			    { field: 'position', title: '职位', width: 110, sortable: true },
+ 			    { field: 'position_sname', title: '职位', width: 110, sortable: true },
 			    { field: 'japanese', title: '日语级别', width: 90, sortable: true },
 			    { field: 'email', title: '邮箱地址', width: 180, sortable: true }
 			]],
@@ -59,13 +59,13 @@
 			    	if(value == 0) {
 			    		return "未设置角色" ;
 			    	} else if(value == 1) {
-			    		return "PG" ;
+			    		return "PM" ;
 			    	} else if(value == 2) {
 			    		return "PL" ;
 			    	} else if(value == 3) {
 			    		return "SE" ;
 			    	} else if(value == 4) {
-			    		return "PM" ;
+			    		return "PG" ;
 			    	} else if(value == 5) {
 			    		return "初级PG1" ;
 			    	}else if(value == 6) {
@@ -350,10 +350,10 @@
 										{ label: '1', value: 'PM' },
 										{ label: '2', value: 'PL' },
 										{ label: '3', value: 'SE' },
-										{ label: '4', value: 'PM' },
+										{ label: '4', value: 'PG' },
 										{ label: '5', value: '初级PG1' },
-										{ label: '6', value: '初级PG2' },
-										{ label: '7', value: '初级PG3' }
+										{ label: '6', value: '初级PG1' },
+										{ label: '7', value: '初级PG2' }
 										],
 										panelHeight:'auto', editable:false" />
 									<a onclick="setMemberRole()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-user-gray'">设置角色</a>

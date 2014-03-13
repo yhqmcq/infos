@@ -10,20 +10,19 @@
 	var dataGrid1 ;
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
-			title: '员工列表',
-			url: yhq.basePath+"/project/project_main/get_ProjectDevList.do?id=${id}",
-			idField: 'emp_id', fit: true, fitColumns: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
-			remoteSort: false, striped:true, pagination: true,showFooter: true,pageSize: 50,pageList: [10,20,30,50],
+			url:yhq.basePath+"/project/project_report/getMemberInfoList.do?emp_id=${id}",
+			idField: 'emp_id', fit: true, fitColumns: true, border: false, method: "post",
+			remoteSort: false, striped:true, 
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'emp_id', title: '工号', width: 60, sortable: true },
 			    { field: 'emp_name', title: '姓名', width: 70, sortable: true }
 			]],
-			columns: [[
-			    { field: 'dept_name', title: '部门', width: 120, sortable: true },
-			    { field: 'position_sname', title: '公司岗位', width: 120, sortable: true },
-			    { field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
-			    	if(value == 0) {
+			columns:[[
+				{ field: 'project_name', title: '项目名称', width: 200, sortable: true },
+				{ field: 'position_sname', title: '公司岗位', width: 80, sortable: true },
+				{ field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
+					if(value == 0) {
 			    		return "未设置角色" ;
 			    	} else if(value == 1) {
 			    		return "PM" ;
@@ -41,8 +40,8 @@
 			    		return "初级PG3" ;
 			    	}
 			    }},
-			    { field: 'sd', title: '开始时间', width: 80, sortable: true },
-			    { field: 'ed', title: '结束时间', width: 80, sortable: true },
+				{ field: 'sd', title: '开始时间', width: 80, sortable: true },
+			    { field: 'ed', title: '结束时间', width: 80, sortable: true }, 
 			    { field: 'totalTaskTime', title: '天数', width: 80, sortable: true },
 			    { field: 'mm', title: '人月', width: 80, sortable: true, formatter: function(value,row){
 			    	return infosUtil.numberf(value, 2) ;
@@ -68,7 +67,7 @@
 <body style="padding: 0px; margin: 0px;">
 	<div class="easyui-layout" data-options="fit: true">
 		<div data-options="region: 'north', border: false" style="overflow: hidden;width:100%;height:55px;padding:10px;">
-			1、项目开发人员详细列表。<br>
+			1、员工稼动率详细列表。<br>
 		</div>
 		<div data-options="region: 'center', border: true" style="overflow: hidden;width:480px; border-left:0px;border-left:0px; border-bottom:0px;">
 			<div id="d1">

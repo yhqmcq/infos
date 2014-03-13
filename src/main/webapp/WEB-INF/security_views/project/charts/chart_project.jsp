@@ -14,6 +14,7 @@
 
 <script type="text/javascript">
 $(function () {
+	/*
 	$('#container').highcharts({
 	 	series: [{
 	 		name: '进行中',
@@ -25,20 +26,9 @@ $(function () {
 	 	colors: ["#55BF3B", "#DF5353"], 
        	xAxis: {
               categories: [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ]
-        },
+        }, 
         chart: { 
-        	backgroundColor: {
-    			linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-    			stops: [
-    				[0, 'rgb(255, 255, 255)'],
-    				[1, 'rgb(240, 240, 255)']
-    			]
-    		},
-    		borderWidth: 2,
-    		plotBackgroundColor: 'rgba(255, 255, 255, .9)',
-    		plotShadow: true,
-    		plotBorderWidth: 1
-        	//type: 'column'
+        	type: 'pie'
         },
         title: { text: '项目状态统计' },
         yAxis: {
@@ -51,12 +41,42 @@ $(function () {
             }
         }
     });
+	*/
+	$('#container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '2014年华智项目状态统计'
+        },
+        tooltip: {
+    	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '率',
+            data: [] 
+        }]
+    });
 	
 	$.post(yhq.basePath+"/project/project_charts/doNotNeedSession_chart_projectST.do", null, function(result) {
 		var j = $.parseJSON(result) ;
 		var chart = $('#container').highcharts();
-		chart.series[0].setData(j[0].data);
-		chart.series[1].setData(j[1].data);
+		chart.series[0].setData(j);
 	}, 'json');
 });
 </script>

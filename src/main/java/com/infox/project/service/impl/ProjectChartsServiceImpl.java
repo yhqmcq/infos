@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.util.DateUtil;
 import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.asynms.send.MailMessageSenderI;
 import com.infox.project.entity.ProjectEmpWorkingEntity;
@@ -57,7 +58,7 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 	
 	@Override
 	public String projectStatusTotal(ProjectChartsForm form) throws Exception {
-		form.setInStatus("1,3") ;
+		/*form.setInStatus("1,3") ;
 		int month = Calendar.getInstance().get(Calendar.MONTH)+1 ;
 		
 		Map<String, Object> m1 = new HashMap<String, Object>() ;
@@ -99,7 +100,44 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 		m2.put("data", data2) ;
 		list.add(m1) ;
 		list.add(m2) ;
-		return JSON.toJSONString(list);
+		return JSON.toJSONString(list);*/
+		
+		Object[] data1 = new Object[2] ;
+		Object[] data2 = new Object[2] ;
+		int month = Calendar.getInstance().get(Calendar.MONTH)+1 ;
+		Calendar c = Calendar.getInstance(); 
+        c.add(Calendar.MONTH, (0-month+1));
+        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+        System.out.println("当前月第一天:"+DateUtil.formatG(c.getTime()));
+        //获取当前月最后一天
+        Calendar ca = Calendar.getInstance();  
+        ca.add(Calendar.MONTH, (12-month));
+        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
+        System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
+        form.setStartDate(c.getTime()) ;
+		form.setEndDate(ca.getTime()) ;
+		int run = 0 ;
+		int close = 0 ;
+		List<ProjectMainEntity> find = this.find(form) ;
+		for (ProjectMainEntity p : find) {
+			if(p.getStatus() == 1) {
+				run ++ ;
+			} else if(p.getStatus() == 3) {
+				close ++ ;
+			}
+		}
+		data1[0] = "进行中" ;
+		data1[1] = run ;
+		data2[0] = "已关闭" ;
+		data2[1] = close ;
+		
+		List<Object[]> list = new ArrayList<Object[]>() ;
+		list.add(data1) ;
+		list.add(data2) ;
+		
+		System.out.println(JSON.toJSONString(list));
+		
+		return JSON.toJSONString(list) ;
 	}
 	
 	private List<ProjectMainEntity> find(ProjectChartsForm form) {

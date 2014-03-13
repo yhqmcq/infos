@@ -25,7 +25,7 @@
  			    	if(value == "male"){return "男";}else{return "女";}
  			    }},
  			    { field: 'orgname', title: '部门', width: 110, sortable: true },
- 			    { field: 'position', title: '职位', width: 110, sortable: true },
+ 			    { field: 'position_sname', title: '职位', width: 110, sortable: true },
  			    { field: 'japanese', title: '日语级别', width: 90, sortable: true },
  			    { field: 'email', title: '邮箱地址', width: 180, sortable: true }
  			]],

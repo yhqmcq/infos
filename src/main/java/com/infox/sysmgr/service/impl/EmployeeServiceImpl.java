@@ -201,13 +201,16 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				Set<EmpJobEntity> empjobs = i.getEmpjobs() ;
 				if(null != empjobs && empjobs.size() > 0) {
 					StringBuffer sIds = new StringBuffer() ;
-					StringBuffer sNames = new StringBuffer() ;
+					StringBuffer names = new StringBuffer() ;
+					StringBuffer snames = new StringBuffer() ;
 					for (EmpJobEntity ej : empjobs) {
 						sIds.append(ej.getId()+",".trim()) ;
-						sNames.append(ej.getJob_name()+",".trim()) ;
+						names.append(ej.getJob_name()+",".trim()) ;
+						snames.append(ej.getJob_sname()+",".trim()) ;
 					}
 					uf.setJobids(sIds.deleteCharAt(sIds.length()-1).toString());
-					uf.setPosition(sNames.deleteCharAt(sNames.length()-1).toString());
+					uf.setPosition(names.deleteCharAt(names.length()-1).toString());
+					uf.setPosition_sname(snames.deleteCharAt(snames.length()-1).toString());
 				}
 				forms.add(uf);
 			}

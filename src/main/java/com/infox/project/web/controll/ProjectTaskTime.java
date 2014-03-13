@@ -1,5 +1,7 @@
 package com.infox.project.web.controll;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,12 @@ public class ProjectTaskTime extends BaseController {
 	@RequestMapping("/project_tasktime_main.do")
 	public String project_tasktime_main() {
 		return  Constants.PROJECT + "project_tasktime_main" ;
+	}
+	
+	@RequestMapping("/getMemberInfoListDialog.do")
+	public String getMemberInfoListDialog(ProjectTaskTimeForm form, HttpServletRequest request) throws Exception {
+		request.setAttribute("id", form.getId()) ;
+		return  Constants.PROJECT + "project_tasktime_infoDialog" ;
 	}
 	
 	@RequestMapping("/employeeTaskTimeReport.do")

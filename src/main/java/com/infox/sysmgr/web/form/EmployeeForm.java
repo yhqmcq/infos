@@ -51,6 +51,8 @@ public class EmployeeForm extends PageHelper{
 	
 	private String position ;
 	
+	private String position_sname ;
+	
 	/** 是否主管 */
 	private String isLeader ;
 	
@@ -75,6 +77,14 @@ public class EmployeeForm extends PageHelper{
 
 	public String getNotInStatus() {
 		return notInStatus;
+	}
+
+	public String getPosition_sname() {
+		return position_sname;
+	}
+
+	public void setPosition_sname(String position_sname) {
+		this.position_sname = position_sname;
 	}
 
 	public String getIsLeader() {
