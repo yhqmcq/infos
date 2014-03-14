@@ -41,6 +41,18 @@ public class OvertimeEntity {
 	private Date created = new Date() ;
 	
 	private EmployeeEntity emp ;
+	
+	private ProjectMainEntity project ;
+
+	@ManyToOne
+	@JoinColumn(name="PROJECT_ID")
+	public ProjectMainEntity getProject() {
+		return project;
+	}
+
+	public void setProject(ProjectMainEntity project) {
+		this.project = project;
+	}
 
 	@Id
 	public String getId() {
