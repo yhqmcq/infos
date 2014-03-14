@@ -77,16 +77,23 @@
 	<input type="hidden" name="id" value="${id}" />
 	<table id="tab_box">
 		<tr>
+			<th>类型：</th>
+			<td><input id="select3" name="type" /></td>
+			<th>上级：</th>
+			<td><input id="select1" name="pid" /><input name="pname" id="pname"  type="hidden"/></td>
+		</tr>
+		<tr>
 			<th>名称：</th>
 			<td><input name="fullname" class="easyui-validatebox" type="text" data-options="required: true,prompt: '名称'" /></td>
-			<th>代码：</th>
-			<td><input name="code" class="easyui-validatebox" type="text" data-options="required: true,prompt: '代码'" /></td>
+			<th>简称：</th>
+			<td><input name="sname" class="easyui-validatebox" type="text" data-options="" /></td>
 		</tr>
+		<!-- 
 		<tr>
 			<th>英文名称：</th>
 			<td><input name="ename" class="easyui-validatebox" type="text" data-options="" /></td>
-			<th>简称：</th>
-			<td><input name="sname" class="easyui-validatebox" type="text" data-options="" /></td>
+		 	<th>代码：</th>
+			<td><input name="code" class="easyui-validatebox" type="text" data-options="prompt: '代码'" /></td>
 		</tr>
 		<tr>
 			<th>电话：</th>
@@ -94,12 +101,7 @@
 			<th>传真：</th>
 			<td><input name="fax" class="easyui-validatebox" type="text" data-options="" /></td>
 		</tr>
-		<tr>
-			<th>类型：</th>
-			<td><input id="select3" name="type" /></td>
-			<th>上级：</th>
-			<td><input id="select1" name="pid" /><input name="pname" id="pname"  type="hidden"/></td>
-		</tr>
+		 -->
 		<tr>
 			<td colspan="4">
 				<textarea class="easyui-validatebox" name="description" style="width:465px;height:100px;"></textarea>

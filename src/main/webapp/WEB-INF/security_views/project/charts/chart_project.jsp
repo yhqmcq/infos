@@ -77,6 +77,7 @@ $(function () {
 		var j = $.parseJSON(result) ;
 		var chart = $('#container').highcharts();
 		chart.series[0].setData(j);
+		$("#info").html("<font color='green'>进行中：</font>"+j[0].y+"个<br><font color='red'>已结束：</font>"+j[1].y+"个");
 	}, 'json');
 });
 </script>
@@ -84,6 +85,7 @@ $(function () {
 </head>
 
 <body style="padding: 0px; margin: 0px;">
-	<div id="container" style="min-width: 310px; height: 270px; margin: 0 auto"></div>
+	<div id="container" style="position:relative;pomin-width: 310px; height: 270px; margin: 0 auto"></div>
+	<div id="info" style="position:absolute;left:40px;top:150px;border:0px solid red;width:200px;display: block;"></div>
 </body>
 </html>

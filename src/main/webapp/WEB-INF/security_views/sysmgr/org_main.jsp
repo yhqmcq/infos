@@ -29,11 +29,11 @@
 			    	if(value == "O"){return "<font color='red'>公司</font>";}else{return "<font color='green'>部门</font>";}
 			    }},
 			    { field: 'fullname', title: '名称', width: 180, sortable: true },
-			    { field: 'code', title: '代码', width: 180, sortable: true },
-			    { field: 'ename', title: '英文名称', width: 180, sortable: true },
+			    //{ field: 'code', title: '代码', width: 180, sortable: true },
+			    //{ field: 'ename', title: '英文名称', width: 180, sortable: true },
 			    { field: 'sname', title: '简称', width: 180, sortable: true },
-			    { field: 'tel', title: '联系电话', width: 180, sortable: true },
-			    { field: 'fax', title: '传真', width: 180, sortable: true },
+			    //{ field: 'tel', title: '联系电话', width: 180, sortable: true },
+			    //{ field: 'fax', title: '传真', width: 180, sortable: true },
 			    { field: 'description', title: '简介', width: 180, sortable: true },
 			    { field: 'created', title: '日期(date)', width: 140, sortable: true }
 			]],

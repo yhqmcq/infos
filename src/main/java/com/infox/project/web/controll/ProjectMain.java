@@ -32,6 +32,11 @@ public class ProjectMain extends BaseController {
 		return  Constants.PROJECT + "emp_standby" ;
 	}
 	
+	@RequestMapping("/emp_main.do")
+	public String emp_main() throws Exception {
+		return  Constants.PROJECT + "emp_main" ;
+	}
+	
 	@RequestMapping("/project_form.do")
 	public String project_form(ProjectMainForm form, HttpServletRequest request) throws Exception {
 		if(null != form.getId() && !"".equals(form.getId())) {
