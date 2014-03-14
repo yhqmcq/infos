@@ -11,23 +11,35 @@
 	var s1 ;
 	$(function() {
 		dataGrid = $("#d1").datagrid({
-			title: '人员稼动率管理', view: detailview, fitColumns: true,
+			title: '人员稼动率管理', view: detailview, fitColumns: false,
 			url: yhq.basePath+"/project/project_report/employeeTaskTimeReport.do?notInStatus=9999",
 			idField: 'emp_id', fit: true, border: false, method: "post", singleSelect: true,
-			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,
+			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 20,pageList: [10,20,30,50],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'emp_id', title: '工号', width: 80, sortable: true }
+			    { field: 'emp_id', title: '工号', width: 60, sortable: true },
+			    { field: 'emp_name', title: '姓名', width: 70, sortable: true }
 			]],
 			columns: [[
-			    { field: 'emp_name', title: '姓名', width: 120, sortable: true },
-			    { field: 'dept_name', title: '部门', width: 150, sortable: true },
+			    { field: 'dept_name', title: '部门', width: 80, sortable: true },
 			    { field: 'totalTaskYear', title: '总月数', width: 80, sortable: true, formatter: function(value, row){
 			    	return infosUtil.numberf(value, 2) +"&nbsp;月" ;
 			    } },
 			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true, formatter: function(value, row){
 			    	return value +"&nbsp;天" ;
-			    } }
+			    } },
+			    { field: 'm1', title: '一月', width: 60, sortable: true },
+			    { field: 'm2', title: '二月', width: 60, sortable: true },
+			    { field: 'm3', title: '三月', width: 60, sortable: true },
+			    { field: 'm4', title: '四月', width: 60, sortable: true },
+			    { field: 'm5', title: '五月', width: 60, sortable: true },
+			    { field: 'm6', title: '六月', width: 60, sortable: true },
+			    { field: 'm7', title: '七月', width: 60, sortable: true },
+			    { field: 'm8', title: '八月', width: 60, sortable: true },
+			    { field: 'm9', title: '九月', width: 60, sortable: true },
+			    { field: 'm10', title: '十月', width: 60, sortable: true },
+			    { field: 'm11', title: '十一月', width: 60, sortable: true },
+			    { field: 'm12', title: '十二月', width: 60, sortable: true }
 			]],
 			detailFormatter:function(index,row){
 			 	return '<div class="ddv" style="padding:5px 0"></div>';

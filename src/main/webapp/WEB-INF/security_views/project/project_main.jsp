@@ -13,7 +13,7 @@
 			title: '项目管理',//view: detailview,
 			url: yhq.basePath+"/project/project_main/datagrid.do?notInStatus=5",
 			idField: 'id', fit: true, method: "post", border: false, remoteSort: false, rownumbers :true,
-			toolbar: '#buttonbar', singleSelect: true, striped:true, pagination: true,
+			toolbar: '#buttonbar', singleSelect: true, striped:true, pagination: true,pageSize: 15,pageList: [15,25,35,50],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true }
 		    ]],
@@ -26,6 +26,7 @@
 		    		return opa ;
 		    	}},
 			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
+			    { field: 'deptname', title: '所属部长', width: 100, sortable: true },
 			    { field: 'leader_name', title: '项目负责人', width: 100, sortable: true },
 			    { field: 'code', title: '项目简称', width: 110, sortable: true },
 			    { field: 'status', title: '状态', width: 60, sortable: true, formatter:function(value,row){
