@@ -12,8 +12,8 @@
 		dataGrid1 = $("#d1").datagrid({
 			title: '员工列表',
 			url: yhq.basePath+"/project/project_main/get_ProjectDevList.do?id=${id}",
-			idField: 'emp_id', fit: true, fitColumns: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
-			remoteSort: false, striped:true, pagination: true,showFooter: true,pageSize: 50,pageList: [10,20,30,50],
+			idField: 'emp_id', fit: true, fitColumns: true, border: false, method: "post",
+			remoteSort: false, striped:true, pagination: false,showFooter: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'emp_id', title: '工号', width: 60, sortable: true },
@@ -70,7 +70,7 @@
 		<div data-options="region: 'north', border: false" style="overflow: hidden;width:100%;height:55px;padding:10px;">
 			1、项目开发人员详细列表。<br>
 		</div>
-		<div data-options="region: 'center', border: true" style="overflow: hidden;width:480px; border-left:0px;border-left:0px; border-bottom:0px;">
+		<div data-options="region: 'center', border: true" style="overflow: hidden;width:480px; border-left:0px;border-right:0px; border-bottom:0px;">
 			<div id="d1">
 			</div>
 		</div>

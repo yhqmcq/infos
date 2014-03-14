@@ -53,6 +53,14 @@ public class ProjectMain extends BaseController {
 		return Constants.PROJECT + "project_member" ;
 	}
 	
+	@RequestMapping("/project_member_overtime.do")
+	public String project_member_overtime(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		if(null != form.getId() && !"".equals(form.getId())) {
+			request.setAttribute("project", this.projectService.get(form.getId())) ;
+		}
+		return Constants.PROJECT + "project_member_overtime" ;
+	}
+	
 	@RequestMapping("/project_maillist.do")
 	public String project_maillist(ProjectMainForm form, HttpServletRequest request) throws Exception {
 		if(null != form.getId() && !"".equals(form.getId())) {
@@ -81,6 +89,12 @@ public class ProjectMain extends BaseController {
 	@ResponseBody
 	public DataGrid get_ProjectDevList(ProjectMainForm form, HttpServletRequest request) throws Exception {
 		return this.projectService.get_ProjectDevList(form.getId()) ;
+	}
+	
+	@RequestMapping("/get_ProjectAllDevMember.do")
+	@ResponseBody
+	public DataGrid get_ProjectAllDevMember(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		return this.projectService.get_ProjectAllDevMember(form.getId()) ;
 	}
 	
 	@RequestMapping("/get_ProjectDetail.do")

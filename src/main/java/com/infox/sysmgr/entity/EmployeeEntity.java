@@ -19,6 +19,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.infox.common.util.StringUtil;
+import com.infox.project.entity.OvertimeEntity;
 import com.infox.project.entity.ProjectEmpWorkingEntity;
 
 @Entity
@@ -73,6 +74,20 @@ public class EmployeeEntity implements Serializable{
 	/** 员工职位角色 */
 	private Set<EmpJobEntity> empjobs = new HashSet<EmpJobEntity>() ;
 	
+	/** 员工加班 */
+	private Set<OvertimeEntity> overtime = new HashSet<OvertimeEntity>() ;
+	
+	
+	@OneToMany
+	@JoinColumn(name = "EMP_ID")
+	public Set<OvertimeEntity> getOvertime() {
+		return overtime;
+	}
+
+	public void setOvertime(Set<OvertimeEntity> overtime) {
+		this.overtime = overtime;
+	}
+
 	@OneToMany
 	@JoinColumn(name = "EMP_ID")
 	public Set<ProjectEmpWorkingEntity> getEmpWorks() {

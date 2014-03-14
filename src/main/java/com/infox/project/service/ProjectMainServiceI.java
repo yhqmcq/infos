@@ -21,6 +21,8 @@ public interface ProjectMainServiceI {
 	
 	public DataGrid get_ProjectDevList(String id) throws Exception ;
 	
+	public DataGrid get_ProjectAllDevMember(String id) throws Exception ;
+	
 	public DataGrid datagrid(ProjectMainForm form) throws Exception ;
 
 	public void addMailList(ProjectMailListForm form) throws Exception ;

@@ -72,7 +72,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		System.out.println(find.size());
 		
 		
-		//按照这样来查,去赢多多钱回来再搞,没钱没精神!!!!!有钱俺就不干程序员了.................
+		//不写了，早点休息，明天去澳门赢点钱先（赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢   赢 ）.................
 		String hql = "select t from EmployeeEntity t where 1=1 and t.org.id='979739'" ;
 		List<EmployeeEntity> emps = this.basedaoEmployee.find(hql) ;
 		for (EmployeeEntity e : emps) {

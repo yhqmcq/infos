@@ -30,6 +30,7 @@ import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
 import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.asynms.send.MailMessageSenderI;
+import com.infox.project.entity.OvertimeEntity;
 import com.infox.project.entity.ProjectEmpWorkingEntity;
 import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
@@ -74,6 +75,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	
 	@Autowired
 	private TaskSchedulerServiceI taskScheduler ;
+	
+	@Autowired
+	private BaseDaoI<OvertimeEntity> basedaoOvertime ;
 
 	@Override
 	public void add(ProjectMainForm form) throws Exception {
@@ -416,8 +420,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					pf.setMm(dateDiff/21f) ;
 					pf.setExpendMM((pf.getExpendDays()/21f)) ;
 				}
-				
-				
 				pf.setStatus(p.getStatus()) ;
 				
 				devList.add(pf) ;
@@ -439,6 +441,48 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			datagrid.setTotal((long) pwe.size());
 			datagrid.setRows(devList);
 			datagrid.setFooter(footer) ;
+			
+			return datagrid;
+		} else {
+			return datagrid;
+		}
+	}
+	
+	@Override
+	public DataGrid get_ProjectAllDevMember(String id) throws Exception {
+		DataGrid datagrid = new DataGrid();
+		
+		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
+		
+		List<ProjectTaskTimeForm> devList = new ArrayList<ProjectTaskTimeForm>() ;
+		if (null != entity) {
+			Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
+			for (ProjectEmpWorkingEntity p : pwe) {
+				ProjectTaskTimeForm pf = new ProjectTaskTimeForm() ;
+				EmployeeEntity e = p.getEmp() ;
+				pf.setEmp_id(e.getId()) ;
+				pf.setEmp_name(e.getTruename()) ;
+				StringBuffer sb1 = new StringBuffer() ;
+				StringBuffer sb2 = new StringBuffer() ;
+				Set<EmpJobEntity> empjobs = p.getEmp().getEmpjobs() ;
+				for (EmpJobEntity eje : empjobs) {
+					sb1.append(eje.getJob_name()) ;
+					sb2.append(eje.getJob_sname()) ;
+				}
+				pf.setPosition_name(sb1.toString()) ;
+				pf.setPosition_sname(sb2.toString()) ;
+				pf.setProject_role(p.getProject_role()) ;
+				pf.setDept_name(e.getOrg().getFullname()) ;
+				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
+				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
+				
+				pf.setStatus(p.getStatus()) ;
+				
+				devList.add(pf) ;
+			}
+			
+			datagrid.setTotal((long) pwe.size());
+			datagrid.setRows(devList);
 			
 			return datagrid;
 		} else {
