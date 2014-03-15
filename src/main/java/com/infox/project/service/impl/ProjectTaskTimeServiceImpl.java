@@ -217,116 +217,111 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					
 					allTotalDays += totalDays ;
 					
+					String sd = DateUtil.formatG(ew.getStartDate()) ;
+					String ed = DateUtil.formatG(ew.getEndDate()) ;
+					Date startDate = DateUtil.formatGG(sd) ;
+					Date endDate = DateUtil.formatGG(ed) ;
 					
-					//if(e.getTruename().equals("沈浩")) {
-						//System.out.println(e.getTruename()+"   " + ew.getStartDate() + "===" + ew.getEndDate());
-						//workday(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()), uf) ;
-						String sd = DateUtil.formatG(ew.getStartDate()) ;
-						String ed = DateUtil.formatG(ew.getEndDate()) ;
-						Date startDate = DateUtil.formatGG(sd) ;
-						Date endDate = DateUtil.formatGG(ed) ;
+					Calendar c1 = Calendar.getInstance() ;
+					c1.setTime(startDate) ;
+					int currentMonth1 = c1.get(Calendar.MONTH)+1 ;
+					
+					Calendar c2 = Calendar.getInstance() ;
+					c2.setTime(endDate) ;
+					int currentMonth2 = c2.get(Calendar.MONTH)+1 ;
+					
+					Calendar c3 = Calendar.getInstance() ;
+					c3.setTime(new Date()) ;
+					int currentMonth3 = c3.get(Calendar.MONTH)+1 ;
+					
+					System.out.println("startDate当前月：" + currentMonth1);
+					System.out.println("endDate当前月：" + currentMonth2);
+					System.out.println("currentMonth3当前月：" + currentMonth3+"\r\n");
+					
+					Integer day = new Integer(0) ;
+					
+					for(int i=0;i<currentMonth3;i++) {
 						
-						Calendar c1 = Calendar.getInstance() ;
-						c1.setTime(startDate) ;
-						int currentMonth1 = c1.get(Calendar.MONTH)+1 ;
-						
-						Calendar c2 = Calendar.getInstance() ;
-						c2.setTime(endDate) ;
-						int currentMonth2 = c2.get(Calendar.MONTH)+1 ;
-						
-						Calendar c3 = Calendar.getInstance() ;
-						c3.setTime(new Date()) ;
-						int currentMonth3 = c3.get(Calendar.MONTH)+1 ;
-						
-						System.out.println("startDate当前月：" + currentMonth1);
-						System.out.println("endDate当前月：" + currentMonth2);
-						System.out.println("currentMonth3当前月：" + currentMonth3+"\r\n");
-						
-						Integer day = new Integer(0) ;
-						
-						for(int i=0;i<currentMonth3;i++) {
+						if(i+1<currentMonth3) {
+							Calendar fristDay = Calendar.getInstance();
+							fristDay.add(Calendar.MONTH, (i-currentMonth3+1));
+							fristDay.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+							System.out.print((i-currentMonth3+1)+"当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
 							
-							if(i+1<currentMonth3) {
-								Calendar fristDay = Calendar.getInstance();
-								fristDay.add(Calendar.MONTH, (i-currentMonth3+1));
-								fristDay.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-								System.out.print((i-currentMonth3+1)+"当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
-								
-								Calendar lastDay = Calendar.getInstance();  
-								lastDay.add(Calendar.MONTH,(i-currentMonth3+1));
-								lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));  
-								System.out.print("\t当前月最后一天:"+DateUtil.formatG(lastDay.getTime()) +"\r\n");
-								
-								if(i+1>=currentMonth1 && i+1<currentMonth2) {
-									if(currentMonth1 == i+1) {
-										long dateDiff = DateCal.getWorkingDays(sd, DateUtil.formatG(lastDay.getTime()));
-										day = ((Long)dateDiff).intValue() ;
-										System.err.println("\t\t\t\t\t"+i+"=="+day+"==第一个月有效工作天数===="+sd+"=="+DateUtil.formatG(lastDay.getTime())+"==["+dateDiff+"]");
-									} else {
-										long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
-										day = ((Long)dateDiff).intValue() ;
-										System.err.println("\t\t\t\t\t"+i+"=="+day+"==中间月有效工作天数===="+DateUtil.formatG(fristDay.getTime())+"==="+DateUtil.formatG(lastDay.getTime())+"==["+dateDiff+"]");
-									}
-								} 
-								
-								//最后一个月,但开始和结束日期不能是同一个月份
-								if(i+1 == currentMonth2 && currentMonth1 != currentMonth2) {
-									long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), ed);
+							Calendar lastDay = Calendar.getInstance();  
+							lastDay.add(Calendar.MONTH,(i-currentMonth3+1));
+							lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));  
+							System.out.print("\t当前月最后一天:"+DateUtil.formatG(lastDay.getTime()) +"\r\n");
+							
+							if(i+1>=currentMonth1 && i+1<currentMonth2) {
+								if(currentMonth1 == i+1) {
+									long dateDiff = DateCal.getWorkingDays(sd, DateUtil.formatG(lastDay.getTime()));
 									day = ((Long)dateDiff).intValue() ;
-									System.err.println("\t\t\t\t\t"+i+"=="+day+"==最后一个月有效工作天数===="+DateUtil.formatG(fristDay.getTime())+"==="+ed+"==["+dateDiff+"]");
-								}
-								
-								//开始和结束的月份是同一个月，说明该员工的有效工作日都是在当月，计算有效工作日期，则需要开始和结束日期
-								if(currentMonth1 == currentMonth2 && i+1 == currentMonth2) {
-									long dateDiff = DateCal.getWorkingDays(sd, ed);
+									System.err.println("\t\t\t\t\t"+i+"=="+day+"==第一个月有效工作天数===="+sd+"=="+DateUtil.formatG(lastDay.getTime())+"==["+dateDiff+"]");
+								} else {
+									long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
 									day = ((Long)dateDiff).intValue() ;
-									System.err.println("\t\t\t\t\t"+i+"=="+day+"==同一个月份有效工作天数===="+sd+"==="+ed+"==["+dateDiff+"]");
+									System.err.println("\t\t\t\t\t"+i+"=="+day+"==中间月有效工作天数===="+DateUtil.formatG(fristDay.getTime())+"==="+DateUtil.formatG(lastDay.getTime())+"==["+dateDiff+"]");
 								}
-								
-								switch (i+1) {
-								case 1:
-									uf.setMonth1(uf.getMonth1()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 2:
-									uf.setMonth2(uf.getMonth2()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 3:
-									uf.setMonth3(uf.getMonth3()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 4:
-									uf.setMonth4(uf.getMonth4()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 5:
-									uf.setMonth5(uf.getMonth5()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 6:
-									uf.setMonth6(uf.getMonth6()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 7:
-									uf.setMonth7(uf.getMonth7()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 8:
-									uf.setMonth8(uf.getMonth8()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 9:
-									uf.setMonth9(uf.getMonth9()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 10:
-									uf.setMonth10(uf.getMonth10()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 11:
-									uf.setMonth11(uf.getMonth11()+((Integer)day).floatValue()/21f) ;
-									break;
-								case 12:
-									uf.setMonth12(uf.getMonth12()+((Integer)day).floatValue()/21f) ;
-									break;
-								default:
-									break;
-								}
-								
-								day = 0 ;
+							} 
+							
+							//最后一个月,但开始和结束日期不能是同一个月份
+							if(i+1 == currentMonth2 && currentMonth1 != currentMonth2) {
+								long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), ed);
+								day = ((Long)dateDiff).intValue() ;
+								System.err.println("\t\t\t\t\t"+i+"=="+day+"==最后一个月有效工作天数===="+DateUtil.formatG(fristDay.getTime())+"==="+ed+"==["+dateDiff+"]");
 							}
-						//}
+							
+							//开始和结束的月份是同一个月，说明该员工的有效工作日都是在当月，计算有效工作日期，则需要开始和结束日期
+							if(currentMonth1 == currentMonth2 && i+1 == currentMonth2) {
+								long dateDiff = DateCal.getWorkingDays(sd, ed);
+								day = ((Long)dateDiff).intValue() ;
+								System.err.println("\t\t\t\t\t"+i+"=="+day+"==同一个月份有效工作天数===="+sd+"==="+ed+"==["+dateDiff+"]");
+							}
+							
+							switch (i+1) {
+							case 1:
+								uf.setMonth1(uf.getMonth1()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 2:
+								uf.setMonth2(uf.getMonth2()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 3:
+								uf.setMonth3(uf.getMonth3()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 4:
+								uf.setMonth4(uf.getMonth4()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 5:
+								uf.setMonth5(uf.getMonth5()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 6:
+								uf.setMonth6(uf.getMonth6()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 7:
+								uf.setMonth7(uf.getMonth7()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 8:
+								uf.setMonth8(uf.getMonth8()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 9:
+								uf.setMonth9(uf.getMonth9()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 10:
+								uf.setMonth10(uf.getMonth10()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 11:
+								uf.setMonth11(uf.getMonth11()+((Integer)day).floatValue()/21f) ;
+								break;
+							case 12:
+								uf.setMonth12(uf.getMonth12()+((Integer)day).floatValue()/21f) ;
+								break;
+							default:
+								break;
+							}
+							
+							day = 0 ;
+						}
 					}
 					
 				}
