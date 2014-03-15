@@ -214,9 +214,9 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				for (ProjectEmpWorkingEntity ew : empWorks) {
 					//计算有效天数（减去周六日）
 					long totalDays = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
-					
 					allTotalDays += totalDays ;
 					
+					//员工的每个月的人月(计算当前月的上一个月)
 					String sd = DateUtil.formatG(ew.getStartDate()) ;
 					String ed = DateUtil.formatG(ew.getEndDate()) ;
 					Date startDate = DateUtil.formatGG(sd) ;
@@ -281,40 +281,40 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							
 							switch (i+1) {
 							case 1:
-								uf.setMonth1(uf.getMonth1()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth1(uf.getMonth1()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 2:
-								uf.setMonth2(uf.getMonth2()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth2(uf.getMonth2()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 3:
-								uf.setMonth3(uf.getMonth3()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth3(uf.getMonth3()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 4:
-								uf.setMonth4(uf.getMonth4()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth4(uf.getMonth4()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 5:
-								uf.setMonth5(uf.getMonth5()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth5(uf.getMonth5()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 6:
-								uf.setMonth6(uf.getMonth6()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth6(uf.getMonth6()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 7:
-								uf.setMonth7(uf.getMonth7()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth7(uf.getMonth7()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 8:
-								uf.setMonth8(uf.getMonth8()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth8(uf.getMonth8()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 9:
-								uf.setMonth9(uf.getMonth9()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth9(uf.getMonth9()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 10:
-								uf.setMonth10(uf.getMonth10()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth10(uf.getMonth10()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 11:
-								uf.setMonth11(uf.getMonth11()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth11(uf.getMonth11()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							case 12:
-								uf.setMonth12(uf.getMonth12()+((Integer)day).floatValue()/21f) ;
+								uf.setMonth12(uf.getMonth12()+((Integer)day).floatValue()/((Integer)day).floatValue()) ;
 								break;
 							default:
 								break;
@@ -336,7 +336,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		return forms;
 	}
 	
-	public static int workday(String sd, String ed, ProjectTaskTimeForm uf) {
+	public static int workday(String sd, String ed) {
 		Date startDate = DateUtil.formatGG(sd) ;
 		Date endDate = DateUtil.formatGG(ed) ;
 		
@@ -397,66 +397,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					System.err.println("\t\t\t\t\t"+i+"=="+day+"==同一个月份有效工作天数===="+sd+"==="+ed+"==["+dateDiff+"]");
 				}
 				
-				switch (i+1) {
-				case 1:
-					uf.setMonth1(((Integer)day).floatValue()) ;
-					break;
-				case 2:
-					uf.setMonth2(((Integer)day).floatValue()) ;
-					break;
-				case 3:
-					uf.setMonth3(((Integer)day).floatValue()) ;
-					break;
-				case 4:
-					uf.setMonth4(((Integer)day).floatValue()) ;
-					break;
-				case 5:
-					uf.setMonth5(((Integer)day).floatValue()) ;
-					break;
-				case 6:
-					uf.setMonth6(((Integer)day).floatValue()) ;
-					break;
-				case 7:
-					uf.setMonth7(((Integer)day).floatValue()) ;
-					break;
-				case 8:
-					uf.setMonth8(((Integer)day).floatValue()) ;
-					break;
-				case 9:
-					uf.setMonth9(((Integer)day).floatValue()) ;
-					break;
-				case 10:
-					uf.setMonth10(((Integer)day).floatValue()) ;
-					break;
-				case 11:
-					uf.setMonth11(((Integer)day).floatValue()) ;
-					break;
-				case 12:
-					uf.setMonth12(((Integer)day).floatValue()) ;
-					break;
-				default:
-					break;
-				}
 			}
-			
-			
-			//i代表后退的月份，如果当前循环的月份小于结束日期的月份，则获得当前月的最后一天
-			/*if(i+1<currentMonth2) {
-				System.out.println(i+"==="+((currentMonth1-currentMonth3)+i));
-				Calendar fristDay = Calendar.getInstance();
-				fristDay.add(Calendar.MONTH, (currentMonth1-currentMonth3)+i);
-				fristDay.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-		        System.out.print("当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
-				
-				Calendar lastDay = Calendar.getInstance();  
-				lastDay.add(Calendar.MONTH,(currentMonth1-currentMonth3)+i);
-				lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));  
-				System.out.print("当前月最后一天:"+DateUtil.formatG(lastDay.getTime()) +"\r\n");
-				
-				if(i+1>currentMonth1) {
-					System.out.println(i);
-				}
-			}*/
 		}
 		System.out.println("");
 		return currentMonth3;
@@ -464,7 +405,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 	
 	public static void main(String[] args) {
 		
-		workday("2014-03-09", "2014-06-13", null) ;
+		workday("2014-03-09", "2014-06-13") ;
 		
 	}
 

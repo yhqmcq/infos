@@ -1,8 +1,10 @@
 package com.infox.project.service.impl;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -588,48 +590,135 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		return datagrid;
 	}
 
-	private List<ProjectMainForm> changeModel(List<ProjectMainEntity> ProjectMainEntity) {
+	private List<ProjectMainForm> changeModel(List<ProjectMainEntity> ProjectMainEntity) throws ParseException {
 		List<ProjectMainForm> forms = new ArrayList<ProjectMainForm>();
 
 		if (null != ProjectMainEntity && ProjectMainEntity.size() > 0) {
-			for (ProjectMainEntity i : ProjectMainEntity) {
-				float allTotalMM = 0f ;
+			for (ProjectMainEntity project : ProjectMainEntity) {
+				//float allTotalMM = 0f ;
 				ProjectMainForm uf = new ProjectMainForm();
-				BeanUtils.copyProperties(i, uf, new String[]{"project_target", "project_desc"});
-				uf.setProject_target(StringUtil.removeHTMLLable(ClobUtil.getString(i.getProject_target()))) ;
-				uf.setLeader_name(i.getEmp().getTruename()) ;
+				BeanUtils.copyProperties(project, uf, new String[]{"project_target", "project_desc"});
+				uf.setProject_target(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_target()))) ;
+				uf.setLeader_name(project.getEmp().getTruename()) ;
 
 				//计算项目的天数(不包括周六日)
-				long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(i.getStartDate()), DateUtil.formatG(i.getEndDate()));
+				long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(project.getStartDate()), DateUtil.formatG(project.getEndDate()));
 				uf.setDateDiff(dateDiff);
-				if(i.getStatus() != 3) {	//项目为结束状态，无需计算剩余天数
-					long lastdateDiff = DateCal.getWorkingDays(DateUtil.formatG(new Date()), DateUtil.formatG(i.getEndDate()));
+				
+				//项目为结束状态，无需计算剩余天数
+				if(project.getStatus() != 3) {	
+					long lastdateDiff = DateCal.getWorkingDays(DateUtil.formatG(new Date()), DateUtil.formatG(project.getEndDate()));
 					uf.setLastdateDiff(lastdateDiff);
 				}
-				if (null != i.getDept()) {
-					uf.setDeptname(i.getDept().getFullname());
+				
+				if (null != project.getDept()) {
+					uf.setDeptname(project.getDept().getFullname());
 				}
 				
-				Set<ProjectEmpWorkingEntity> pwe = i.getPwe() ;
+				Set<ProjectEmpWorkingEntity> pwe = project.getPwe() ;
 				for (ProjectEmpWorkingEntity pw : pwe) {
 					//判断该项目中是否有人员的开始日期是否未设置,如果为设置,则直接删除,并设置为空闲人员(因为设置开发人员时有遗漏的)
 					if(null == pw.getStartDate()) {
 						pw.getEmp().setWorkStatus(0) ;
 						this.basedaoProjectEW.delete(pw) ;
 					} else {
-						long totalDays = DateCal.getWorkingDays(DateUtil.formatG(pw.getStartDate()), DateUtil.formatG(pw.getEndDate())) ;
-						float mm = (1*((float)totalDays/30)) ;
-						allTotalMM += mm ;
+						
+						//--暂时不显示
+						/*long totalDays = DateCal.getWorkingDays(DateUtil.formatG(pw.getStartDate()), DateUtil.formatG(pw.getEndDate())) ;
+						float mm = (((float)totalDays/30)) ;
+						allTotalMM += mm ;*/
 					}
 				}
-
-				uf.setMm(NumberUtils.formatNum(allTotalMM)) ;
+				
+				//总人月
+				//uf.setMm(NumberUtils.formatNum(allTotalMM)) ;
+				
+				
+				if("ADWORLD住宅(2014年7月リリース分)".equals(project.getName())) {
+					System.out.println(project.getName()+"==="+DateUtil.formatG(project.getStartDate()) +"==" + DateUtil.formatG(project.getEndDate())) ;
+					
+					String sd = DateUtil.formatG(project.getStartDate()) ;
+					String ed = DateUtil.formatG(project.getEndDate()) ;
+					Date startDate = DateUtil.formatGG(sd) ;
+					Date endDate = DateUtil.formatGG(ed) ;
+					
+					//开始日期和结束日期相差的月数
+					int monthSpace = DateUtil.getDiffer(sd, ed) ;
+					System.out.println(monthSpace);
+					
+					Calendar c1 = Calendar.getInstance() ;
+					c1.setTime(startDate) ;
+					int currentMonth1 = c1.get(Calendar.MONTH)+1 ;
+					int currentYear1 = c1.get(Calendar.YEAR) ;
+					
+					Calendar c2 = Calendar.getInstance() ;
+					c2.setTime(endDate) ;
+					int currentMonth2 = c2.get(Calendar.MONTH)+1 ;
+					int currentYear2 = c2.get(Calendar.YEAR) ;
+					
+					Calendar c3 = Calendar.getInstance() ;
+					c3.setTime(new Date()) ;
+					int currentMonth3 = c3.get(Calendar.MONTH)+1 ;
+					int currentYear3 = c3.get(Calendar.YEAR) ;
+					
+					System.out.println("startDate[年-月]：" + currentYear1+"-"+currentMonth1);
+					System.out.println("endDate[年-月]：" + currentYear2+"-"+currentMonth2);
+					System.out.println("current[年-月]：" + currentYear3+"-"+currentMonth3+"\r\n");
+					
+					for(int i=0;i<monthSpace;i++) {
+						Calendar fristDay = Calendar.getInstance();
+						fristDay.add(Calendar.MONTH, (i));
+						fristDay.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+						//System.out.print("当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
+						
+						Calendar lastDay = Calendar.getInstance();  
+						lastDay.add(Calendar.MONTH,(i));
+						lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));  
+						//System.out.print("\t当前月最后一天:"+DateUtil.formatG(lastDay.getTime()) +"\r\n\r\n");
+						
+						//每个月的有效天数
+						long diffDay = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
+						
+						String ym1 = currentYear1+""+currentMonth1 ;
+						String ym2 = currentYear2+""+currentMonth2 ;
+						String frist = fristDay.get(Calendar.YEAR)+""+(fristDay.get(Calendar.MONTH)+1) ;
+						
+						//第一个月
+						if(ym1.equals(frist)) {
+							long diff = DateCal.getWorkingDays(sd, DateUtil.formatG(lastDay.getTime()));
+							System.err.println("第一个月有效工作天数===="+sd+"=="+DateUtil.formatG(lastDay.getTime())+"==["+diff+"]");
+						}
+						
+						//中间月
+						if(!ym1.equals(frist) && !ym2.equals(frist) && !ym1.equals(ym2)) {
+							long diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
+							System.err.println("中间月有效工作天数===="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"==["+diff+"]");
+						}
+						
+						//最后一个月
+						if(ym2.equals(frist) && !ym1.equals(ym2)) {
+							long diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), ed);
+							System.err.println("最后一个月有效工作天数===="+DateUtil.formatG(fristDay.getTime())+"=="+ed+"==["+diff+"]");
+						}
+						
+						System.out.println("");
+						//System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"有效天数【"+diffDay+"】");
+					}
+					
+				}
+				
+				
 				forms.add(uf);
 			}
 		}
 		return forms;
 	}
 
+	public static void main(String[] args) throws Exception {
+		int monthSpace = DateUtil.getDiffer("2013-12-09", "2014-03-13") ;
+		System.out.println(monthSpace);
+	}
+	
 	private List<ProjectMainEntity> find(ProjectMainForm form) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select t from ProjectMainEntity t where 1=1";

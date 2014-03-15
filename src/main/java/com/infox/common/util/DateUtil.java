@@ -302,6 +302,45 @@ public class DateUtil {
 	}
 	
 	/**
+	 * 计算相差月数
+	 * 方法描述 : 
+	 * 创建者：杨浩泉 
+	 * 项目名称： infos
+	 * 类名： DateUtil.java
+	 * 版本： v1.0
+	 * 创建时间： 2014-3-15 下午11:53:19
+	 * @param begin
+	 * @param end
+	 * @return
+	 * @throws Exception int
+	 */
+	public static int getDiffer(String begin, String end) {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date beginDate = df.parse(begin);
+			Date endDate = df.parse(end);
+			Calendar c1 = Calendar.getInstance();
+			c1.setTime(beginDate);
+			Calendar c2 = Calendar.getInstance();
+			c2.setTime(endDate);
+
+			int beginYear = c1.get(Calendar.YEAR);
+			int beginMonth = c1.get(Calendar.MONTH) + 1;
+
+			int endYear = c2.get(Calendar.YEAR);
+			int endMonth = c2.get(Calendar.MONTH) + 1;
+
+			int difMonth = (endYear - beginYear) * 12 + (endMonth - beginMonth) + 1;
+
+			return difMonth;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return 0;
+
+	}
+	
+	/**
 	 * 计算两个日期的间隔(yyyy-MM-dd)
 	 * @param startdate 开始日期
 	 * @param enddate 结束日期

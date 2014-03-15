@@ -66,7 +66,7 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 剩余天数 */
 	private long lastdateDiff;
 	
-	/** 项目总人员 */
+	/** 项目总人月 */
 	private float mm ;
 
 	/** 用于IN查询(0,1,2,3,4) */
