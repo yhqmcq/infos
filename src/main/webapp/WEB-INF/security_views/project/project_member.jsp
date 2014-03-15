@@ -196,19 +196,17 @@
 			for ( var i = 0; i < rows.length; i++) {
 				ids.push(rows[i].id);
 			}
-			if($('#project_role').form('validate')) {
-				var data = {} ; data = $("#dateform").form("getData") ;
-				data["ids"] = ids.join(",");
-				
-				$.post(yhq.basePath+"/project/pwe_emp_working/set_projectRole.do", data, function(result) {
-					if (result.status) {
-						dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
-						$.easyui.messager.show({ icon: "info", msg: "设置项目角色成功。" });
-					} else {
-						$.easyui.messager.show({ icon: "info", msg: "设置项目角色失败。" });
-					}
-				}, 'json');
-			}
+			var data = {} ; data = $("#dateform").form("getData") ;
+			data["ids"] = ids.join(",");
+			
+			$.post(yhq.basePath+"/project/pwe_emp_working/set_projectRole.do", data, function(result) {
+				if (result.status) {
+					dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
+					$.easyui.messager.show({ icon: "info", msg: "设置项目角色成功。" });
+				} else {
+					$.easyui.messager.show({ icon: "info", msg: "设置项目角色失败。" });
+				}
+			}, 'json');
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
@@ -263,7 +261,6 @@
 				}
 			}
 		});
-		console.info(delIds) ;
 		if(delIds.length > 0) {
 			$.post(yhq.basePath+"/project/pwe_emp_working/delTempRow.do", {project_id: "${project.id}", ids: delIds.join(",")}, function(result) {
 				if (result.status) {

@@ -7,9 +7,9 @@
 <%@ include file="/common/base/script.jsp"%>
 
 <script type="text/javascript">
-	var dataGrid1 ;
+	var dataGrid ;
 	$(function() {
-		dataGrid1 = $("#d1").datagrid({
+		dataGrid = $("#d1").datagrid({
 			title: '员工列表', height:378,
 			url: yhq.basePath+"/project/project_main/get_ProjectAllDevMember.do?id=${project.id}",
 			idField: 'emp_id', fit: false, fitColumns: true, border: false, method: "post",
@@ -58,25 +58,56 @@
 			]],
 			onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
-		        dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked');
+		        dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');
 		    }
 	    });
 		
 		
 	    $("#startDate").datetimebox({
-	    	showSeconds:false,
+	    	showSeconds:false,required: true,
 	    	formatter: function(date){
 	    		return date.format("YYYY-MM-dd hh:mm");
 	    	}
 	    });  
 	    $("#endDate").datetimebox({
-	    	showSeconds:false,
+	    	showSeconds:false,required: true,
 	    	formatter: function(date){
 	    		return date.format("YYYY-MM-dd hh:mm");
 	    	}
 	    });  
 		
 	});
+	
+	function setOT() {
+		var rows = dataGrid.datagrid('getSelections');
+		var ids = [];
+		if (rows.length > 0) {
+			for ( var i = 0; i < rows.length; i++) {
+				ids.push(rows[i].id);
+			}
+			if($('#dateform').form('validate')) {
+				var data = {} ; data = $("#dateform").form("getData") ;
+				data["ids"] = ids.join(",");
+				
+				/*
+				$.post(yhq.basePath+"/project/pwe_emp_working/set_projectRole.do", data, function(result) {
+					if (result.status) {
+						dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
+						$.easyui.messager.show({ icon: "info", msg: "设置项目角色成功。" });
+					} else {
+						$.easyui.messager.show({ icon: "info", msg: "设置项目角色失败。" });
+					}
+				}, 'json');
+				*/
+			}
+		} else {
+			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
+		}
+	}
+	
+	function removeOT() {
+		
+	}
 </script>
 
 </head>
@@ -90,21 +121,23 @@
 			<div id="d1" style="border:1px solid red;"></div>
 		</div>
 		<div data-options="region: 'south', border: true" style="height:95px;">
-			<table style="margin:0px;width:100%;padding:5px;">
-				<tr>
-					<td align="center" style="padding:5px;">
-						<b>加班开始时间:</b><input id="startDate" name="startDate" />
-						&nbsp;&nbsp;&nbsp;
-						<b>加班结束时间:</b><input id="endDate" name="endDate" />
-					</td>
-				</tr>
-				<tr>
-					<td align="center" style="padding:5px;">
-						<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-delete'">清除时间</a>
-						<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-add'">设置时间</a>
-					</td>
-				</tr>
-			</table>
+			<form id="dateform" class="easyui-form">
+				<table style="margin:0px;width:100%;padding:5px;">
+					<tr>
+						<td align="center" style="padding:5px;">
+							<b>加班开始时间:</b><input id="startDate" name="startDate" />
+							&nbsp;&nbsp;&nbsp;
+							<b>加班结束时间:</b><input id="endDate" validType="TimeCheck['startDate']" invalidMessage="开始时间必须大于结束时间" name="endDate" />
+						</td>
+					</tr>
+					<tr>
+						<td align="center" style="padding:5px;">
+							<a onclick="removeOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-delete'">清除时间</a>
+							<a onclick="setOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-add'">设置时间</a>
+						</td>
+					</tr>
+				</table>
+			</form>
 		</div>
 	</div>	
 </body>
