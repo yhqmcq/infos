@@ -12,9 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.util.BeanUtils;
 import com.infox.common.web.page.DataGrid;
+import com.infox.common.web.page.Json;
 import com.infox.project.entity.OvertimeEntity;
+import com.infox.project.entity.ProjectMainEntity;
 import com.infox.project.service.OvertimeServiceI;
 import com.infox.project.web.form.OvertimeForm;
+import com.infox.sysmgr.entity.EmployeeEntity;
 
 @Service
 @Transactional
@@ -24,22 +27,75 @@ public class OvertimeServiceImpl implements OvertimeServiceI {
 	private BaseDaoI<OvertimeEntity> basedaoOvertime ;
 
 	@Override
-	public void add(OvertimeForm form) throws Exception {
-		OvertimeEntity entity = new OvertimeEntity();
-		BeanUtils.copyProperties(form, entity);
-		this.basedaoOvertime.save(entity) ;
+	public Json add(OvertimeForm form) throws Exception {
+		Json j = new Json() ;
+		
+		if(form.getEmp_ids() != null && form.getEmp_ids() != "") {
+			ProjectMainEntity project = new ProjectMainEntity() ;
+			project.setId(form.getProject_id()) ;
+			
+			String[] emp_id = form.getEmp_ids().split(",") ;
+			for (String id : emp_id) {
+				
+				Map<String, Object> params = new HashMap<String, Object>() ;
+				params.put("empid", id) ; params.put("project_id", form.getProject_id()) ;
+				OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
+				if(null != oe) {
+					oe.setStartDate(form.getStartDate()) ;
+					oe.setEndDate(form.getEndDate()) ;
+					oe.setHour(form.getHour()) ;
+				} else {
+					EmployeeEntity emp = new EmployeeEntity() ;
+					emp.setId(id) ;
+					
+					OvertimeEntity entity = new OvertimeEntity();
+					BeanUtils.copyProperties(form, entity);
+					
+					entity.setEmp(emp) ;
+					entity.setProject(project) ;
+					this.basedaoOvertime.save(entity) ;
+				}
+			}
+			j.setStatus(true) ;
+			j.setMsg("设置加班时间成功！") ;
+		} else {
+			j.setMsg("为选择需要设置的加班人员！") ;
+		}
+		return j ;
 	}
 
 	@Override
-	public void delete(String id) throws Exception {
+	public Json delete(String id) throws Exception {
+		Json j = new Json() ;
 		this.basedaoOvertime.delete(this.basedaoOvertime.get(OvertimeEntity.class, id)) ;
+		return j ;
+	}
+	
+	@Override
+	public Json delete(OvertimeForm form) throws Exception {
+		Json j = new Json() ;
+
+		String[] emp_id = form.getEmp_ids().split(",") ;
+		for (String id : emp_id) {
+			Map<String, Object> params = new HashMap<String, Object>() ;
+			params.put("empid", id) ; params.put("project_id", form.getProject_id()) ;
+			OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
+			if(null != oe) {
+				this.basedaoOvertime.delete(oe) ;
+			}
+		}
+		j.setStatus(true) ;
+		j.setMsg("重置加班时间成功！") ;
+		return j ;
 	}
 
 	@Override
-	public void edit(OvertimeForm form) throws Exception {
+	public Json edit(OvertimeForm form) throws Exception {
+		Json j = new Json() ;
 		OvertimeEntity entity = this.basedaoOvertime.get(OvertimeEntity.class, form.getId()) ;
 		BeanUtils.copyProperties(form, entity);
 		this.basedaoOvertime.update(entity) ;
+		return j ;
 	}
 
 	@Override
@@ -115,6 +171,10 @@ public class OvertimeServiceImpl implements OvertimeServiceI {
 
 	private String addWhere(String hql, OvertimeForm form, Map<String, Object> params) {
 		if (null != form) {
+			if(null != form.getProject_id() && !form.getProject_id().equals("")) {
+				hql += " and t.project.id=:project_id" ;
+				params.put("project_id", form.getProject_id()) ;
+			}
 		}
 		return hql;
 	}

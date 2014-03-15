@@ -28,7 +28,7 @@ infosUtil.request = {
  * 打开新的窗口
  * @param url
  */
-function openWin(url) {
+infosUtil.openWin = function(url) {
 	var width  = screen.availWidth-10;
 	var height = screen.availHeight-50;
 	var leftm  = 0;
@@ -39,7 +39,7 @@ function openWin(url) {
 		alertify.error('发现弹出窗口被阻止，请更改浏览器设置，以便正常使用本功能！');
 		return ;
 	}
-}
+} ;
 
 /**
  * 字符串和date 转换
@@ -66,6 +66,12 @@ infosUtil.str2date = function(c_date) {
     return date;
 };
 
+/**
+ * 格式化数字
+ * @param s 数字
+ * @param n 保留小数点位数
+ * @returns {String}
+ */
 infosUtil.numberf = function(s, n)   
 {   
    n = n > 0 && n <= 20 ? n : 2;   
@@ -78,7 +84,122 @@ infosUtil.numberf = function(s, n)
       t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");   
    }   
    return t.split("").reverse().join("") + "." + r;   
-} 
+};
+
+/**
+ * 计算时差
+ * @param startTime
+ * @param endTime
+ * @returns {___anonymous2895_2964} 返回对象
+ */
+infosUtil.difference = function(startTime, endTime) {
+	startTime = startTime.replace(/\-/g, "/");
+	endTime = endTime.replace(/\-/g, "/");
+	var sTime = new Date(startTime);
+	var eTime = new Date(endTime);
+	var dates = eTime.getTime() - sTime.getTime() ;
+	
+	//计算出相差天数
+	var days=Math.floor(dates/(24*3600*1000)) ;
+	
+	//计算出小时数
+	var leave1=dates%(24*3600*1000) ;    	//计算天数后剩余的毫秒数
+	var hours=Math.floor(leave1/(3600*1000)) ;
+	
+	//计算相差分钟数
+	var leave2=leave1%(3600*1000) ;        	//计算小时数后剩余的毫秒数
+	var minutes=Math.floor(leave2/(60*1000)) ;
+	
+	//计算相差秒数
+	var leave3=leave2%(60*1000) ;			//计算分钟数后剩余的毫秒数
+	var seconds=Math.round(leave3/1000) ;
+	
+	var diff = {"days": days, "hours": hours, "minutes": minutes, "seconds": seconds} ;
+	
+	return diff ;
+} ;
+
+
+/**
+ * 例子：
+ * compareCalendar(str2date("2013-05-02 11:11:11").format("YYYY-MM-dd hh:mm:ss"), str2date("2013-05-07 11:11:11").format("YYYY-MM-dd hh:mm:ss"));
+ */
+
+/**
+ * 比较日期大小
+ * @param checkStartDate
+ * @param checkEndDate
+ * @returns {Boolean}
+ */
+infosUtil.compareDate = function(checkStartDate, checkEndDate) {
+	var arys1 = new Array();
+	var arys2 = new Array();
+	if (checkStartDate != null && checkEndDate != null) {
+		arys1 = checkStartDate.split('-');
+		var sdate = new Date(arys1[0], parseInt(arys1[1] - 1), arys1[2]);
+		arys2 = checkEndDate.split('-');
+		var edate = new Date(arys2[0], parseInt(arys2[1] - 1), arys2[2]);
+		if (sdate > edate) {
+			//alert("日期开始时间大于结束时间");
+			return false;
+		} else {
+			//alert("通过");
+			return true;
+		}
+	}
+};
+
+/**
+ * 判断日期，时间大小  
+ * @param startDate
+ * @param endDate
+ * @returns {Boolean}
+ */
+infosUtil.compareTime = function(startDate, endDate) {
+	if (startDate.length > 0 && endDate.length > 0) {
+		var startDateTemp = startDate.split(" ");
+		var endDateTemp = endDate.split(" ");
+
+		var arrStartDate = startDateTemp[0].split("-");
+		var arrEndDate = endDateTemp[0].split("-");
+
+		var arrStartTime = startDateTemp[1].split(":");
+		var arrEndTime = endDateTemp[1].split(":");
+
+		var allStartDate = new Date(arrStartDate[0], arrStartDate[1],
+				arrStartDate[2], arrStartTime[0], arrStartTime[1],
+				arrStartTime[2]);
+		var allEndDate = new Date(arrEndDate[0], arrEndDate[1], arrEndDate[2],
+				arrEndTime[0], arrEndTime[1], arrEndTime[2]);
+
+		if (allStartDate.getTime() >= allEndDate.getTime()) {
+			//alert("startTime不能大于endTime，不能通过");
+			return false;
+		} else {
+			//alert("startTime小于endTime，所以通过了"); 
+			return true;
+		}
+	} else {
+		alert("时间不能为空");
+		return false;
+	}
+} ;
+
+/**
+ * 比较日期，时间大小  
+ * @param startDate
+ * @param endDate
+ */
+infosUtil.compareCalendar = function(startDate, endDate) {
+	if (startDate.indexOf(" ") != -1 && endDate.indexOf(" ") != -1) {
+		//包含时间，日期  
+		return infosUtil.compareTime(startDate, endDate);
+	} else {
+		//不包含时间，只包含日期  
+		return infosUtil.compareDate(startDate, endDate);
+	}
+} ;  
+
 
 /**
  * @author 杨浩泉
@@ -115,85 +236,4 @@ Date.prototype.format = function(format) {
 	}
 	return format;
 };
-
-/**
- * 例子：
- * compareCalendar(str2date("2013-05-02 11:11:11").format("YYYY-MM-dd hh:mm:ss"), str2date("2013-05-07 11:11:11").format("YYYY-MM-dd hh:mm:ss"));
- */
-
-/**
- * 比较日期大小
- * @param checkStartDate
- * @param checkEndDate
- * @returns {Boolean}
- */
-function compareDate(checkStartDate, checkEndDate) {
-	var arys1 = new Array();
-	var arys2 = new Array();
-	if (checkStartDate != null && checkEndDate != null) {
-		arys1 = checkStartDate.split('-');
-		var sdate = new Date(arys1[0], parseInt(arys1[1] - 1), arys1[2]);
-		arys2 = checkEndDate.split('-');
-		var edate = new Date(arys2[0], parseInt(arys2[1] - 1), arys2[2]);
-		if (sdate > edate) {
-			//alert("日期开始时间大于结束时间");
-			return false;
-		} else {
-			//alert("通过");
-			return true;
-		}
-	}
-}
-
-/**
- * 判断日期，时间大小  
- * @param startDate
- * @param endDate
- * @returns {Boolean}
- */
-function compareTime(startDate, endDate) {
-	if (startDate.length > 0 && endDate.length > 0) {
-		var startDateTemp = startDate.split(" ");
-		var endDateTemp = endDate.split(" ");
-
-		var arrStartDate = startDateTemp[0].split("-");
-		var arrEndDate = endDateTemp[0].split("-");
-
-		var arrStartTime = startDateTemp[1].split(":");
-		var arrEndTime = endDateTemp[1].split(":");
-
-		var allStartDate = new Date(arrStartDate[0], arrStartDate[1],
-				arrStartDate[2], arrStartTime[0], arrStartTime[1],
-				arrStartTime[2]);
-		var allEndDate = new Date(arrEndDate[0], arrEndDate[1], arrEndDate[2],
-				arrEndTime[0], arrEndTime[1], arrEndTime[2]);
-
-		if (allStartDate.getTime() >= allEndDate.getTime()) {
-			//alert("startTime不能大于endTime，不能通过");
-			return false;
-		} else {
-			//alert("startTime小于endTime，所以通过了"); 
-			return true;
-		}
-	} else {
-		alert("时间不能为空");
-		return false;
-	}
-}
-
-/**
- * 比较日期，时间大小  
- * @param startDate
- * @param endDate
- */
-function compareCalendar(startDate, endDate) {
-	if (startDate.indexOf(" ") != -1 && endDate.indexOf(" ") != -1) {
-		//包含时间，日期  
-		return compareTime(startDate, endDate);
-	} else {
-		//不包含时间，只包含日期  
-		return compareDate(startDate, endDate);
-	}
-}  
-
 

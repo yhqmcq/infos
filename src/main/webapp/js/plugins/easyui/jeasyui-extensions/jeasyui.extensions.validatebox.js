@@ -106,11 +106,19 @@
             validator: function (value) { return $.string.isDate(value); },
             message: "输入的内容必须是长日期时间(yyyy-MM-dd hh:mm:ss)或短日期(yyyy-MM-dd)格式."
         },
-        //	比较两个日期大小
+        //	比较两个日期大小，可以等于
         TimeCheck:{ 
         	validator:function(value,param){     
         		var s = $("input[name="+param[0]+"]").val(); 
         		return value>=s; 
+        	}, 
+        	message:'非法数据' 
+        },
+        //	比较两个日期大小
+        TimeCheckLT:{ 
+        	validator:function(value,param){     
+        		var s = $("input[name="+param[0]+"]").val(); 
+        		return value>s; 
         	}, 
         	message:'非法数据' 
         },

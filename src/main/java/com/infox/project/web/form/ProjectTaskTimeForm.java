@@ -37,6 +37,15 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private Date endDate ;
 	
+	/** 加班开始时间 */
+	private Date otStartDate ;
+	
+	/** 加班结束时间 */
+	private Date otEndDate ;
+	
+	/** 加班小时 */
+	private Float totalHour ;
+	
 	/** 开始和结束日期，字符串 */
 	private String sd ;
 	private String ed ;
@@ -66,6 +75,32 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus;
+
+	
+
+	public Date getOtStartDate() {
+		return otStartDate;
+	}
+
+	public void setOtStartDate(Date otStartDate) {
+		this.otStartDate = otStartDate;
+	}
+
+	public Date getOtEndDate() {
+		return otEndDate;
+	}
+
+	public void setOtEndDate(Date otEndDate) {
+		this.otEndDate = otEndDate;
+	}
+
+	public Float getTotalHour() {
+		return totalHour;
+	}
+
+	public void setTotalHour(Float totalHour) {
+		this.totalHour = totalHour;
+	}
 
 	public String getPosition_sname() {
 		return position_sname;

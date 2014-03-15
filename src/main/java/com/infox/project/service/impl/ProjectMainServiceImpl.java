@@ -376,6 +376,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		long allExpendDays = 0 ;
 		float allExpendmm = 0f ;
 		float allmm = 0f ;
+		float allOtTime = 0f ;
 		if (null != entity) {
 			Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
 			for (ProjectEmpWorkingEntity p : pwe) {
@@ -396,6 +397,15 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				pf.setDept_name(e.getOrg().getFullname()) ;
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
+				
+				//加班小时
+				Map<String, Object> params = new HashMap<String, Object>() ;
+				params.put("empid", e.getId()) ; params.put("project_id", entity.getId()) ;
+				OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
+				if(null != oe) {
+					pf.setTotalHour(oe.getHour()) ;
+					allOtTime += pf.getTotalHour() ;
+				}
 				
 				long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
 				long lastdateDiff = 0 ;
@@ -436,6 +446,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			map.put("expendDays", allExpendDays) ;
 			map.put("mm", allmm) ;
 			map.put("expendMM", allExpendmm) ;
+			map.put("totalHour", NumberUtils.formatNum(allOtTime)) ;
 			footer.add(map) ;
 			
 			datagrid.setTotal((long) pwe.size());
@@ -475,6 +486,16 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				pf.setDept_name(e.getOrg().getFullname()) ;
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
+				
+				//加班小时
+				Map<String, Object> params = new HashMap<String, Object>() ;
+				params.put("empid", e.getId()) ; params.put("project_id", entity.getId()) ;
+				OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
+				if(null != oe) {
+					pf.setTotalHour(oe.getHour()) ;
+					pf.setOtStartDate(oe.getStartDate()) ;
+					pf.setOtEndDate(oe.getEndDate()) ;
+				}
 				
 				pf.setStatus(p.getStatus()) ;
 				

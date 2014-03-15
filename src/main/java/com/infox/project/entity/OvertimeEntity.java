@@ -36,6 +36,7 @@ public class OvertimeEntity {
 	/** 加班结束时间 */
 	private Date endDate ;
 	
+	/** 相差小时 */
 	private Float hour ;
 	
 	private Date created = new Date() ;

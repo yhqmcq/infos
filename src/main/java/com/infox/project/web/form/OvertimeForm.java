@@ -14,9 +14,31 @@ public class OvertimeForm extends PageHelper {
 	/** 加班结束时间 */
 	private Date endDate;
 
+	/** 相差小时 */
 	private Float hour;
 
 	private Date created = new Date();
+	
+	private String emp_ids ;
+	
+	private String project_id ;
+	
+
+	public String getEmp_ids() {
+		return emp_ids;
+	}
+
+	public void setEmp_ids(String emp_ids) {
+		this.emp_ids = emp_ids;
+	}
+
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
 
 	public String getId() {
 		return id;

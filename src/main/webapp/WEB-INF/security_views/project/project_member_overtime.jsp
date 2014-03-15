@@ -13,7 +13,7 @@
 			title: '员工列表', height:378,
 			url: yhq.basePath+"/project/project_main/get_ProjectAllDevMember.do?id=${project.id}",
 			idField: 'emp_id', fit: false, fitColumns: true, border: false, method: "post",
-			remoteSort: false, striped:true, pagination: false,showFooter: true,
+			remoteSort: false, striped:true, pagination: false, rownumbers: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'emp_id', title: '工号', width: 60, sortable: true },
@@ -47,14 +47,13 @@
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 			    }},
 			    { field: 'otStartDate', title: '加班开始时间', width: 130, formatter: function(value,row){
-			    	return "2014-03-27 23:45";
-			    }},
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd hh:ss") ;
+			    } },
 			    { field: 'otEndDate', title: '加班开始时间', width: 130, formatter: function(value,row){
-			    	return "2014-03-27 23:45";
-			    }},
-			    { field: 'totalHour', title: '累计小时', width: 90, sortable: true, formatter: function(value,row){
-			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
-			    }}
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd hh:ss") ;
+			    } },
+			    { field: 'totalHour', title: '累计小时', width: 90, sortable: true } 
+			    
 			]],
 			onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
@@ -83,30 +82,74 @@
 		var ids = [];
 		if (rows.length > 0) {
 			for ( var i = 0; i < rows.length; i++) {
-				ids.push(rows[i].id);
+				ids.push(rows[i].emp_id);
 			}
 			if($('#dateform').form('validate')) {
+				diffTime() ;
 				var data = {} ; data = $("#dateform").form("getData") ;
-				data["ids"] = ids.join(",");
-				
-				/*
-				$.post(yhq.basePath+"/project/pwe_emp_working/set_projectRole.do", data, function(result) {
+				data["startDate"] = data.startDate+":00";
+				data["endDate"] = data.endDate+":00";
+				data["project_id"] = "${project.id}";
+				data["emp_ids"] = ids.join(",");
+				$.post(yhq.basePath+"/project/overtime/add.do", data, function(result) {
 					if (result.status) {
 						dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
-						$.easyui.messager.show({ icon: "info", msg: "设置项目角色成功。" });
+						$.easyui.messager.show({ icon: "info", msg: result.msg });
 					} else {
-						$.easyui.messager.show({ icon: "info", msg: "设置项目角色失败。" });
+						$.easyui.messager.show({ icon: "info", msg: result.msg });
 					}
 				}, 'json');
-				*/
 			}
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
 	}
 	
+	function diffTime() {
+		var sd = $("#startDate").datetimebox("getValue")+":00".format("YYYY-MM-dd hh:mm:ss") ;
+		var ed = $("#endDate").datetimebox("getValue")+":00".format("YYYY-MM-dd hh:mm:ss") ;
+		if(undefined != sd && sd.length == 19 && undefined != ed && ed.length == 19) {
+			var flag = infosUtil.compareCalendar(sd, ed) ;
+			if(flag) {
+				var hour = 0 ;
+				var minutes = 0 ;
+				
+				var o = infosUtil.difference(sd, ed) ;
+				hour = o.hours ;
+				minutes = o.minutes ;
+				if(o.days > 0) {
+					hour += o.days*24 ;
+				}
+				$("input[name=hour]").val(infosUtil.numberf(parseFloat(hour + (minutes/600)), 2)) ;
+			} else {
+				$.easyui.messager.show({ icon: "info", msg: "结束时间必须大于开始时间！" });
+			}
+		} else {
+			$.easyui.messager.show({ icon: "info", msg: "请设置开始和结束时间！" });
+		}
+	}
+	
 	function removeOT() {
-		
+		var rows = dataGrid.datagrid('getSelections');
+		var ids = [];
+		if (rows.length > 0) {
+			for ( var i = 0; i < rows.length; i++) {
+				ids.push(rows[i].emp_id);
+			}
+			var data = {} ; data = $("#dateform").form("getData") ;
+			data["project_id"] = "${project.id}";
+			data["emp_ids"] = ids.join(",");
+			$.post(yhq.basePath+"/project/overtime/delete.do", data, function(result) {
+				if (result.status) {
+					dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
+					$.easyui.messager.show({ icon: "info", msg: result.msg });
+				} else {
+					$.easyui.messager.show({ icon: "info", msg: result.msg });
+				}
+			}, 'json');
+		} else {
+			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
+		}
 	}
 </script>
 
@@ -127,7 +170,9 @@
 						<td align="center" style="padding:5px;">
 							<b>加班开始时间:</b><input id="startDate" name="startDate" />
 							&nbsp;&nbsp;&nbsp;
-							<b>加班结束时间:</b><input id="endDate" validType="TimeCheck['startDate']" invalidMessage="开始时间必须大于结束时间" name="endDate" />
+							<b>加班结束时间:</b><input id="endDate" validType="TimeCheckLT['startDate']" invalidMessage="开始时间必须大于结束时间" name="endDate" />
+							<input type="text" name="hour" class="easyui-validatebox" style="width:60px;" />小时
+							<a onclick="diffTime();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-sum'">计算时间</a>
 						</td>
 					</tr>
 					<tr>
