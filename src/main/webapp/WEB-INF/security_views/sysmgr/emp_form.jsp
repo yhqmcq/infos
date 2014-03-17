@@ -40,6 +40,7 @@
 						'status' : result.status,
 						'truename' : result.truename,
 						'japanese' : result.japanese,
+						'isLeader' : result.isLeader,
 						'sex' : result.sex,
 						//'email' : result.email,
 						'tel' : result.tel,

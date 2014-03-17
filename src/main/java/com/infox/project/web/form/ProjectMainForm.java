@@ -41,6 +41,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	/** 所属部门（Name） */
 	private String deptname;
+	
+	/** 所属部长 */
+	private String deptLeader ;
 
 	/** 项目负责人ID */
 	private String leader_id;
@@ -53,7 +56,25 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	/** 创建者名称 */
 	private String createrName;
+	
+	/** 作业范围 */
+	private String taskScope ;
+	
+	/** 反馈BUG率 */
+	private String project_buglv;
+	
+	/** 顾客满意度 */
+	private String project_manyidu;
+	
+	/** 生产性目标 */
+	private String project_scx;
+	
+	/** 项目目标 */
+	private String project_target;
 
+	/** 项目描述 */
+	private String project_desc;
+	
 	/** 创建时间 */
 	private Date created = new Date();
 
@@ -77,15 +98,6 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus;
 
-	/** 作业范围 */
-	private String taskScope ;
-	
-	/** 项目目标 */
-	private String project_target;
-
-	/** 项目描述 */
-	private String project_desc;
-
 	private String pid;
 	
 	/** 用于项目详细信息 的开发人员统计 */
@@ -101,6 +113,42 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setTotalMonth(Float totalMonth) {
 		this.totalMonth = totalMonth;
+	}
+
+	public String getProject_buglv() {
+		return project_buglv;
+	}
+
+	public void setProject_buglv(String project_buglv) {
+		this.project_buglv = project_buglv;
+	}
+
+	public String getProject_manyidu() {
+		return project_manyidu;
+	}
+
+	public void setProject_manyidu(String project_manyidu) {
+		this.project_manyidu = project_manyidu;
+	}
+
+	public String getProject_scx() {
+		return project_scx;
+	}
+
+	public void setProject_scx(String project_scx) {
+		this.project_scx = project_scx;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getDeptLeader() {
+		return deptLeader;
+	}
+
+	public void setDeptLeader(String deptLeader) {
+		this.deptLeader = deptLeader;
 	}
 
 	public float getMm() {

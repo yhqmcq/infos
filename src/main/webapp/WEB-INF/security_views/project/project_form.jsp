@@ -13,8 +13,7 @@
 		$("#deptid").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
 			width:258, idFiled:'pid', textFiled:'fullname', editable: false,
-			lines:true, autoShowPanel: true,
-			onSelect:function(node){$("#deptname").val(node.text);}
+			lines:true, autoShowPanel: true
 	    });
 		$("#select2").combogrid({
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do",
@@ -49,8 +48,9 @@
 						'deptid' : result.deptid,
 						'leader_id' : result.leader_id,
 						'taskScope' : result.taskScope,
-						'project_target' : result.project_target,
-						'project_desc' : result.project_desc,
+						'project_buglv' : result.project_buglv,
+						'project_manyidu' : result.project_manyidu,
+						'project_scx' : result.project_scx,
 						'leader_name' : result.leader_name
 					});
 					$("input[name=projectNum]").attr("readonly","readonly") ;
@@ -125,7 +125,7 @@
 			</tr>
 			<tr>
 				<th>项目所属部门：</th>
-				<td><input id="deptid" name="deptid" /><input id="deptname" name="deptname" type="hidden"></td>
+				<td><input id="deptid" name="deptid" /></td>
 				<th>项目负责人：</th>
 			 	<td><input id="select2" style="width:250px;" name="leader_id" /><input id="leader_name" name="project_leader" type="hidden"></td>
 			</tr>
@@ -138,12 +138,23 @@
 	
 	<div class="form_base">
 		<div id="t">
+		    <div data-options="title: '顾客反馈BUG率', refreshable: false, selected: true">
+		    	<textarea id="editor1" name="project_buglv" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    </div>
+		    <div data-options="title: '顾客满意度', refreshable: false, selected: true">
+		    	<textarea id="editor1" name="project_manyidu" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    </div>
+		    <div data-options="title: '生产性目标', refreshable: false, selected: true">
+		    	<textarea id="editor1" name="project_scx" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    </div>
+		    <!-- 
 		    <div data-options="title: '项目目标', refreshable: false, selected: true">
 		    	<textarea id="editor1" name="project_target" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
 		    <div data-options="title: '项目描述', refreshable: false">
 		    	<textarea id="editor2" name="project_desc" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
+		     -->
 		</div>
 	</div>
 </form>

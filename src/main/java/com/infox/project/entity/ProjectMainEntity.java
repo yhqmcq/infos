@@ -76,6 +76,15 @@ public class ProjectMainEntity implements Serializable {
 	/** 所属部门（Name） */
 	private String deptname ;
 	
+	/** 反馈BUG率 */
+	private Clob project_buglv;
+	
+	/** 顾客满意度 */
+	private Clob project_manyidu;
+	
+	/** 生产性目标 */
+	private Clob project_scx;
+	
 	/** 项目目标 */
 	private Clob project_target ;
 	
@@ -199,6 +208,30 @@ public class ProjectMainEntity implements Serializable {
 
 	public Clob getProject_desc() {
 		return project_desc;
+	}
+
+	public Clob getProject_buglv() {
+		return project_buglv;
+	}
+
+	public void setProject_buglv(Clob project_buglv) {
+		this.project_buglv = project_buglv;
+	}
+
+	public Clob getProject_manyidu() {
+		return project_manyidu;
+	}
+
+	public void setProject_manyidu(Clob project_manyidu) {
+		this.project_manyidu = project_manyidu;
+	}
+
+	public Clob getProject_scx() {
+		return project_scx;
+	}
+
+	public void setProject_scx(Clob project_scx) {
+		this.project_scx = project_scx;
 	}
 
 	public void setProject_desc(Clob project_desc) {

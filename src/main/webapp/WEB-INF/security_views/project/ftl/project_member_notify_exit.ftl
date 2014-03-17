@@ -220,12 +220,16 @@
     				</th>
     			</tr>
     			<tr>
-    				<th>项目目标：</th>
-    				<td colspan="3">${project.project_target}</td>
+    				<th>反馈BUG率：</th>
+    				<td colspan="3">${project.project_buglv}</td>
     			</tr>
     			<tr>
-    				<th>项目描述：</th>
-    				<td colspan="3">${project.project_desc}</td> 
+    				<th>顾客满意度：</th>
+    				<td colspan="3">${project.project_manyidu}</td> 
+    			</tr>
+    			<tr>
+    				<th>顾客满意度：</th>
+    				<td colspan="3">${project.project_scx}</td> 
     			</tr>
     		</table>
     	</div>

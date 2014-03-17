@@ -182,11 +182,14 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
+		project.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
+		project.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
+		project.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
-		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
-		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
@@ -301,11 +304,14 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
+		project.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
+		project.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
+		project.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
-		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
-		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
 		try {
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/project/ftl") ;
@@ -578,11 +584,14 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId()) ;
 		
 		ProjectMainForm project = new ProjectMainForm() ;
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
+		
+		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
+		project.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
+		project.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
+		project.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
-		project.setProject_target(ClobUtil.getString(entity.getProject_target())) ;
-		project.setProject_desc(ClobUtil.getString(entity.getProject_desc())) ;
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d") ;
 		String currentDate = sdf.format(new Date()) ;
