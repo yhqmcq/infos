@@ -11,7 +11,7 @@
 	var s1 ;
 	$(function() {
 		dataGrid = $("#d1").datagrid({
-			title: '人员稼动率管理', view: detailview, fitColumns: false,
+			title: '人员稼动率管理', fitColumns: false, //view: detailview,
 			url: yhq.basePath+"/project/project_report/employeeTaskTimeReport.do?notInStatus=9999",
 			idField: 'emp_id', fit: true, border: false, method: "post", singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 20,pageList: [10,20,30,50],
@@ -112,6 +112,9 @@
 		 	},
 		 	onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
+		        for(var i=1;i<=(new Date().getMonth()+1);i++){
+			        $(dataGrid.datagrid('getColumnDom',"month"+i)).css("background","#55BF3B");
+		        }
 		    },
 		 	onDblClickRow : function(rowIndex, rowData) {
 		 		getMemberInfoList(rowData.emp_id, rowData.emp_name) ;
