@@ -227,6 +227,6 @@ public class NumberUtils {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(sqrt(100));
+		System.out.println(formatNum(1.6600001f));
 	}
 }

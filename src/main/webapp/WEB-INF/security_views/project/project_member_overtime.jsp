@@ -46,12 +46,12 @@
 			    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 			    }},
-			    { field: 'otStartDate', title: '加班开始时间', width: 130, formatter: function(value,row){
+			    /*{ field: 'otStartDate', title: '加班开始时间', width: 130, formatter: function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd hh:ss") ;
 			    } },
 			    { field: 'otEndDate', title: '加班开始时间', width: 130, formatter: function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd hh:ss") ;
-			    } },
+			    } },*/
 			    { field: 'totalHour', title: '累计小时', width: 90, sortable: true } 
 			    
 			]],
@@ -61,7 +61,7 @@
 		    }
 	    });
 		
-		
+		/*
 	    $("#startDate").datetimebox({
 	    	showSeconds:false,required: true,
 	    	formatter: function(date){
@@ -73,7 +73,8 @@
 	    	formatter: function(date){
 	    		return date.format("YYYY-MM-dd hh:mm");
 	    	}
-	    });  
+	    });
+	    */
 		
 	});
 	
@@ -85,10 +86,10 @@
 				ids.push(rows[i].emp_id);
 			}
 			if($('#dateform').form('validate')) {
-				diffTime() ;
+				//diffTime() ;
 				var data = {} ; data = $("#dateform").form("getData") ;
-				data["startDate"] = data.startDate+":00";
-				data["endDate"] = data.endDate+":00";
+				//data["startDate"] = data.startDate+":00";
+				//data["endDate"] = data.endDate+":00";
 				data["project_id"] = "${project.id}";
 				data["emp_ids"] = ids.join(",");
 				$.post(yhq.basePath+"/project/overtime/add.do", data, function(result) {
@@ -167,18 +168,28 @@
 			<form id="dateform" class="easyui-form">
 				<table style="margin:0px;width:100%;padding:5px;">
 					<tr>
-						<td align="center" style="padding:5px;">
+						<td align="center" style="padding:5px 5px;">
+							<!-- 
 							<b>加班开始时间:</b><input id="startDate" name="startDate" />
 							&nbsp;&nbsp;&nbsp;
 							<b>加班结束时间:</b><input id="endDate" validType="TimeCheckLT['startDate']" invalidMessage="开始时间必须大于结束时间" name="endDate" />
+							 -->
 							<input type="text" name="hour" class="easyui-validatebox" style="width:60px;" />小时
+							<!-- 
 							<a onclick="diffTime();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-sum'">计算时间</a>
+							 -->
+							<a onclick="setOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-add'">设置时间</a>
+							<!-- 
+							<a onclick="removeOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-delete'">清除时间</a>
+							 -->
 						</td>
 					</tr>
 					<tr>
 						<td align="center" style="padding:5px;">
 							<a onclick="removeOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-delete'">清除时间</a>
+							<!-- 
 							<a onclick="setOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-add'">设置时间</a>
+							 -->
 						</td>
 					</tr>
 				</table>

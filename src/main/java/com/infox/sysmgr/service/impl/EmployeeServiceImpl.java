@@ -58,27 +58,26 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 	@Override
 	public void add(EmployeeForm form) throws Exception {
-		/*if(form.getEmail() == null || form.getEmail().equals("")) {
-			throw new Exception("邮箱不能为空！ ") ;
-		}*/
-		if(form.getId() == null || form.getId().equals("")) {
-			throw new Exception("工号不能为空！ ") ;
+		
+		String truename = StringUtil.replaceAllSpace(form.getTruename()) ;
+		String accountPY = PinyinUtil.getPinYin(truename) ;
+		
+		//如果该账户存在，则获得同名账户的个数加一作为新账号
+		Long accountCount = this.basedaoEmployee.count("select count(t.account) from EmployeeEntity t where t.account='"+accountPY+"'") ;
+		if(accountCount >= 1) {
+			accountPY+=accountCount ;
 		}
-		String accountPY = PinyinUtil.getPinYin(form.getTruename()) ;
-		Long accountCount = this.basedaoEmployee.count("select count(t.truename) from EmployeeEntity t where t.truename='"+accountPY+"'") ;
 		Long idCount = this.basedaoEmployee.count("select count(t.id) from EmployeeEntity t where t.id='"+form.getId()+"'") ;
-		//Long emailCount = this.basedaoEmployee.count("select count(t.email) from EmployeeEntity t where t.email='"+form.getEmail()+"'") ;
 		if(idCount >= 1) {
 			throw new Exception("该工号已存在！ ") ;
 		}
-		/*if(emailCount >= 1) {
-			throw new Exception("该邮箱已存在！ ") ;
-		}*/
+		
+		
 		EmployeeForm employee = this.get(form.getId()) ;
 		if(null == employee) {
 			EmployeeEntity entity = new EmployeeEntity();
 			BeanUtils.copyProperties(form, entity);
-			entity.setTruename(StringUtil.replaceAllSpace(form.getTruename())) ;
+			entity.setTruename(truename) ;
 			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
@@ -92,15 +91,11 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				}
 				entity.setEmpjobs(empjobs) ;
 			}
-			if(accountCount > 0) {
-				accountPY = accountPY+accountCount ;
-			}
 			
 			entity.setAccount(accountPY) ;
 			entity.setPassword(RandomUtils.generateNumber(6)) ;
 			//entity.setEmail(accountPY+MailConfiguraton.getEmailDomain()) ;
-			entity.setEmail("yanghaoquan@whzien.com") ;
-			
+			entity.setEmail("yhqmcq@126.com") ;
 			
 			this.basedaoEmployee.save(entity);
 			

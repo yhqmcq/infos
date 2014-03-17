@@ -110,6 +110,9 @@
 		 	});
  				dataGrid.datagrid('fixDetailRowHeight',index);
 		 	},
+		 	onLoadSuccess: function(data) {
+		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
+		    },
 		 	onDblClickRow : function(rowIndex, rowData) {
 		 		getMemberInfoList(rowData.emp_id, rowData.emp_name) ;
 		 	},
@@ -129,6 +132,11 @@
 			}
 	    });
 	});
+	
+	function aa() {
+		var s = dataGrid.datagrid('getColumnFields');
+        console.info(s) ;
+	}
 	
 	function getMemberInfoList(id,name) {
 		var dialog = $.easyui.showDialog({
@@ -150,6 +158,7 @@
 		<div data-options="region: 'center', border: false" style="overflow: hidden;">
 			<div id="d1">
 				<div id="buttonbar">
+                    <a onclick="aa();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">12ss3</a>
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 					部门：<input id="select1" name="pid" />
                     <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_cancel'">取消筛选</a>
