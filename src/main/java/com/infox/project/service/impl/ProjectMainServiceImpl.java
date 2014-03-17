@@ -159,7 +159,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		}
 		
 		
-		BeanUtils.copyProperties(form, entity, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
+		BeanUtils.copyProperties(form, entity, new String[]{ "creater", "status", "project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
 		entity.setProject_buglv(ClobUtil.getClob(form.getProject_buglv())) ;
 		entity.setProject_manyidu(ClobUtil.getClob(form.getProject_manyidu())) ;
 		entity.setProject_scx(ClobUtil.getClob(form.getProject_scx())) ;

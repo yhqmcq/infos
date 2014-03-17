@@ -64,12 +64,18 @@
 				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
 			});
 			editor.render('editor1');
+			
 			editor = new UE.ui.Editor({
 				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
 			});
 			editor.render('editor2');
 			
-		},100);
+			editor = new UE.ui.Editor({
+				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
+			});
+			editor.render('editor3');
+			
+		},500);
 	});
 	
 	//提交表单数据
@@ -142,10 +148,10 @@
 		    	<textarea id="editor1" name="project_buglv" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
 		    <div data-options="title: '顾客满意度', refreshable: false, selected: true">
-		    	<textarea id="editor1" name="project_manyidu" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    	<textarea id="editor2" name="project_manyidu" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
 		    <div data-options="title: '生产性目标', refreshable: false, selected: true">
-		    	<textarea id="editor1" name="project_scx" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    	<textarea id="editor3" name="project_scx" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
 		    <!-- 
 		    <div data-options="title: '项目目标', refreshable: false, selected: true">
