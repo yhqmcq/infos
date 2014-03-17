@@ -33,18 +33,18 @@
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'month1', title: '一月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month2', title: '二月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month3', title: '三月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month4', title: '四月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month5', title: '五月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month6', title: '六月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month7', title: '七月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month8', title: '八月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month9', title: '九月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month10', title: '十月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month11', title: '十一月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
-			    { field: 'month12', title: '十二月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} }
+			    { field: 'month1', title: '一月', width: 60, sortable: true },
+			    { field: 'month2', title: '二月', width: 60, sortable: true },
+			    { field: 'month3', title: '三月', width: 60, sortable: true },
+			    { field: 'month4', title: '四月', width: 60, sortable: true },
+			    { field: 'month5', title: '五月', width: 60, sortable: true },
+			    { field: 'month6', title: '六月', width: 60, sortable: true },
+			    { field: 'month7', title: '七月', width: 60, sortable: true },
+			    { field: 'month8', title: '八月', width: 60, sortable: true },
+			    { field: 'month9', title: '九月', width: 60, sortable: true },
+			    { field: 'month10', title: '十月', width: 60, sortable: true },
+			    { field: 'month11', title: '十一月', width: 60, sortable: true },
+			    { field: 'month12', title: '十二月', width: 60, sortable: true }
 			]],
 			detailFormatter:function(index,row){
 			 	return '<div class="ddv" style="padding:5px 0"></div>';
@@ -98,31 +98,21 @@
 				    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 				    }}
 				]],
-				onResize:function(){
-					dataGrid.datagrid('fixDetailRowHeight',index);
-				},
+				onResize:function(){ dataGrid.datagrid('fixDetailRowHeight',index); },
 				onLoadSuccess:function(){
-					//parent.$("#mainLayout").layout("collapse", "east");
-					setTimeout(function(){
-						dataGrid.datagrid('fixDetailRowHeight',index);
-					},0);
+					setTimeout(function(){ dataGrid.datagrid('fixDetailRowHeight',index); },0);
 				}
 		 	});
  				dataGrid.datagrid('fixDetailRowHeight',index);
 		 	},
 		 	onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
-		        for(var i=1;i<=(new Date().getMonth()+1);i++){
+		        for(var i=1;i<=(new Date().getMonth()+1)-1;i++){
 			        $(dataGrid.datagrid('getColumnDom',"month"+i)).css("background","#55BF3B");
 		        }
 		    },
-		 	onDblClickRow : function(rowIndex, rowData) {
-		 		getMemberInfoList(rowData.emp_id, rowData.emp_name) ;
-		 	},
-			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
-	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
-	        selectOnRowContextMenu: false,      //此属性开启当右键点击行时自动选择该行的功能
-	        pagingMenu: { submenu: false }     	//开启行右键菜单的翻页功能，此属性可丰富配置，详情见 API 文档
+		 	onDblClickRow : function(rowIndex, rowData) { getMemberInfoList(rowData.emp_id, rowData.emp_name) ; },
+			enableHeaderClickMenu: true, enableHeaderContextMenu: true, selectOnRowContextMenu: false, pagingMenu: { submenu: false }     	
 	    });
 		s1 = $("#select1").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
@@ -136,10 +126,6 @@
 	    });
 	});
 	
-	function aa() {
-		var s = dataGrid.datagrid('getColumnFields');
-        console.info(s) ;
-	}
 	
 	function getMemberInfoList(id,name) {
 		var dialog = $.easyui.showDialog({
@@ -161,7 +147,6 @@
 		<div data-options="region: 'center', border: false" style="overflow: hidden;">
 			<div id="d1">
 				<div id="buttonbar">
-                    <a onclick="aa();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">12ss3</a>
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 					部门：<input id="select1" name="pid" />
                     <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_cancel'">取消筛选</a>

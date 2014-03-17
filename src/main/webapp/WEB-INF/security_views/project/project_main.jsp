@@ -59,51 +59,6 @@
 			    { field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
 			]],
-			/*
-			detailFormatter:function(index,row){
-			 	return '<div class="ddv" style="padding:5px 0"></div>';
-		 	},
-		 	onExpandRow: function(index,row){
-			 	var ddv = $(this).datagrid('getRowDetail',index).find('div.ddv');
-			 	ddv.datagrid({
-				url:yhq.basePath+"/project/project_main/datagrid.do?pid="+row.id,
-				singleSelect:true,
-				rownumbers:true,
-				height:'auto',
-				pagination: true,
-				columns:[[
-					{ field: 'name', title: '项目名称', width: 180, sortable: true, formatter:function(value,row,index){
-						return $.string.format("<a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a>", index, value);
-					}},
-					{ field: 'code', title: '项目代号', width: 180, sortable: true },
-					{ field: 'sedate', title: '项目起止日期', width: 180, sortable: true, formatter:function(value,row){
-						var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd");
-						return sed ;
-					} },
-					{ field: 'dateDiff', title: '总天数', width: 80, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
-					{ field: 'lastdateDiff', title: '剩余天数', width: 80, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
-					{ field: 'project_type', title: '项目类型', width: 100, sortable: true, formatter:function(value,row){
-						if(value == 0){ return "短期迭代" ; } else  if(value == 1) { return "长期项目" ; } else { return "运维项目" ; }
-					} },
-					{ field: 'deptname', title: '所属部门', width: 100, sortable: true },
-					{ field: 'project_leader', title: '项目负责人', width: 100, sortable: true },
-					{ field: 'status', title: '状态', width: 100, sortable: true, formatter:function(value,row){
-						if(value == 0){ return "未开始" ; } else  if(value == 1) { return "<font color='green'>进行中</font>" ; } else  if(value == 2) { return "<font color='green'>已挂起</font>" ; } else  if(value == 3) { return "已完成" ; } else { return "历史" ; }
-					} },
-					{ field: 'team_name', title: '团队名称', width: 100, sortable: true }
-				]],
-				onResize:function(){
-					dataGrid.datagrid('fixDetailRowHeight',index);
-				},
-				onLoadSuccess:function(){
-					setTimeout(function(){
-						dataGrid.datagrid('fixDetailRowHeight',index);
-					},0);
-				}
-					 });
-	 			dataGrid.datagrid('fixDetailRowHeight',index);
-		 	},
-		 	*/
 		 	onDblClickRow : function(rowIndex, rowData) {
 		 		getDevList(rowData.id, rowData.name) ;
 		 	},
@@ -130,16 +85,9 @@
 			}
 		}
 		var $dialog = $.easyui.showDialog({
-            title: "表单",
-            href: form_url,
-            iniframe: false,
-            width: 760, height: 530,
-            topMost: true,
-            autoVCenter: false,
-            autoHCenter: false,
-            enableApplyButton: false,
-            enableCloseButton: false,
-            enableSaveButton: false,
+            title: "表单", href: form_url, iniframe: false,
+            width: 760, height: 530, topMost: true, autoVCenter: false, autoHCenter: false,
+            enableApplyButton: false, enableCloseButton: false, enableSaveButton: false,
             buttons : [ 
               { text : '保存', iconCls : 'ext_save', handler : function() { $.easyui.parent.submitForm($dialog, dataGrid) ; } },
               { text : '关闭', iconCls : 'ext_cancel', handler : function() { $dialog.dialog('destroy'); } } 
@@ -196,14 +144,9 @@
 			dialog = $.easyui.showDialog({
 	            title: "设置开发团队人员&nbsp;&nbsp;[<font color='red'>"+rows[0].name+"</font>]",
 	            href: yhq.basePath+"/project/project_main/project_member.do?id="+rows[0].id,
-	            iniframe: true, closable : false,
-	            width: 1024, height: 600,
-	            topMost: true,
-	            autoVCenter: true,
-	            autoHCenter: true,
-	            enableApplyButton: false,
-	            enableSaveButton: false,
-	            enableCloseButton: false
+	            iniframe: true, closable : false, width: 1024, height: 600,
+	            topMost: true, autoVCenter: true, autoHCenter: true, enableApplyButton: false,
+	            enableSaveButton: false,  maximizable: true, autoRestore: true, enableCloseButton: false
 	        });
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
@@ -217,15 +160,8 @@
 		var dialog = $.easyui.showDialog({
             title: "开发人员详细列表&nbsp;&nbsp;[<font color='red'>"+name+"</font>]",
             href: yhq.basePath+"/project/project_main/project_Devdetail.do?id="+id,
-            iniframe: true,
-            width: 950, height: 600,
-            topMost: true,
-            autoVCenter: true,
-            autoHCenter: true,
-            enableApplyButton: false,
-            enableSaveButton: false,
-            enableCloseButton: true,
-            saveButtonIconCls: "ext_cancel"
+            iniframe: true, width: 950, height: 600, topMost: true, autoVCenter: true, autoHCenter: true,
+            enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel"
         });
 	}
 	
@@ -235,18 +171,10 @@
 			var dialog = $.easyui.showDialog({
 	            title: "设置项目参与人员邮件列表&nbsp;&nbsp;[<font color='red'>"+rows[0].name+"</font>]",
 	            href: yhq.basePath+"/project/project_main/project_maillist.do?id="+rows[0].id,
-	            iniframe: true,
-	            width: 950, height: 600,
-	            topMost: true,
-	            autoVCenter: true,
-	            autoHCenter: true,
-	            enableApplyButton: false,
-	            enableSaveButton: false,
-	            enableCloseButton: false,
-	            saveButtonIconCls: "ext_save",
-	            onSave: function() {
-	            	return $.easyui.parent.submitForm(dialog, dataGrid);
-	            }
+	            iniframe: true,  width: 950, height: 600,
+	            topMost: true, autoVCenter: true, autoHCenter: true, enableApplyButton: false,
+	            enableSaveButton: false, enableCloseButton: false, saveButtonIconCls: "ext_save",
+	            onSave: function() { return $.easyui.parent.submitForm(dialog, dataGrid); }
 	        });
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
@@ -277,8 +205,7 @@
 			var $dialog = $.easyui.showDialog({
 	            title: "员工加班状况&nbsp;&nbsp;[<font color='red'>"+node.name+"</font>]",
 	            href: yhq.basePath+"/project/project_main/project_member_overtime.do?id="+node.id,
-	            iniframe: true, width: 1000, height: 600,
-	            topMost: true, autoVCenter: false,  autoHCenter: false,
+	            iniframe: true, width: 1000, height: 600, topMost: true, autoVCenter: false, autoHCenter: false,
 	            enableApplyButton: false,  enableCloseButton: false, enableSaveButton: false,
 	            buttons : [ 
 	              { text : '关闭', iconCls : 'ext_cancel', handler : function() { $dialog.dialog('destroy'); } } 
