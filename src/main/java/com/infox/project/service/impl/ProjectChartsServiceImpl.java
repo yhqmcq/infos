@@ -73,12 +73,12 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 	        Calendar c = Calendar.getInstance();    
 	        c.add(Calendar.MONTH, (1-(month-i)));
 	        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-	        //System.out.println("当前月第一天:"+DateUtil.formatG(c.getTime()));
+	        ////System.out.println("当前月第一天:"+DateUtil.formatG(c.getTime()));
 	        //获取当前月最后一天
 	        Calendar ca = Calendar.getInstance();  
 	        ca.add(Calendar.MONTH, (1-(month-i)));
 	        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
-	        //System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
+	        ////System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
 			
 			form.setStartDate(c.getTime()) ;
 			form.setEndDate(ca.getTime()) ;
@@ -107,12 +107,12 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 		Calendar c = Calendar.getInstance(); 
         c.add(Calendar.MONTH, (0-month+1));
         c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-        //System.out.println("当前月第一天:"+DateUtil.formatG(c.getTime()));
+        ////System.out.println("当前月第一天:"+DateUtil.formatG(c.getTime()));
         //获取当前月最后一天
         Calendar ca = Calendar.getInstance();  
         ca.add(Calendar.MONTH, (12-month));
         ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
-        //System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
+        ////System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
         form.setStartDate(c.getTime()) ;
 		form.setEndDate(ca.getTime()) ;
 		int run = 0 ;

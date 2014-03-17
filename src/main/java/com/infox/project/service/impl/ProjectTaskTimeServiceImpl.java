@@ -190,13 +190,13 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				fristDay.setTime(DateUtil.formatGG(sd)) ;
 				fristDay.add(Calendar.MONTH, i);
 				fristDay.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-				////System.out.print("当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
+				//System.out.print("当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
 				
 				Calendar lastDay = Calendar.getInstance();  
 				lastDay.setTime(DateUtil.formatGG(sd)) ;
 				lastDay.add(Calendar.MONTH,(i));
 				lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));  
-				////System.out.println("\t当前月最后一天:"+DateUtil.formatG(lastDay.getTime()));
+				//System.out.println("\t当前月最后一天:"+DateUtil.formatG(lastDay.getTime()));
 				
 				//每个月的有效天数
 				long diffDay = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
@@ -224,7 +224,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					Calendar ho2 = Calendar.getInstance();
 					
 					int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(lastDay.getTime())) ;
-					////System.out.println(cdd1);
+					//System.out.println(cdd1);
 					if(cdd1 == 1) {
 						ho2.setTime(DateUtil.formatGG(DateUtil.formatG(lastDay.getTime()))) ;
 					} else {
@@ -232,7 +232,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					}
 					
 					int hocount = DateCal.getHolidays(ho1, ho2) ;
-					////System.out.println("休息:" + hocount);
+					//System.out.println("休息:" + hocount);
 					
 					Calendar cc1 = Calendar.getInstance() ;
 					if(cdd1 == 1) {
@@ -277,7 +277,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						}
 						
 						int hocount = DateCal.getHolidays(ho1, ho2) ;
-						////System.out.println("休息:" + hocount);
+						//System.out.println("休息:" + hocount);
 						
 						Calendar cc1 = Calendar.getInstance() ;
 						if(cdd1 == 1) {
@@ -285,7 +285,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						} else {
 							//消耗的天数
 							int xhd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date())) ;
-							////System.out.println(xhd+"消耗");
+							//System.out.println(xhd+"消耗");
 							cc1.setTime(DateUtil.formatGG(DateUtil.formatG(fristDay.getTime()))) ;
 							cc1.add(Calendar.DAY_OF_WEEK, xhd+hocount);
 						}
@@ -323,7 +323,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						}
 						
 						int hocount = DateCal.getHolidays(ho1, ho2) ;
-						////System.out.println("休息:" + hocount);
+						//System.out.println("休息:" + hocount);
 						
 						Calendar cc1 = Calendar.getInstance() ;
 						if(cdd1 == 1) {
@@ -331,7 +331,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						} else {
 							//消耗的天数
 							int xhd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date())) ;
-							////System.out.println(xhd+"消耗");
+							//System.out.println(xhd+"消耗");
 							cc1.setTime(DateUtil.formatGG(DateUtil.formatG(fristDay.getTime()))) ;
 							cc1.add(Calendar.DAY_OF_WEEK, xhd+hocount);
 						}
@@ -366,7 +366,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					}
 					
 					int hocount = DateCal.getHolidays(ho1, ho2) ;
-					////System.out.println("休息:" + hocount);
+					//System.out.println("休息:" + hocount);
 					
 					Calendar cc1 = Calendar.getInstance() ;
 					if(cdd1 == 1) {
@@ -487,8 +487,8 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						//System.out.println("******************************begin计算总人月**************************************");
 						
 						//计算总人月
-						////System.out.println(DateUtil.formatG(ew.getStartDate())+"开始");
-						////System.out.println(DateUtil.formatG(ew.getEndDate())+"结束");
+						//System.out.println(DateUtil.formatG(ew.getStartDate())+"开始");
+						//System.out.println(DateUtil.formatG(ew.getEndDate())+"结束");
 						
 						Calendar ary1 = Calendar.getInstance() ;
 						ary1.setTime(DateUtil.formatGG(DateUtil.formatG(ew.getStartDate())));
@@ -582,7 +582,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								Calendar fristDay = Calendar.getInstance();
 								fristDay.add(Calendar.MONTH, (i-currentMonth3+1));
 								fristDay.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-								////System.out.print((i-currentMonth3+1)+"当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
+								//System.out.print((i-currentMonth3+1)+"当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
 								
 								Calendar lastDay = Calendar.getInstance();  
 								lastDay.add(Calendar.MONTH,(i-currentMonth3+1));

@@ -555,28 +555,28 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d") ;
 		String currentDate = sdf.format(new Date()) ;
-		System.out.println("对照：" +currentDate + "==" + endDate);
+		//System.out.println("对照：" +currentDate + "==" + endDate);
 		
 		//通过当前触发触日期加上2天获得开发人员期满的日期，来作为条件检索日期
 		Calendar sc = Calendar.getInstance() ;
 		sc.setTime(sdf.parse(endDate)) ;
 		
 		
-		System.out.println(sc.get(Calendar.DAY_OF_WEEK)-1);
-		System.out.println(sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH));
+		//System.out.println(sc.get(Calendar.DAY_OF_WEEK)-1);
+		//System.out.println(sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH));
 		
 		sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
 		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 6){	//加两天如果是星期六，则再加两天，则为星期一
-			System.out.println("加2天");
+			//System.out.println("加2天");
 			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
 		}
 		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 0){	//加一天如果是星期日，则再加一天，则为星期一
-			System.out.println("加1天");
+			//System.out.println("加1天");
 			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+1);
 		}
 		
-		System.out.println(sc.get(Calendar.DAY_OF_WEEK)-1);
-		System.out.println(sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH));
+		//System.out.println(sc.get(Calendar.DAY_OF_WEEK)-1);
+		//System.out.println(sc.get(Calendar.YEAR) +"-"+ (sc.get(Calendar.MONTH)+1) +"-"+ sc.get(Calendar.DAY_OF_MONTH));
 	}*/
 
 	@Override
