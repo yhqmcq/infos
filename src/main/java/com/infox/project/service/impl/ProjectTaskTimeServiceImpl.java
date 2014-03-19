@@ -422,7 +422,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				//总天数消耗
 				//long extTotalDays = 0 ;
 				//总月数消耗
-				Float extTotalYear = new Float(0) ;
+				//Float extTotalYear = new Float(0) ;
 				//总人月消耗
 				Float extTotalMM = new Float(0) ;
 				
