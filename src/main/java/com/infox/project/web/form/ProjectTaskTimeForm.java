@@ -52,6 +52,9 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private Integer Status ;
 	
+	/** 稼动率查询的年份 */
+	private String year ;
+	
 	/** 总月数 */
 	private float totalTaskYear ;
 	
@@ -89,6 +92,14 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	private Float month11 = new Float(0) ;
 	private Float month12 = new Float(0) ;
 	
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
 
 	public Float getMonth1() {
 		return month1;

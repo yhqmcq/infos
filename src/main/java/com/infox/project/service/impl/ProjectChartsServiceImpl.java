@@ -115,10 +115,12 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
         ////System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
         form.setStartDate(c.getTime()) ;
 		form.setEndDate(ca.getTime()) ;
+		
 		int run = 0 ;
 		int close = 0 ;
 		List<ProjectMainEntity> find = this.find(form) ;
 		for (ProjectMainEntity p : find) {
+			
 			if(p.getStatus() == 1) {
 				run ++ ;
 			} else if(p.getStatus() == 3) {

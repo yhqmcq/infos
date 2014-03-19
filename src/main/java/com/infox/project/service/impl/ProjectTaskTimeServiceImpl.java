@@ -91,7 +91,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		*/
 		DataGrid datagrid = new DataGrid();
 		datagrid.setTotal(this.total(form));
-		datagrid.setRows(this.changeModel(this.find(form)));
+		datagrid.setRows(this.changeModel(this.find(form),form));
 		return datagrid;
 	}
 	
@@ -407,7 +407,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		return datagrid;
 	}
 	
-	private List<ProjectTaskTimeForm> changeModel(List<EmployeeEntity> entitys) {
+	private List<ProjectTaskTimeForm> changeModel(List<EmployeeEntity> entitys, ProjectTaskTimeForm form) {
 		List<ProjectTaskTimeForm> forms = new ArrayList<ProjectTaskTimeForm>();
 
 		if (null != entitys && entitys.size() > 0) {
@@ -457,13 +457,12 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				for (OvertimeEntity oe : overtime) {
 					allOtTime += oe.getHour() ;
 				}
-				
-				//if("黄イ聰".equals(e.getTruename())) {
-					
+				//if("李育安".equals(e.getTruename())) {
 					Calendar c = Calendar.getInstance() ;
-					c.setTime(DateUtil.formatGG("2014-01-01")) ;
+					c.setTime(DateUtil.formatGG((null != form.getYear()&& !"".equals(form.getYear())?form.getYear()+"-01-01":DateUtil.formatG(new Date())))) ;
 					c.add(Calendar.MONTH, 0-(c.get(Calendar.MONTH)));
 					c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+					
 					String yd1 = DateUtil.formatG(c.getTime()) ;
 					c.add(Calendar.MONTH,12-(c.get(Calendar.MONTH))-1);
 					c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));  
@@ -478,6 +477,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					
 					//获取个人的所有工时人月等等
 					List<ProjectEmpWorkingEntity> pews = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.emp.id=:empid and t.startDate between :startdate and :enddate", params) ;
+					System.out.println(pews);
 					for (ProjectEmpWorkingEntity ew : pews) {
 						
 						//计算有效天数（减去周六日）
@@ -526,25 +526,25 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							if(i==0 && m!=0) {
 								int wd = DateCal.getWorkingDays(DateUtil.formatG(ary1.getTime()), DateUtil.formatG(lastDay.getTime()));
 								zry += NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff) ;
-								//System.out.println(DateUtil.formatG(ary1.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+								System.out.println(DateUtil.formatG(ary1.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
 							}
 							//中间月
 							if(i!=0 && i!=m) {
 								int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
 								zry += NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff) ;
-								//System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+								System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
 							}
 							//最后一个月，但开始和结束不是在同一个月
 							if(i==m && !ym1.equals(ym2)) {
 								int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
 								zry += NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff) ;
-								//System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+								System.out.println("end======"+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
 							}
 							//开始和结束是在同一个月
 							if(ym1.equals(ym2)) {
 								int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
 								zry += NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff) ;
-								//System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+								System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
 							}
 						}
 						
@@ -555,6 +555,122 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						//System.out.println("*********************************end计算总人月*************************************\r\n");
 						
 						
+						System.out.println("*********************************begin计算每个月的人月*************************************");
+						
+						Calendar ary11 = Calendar.getInstance() ;
+						ary11.setTime(DateUtil.formatGG(DateUtil.formatG(ew.getStartDate())));
+						String ym11 = ary11.get(Calendar.YEAR)+""+ary11.get(Calendar.MONTH) ;
+						
+						Calendar ary22 = Calendar.getInstance() ;
+						ary22.setTime(DateUtil.formatGG(DateUtil.formatG(ew.getEndDate())));
+						String ym22 = ary22.get(Calendar.YEAR)+""+ary22.get(Calendar.MONTH) ;
+						
+						Calendar cd1 = Calendar.getInstance() ;
+						cd1.setTime(new Date());
+						
+						int m2 = (ary22.get(Calendar.MONTH)+1)-(ary11.get(Calendar.MONTH)+1) ;
+						
+						System.out.println(m2);
+						
+						for(int i=0;i<=m2;i++) {
+							
+							Float fc = new Float(0) ;
+							
+							Calendar fristDay = Calendar.getInstance();
+							fristDay.setTime(new Date()) ;
+							fristDay.add(Calendar.MONTH, ((ary11.get(Calendar.MONTH)+1) - (cd1.get(Calendar.MONTH)+1) + i));
+							fristDay.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+							//System.out.print((i)+"当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
+							
+							Calendar lastDay = Calendar.getInstance();  
+							lastDay.setTime(new Date()) ;
+							lastDay.add(Calendar.MONTH, ((ary11.get(Calendar.MONTH)+1) - (cd1.get(Calendar.MONTH)+1) + i));
+							lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));  
+							//System.out.println("\t当前月最后一天:"+DateUtil.formatG(lastDay.getTime())+"==天数："+DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime())));
+							
+							int diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
+							
+							//如果是第一个月，并且不是最后一个月
+							if(i==0 && m2!=0) {
+								int wd = DateCal.getWorkingDays(DateUtil.formatG(ary11.getTime()), DateUtil.formatG(lastDay.getTime()));
+								fc = NumberUtils.formatNum(((Integer)wd).floatValue()/diff) ;
+								System.out.println(DateUtil.formatG(ary11.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+							}
+							//中间月
+							if(i!=0 && i!=m2) {
+								int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
+								fc = NumberUtils.formatNum(((Integer)wd).floatValue()/diff) ;
+								System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+							}
+							//最后一个月，但开始和结束不是在同一个月
+							if(i==m2 && !ym11.equals(ym22)) {
+								int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
+								fc = NumberUtils.formatNum(((Integer)wd).floatValue()/diff) ;
+								System.out.println("end======"+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+							}
+							//开始和结束是在同一个月
+							if(ym11.equals(ym22)) {
+								int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
+								fc = NumberUtils.formatNum(((Integer)wd).floatValue()/diff) ;
+								System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+							}
+							
+							if(!ym11.equals(ym22) && (fristDay.get(Calendar.YEAR)+""+(fristDay.get(Calendar.MONTH)+1)).equals((cd.get(Calendar.YEAR)+""+(cd.get(Calendar.MONTH)+1)))) {
+								int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date()));
+								fc = NumberUtils.formatNum(((Integer)wd).floatValue()/diff) ;
+							}
+							
+							System.out.println(i+"=="+(fristDay.get(Calendar.MONTH)+1)+"月=="+fc);
+
+							switch ((fristDay.get(Calendar.MONTH)+1)) { 
+							case 1:
+								uf.setMonth1(NumberUtils.formatNum(uf.getMonth1()+fc)) ;
+								break;
+							case 2:
+								uf.setMonth2(NumberUtils.formatNum(uf.getMonth2()+fc)) ;
+								break;
+							case 3:
+								uf.setMonth3(NumberUtils.formatNum(uf.getMonth3()+fc)) ;
+								break;
+							case 4:
+								uf.setMonth4(NumberUtils.formatNum(uf.getMonth4()+fc)) ;
+								break;
+							case 5:
+								uf.setMonth5(NumberUtils.formatNum(uf.getMonth5()+fc)) ;
+								break;
+							case 6:
+								uf.setMonth6(NumberUtils.formatNum(uf.getMonth6()+fc)) ;
+								break;
+							case 7:
+								uf.setMonth7(NumberUtils.formatNum(uf.getMonth7()+fc)) ;
+								break;
+							case 8:
+								uf.setMonth8(NumberUtils.formatNum(uf.getMonth8()+fc)) ;
+								break;
+							case 9:
+								uf.setMonth9(NumberUtils.formatNum(uf.getMonth9()+fc)) ;
+								break;
+							case 10:
+								uf.setMonth10(NumberUtils.formatNum(uf.getMonth10()+fc)) ;
+								break;
+							case 11:
+								uf.setMonth11(NumberUtils.formatNum(uf.getMonth11()+fc)) ;
+								break;
+							case 12:
+								uf.setMonth12(NumberUtils.formatNum(uf.getMonth12()+fc)) ;
+								break;
+							default:
+								break;
+							}
+							
+						}
+						
+						
+						
+						System.out.println("*********************************end计算每个月的人月*************************************\r\n");
+						
+						
+						/*System.out.println("*********************************begin计算每个月的人月*************************************");
 						//员工的每个月的人月(计算当前月的上一个月)
 						String sd = DateUtil.formatG(ew.getStartDate()) ;
 						String ed = DateUtil.formatG(ew.getEndDate()) ;
@@ -669,7 +785,9 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								
 								day = 0 ;
 							}
-						}
+							System.out.println("*********************************begin计算每个月的人月*************************************\r\n");
+							
+						}*/
 				//}
 				
 					

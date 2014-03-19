@@ -107,8 +107,14 @@
 		 	},
 		 	onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
+		        
+		        $(dataGrid.datagrid('getColumnDom',"month"+(new Date().getMonth()+1))).css("background","#55BF3B");
+		        
 		        for(var i=1;i<=(new Date().getMonth()+1)-1;i++){
-			        $(dataGrid.datagrid('getColumnDom',"month"+i)).css("background","#55BF3B");
+			        $(dataGrid.datagrid('getColumnDom',"month"+i)).css("background","gray");
+		        }
+		        for(var i=(new Date().getMonth()+1)+1;i<=12;i++){
+			        $(dataGrid.datagrid('getColumnDom',"month"+i)).css("background","#DF5353");
 		        }
 		    },
 		 	onDblClickRow : function(rowIndex, rowData) { getMemberInfoList(rowData.emp_id, rowData.emp_name) ; },
@@ -122,6 +128,14 @@
 				if("D" == node.type) {
 					dataGrid.datagrid("load",{"dept_id": node.id});
 				}
+			}
+	    });
+		$("#select2").combobox({
+			width: 100, valueField: 'label', textField: 'value', value: new Date().format("YYYY"),
+			data: [{ label: '2013', value: '2013' },{ label: '2014', value: '2014' } ],
+			panelHeight:'auto', editable:false, autoShowPanel: true,
+			onSelect:function(node){
+				dataGrid.datagrid("load",{"year": node.value});
 			}
 	    });
 	});
@@ -149,6 +163,7 @@
 				<div id="buttonbar">
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 					部门：<input id="select1" name="pid" />
+					查询年份：<input id="select2" name="year" />
                     <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_cancel'">取消筛选</a>
                 </div>
 			</div>
