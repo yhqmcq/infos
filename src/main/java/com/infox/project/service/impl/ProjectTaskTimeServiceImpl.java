@@ -290,7 +290,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						c1a.setTime(new Date()) ;
 						Calendar c2a = Calendar.getInstance() ;
 						c2a.setTime(p.getStartDate()) ;
-						System.out.println(c1a.get(Calendar.YEAR) +"=="+ c2a.get(Calendar.YEAR));
 						//必须是当年的才计算
 						if(c1a.get(Calendar.YEAR) == c2a.get(Calendar.YEAR)) {
 							int workingDays = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(cc1.getTime())) ;
@@ -341,7 +340,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							c1a.setTime(new Date()) ;
 							Calendar c2a = Calendar.getInstance() ;
 							c2a.setTime(p.getStartDate()) ;
-							System.out.println(c1a.get(Calendar.YEAR) +"=="+ c2a.get(Calendar.YEAR));
 							//必须是当年的才计算
 							if(c1a.get(Calendar.YEAR) == c2a.get(Calendar.YEAR)) {
 								int workingDays = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(cc1.getTime())) ;
