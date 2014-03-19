@@ -42,7 +42,6 @@
 						'name' : result.name,
 						'code' : result.code,
 						'project_type' : result.project_type,
-						'team_name' : result.team_name,
 						'startDate' : $.date.format($.string.toDate(result.startDate), "yyyy-MM-dd"),
 						'endDate' : $.date.format($.string.toDate(result.endDate), "yyyy-MM-dd"),
 						'deptid' : result.deptid,
@@ -124,16 +123,14 @@
 				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false" /></td>
 			</tr>
 			<tr>
-				<th>项目类型：</th>
-				<td><input id="project_type" name="project_type" /></td>
-				<th>团队名称：</th>
-				<td><input type="text" name="team_name" class="easyui-validatebox" ></td>
-			</tr>
-			<tr>
 				<th>项目所属部门：</th>
 				<td><input id="deptid" name="deptid" /></td>
 				<th>项目负责人：</th>
 			 	<td><input id="select2" style="width:250px;" name="leader_id" /><input id="leader_name" name="project_leader" type="hidden"></td>
+			</tr>
+			<tr>
+				<th>项目类型：</th>
+				<td colspan="3"><input id="project_type" name="project_type" /></td>
 			</tr>
 			<tr>
 				<th>作业范围：</th>
