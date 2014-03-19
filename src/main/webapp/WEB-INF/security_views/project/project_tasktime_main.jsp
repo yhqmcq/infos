@@ -130,14 +130,14 @@
 				}
 			}
 	    });
-		$("#select2").combobox({
+		/* $("#select2").combobox({
 			width: 100, valueField: 'label', textField: 'value', value: new Date().format("YYYY"),
-			data: [{ label: '2013', value: '2013' },{ label: '2014', value: '2014' } ],
+			data: [{ label: '2013', value: '2013' },{ label: '2014', value: '2014' },{ label: '2015', value: '2015' } ],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect:function(node){
 				dataGrid.datagrid("load",{"year": node.value});
 			}
-	    });
+	    }); */
 	});
 	
 	
@@ -163,7 +163,7 @@
 				<div id="buttonbar">
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 					部门：<input id="select1" name="pid" />
-					查询年份：<input id="select2" name="year" />
+					<!-- 查询年份：<input id="select2" name="year" /> --> 
                     <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_cancel'">取消筛选</a>
                 </div>
 			</div>
