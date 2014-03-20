@@ -118,6 +118,7 @@
 		var rows = dataGrid1.datagrid("getSelections");
 		var empIds = [] ;
 		if (rows.length > 0) {
+			$.easyui.loading({ msg: "数据提交中，请稍等..." });
 			for ( var i = 0; i < rows.length; i++) {
 				for ( var i = 0; i < rows.length; i++) {
 					empIds.push(rows[i].id);
@@ -129,12 +130,14 @@
 				workdata["project_name"] = "${project.name}";
 				$.post(yhq.basePath+"/project/pwe_emp_working/add.do", workdata, function(result) {
 					if (result.status) {
+						$.easyui.loaded();
 						dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked');dataGrid1.datagrid('reload') ;
 						dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
+					} else {
+						$.easyui.loaded();
 					}
 				}, 'json');
 			}
-			
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
@@ -150,11 +153,13 @@
 		var rows = dataGrid2.datagrid("getSelections");
 		var ids = [];
 		if (rows.length > 0) {
+			$.easyui.loading({ msg: "数据提交中，请稍等..." });
 			for ( var i = 0; i < rows.length; i++) {
 				ids.push(rows[i].id);
 			}
 			$.post(yhq.basePath+"/project/pwe_emp_working/revert.do", {ids : ids.join(','), project_id: "${project.id}"}, function(result) {
 				if (result.status) {
+					$.easyui.loaded();
 					dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
 					dataGrid1.datagrid('clearSelections');dataGrid1.datagrid('clearChecked');dataGrid1.datagrid('reload') ;
 				}
@@ -172,6 +177,8 @@
 				ids.push(rows[i].id);
 			}
 			if($('#dateform').form('validate')) {
+				$.easyui.loading({ msg: "数据提交中，请稍等..." });
+				
 				var data = {} ; data = $("#dateform").form("getData") ;
 				data["ids"] = ids.join(",");
 				var sd = infosUtil.str2date(data.startDate).format("YYYY") ;
@@ -180,16 +187,17 @@
 					$.post(yhq.basePath+"/project/pwe_emp_working/set_workdate.do", data, function(result) {
 						if (result.status) {
 							dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
+							$.easyui.loaded();
 							$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期成功。" });
 						} else {
+							$.easyui.loaded();
 							$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期失败。" });
 						}
 					}, 'json');
 				} else {
 					$.messager.alert("开始日期和结束日期的取值范围<br>必须是在[<font color='red'>"+sd+"</font>]年内"); 
 				}
-				
-			}
+			} else {$.easyui.loaded();}
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
@@ -199,6 +207,7 @@
 		var rows = dataGrid2.datagrid('getChecked');
 		var ids = [];
 		if (rows.length > 0) {
+			$.easyui.loading({ msg: "数据提交中，请稍等..." });
 			for ( var i = 0; i < rows.length; i++) {
 				ids.push(rows[i].id);
 			}
@@ -207,9 +216,11 @@
 			
 			$.post(yhq.basePath+"/project/pwe_emp_working/set_projectRole.do", data, function(result) {
 				if (result.status) {
+					$.easyui.loaded();
 					dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
 					$.easyui.messager.show({ icon: "info", msg: "设置项目角色成功。" });
 				} else {
+					$.easyui.loaded();
 					$.easyui.messager.show({ icon: "info", msg: "设置项目角色失败。" });
 				}
 			}, 'json');
@@ -232,9 +243,7 @@
 				sd() ;
 			} else {
 				$.messager.confirm("未设置起止日期的开发人员将恢复空闲状态，是否继续发送邮件？", function (c) {
-					if(c) {
-						sd() ;
-					}
+					if(c) { sd() ; }
 				});
 			}
 		} else {
@@ -242,12 +251,14 @@
 		}
 	}
 	function sd() {
+		$.easyui.loading({ msg: "数据提交中，请稍等..." });
 		$.post(yhq.basePath+"/project/pwe_emp_working/saveAndSendMail.do", {project_id: "${project.id}"}, function(result) {
 			if (result.status) {
+				$.easyui.loaded();
 				$.easyui.messager.show({ icon: "info", msg: "操作成功。" });
-				
 				$.easyui.parent.memberClose() ;
 			} else {
+				$.easyui.loaded();
 				$.easyui.messager.show({ icon: "info", msg: "操作失败。" });
 			}
 		}, 'json');

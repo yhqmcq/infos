@@ -12,7 +12,7 @@
 </head>
 
 <body style="padding: 0px; margin: 0px;">
-	<jsp:include page="login_dialog.jsp" />
+	<jsp:include page="/user/login_dialog.jsp" />
     
 	<div id="mainLayout" class="easyui-layout hidden" data-options="fit: true">
 	
@@ -40,6 +40,7 @@
                 </div>
                 <div id="buttonbar">
                     <a id="btnContact" class="easyui-linkbutton easyui-tooltip" title="联系杨浩泉" data-options="plain: true, iconCls: 'icon-hamburg-contact'">Mr.Yang</a>
+                    <a id="modifyPwd" class="easyui-linkbutton easyui-tooltip" title="联系杨浩泉" data-options="plain: true, iconCls: 'icon-hamburg-lock'">修改密码</a>
                     <a id="btnFullScreen" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-arrow-inout'">全屏切换</a>
                     <a id="btnLook" name="look" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-sign-out'">锁定</a>
                     <a id="btnExit" name="exit" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-hamburg-sign-out'">退出系统</a>

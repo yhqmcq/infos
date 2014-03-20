@@ -44,6 +44,9 @@ public class OvertimeServiceImpl implements OvertimeServiceI {
 					oe.setStartDate(form.getStartDate()) ;
 					oe.setEndDate(form.getEndDate()) ;
 					oe.setHour(form.getHour()) ;
+					oe.setNormalHour(form.getNormalHour()) ;
+					oe.setWeekendHour(form.getWeekendHour()) ;
+					oe.setHolidaysHour(form.getHolidaysHour()) ;
 				} else {
 					EmployeeEntity emp = new EmployeeEntity() ;
 					emp.setId(id) ;

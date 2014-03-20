@@ -43,6 +43,9 @@ public class ProjectMainEntity implements Serializable {
 	/** 项目编号-唯一 */
 	private String projectNum ;
 	
+	/** 合同编号 */
+	private String contractNum ;
+	
 	/** 项目名称 */
 	private String name ;
 	
@@ -180,6 +183,14 @@ public class ProjectMainEntity implements Serializable {
 
 	public void setProjects(Set<ProjectMainEntity> projects) {
 		this.projects = projects;
+	}
+
+	public String getContractNum() {
+		return contractNum;
+	}
+
+	public void setContractNum(String contractNum) {
+		this.contractNum = contractNum;
 	}
 
 	@Id

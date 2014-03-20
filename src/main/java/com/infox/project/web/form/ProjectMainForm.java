@@ -14,6 +14,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	
 	/** 项目编号-唯一 */
 	private String projectNum ;
+	
+	/** 合同编号 */
+	private String contractNum ;
 
 	/** 项目名称 */
 	private String name;
@@ -121,6 +124,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setProject_buglv(String project_buglv) {
 		this.project_buglv = project_buglv;
+	}
+
+	public String getContractNum() {
+		return contractNum;
+	}
+
+	public void setContractNum(String contractNum) {
+		this.contractNum = contractNum;
 	}
 
 	public String getProject_manyidu() {

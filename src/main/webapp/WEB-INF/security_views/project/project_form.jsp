@@ -47,12 +47,14 @@
 						'deptid' : result.deptid,
 						'leader_id' : result.leader_id,
 						'taskScope' : result.taskScope,
+						'contractNum' : result.contractNum,
 						'project_buglv' : result.project_buglv,
 						'project_manyidu' : result.project_manyidu,
 						'project_scx' : result.project_scx,
 						'leader_name' : result.leader_name
 					});
 					$("input[name=projectNum]").attr("readonly","readonly") ;
+					$("input[name=contractNum]").attr("readonly","readonly") ;
 					$("#form input:visible")[0].focus();
 				}
 			}, 'json');
@@ -85,8 +87,10 @@
 			if (result.status) {
 				$datagrid.datagrid('clearSelections');$datagrid.datagrid('clearChecked');$datagrid.datagrid('reload') ;
 				$.easyui.messager.show({ icon: "info", msg: "保存记录成功。" });
+				$.easyui.loaded();
 				$dialog.dialog("close") ;
 			} else {
+				$.easyui.loaded();
 				$.easyui.messager.show({ icon: "warning", msg: result.msg });
 			}
 		}, 'json');
@@ -95,6 +99,7 @@
 	//验证表单
 	var submitForm = function($dialog, $datagrid) {
 		if($('#form').form('validate')) {
+			$.easyui.loading({ msg: "数据提交中，请稍等..." });
 			submitNow($dialog, $datagrid) ;
 		}
 	};
@@ -108,7 +113,9 @@
 		<table>
 			<tr>
 				<th>项目编号：</th>
-				<td colspan="3"><input type="text" name="projectNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '项目编号'" ></td>
+				<td><input type="text" name="projectNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '项目编号'" ></td>
+				<th>合同编号：</th>
+				<td><input type="text" name="contractNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '合同编号'" ></td>
 			</tr>
 			<tr> 
 				<th>项目名称：</th>

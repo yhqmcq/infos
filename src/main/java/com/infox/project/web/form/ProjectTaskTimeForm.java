@@ -46,6 +46,15 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	/** 加班小时 */
 	private Float totalHour ;
 	
+	/** 平时加班 */
+	private Float normalHour = new Float(0) ;
+	
+	/** 周末加班 */
+	private Float weekendHour = new Float(0) ;
+	
+	/** 节假日加班 */
+	private Float holidaysHour = new Float(0) ;
+	
 	/** 开始和结束日期，字符串 */
 	private String sd ;
 	private String ed ;
@@ -107,6 +116,30 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public void setMonth1(Float month1) {
 		this.month1 = month1;
+	}
+
+	public Float getNormalHour() {
+		return normalHour;
+	}
+
+	public void setNormalHour(Float normalHour) {
+		this.normalHour = normalHour;
+	}
+
+	public Float getWeekendHour() {
+		return weekendHour;
+	}
+
+	public void setWeekendHour(Float weekendHour) {
+		this.weekendHour = weekendHour;
+	}
+
+	public Float getHolidaysHour() {
+		return holidaysHour;
+	}
+
+	public void setHolidaysHour(Float holidaysHour) {
+		this.holidaysHour = holidaysHour;
 	}
 
 	public Float getMonth2() {

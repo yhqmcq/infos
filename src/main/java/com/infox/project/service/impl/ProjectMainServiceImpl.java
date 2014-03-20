@@ -93,9 +93,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = this.get(form.getCode());
 		if (null == project) {
 			ProjectMainEntity entity = new ProjectMainEntity();
-			BeanUtils.copyProperties(form, entity, new String[] { "id", "project_target", "project_desc" });
 
-			BeanUtils.copyProperties(form, entity, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
+			BeanUtils.copyProperties(form, entity, new String[]{"id", "project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
 			entity.setProject_buglv(ClobUtil.getClob(form.getProject_buglv())) ;
 			entity.setProject_manyidu(ClobUtil.getClob(form.getProject_manyidu())) ;
 			entity.setProject_scx(ClobUtil.getClob(form.getProject_scx())) ;
@@ -401,7 +400,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		long allExpendDays = 0 ;
 		float allExpendmm = 0f ;
 		float allmm = 0f ;
-		float allOtTime = 0f ;
+		float allNormalHour = 0f ;
+		float allWeekendHour = 0f ;
+		float allHolidaysHour = 0f ;
 		if (null != entity) {
 			Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
 			for (ProjectEmpWorkingEntity p : pwe) {
@@ -434,8 +435,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				params.put("empid", e.getId()) ; params.put("project_id", entity.getId()) ;
 				OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
 				if(null != oe) {
-					pf.setTotalHour(oe.getHour()) ;
-					allOtTime += pf.getTotalHour() ;
+					//pf.setTotalHour(oe.getHour()) ;
+					pf.setNormalHour(oe.getNormalHour()) ;
+					pf.setWeekendHour(oe.getWeekendHour()) ;
+					pf.setHolidaysHour(oe.getHolidaysHour()) ;
+					
+					allNormalHour += pf.getNormalHour() ;
+					allWeekendHour += pf.getWeekendHour() ;
+					allHolidaysHour += pf.getHolidaysHour() ;
 				}
 				
 				//员工总有效工作天数
@@ -700,7 +707,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			map.put("expendDays", allExpendDays) ;
 			map.put("mm", allmm) ;
 			map.put("expendMM", allExpendmm) ;
-			map.put("totalHour", NumberUtils.formatNum(allOtTime)) ;
+			map.put("normalHour", NumberUtils.formatNum(allNormalHour)) ;
+			map.put("weekendHour", NumberUtils.formatNum(allWeekendHour)) ;
+			map.put("holidaysHour", NumberUtils.formatNum(allHolidaysHour)) ;
 			footer.add(map) ;
 			
 			datagrid.setTotal((long) pwe.size());
@@ -746,6 +755,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				params.put("empid", e.getId()) ; params.put("project_id", entity.getId()) ;
 				OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
 				if(null != oe) {
+					pf.setNormalHour(oe.getNormalHour()) ;
+					pf.setWeekendHour(oe.getWeekendHour()) ;
+					pf.setHolidaysHour(oe.getHolidaysHour()) ;
 					pf.setTotalHour(oe.getHour()) ;
 					pf.setOtStartDate(oe.getStartDate()) ;
 					pf.setOtEndDate(oe.getEndDate()) ;
@@ -1077,6 +1089,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		List<ProjectMailListForm> forms = new ArrayList<ProjectMailListForm>();
 		for (ProjectMailListEntity p : entitys) {
 			ProjectMailListForm f = new ProjectMailListForm();
+			
+			f.setId(p.getId()) ;
 			
 			StringBuffer sb = new StringBuffer() ;
 			Set<EmpJobEntity> empjobs = p.getEmployee().getEmpjobs() ;

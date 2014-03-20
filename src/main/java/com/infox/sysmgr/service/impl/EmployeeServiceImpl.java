@@ -93,7 +93,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			}
 			
 			entity.setAccount(accountPY) ;
-			entity.setPassword(RandomUtils.generateNumber(6)) ;
+			entity.setPassword(accountPY+RandomUtils.generateNumber(3)) ;
 			//entity.setEmail(accountPY+MailConfiguraton.getEmailDomain()) ;
 			entity.setEmail("yhqmcq@126.com") ;
 			

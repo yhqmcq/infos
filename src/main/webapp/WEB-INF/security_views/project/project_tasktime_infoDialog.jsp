@@ -50,7 +50,21 @@
 			    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
 			    	return infosUtil.numberf(value, 2) ;
 			    }},
-			    { field: 'totalHour', title: '加班小时', width: 80, sortable: true },
+			    { field: 'normalHour', title: '平时加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'weekendHour', title: '周末加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'holidaysHour', title: '节假日加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
 			    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 			    }}

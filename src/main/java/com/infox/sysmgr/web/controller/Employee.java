@@ -52,31 +52,6 @@ public class Employee extends BaseController {
 	synchronized public Json add(EmployeeForm form) throws Exception {
 		Json j = new Json() ;
 		try {
-			/*for(int i=0;i<200;i++){
-				form.setId("000"+i) ;
-				String tn = RandomUtils.generateNameString(3) ;
-				form.setTruename(tn) ;
-				form.setAccount(PinyinUtil.getPinYinHeadChar(tn)) ;
-				form.setEmail("yhqmcq@126.com") ;
-				if(i%1==0) {
-					form.setOrgid("498779") ;
-					form.setOrgname("开发二部") ;
-					form.setEmpjobsName("系统工程师") ;
-					form.setJobids("131044") ;
-				}
-				if(i%2==0) {
-					form.setOrgid("705624") ;
-					form.setOrgname("开发一部") ;
-					form.setEmpjobsName("项目经理") ;
-					form.setJobids("197258") ;
-				}
-				if(i%3==0) {
-					form.setOrgid("979739") ;
-					form.setOrgname("开发三部") ;
-					form.setEmpjobsName("程序员") ;
-					form.setJobids("933778") ;
-				}
-			}*/
 			this.empservice.add(form) ;
 			j.setStatus(true) ;
 		} catch (Exception e) {

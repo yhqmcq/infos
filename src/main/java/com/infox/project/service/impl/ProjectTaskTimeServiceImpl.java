@@ -127,7 +127,10 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 			paramsOT.put("empid", e.getId()) ; paramsOT.put("project_id", p.getProject().getId()) ;
 			OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", paramsOT) ;
 			if(null != oe) {
-				pf.setTotalHour(oe.getHour()) ;
+				//pf.setTotalHour(oe.getHour()) ;
+				pf.setNormalHour(oe.getNormalHour()) ;
+				pf.setWeekendHour(oe.getWeekendHour()) ;
+				pf.setHolidaysHour(oe.getHolidaysHour()) ;
 			}
 			
 			//岗位
@@ -432,7 +435,10 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				Float extTotalMM = new Float(0) ;
 				
 				//总加班小时
-				float allOtTime = 0f ;
+				//float allOtTime = 0f ;
+				float allNormalHour = 0f ;
+				float allWeekendHour = 0f ;
+				float allHolidaysHour = 0f ;
 				
 				ProjectTaskTimeForm uf = new ProjectTaskTimeForm();
 				
@@ -460,7 +466,10 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				//加班小时
 				Set<OvertimeEntity> overtime = e.getOvertime() ;
 				for (OvertimeEntity oe : overtime) {
-					allOtTime += oe.getHour() ;
+					//allOtTime += oe.getHour() ;
+					allNormalHour += oe.getNormalHour() ;
+					allWeekendHour += oe.getWeekendHour() ;
+					allHolidaysHour += oe.getHolidaysHour() ;
 				}
 				//if("徐瀅".equals(e.getTruename())) {
 				
@@ -807,7 +816,10 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				uf.setAllMM(extTotalMM) ;			//总人月 消耗
 				//uf.setTotalTaskYear((float)allTotalDays / 21f) ;	//总月数
 				//uf.setAllMM((float)uf.getTotalTaskTime() / 21f) ;	//总人月
-				uf.setTotalHour(allOtTime) ; 	//加班小时
+				//uf.setTotalHour(allOtTime) ; 	//加班小时
+				uf.setNormalHour(allNormalHour) ; 	//平时加班
+				uf.setWeekendHour(allWeekendHour) ; 	//周末加班
+				uf.setHolidaysHour(allHolidaysHour) ; 	//节假日加班
 				
 				forms.add(uf);
 			}

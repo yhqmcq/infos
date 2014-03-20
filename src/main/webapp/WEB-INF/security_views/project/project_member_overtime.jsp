@@ -52,7 +52,15 @@
 			    { field: 'otEndDate', title: '加班开始时间', width: 130, formatter: function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd hh:ss") ;
 			    } },*/
-			    { field: 'totalHour', title: '累计小时', width: 90, sortable: true } 
+			    { field: 'normalHour', title: '平时加班', width: 90, sortable: true, formatter: function(value,row){
+			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    } }, 
+			    { field: 'weekendHour', title: '周末加班', width: 90, sortable: true, formatter: function(value,row){
+			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    } },
+			    { field: 'holidaysHour', title: '节假日小时', width: 90, sortable: true, formatter: function(value,row){
+			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    } } 
 			    
 			]],
 			onLoadSuccess: function(data) {
@@ -82,6 +90,7 @@
 		var rows = dataGrid.datagrid('getSelections');
 		var ids = [];
 		if (rows.length > 0) {
+			$.easyui.loading({ msg: "数据提交中，请稍等..." });
 			for ( var i = 0; i < rows.length; i++) {
 				ids.push(rows[i].emp_id);
 			}
@@ -92,15 +101,18 @@
 				//data["endDate"] = data.endDate+":00";
 				data["project_id"] = "${project.id}";
 				data["emp_ids"] = ids.join(",");
+				
 				$.post(yhq.basePath+"/project/overtime/add.do", data, function(result) {
 					if (result.status) {
 						dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
+						$.easyui.loaded();
 						$.easyui.messager.show({ icon: "info", msg: result.msg });
 					} else {
+						$.easyui.loaded();
 						$.easyui.messager.show({ icon: "info", msg: result.msg });
 					}
 				}, 'json');
-			}
+			} else {$.easyui.loaded();}
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
 		}
@@ -134,6 +146,7 @@
 		var rows = dataGrid.datagrid('getSelections');
 		var ids = [];
 		if (rows.length > 0) {
+			$.easyui.loading({ msg: "数据提交中，请稍等..." });
 			for ( var i = 0; i < rows.length; i++) {
 				ids.push(rows[i].emp_id);
 			}
@@ -143,8 +156,10 @@
 			$.post(yhq.basePath+"/project/overtime/delete.do", data, function(result) {
 				if (result.status) {
 					dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
+					$.easyui.loaded();
 					$.easyui.messager.show({ icon: "info", msg: result.msg });
 				} else {
+					$.easyui.loaded();
 					$.easyui.messager.show({ icon: "info", msg: result.msg });
 				}
 			}, 'json');
@@ -174,7 +189,9 @@
 							&nbsp;&nbsp;&nbsp;
 							<b>加班结束时间:</b><input id="endDate" validType="TimeCheckLT['startDate']" invalidMessage="开始时间必须大于结束时间" name="endDate" />
 							 -->
-							<input type="text" name="hour" class="easyui-validatebox" style="width:60px;" />小时
+							<b>平时加班：</b><input type="text" name="normalHour" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
+							<b>周末加班：</b><input type="text" name="weekendHour" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
+							<b>节假日加班：</b><input type="text" name="holidaysHour" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
 							<!-- 
 							<a onclick="diffTime();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-sum'">计算时间</a>
 							 -->
