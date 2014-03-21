@@ -88,6 +88,17 @@ public class ProjectMainEntity implements Serializable {
 	/** 生产性目标 */
 	private Clob project_scx;
 	
+	/** 报价总人月 */
+	private Clob project_bjzry;
+	/** 预计投入总人月 */
+	private Clob project_yjtrzry;
+	/** 报价生产性 */
+	private Clob project_bjscx;
+	/** 预定生产性 */
+	private Clob project_ydscx;
+	/** 粗利润率 */
+	private Clob project_clrl;
+	
 	/** 项目目标 */
 	private Clob project_target ;
 	
@@ -191,6 +202,46 @@ public class ProjectMainEntity implements Serializable {
 
 	public void setContractNum(String contractNum) {
 		this.contractNum = contractNum;
+	}
+
+	public Clob getProject_bjzry() {
+		return project_bjzry;
+	}
+
+	public void setProject_bjzry(Clob project_bjzry) {
+		this.project_bjzry = project_bjzry;
+	}
+
+	public Clob getProject_yjtrzry() {
+		return project_yjtrzry;
+	}
+
+	public void setProject_yjtrzry(Clob project_yjtrzry) {
+		this.project_yjtrzry = project_yjtrzry;
+	}
+
+	public Clob getProject_bjscx() {
+		return project_bjscx;
+	}
+
+	public void setProject_bjscx(Clob project_bjscx) {
+		this.project_bjscx = project_bjscx;
+	}
+
+	public Clob getProject_ydscx() {
+		return project_ydscx;
+	}
+
+	public void setProject_ydscx(Clob project_ydscx) {
+		this.project_ydscx = project_ydscx;
+	}
+
+	public Clob getProject_clrl() {
+		return project_clrl;
+	}
+
+	public void setProject_clrl(Clob project_clrl) {
+		this.project_clrl = project_clrl;
 	}
 
 	@Id

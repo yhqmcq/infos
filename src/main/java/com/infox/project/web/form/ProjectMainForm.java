@@ -72,6 +72,17 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 生产性目标 */
 	private String project_scx;
 	
+	/** 报价总人月 */
+	private String project_bjzry;
+	/** 预计投入总人月 */
+	private String project_yjtrzry;
+	/** 报价生产性 */
+	private String project_bjscx;
+	/** 预定生产性 */
+	private String project_ydscx;
+	/** 粗利润率 */
+	private String project_clrl;
+	
 	/** 项目目标 */
 	private String project_target;
 
@@ -128,6 +139,47 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public String getContractNum() {
 		return contractNum;
+	}
+
+
+	public String getProject_bjzry() {
+		return project_bjzry;
+	}
+
+	public void setProject_bjzry(String project_bjzry) {
+		this.project_bjzry = project_bjzry;
+	}
+
+	public String getProject_yjtrzry() {
+		return project_yjtrzry;
+	}
+
+	public void setProject_yjtrzry(String project_yjtrzry) {
+		this.project_yjtrzry = project_yjtrzry;
+	}
+
+	public String getProject_bjscx() {
+		return project_bjscx;
+	}
+
+	public void setProject_bjscx(String project_bjscx) {
+		this.project_bjscx = project_bjscx;
+	}
+
+	public String getProject_ydscx() {
+		return project_ydscx;
+	}
+
+	public void setProject_ydscx(String project_ydscx) {
+		this.project_ydscx = project_ydscx;
+	}
+
+	public String getProject_clrl() {
+		return project_clrl;
+	}
+
+	public void setProject_clrl(String project_clrl) {
+		this.project_clrl = project_clrl;
 	}
 
 	public void setContractNum(String contractNum) {

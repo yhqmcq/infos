@@ -49,8 +49,11 @@
 						'taskScope' : result.taskScope,
 						'contractNum' : result.contractNum,
 						'project_buglv' : result.project_buglv,
-						'project_manyidu' : result.project_manyidu,
-						'project_scx' : result.project_scx,
+						'project_bjzry' : result.project_bjzry,
+						'project_yjtrzry' : result.project_yjtrzry,
+						'project_bjscx' : result.project_bjscx,
+						'project_ydscx' : result.project_ydscx,
+						'project_clrl' : result.project_clrl,
 						'leader_name' : result.leader_name
 					});
 					$("input[name=projectNum]").attr("readonly","readonly") ;
@@ -75,6 +78,20 @@
 				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
 			});
 			editor.render('editor3');
+			editor = new UE.ui.Editor({
+				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
+			});
+			editor.render('editor4');
+			
+			editor = new UE.ui.Editor({
+				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
+			});
+			editor.render('editor5');
+			
+			editor = new UE.ui.Editor({
+				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
+			});
+			editor.render('editor6');
 			
 		},500);
 	});
@@ -148,14 +165,23 @@
 	
 	<div class="form_base">
 		<div id="t">
-		    <div data-options="title: '顾客反馈BUG率', refreshable: false, selected: true">
+		    <div data-options="title: '顾客反馈BUG率目标', refreshable: false, selected: true">
 		    	<textarea id="editor1" name="project_buglv" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
-		    <div data-options="title: '顾客满意度', refreshable: false, selected: true">
-		    	<textarea id="editor2" name="project_manyidu" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    <div data-options="title: '报价总人月', refreshable: false, selected: true">
+		    	<textarea id="editor2" name="project_bjzry" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
-		    <div data-options="title: '生产性目标', refreshable: false, selected: true">
-		    	<textarea id="editor3" name="project_scx" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    <div data-options="title: '预计投入总人月数', refreshable: false, selected: true">
+		    	<textarea id="editor3" name="project_yjtrzry" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    </div>
+		    <div data-options="title: '报价生产性', refreshable: false, selected: true">
+		    	<textarea id="editor4" name="project_bjscx" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    </div>
+		    <div data-options="title: '预定生产性', refreshable: false, selected: true">
+		    	<textarea id="editor5" name="project_ydscx" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
+		    </div>
+		    <div data-options="title: '粗利润率', refreshable: false, selected: true">
+		    	<textarea id="editor6" name="project_clrl" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
 		    <!-- 
 		    <div data-options="title: '项目目标', refreshable: false, selected: true">

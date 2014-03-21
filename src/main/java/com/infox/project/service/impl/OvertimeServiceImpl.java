@@ -28,6 +28,14 @@ public class OvertimeServiceImpl implements OvertimeServiceI {
 
 	@Override
 	public Json add(OvertimeForm form) throws Exception {
+		
+		if(null == form.getNormalHour()) 
+			form.setNormalHour(0f) ;
+		if(null == form.getWeekendHour()) 
+			form.setWeekendHour(0f) ;
+		if(null == form.getHolidaysHour()) 
+			form.setHolidaysHour(0f) ;
+		
 		Json j = new Json() ;
 		
 		if(form.getEmp_ids() != null && form.getEmp_ids() != "") {

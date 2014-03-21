@@ -13,7 +13,7 @@
 		dataGrid = $("#d1").datagrid({
 			title: '人员稼动率管理', fitColumns: false, //view: detailview,
 			url: yhq.basePath+"/project/project_report/employeeTaskTimeReport.do?notInStatus=9999",
-			idField: 'emp_id', fit: true, border: false, method: "post", singleSelect: true,
+			idField: 'emp_id', fit: true, border: false, method: "post",showFooter: true, singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 20,pageList: [10,20,30,50],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
@@ -23,11 +23,22 @@
 			columns: [[
 			    { field: 'dept_name', title: '部门', width: 80, sortable: true },
 			    { field: 'totalTaskYear', title: '总月数', width: 80, sortable: true, formatter: function(value, row){
-			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>月</div>" ;
+			    	if(undefined == value) {
+			    		return "" ;
+			    	}else {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>月</div>" ;
+			    	}
 			    } },
 			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true, formatter: function(value, row){
-			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>" ;
+			    	if(undefined == value) {
+			    		return "" ;
+			    	} else if(value=="汇总"){
+			    		return "汇总：" ;
+			    	} else {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>" ;
+			    	}
 			    } },
+			    /*
 			    { field: 'normalHour', title: '平时加班', width: 100, sortable: true, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
@@ -43,6 +54,7 @@
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
+			    */
 			    { field: 'month1', title: '一月', width: 60, sortable: true },
 			    { field: 'month2', title: '二月', width: 60, sortable: true },
 			    { field: 'month3', title: '三月', width: 60, sortable: true },

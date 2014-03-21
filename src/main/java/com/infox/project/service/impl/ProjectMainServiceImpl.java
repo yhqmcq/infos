@@ -96,8 +96,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 			BeanUtils.copyProperties(form, entity, new String[]{"id", "project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
 			entity.setProject_buglv(ClobUtil.getClob(form.getProject_buglv())) ;
-			entity.setProject_manyidu(ClobUtil.getClob(form.getProject_manyidu())) ;
-			entity.setProject_scx(ClobUtil.getClob(form.getProject_scx())) ;
+			//entity.setProject_manyidu(ClobUtil.getClob(form.getProject_manyidu())) ;
+			//entity.setProject_scx(ClobUtil.getClob(form.getProject_scx())) ;
+			
+			entity.setProject_bjzry(ClobUtil.getClob(form.getProject_scx())) ;
+			entity.setProject_yjtrzry(ClobUtil.getClob(form.getProject_yjtrzry())) ;
+			entity.setProject_bjscx(ClobUtil.getClob(form.getProject_bjscx())) ;
+			entity.setProject_ydscx(ClobUtil.getClob(form.getProject_ydscx())) ;
+			entity.setProject_clrl(ClobUtil.getClob(form.getProject_clrl())) ;
 			
 			if (null != form.getDeptid() && !"".equalsIgnoreCase(form.getDeptid())) {
 				OrgDeptTreeEntity dept = new OrgDeptTreeEntity();
@@ -160,8 +166,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		BeanUtils.copyProperties(form, entity, new String[]{ "creater", "status", "project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
 		entity.setProject_buglv(ClobUtil.getClob(form.getProject_buglv())) ;
-		entity.setProject_manyidu(ClobUtil.getClob(form.getProject_manyidu())) ;
-		entity.setProject_scx(ClobUtil.getClob(form.getProject_scx())) ;
+		//entity.setProject_manyidu(ClobUtil.getClob(form.getProject_manyidu())) ;
+		//entity.setProject_scx(ClobUtil.getClob(form.getProject_scx())) ;
+		
+		entity.setProject_bjzry(ClobUtil.getClob(form.getProject_bjzry())) ;
+		entity.setProject_yjtrzry(ClobUtil.getClob(form.getProject_yjtrzry())) ;
+		entity.setProject_bjscx(ClobUtil.getClob(form.getProject_bjscx())) ;
+		entity.setProject_ydscx(ClobUtil.getClob(form.getProject_ydscx())) ;
+		entity.setProject_clrl(ClobUtil.getClob(form.getProject_clrl())) ;
 		
 		
 		if (null != form.getDeptid() && !"".equalsIgnoreCase(form.getDeptid())) {
@@ -400,6 +412,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		long allExpendDays = 0 ;
 		float allExpendmm = 0f ;
 		float allmm = 0f ;
+		float allTotalHour = 0f ;
+		float allTotalHourLv = 0f ;
 		float allNormalHour = 0f ;
 		float allWeekendHour = 0f ;
 		float allHolidaysHour = 0f ;
@@ -411,6 +425,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				Float totalMonth = new Float(0) ;
 				//消耗人月
 				Float extMonth = new Float(0) ;
+				
+				//员工总有效工作天数
+				long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
+				
 				
 				ProjectTaskTimeForm pf = new ProjectTaskTimeForm() ;
 				EmployeeEntity e = p.getEmp() ;
@@ -435,7 +453,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				params.put("empid", e.getId()) ; params.put("project_id", entity.getId()) ;
 				OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
 				if(null != oe) {
-					//pf.setTotalHour(oe.getHour()) ;
 					pf.setNormalHour(oe.getNormalHour()) ;
 					pf.setWeekendHour(oe.getWeekendHour()) ;
 					pf.setHolidaysHour(oe.getHolidaysHour()) ;
@@ -443,10 +460,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					allNormalHour += pf.getNormalHour() ;
 					allWeekendHour += pf.getWeekendHour() ;
 					allHolidaysHour += pf.getHolidaysHour() ;
+					
+					//总加班小时
+					pf.setTotalHour(oe.getNormalHour()+oe.getWeekendHour()+oe.getHolidaysHour()) ;
+					pf.setTotalAllHourLV(NumberUtils.formatNum((pf.getTotalHour()/dateDiff)*8)) ;
+					
+					allTotalHour += pf.getTotalHour() ;
+					allTotalHourLv += pf.getTotalAllHourLV() ;
 				}
-				
-				//员工总有效工作天数
-				long dateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate()));
 				
 				//消耗天数
 				long lastdateDiff = 0 ;
@@ -710,6 +731,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			map.put("normalHour", NumberUtils.formatNum(allNormalHour)) ;
 			map.put("weekendHour", NumberUtils.formatNum(allWeekendHour)) ;
 			map.put("holidaysHour", NumberUtils.formatNum(allHolidaysHour)) ;
+			map.put("totalHour", NumberUtils.formatNum(allTotalHour)) ;
+			map.put("totalAllHourLV", NumberUtils.formatNum(allTotalHourLv)) ;
 			footer.add(map) ;
 			
 			datagrid.setTotal((long) pwe.size());
