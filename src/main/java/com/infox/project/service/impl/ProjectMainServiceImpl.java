@@ -893,8 +893,16 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				ProjectMainForm uf = new ProjectMainForm();
 				BeanUtils.copyProperties(project, uf, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
 				uf.setProject_buglv(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_buglv()))) ;
-				uf.setProject_manyidu(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_manyidu()))) ;
-				uf.setProject_scx(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_scx()))) ;
+				
+				//uf.setProject_manyidu(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_manyidu()))) ;
+				//uf.setProject_scx(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_scx()))) ;
+				
+				uf.setProject_bjzry(ClobUtil.getString(project.getProject_bjzry())) ;
+				uf.setProject_yjtrzry(ClobUtil.getString(project.getProject_yjtrzry())) ;
+				uf.setProject_bjscx(ClobUtil.getString(project.getProject_bjscx())) ;
+				uf.setProject_ydscx(ClobUtil.getString(project.getProject_ydscx())) ;
+				uf.setProject_clrl(ClobUtil.getString(project.getProject_clrl())) ;
+				
 				uf.setLeader_name(project.getEmp().getTruename()) ;
 				
 				//部门
