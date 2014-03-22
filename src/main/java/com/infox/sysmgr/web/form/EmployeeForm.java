@@ -22,7 +22,16 @@ public class EmployeeForm extends PageHelper{
 	private String tel;
 
 	private String description;
-
+	
+	/** 毕业时间 */
+	private Date bysj ;
+	
+	/** 入职时间 */
+	private Date rzsj ;
+	
+	/** 备注(升迁历史) */
+	private String remark ;
+	
 	private Date created = new Date();
 
 	private Date lastmod = new Date();
@@ -79,6 +88,14 @@ public class EmployeeForm extends PageHelper{
 		return notInStatus;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	public String getPosition_sname() {
 		return position_sname;
 	}
@@ -93,6 +110,22 @@ public class EmployeeForm extends PageHelper{
 
 	public void setIsLeader(String isLeader) {
 		this.isLeader = isLeader;
+	}
+
+	public Date getBysj() {
+		return bysj;
+	}
+
+	public void setBysj(Date bysj) {
+		this.bysj = bysj;
+	}
+
+	public Date getRzsj() {
+		return rzsj;
+	}
+
+	public void setRzsj(Date rzsj) {
+		this.rzsj = rzsj;
 	}
 
 	public String getJapanese() {

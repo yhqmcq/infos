@@ -25,6 +25,12 @@
  			    	if(value == "male"){return "男";}else{return "女";}
  			    }},
  			    { field: 'orgname', title: '部门', width: 110, sortable: true },
+ 			   	{ field: 'bysj', title: '毕业时间', width: 120, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'rzsj', title: '入职时间', width: 120, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
  			    { field: 'position_sname', title: '职位', width: 110, sortable: true },
  			    { field: 'japanese', title: '日语级别', width: 90, sortable: true },
  			    { field: 'email', title: '邮箱地址', width: 180, sortable: true }

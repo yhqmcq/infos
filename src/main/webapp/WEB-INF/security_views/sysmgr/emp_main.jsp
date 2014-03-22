@@ -29,6 +29,12 @@
 			columns: [[
 			    { field: 'orgname', title: '公司部门', width: 150, sortable: true },
 			    { field: 'position', title: '公司岗位', width: 120, sortable: true },
+			    { field: 'bysj', title: '毕业时间', width: 120, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'rzsj', title: '入职时间', width: 120, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
 			    { field: 'japanese', title: '日语级别', width: 120, sortable: true },
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
@@ -74,7 +80,7 @@
             title: "表单",
             href: form_url,
             iniframe: false,
-            width: 550, height: 280,
+            width: 550, height: 440,
             topMost: true,
             autoVCenter: true,
             autoHCenter: true,

@@ -36,11 +36,13 @@
 					$('form').form('load', {
 						'id' : result.id,
 						'account' : result.account,
-						'password' : result.password,
+						//'password' : result.password,
 						'status' : result.status,
 						'truename' : result.truename,
 						'japanese' : result.japanese,
 						'isLeader' : result.isLeader,
+						'bysj' : infosUtil.str2date(result.bysj).format("YYYY-MM-dd"),
+						'rzsj' : infosUtil.str2date(result.rzsj).format("YYYY-MM-dd"),
 						'sex' : result.sex,
 						//'email' : result.email,
 						'tel' : result.tel,
@@ -122,11 +124,25 @@
 			</td>
 		</tr>
 		<tr>
+			<th>毕业时间：</th>
+			<td><input name="bysj" class="easyui-datebox" editable="false" /></td>
+		 	<th>入职时间：</th>
+			<td><input name="rzsj" class="easyui-datebox" editable="false" /></td>
+		</tr>
+		<tr>
 			<th>公司部门：</th>
 			<td><input id="select1" name="orgid" /></td>
 			<th>公司岗位：</th>
 			<td><input id="select2" /></td>
 		</tr>
+		<!-- 
+		<tr>
+			<th>职位变更历史：</th>
+			<td colspan="3">
+				<textarea style="width:200px;height:50px;"></textarea>
+			</td>
+		</tr>
+		 -->
 	</table>
 	
 </form>

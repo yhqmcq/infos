@@ -29,7 +29,7 @@
 			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
 			    { field: 'deptLeader', title: '所属部长', width: 100, sortable: true },
 			    { field: 'leader_name', title: '项目负责人', width: 100, sortable: true },
-			    { field: 'code', title: '项目简称', width: 110, sortable: true },
+			    //{ field: 'code', title: '项目简称', width: 110, sortable: true },
 			    { field: 'status', title: '状态', width: 60, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='blue'>未开始</font>" ; 
@@ -55,12 +55,12 @@
 			    	if(value == 0){ return "对日短期保守项目" ; } else  if(value == 1) { return "对日长期保守项目" ; } else  if(value == 2) { return "对日新规项目" ; } else  if(value == 3) { return "国内项目" ; } else { return "公司内部项目" ; }
 			    } },
 			    { field: 'taskScope', title: '作业范围', width: 100, sortable: true, tooltip: true },
-			    { field: 'project_buglv', title: '顾客反馈BUG率目标', width: 200, sortable: true, tooltip: true },
-			    { field: 'project_bjzry', title: '报价总人月', width: 200, sortable: true, tooltip: true },
-			    { field: 'project_yjtrzry', title: '预计投入总人月数', width: 200, sortable: true, tooltip: true },
-			    { field: 'project_bjscx', title: '报价生产性', width: 200, sortable: true, tooltip: true },
-			    { field: 'project_ydscx', title: '预定生产性', width: 200, sortable: true, tooltip: true },
-			    { field: 'project_clrl', title: '粗利润率', width: 200, sortable: true, tooltip: true },
+			    { field: 'project_buglv', title: '顾客反馈BUG率目标', width: 120, sortable: true, tooltip: true },
+			    { field: 'project_bjzry', title: '报价总人月', width: 120, sortable: true, tooltip: true },
+			    { field: 'project_yjtrzry', title: '预计投入总人月数', width: 120, sortable: true, tooltip: true },
+			    { field: 'project_bjscx', title: '报价生产性', width: 120, sortable: true, tooltip: true },
+			    { field: 'project_ydscx', title: '预定生产性', width: 120, sortable: true, tooltip: true },
+			    { field: 'project_clrl', title: '粗利润率', width: 120, sortable: true, tooltip: true },
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }

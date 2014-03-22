@@ -47,7 +47,7 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	private Float totalHour ;
 	
 	/** 加班率 */
-	private Float totalAllHourLV ;
+	private String totalAllHourLV ;
 	
 	/** 平时加班 */
 	private Float normalHour = new Float(0) ;
@@ -149,11 +149,11 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 		return month2;
 	}
 
-	public Float getTotalAllHourLV() {
+	public String getTotalAllHourLV() {
 		return totalAllHourLV;
 	}
 
-	public void setTotalAllHourLV(Float totalAllHourLV) {
+	public void setTotalAllHourLV(String totalAllHourLV) {
 		this.totalAllHourLV = totalAllHourLV;
 	}
 

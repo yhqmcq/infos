@@ -1,6 +1,7 @@
 package com.infox.project.service.impl;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -406,6 +407,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
 		
+		// 获取格式化对象
+		NumberFormat nt = NumberFormat.getPercentInstance();
+		nt.setMinimumFractionDigits(2);
+		
 		List<ProjectTaskTimeForm> devList = new ArrayList<ProjectTaskTimeForm>() ;
 		List<Map<String, Object>> footer = new ArrayList<Map<String, Object>>() ;
 		long allTaskTime = 0 ;
@@ -463,10 +468,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					
 					//总加班小时
 					pf.setTotalHour(oe.getNormalHour()+oe.getWeekendHour()+oe.getHolidaysHour()) ;
-					pf.setTotalAllHourLV(NumberUtils.formatNum((pf.getTotalHour()/dateDiff)*8)) ;
+					pf.setTotalAllHourLV(nt.format((pf.getTotalHour()/(dateDiff*8)))) ;
+					
+					//System.out.println(nt.format((pf.getTotalHour()/(dateDiff*8))));
+					//System.out.println((pf.getTotalHour()/(dateDiff*8)));
 					
 					allTotalHour += pf.getTotalHour() ;
-					allTotalHourLv += pf.getTotalAllHourLV() ;
+					allTotalHourLv += (pf.getTotalHour()/(dateDiff*8)) ;
 				}
 				
 				//消耗天数
@@ -732,7 +740,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			map.put("weekendHour", NumberUtils.formatNum(allWeekendHour)) ;
 			map.put("holidaysHour", NumberUtils.formatNum(allHolidaysHour)) ;
 			map.put("totalHour", NumberUtils.formatNum(allTotalHour)) ;
-			map.put("totalAllHourLV", NumberUtils.formatNum(allTotalHourLv)) ;
+			map.put("totalAllHourLV", nt.format(allTotalHourLv)) ;
 			footer.add(map) ;
 			
 			datagrid.setTotal((long) pwe.size());

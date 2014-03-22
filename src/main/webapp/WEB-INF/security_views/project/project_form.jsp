@@ -40,7 +40,7 @@
 						'id' : result.id,
 						'projectNum' : result.projectNum,
 						'name' : result.name,
-						'code' : result.code,
+						//'code' : result.code,
 						'project_type' : result.project_type,
 						'startDate' : $.date.format($.string.toDate(result.startDate), "yyyy-MM-dd"),
 						'endDate' : $.date.format($.string.toDate(result.endDate), "yyyy-MM-dd"),
@@ -141,8 +141,10 @@
 				<td><input name="startDate" class="easyui-datebox" required="true" missingMessage="日期必须填写" editable="false" /></td>
 			</tr>
 			<tr>
+				<!-- 
 				<th>项目简称：</th>
 				<td><input type="text" style="width:250px;" name="code" class="easyui-validatebox" ></td>
+				 -->
 				<th>结束日期：</th>
 				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false" /></td>
 			</tr>

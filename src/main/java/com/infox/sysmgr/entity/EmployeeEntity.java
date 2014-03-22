@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -55,6 +57,15 @@ public class EmployeeEntity implements Serializable{
 	private String creater;
 	
 	private String modifyer;
+	
+	/** 毕业时间 */
+	private Date bysj ;
+	
+	/** 入职时间 */
+	private Date rzsj ;
+	
+	/** 备注(升迁历史) */
+	private String remark ;
 	
 	/** 是否主管 */
 	private String isLeader ;
@@ -116,6 +127,32 @@ public class EmployeeEntity implements Serializable{
 
 	public void setRoles(Set<RoleEntity> roles) {
 		this.roles = roles;
+	}
+
+	@Temporal(TemporalType.DATE)
+	public Date getBysj() {
+		return bysj;
+	}
+
+	public void setBysj(Date bysj) {
+		this.bysj = bysj;
+	}
+
+	@Temporal(TemporalType.DATE)
+	public Date getRzsj() {
+		return rzsj;
+	}
+
+	public void setRzsj(Date rzsj) {
+		this.rzsj = rzsj;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public String getIsLeader() {

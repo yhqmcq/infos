@@ -65,6 +65,11 @@
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
+			    { field: 'totalHour', title: '累计加班小时', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
 			    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 			    }}

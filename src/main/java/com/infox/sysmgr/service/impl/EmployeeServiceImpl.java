@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
 import com.infox.common.mail.MailVO;
+import com.infox.common.util.DateUtil;
 import com.infox.common.util.PinyinUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.util.StringUtil;
@@ -126,12 +127,28 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	@Override
 	public void edit(EmployeeForm form) throws Exception {
 		EmployeeEntity entity = this.basedaoEmployee.get(EmployeeEntity.class, form.getId());
-		BeanUtils.copyProperties(form, entity ,new String[]{"creater"});
+		
+		BeanUtils.copyProperties(form, entity ,new String[]{"creater","remark"});
 		entity.setTruename(StringUtil.replaceAllSpace(form.getTruename())) ;
 
 		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 			entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
 		}
+		
+		//只能是一个职位
+		Set<EmpJobEntity> ejid = entity.getEmpjobs() ;
+		String str1 = "" ; String str2 = "" ;
+		for (EmpJobEntity ej : ejid) {
+			str1 = ej.getId() ; str2 = ej.getJob_name() ;
+		}
+		if(null != form.getJobids() && !"".equals(form.getJobids())) {
+			if(!str1.equals(form.getJobids())) {
+				String remark = "职位变更历史[日期："+DateUtil.formatG(new Date())+"   职位："+str2+"]"+(null!=entity.getRemark()?","+entity.getRemark()+",":",") ;
+				entity.setRemark(remark.substring(0,remark.length()-1)) ;
+			}
+		}
+		
+		
 		String jobs = form.getJobids() ;
 		if (jobs != null && !"".equalsIgnoreCase(jobs)) {
 			String[] split = jobs.split(",") ;
