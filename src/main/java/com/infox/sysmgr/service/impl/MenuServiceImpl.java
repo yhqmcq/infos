@@ -158,11 +158,38 @@ public class MenuServiceImpl implements MenuServiceI {
 		List<MenuForm> forms = new ArrayList<MenuForm>() ;
 		if(null != menus && menus.size() > 0) {
 			for (MenuEntity entity : menus) {
-				forms.add(recursiveNaviNode(entity)) ;
+				forms.add(recursiveNaviNodeExport(entity)) ;
 			}
 		}
 		String path = sc.getRealPath("/common/view-index-resource/") + "/nav-"+m.getId()+"-menu-data.json" ;
 		FileUtil.outJson(path, "", forms) ;
 	}
 
+	public MenuForm recursiveNaviNodeExport(MenuEntity me) {
+		MenuForm mf = new MenuForm() ;
+		BeanUtils.copyProperties(me, mf) ;
+		mf.setText(me.getName()) ;
+		
+		Map<String, String> attributes = new HashMap<String, String>();
+		attributes.put("href", me.getHref());
+		mf.setAttributes(attributes) ;
+		
+		if(null != me.getMenus() && me.getMenus().size() > 0) {
+			
+			Set<MenuEntity> rs = me.getMenus() ;
+			List<MenuForm> children = new ArrayList<MenuForm>();
+			for (MenuEntity menuEntity : rs) {
+				if(!"O".equals(menuEntity.getType())) {
+					MenuForm tn = recursiveNaviNode(menuEntity) ;
+					BeanUtils.copyProperties(menuEntity ,tn ,new String[]{"state"}) ;
+					tn.setText(menuEntity.getName()) ;
+					children.add(tn);
+				}
+			}
+			
+			mf.setChildren(children) ;
+		}
+		return mf ;
+	}
+	
 }
