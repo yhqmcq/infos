@@ -227,6 +227,6 @@ public class NumberUtils {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(formatNum(1.6600001f));
+		System.out.println(formatNum(0.2857143f));
 	}
 }

@@ -1,6 +1,7 @@
 package com.infox.sysmgr.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -82,6 +83,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
+				
 			}
 			String jobs = form.getJobids() ;
 			if (jobs != null && !"".equalsIgnoreCase(jobs)) {
@@ -99,6 +101,8 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			entity.setEmail("yhqmcq@126.com") ;
 			
 			this.basedaoEmployee.save(entity);
+			
+			modifyDeptMemNum(entity.getOrg().getId()) ;
 			
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
@@ -118,10 +122,62 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		}
 		
 	}
+	
+	private void modifyDeptMemNum(String deptid) {
+		
+		int count = this.basedaoEmployee.count("select count(t) from EmployeeEntity t where t.org.id='"+deptid+"'").intValue() ;
+		
+		OrgDeptTreeEntity dept = this.basedaoOrg.get(OrgDeptTreeEntity.class, deptid) ;
+		
+		Calendar ccc = Calendar.getInstance() ;
+		switch (ccc.get(Calendar.MONTH)+1) {
+		case 1:
+			dept.setMonth1(count) ;
+			break;
+		case 2:
+			dept.setMonth2(count) ;
+			break;
+		case 3:
+			dept.setMonth3(count) ;
+			break;
+		case 4:
+			dept.setMonth4(count) ;
+			break;
+		case 5:
+			dept.setMonth5(count) ;
+			break;
+		case 6:
+			dept.setMonth6(count) ;
+			break;
+		case 7:
+			dept.setMonth7(count) ;
+			break;
+		case 8:
+			dept.setMonth8(count) ;
+			break;
+		case 9:
+			dept.setMonth9(count) ;
+			break;
+		case 10:
+			dept.setMonth10(count) ;
+			break;
+		case 11:
+			dept.setMonth11(count) ;
+			break;
+		case 12:
+			dept.setMonth12(count) ;
+			break;
+		default:
+			break;
+		}
+		this.basedaoOrg.update(dept) ;
+	}
 
 	@Override
 	public void delete(String id) throws Exception {
-		this.basedaoEmployee.delete(this.basedaoEmployee.get(EmployeeEntity.class, id));
+		EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, id) ;
+		this.basedaoEmployee.delete(employeeEntity);
+		modifyDeptMemNum(employeeEntity.getOrg().getId()) ;
 	}
 
 	@Override
@@ -162,6 +218,8 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		}
 
 		this.basedaoEmployee.update(entity);
+		
+		modifyDeptMemNum(entity.getOrg().getId()) ;
 	}
 
 	@Override

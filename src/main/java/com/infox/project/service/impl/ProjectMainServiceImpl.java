@@ -740,7 +740,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			map.put("weekendHour", NumberUtils.formatNum(allWeekendHour)) ;
 			map.put("holidaysHour", NumberUtils.formatNum(allHolidaysHour)) ;
 			map.put("totalHour", NumberUtils.formatNum(allTotalHour)) ;
-			map.put("totalAllHourLV", nt.format(allTotalHourLv)) ;
+			//map.put("totalAllHourLV", nt.format(allTotalHourLv)) ;
+			map.put("totalAllHourLV", nt.format(((NumberUtils.formatNum(allNormalHour)+NumberUtils.formatNum(allWeekendHour)+NumberUtils.formatNum(allHolidaysHour))/(allTaskTime*8)))) ;
+			
 			footer.add(map) ;
 			
 			datagrid.setTotal((long) pwe.size());
