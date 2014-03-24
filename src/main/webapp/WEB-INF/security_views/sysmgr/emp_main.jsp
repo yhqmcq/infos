@@ -27,8 +27,11 @@
 			    }},
 			]],
 			columns: [[
-			    { field: 'orgname', title: '公司部门', width: 150, sortable: true },
-			    { field: 'position', title: '公司岗位', width: 120, sortable: true },
+			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
+			    { field: 'position', title: '公司岗位', width: 150, sortable: true, formatter:function(value,row){
+			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+value+"</a>", row.remark, row.position) ;
+			    	return str ;
+			    }},
 			    { field: 'bysj', title: '毕业时间', width: 120, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
@@ -64,6 +67,27 @@
 			}
 	    });
 	});
+	
+	//显示岗位变更历史
+	function showForc(forc,cur) {
+		var str = "" ;
+		var sp = forc.split(",") ;
+		$.each(sp, function(index){
+			str += "<br>"+sp[index] +"<br>" ;
+		});
+		$.easyui.showDialog({
+            title: "当前岗位【<font color='red'>"+cur+"</font>】",
+            content: str,
+            iniframe: false,
+            width: 500, height: 440,
+            topMost: true,
+            autoVCenter: true,
+            autoHCenter: true,
+            enableApplyButton: false,
+            enableCloseButton: true,
+            enableSaveButton: false
+        });
+	}
 	
 	function form_edit(form) {
 		var form_url = yhq.basePath+"/sysmgr/employee/emp_form.do" ;

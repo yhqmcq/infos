@@ -45,6 +45,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 所属部门（Name） */
 	private String deptname;
 	
+	/** 项目系数 */
+	private Float quot = new Float(0);
+	
 	/** 所属部长 */
 	private String deptLeader ;
 
@@ -135,6 +138,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setProject_buglv(String project_buglv) {
 		this.project_buglv = project_buglv;
+	}
+
+	public Float getQuot() {
+		return quot;
+	}
+
+	public void setQuot(Float quot) {
+		this.quot = quot;
 	}
 
 	public String getContractNum() {

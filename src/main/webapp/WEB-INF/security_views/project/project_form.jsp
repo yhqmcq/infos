@@ -48,6 +48,7 @@
 						'leader_id' : result.leader_id,
 						'taskScope' : result.taskScope,
 						'contractNum' : result.contractNum,
+						'quot' : result.quot,
 						'project_buglv' : result.project_buglv,
 						'project_bjzry' : result.project_bjzry,
 						'project_yjtrzry' : result.project_yjtrzry,
@@ -137,14 +138,12 @@
 			<tr> 
 				<th>项目名称：</th>
 				<td><input type="text" name="name" style="width:250px;" class="easyui-validatebox" ></td>
-				<th>开始日期：</th>
-				<td><input name="startDate" class="easyui-datebox" required="true" missingMessage="日期必须填写" editable="false" /></td>
+				<th>项目系数：</th>
+				<td><input type="text"  name="quot" class="easyui-validatebox" ></td>
 			</tr>
 			<tr>
-				<!-- 
-				<th>项目简称：</th>
-				<td><input type="text" style="width:250px;" name="code" class="easyui-validatebox" ></td>
-				 -->
+				<th>开始日期：</th>
+				<td><input name="startDate" class="easyui-datebox" required="true" missingMessage="日期必须填写" editable="false" /></td>
 				<th>结束日期：</th>
 				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false" /></td>
 			</tr>

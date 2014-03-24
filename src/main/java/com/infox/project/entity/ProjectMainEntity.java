@@ -49,6 +49,9 @@ public class ProjectMainEntity implements Serializable {
 	/** 项目名称 */
 	private String name ;
 	
+	/** 项目系数 */
+	private Float quot = new Float(0);
+	
 	/** 项目代号 */
 	private String code ;
 	
@@ -222,6 +225,14 @@ public class ProjectMainEntity implements Serializable {
 
 	public Clob getProject_bjscx() {
 		return project_bjscx;
+	}
+
+	public Float getQuot() {
+		return quot;
+	}
+
+	public void setQuot(Float quot) {
+		this.quot = quot;
 	}
 
 	public void setProject_bjscx(Clob project_bjscx) {

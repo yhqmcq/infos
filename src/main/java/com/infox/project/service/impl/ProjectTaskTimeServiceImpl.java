@@ -90,6 +90,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		List<EmployeeEntity> entitys = this.find(form);
 		if (null != entitys && entitys.size() > 0) {
 			for (EmployeeEntity e : entitys) {
+				
 				// 总天数
 				long allTotalDays = 0;
 				// 总月数
@@ -362,12 +363,12 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						}
 					}
 				}
-				uf.setTotalTaskTime(allTotalDays); // 总天数
-				uf.setTotalTaskYear(NumberUtils.formatNum(allTotalYear)); // 总月数
-				uf.setAllMM(extTotalMM); // 总人月 消耗
 				// uf.setTotalTaskYear((float)allTotalDays / 21f) ; //总月数
 				// uf.setAllMM((float)uf.getTotalTaskTime() / 21f) ; //总人月
 				// uf.setTotalHour(allOtTime) ; //加班小时
+				uf.setTotalTaskTime(allTotalDays); // 总天数
+				uf.setTotalTaskYear(NumberUtils.formatNum(allTotalYear)); // 总月数
+				uf.setAllMM(extTotalMM); // 总人月 消耗
 				uf.setNormalHour(allNormalHour); // 平时加班
 				uf.setWeekendHour(allWeekendHour); // 周末加班
 				uf.setHolidaysHour(allHolidaysHour); // 节假日加班

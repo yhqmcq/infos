@@ -26,6 +26,7 @@
 		    		var opa = $.string.format("<p><a href='javascript:;' onclick='getDevList(\"{0}\",\"{1}\")'>{1}</a><p/>", row.id, value, value);
 		    		return opa ;
 		    	}},
+			    { field: 'quot', title: '系数', width: 60, sortable: true },
 			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
 			    { field: 'deptLeader', title: '所属部长', width: 100, sortable: true },
 			    { field: 'leader_name', title: '项目负责人', width: 100, sortable: true },
