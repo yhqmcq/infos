@@ -21,6 +21,13 @@
 			    { field: 'id', title: 'ID', width: 80, sortable: true, hidden: true },
 			    { field: 'projectNum', title: '项目编号', width: 80, sortable: true }, 
 			    { field: 'contractNum', title: '合同编号', width: 150, sortable: true }, 
+			    { field: 'shouzhu', title: '合同受注状况', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value == 0){ 
+			    		return "<font color='blue'>未受注</font>" ; 
+			    	} else if(value == 1) { 
+			    		return "<font color='blue'>已受注</font>" ; 
+			    	}
+			    } },
 			    { field: 'name', title: '项目名称', width: 250, sortable: true, tooltip: true, formatter:function(value,row,index){
 		    		//var opa = $.string.format("<p><a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a><p/>", row.id, value);
 		    		var opa = $.string.format("<p><a href='javascript:;' onclick='getDevList(\"{0}\",\"{1}\")'>{1}</a><p/>", row.id, value, value);

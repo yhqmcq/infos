@@ -46,6 +46,9 @@ public class ProjectMainEntity implements Serializable {
 	/** 合同编号 */
 	private String contractNum ;
 	
+	/** 合同受注状况 */
+	private Integer shouzhu = new Integer(0);
+	
 	/** 项目名称 */
 	private String name ;
 	
@@ -401,6 +404,14 @@ public class ProjectMainEntity implements Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public Integer getShouzhu() {
+		return shouzhu;
+	}
+
+	public void setShouzhu(Integer shouzhu) {
+		this.shouzhu = shouzhu;
 	}
 
 	public Date getCreated() {

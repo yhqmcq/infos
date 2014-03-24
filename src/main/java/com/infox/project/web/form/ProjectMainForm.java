@@ -15,6 +15,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 项目编号-唯一 */
 	private String projectNum ;
 	
+	/** 合同受注状况 */
+	private Integer shouzhu = new Integer(0);
+	
 	/** 合同编号 */
 	private String contractNum ;
 
@@ -392,6 +395,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Integer getShouzhu() {
+		return shouzhu;
+	}
+
+	public void setShouzhu(Integer shouzhu) {
+		this.shouzhu = shouzhu;
 	}
 
 	public void setCode(String code) {

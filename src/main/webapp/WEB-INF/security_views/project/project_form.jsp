@@ -155,7 +155,12 @@
 			</tr>
 			<tr>
 				<th>项目类型：</th>
-				<td colspan="3"><input id="project_type" name="project_type" /></td>
+				<td><input id="project_type" name="project_type" /></td>
+				<th>合同受注状况：</th>
+				<td><input class="easyui-combobox" style="width:157px;" name="shouzhu" data-options="
+					valueField: 'label', textField: 'value', editable: false, value : '0',
+					data: [{ label: '0', value: '未受注' },{ label: '1', value: '已受注' }],
+					panelHeight:'auto', editable:false" /></td>
 			</tr>
 			<tr>
 				<th>作业范围：</th>
