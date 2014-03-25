@@ -20,8 +20,10 @@ $(function(){
         layout.removeClass("hidden").layout("resize");
 
         var size = $.util.windowSize();
+        
         //  判断当浏览器窗口宽度小于像素 1280 时，右侧 region-panel 自动收缩
-        if (size.width < 1280) { layout.layout("collapse", "east"); }
+        //if (size.width < 1280) { layout.layout("collapse", "east"); }
+        layout.layout("collapse", "east");
         
         $("#maskContainer-loading").remove();
         

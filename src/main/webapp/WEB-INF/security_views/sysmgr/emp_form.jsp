@@ -6,7 +6,7 @@
 	$(function() {
 		$("#select1").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
-			width:157, idFiled:'pid', textFiled:'fullname', editable: false,
+			width:190, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
 		 		$("#orgname").val(node.text);
@@ -14,7 +14,7 @@
 	    });
 		cg = $("#select2").combogrid({
 			url: yhq.basePath+"/sysmgr/empjob/treegrid.do",
-			panelWidth: 500, multiple: false,
+			width:190,panelWidth: 500, multiple: false,
 			idField: 'id', textField: 'job_name', method: 'get',
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
@@ -85,7 +85,8 @@
 </script>
 
 <form id="form" class="easyui-form">
-	<table id="tab_box" style="width:100%">
+	<div class="form_base">
+		<table>
 		<tr>
 			<th>工号：</th>
 			<td><input name="id" validType="length[4,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
@@ -144,5 +145,5 @@
 		</tr>
 		 -->
 	</table>
-	
+	</div>
 </form>

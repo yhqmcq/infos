@@ -104,7 +104,7 @@
             title: "表单",
             href: form_url,
             iniframe: false,
-            width: 550, height: 440,
+            width: 750, height: 440,
             topMost: true,
             autoVCenter: true,
             autoHCenter: true,
