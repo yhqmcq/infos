@@ -287,15 +287,12 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * ew.getProject().getQuot())/((Integer)diff).floatValue()) ;
 									
 									System.out.println(DateUtil.formatG(ary11.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+ew.getProject().getQuot() +"  1稼动率"+quot);
-									
 								}
-								
-								//System.out.println("==="+(((Integer) wd).floatValue() / diff));
-								
-								//System.out.println(DateUtil.formatG(ary11.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
 							}
 							// 中间月
 							if (i != 0 && i != m2) {
+								
+								//如果这个月等于当前月
 								if((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)).equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
 									int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date()));
 									fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -318,6 +315,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							if (i == m2 && !ym11.equals(ym22)) {
 								//并且不是已退出想的，如果是退出项目的，则有下面的来计算
 								if(ew.getStatus() != 4) {
+									//如果这个月等于当前月
 									if((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)).equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
 										//判断当前日期是否小于结束日期，如果小于则按当前日期来计算，否则按结束日期来计算
 										int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(ew.getEndDate())) ;
