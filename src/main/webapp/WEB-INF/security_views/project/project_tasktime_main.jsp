@@ -133,7 +133,7 @@
 		        $(dataGrid.datagrid('getColumnDom',"month"+(new Date().getMonth()+1))).css("background","#55BF3B");
 		        
 		        for(var i=1;i<=(new Date().getMonth()+1)-1;i++){
-			        $(dataGrid.datagrid('getColumnDom',"month"+i)).css("background","gray");
+			        $(dataGrid.datagrid('getColumnDom',"month"+i)).css("background","#ddd");
 		        }
 		        for(var i=(new Date().getMonth()+1)+1;i<=12;i++){
 			        $(dataGrid.datagrid('getColumnDom',"month"+i)).css("background","#DF5353");
