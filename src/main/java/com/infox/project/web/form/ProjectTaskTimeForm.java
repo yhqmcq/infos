@@ -90,6 +90,10 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus;
+	
+	private String truename ;
+	
+	private String email ;
 
 	private Float month1 = new Float(0) ;
 	private Float month2 = new Float(0) ;
@@ -115,6 +119,22 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public Float getMonth1() {
 		return month1;
+	}
+
+	public String getTruename() {
+		return truename;
+	}
+
+	public void setTruename(String truename) {
+		this.truename = truename;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setMonth1(Float month1) {

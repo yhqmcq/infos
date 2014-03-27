@@ -86,12 +86,12 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		Float month10 = new Float(0);
 		Float month11 = new Float(0);
 		Float month12 = new Float(0);
-
+		
 		List<EmployeeEntity> entitys = this.find(form);
 		if (null != entitys && entitys.size() > 0) {
 			for (EmployeeEntity e : entitys) {
 				
-				//if("肖俊".equals(e.getTruename())){
+				//if("徐瀅".equals(e.getTruename())){
 					// 总天数
 					long allTotalDays = 0;
 					// 总月数
@@ -199,13 +199,11 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							fristDay.setTime(new Date());
 							fristDay.add(Calendar.MONTH, ((ary1.get(Calendar.MONTH) + 1) - (cd.get(Calendar.MONTH) + 1) + i));
 							fristDay.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
-							//System.out.print((i)+"当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
 							
 							Calendar lastDay = Calendar.getInstance();
 							lastDay.setTime(new Date());
 							lastDay.add(Calendar.MONTH, ((ary1.get(Calendar.MONTH) + 1) - (cd.get(Calendar.MONTH) + 1) + i));
 							lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));
-							//System.out.println("\t当前月最后一天:"+DateUtil.formatG(lastDay.getTime())+"==天数："+DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime())));
 							
 							int diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
 							
@@ -240,6 +238,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						zry = 0f;
 						//System.out.println("*********************************end计算总人月*************************************\r\n");
 						
+						
 						//System.out.println("*********************************begin计算每个月的人月*************************************");
 						
 						Calendar ary11 = Calendar.getInstance();
@@ -267,13 +266,11 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							fristDay.setTime(new Date());
 							fristDay.add(Calendar.MONTH, ((ary11.get(Calendar.MONTH) + 1) - (cd1.get(Calendar.MONTH) + 1) + i));
 							fristDay.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
-							//System.out.print((i)+"当前月第一天:"+DateUtil.formatG(fristDay.getTime()));
 							
 							Calendar lastDay = Calendar.getInstance();
 							lastDay.setTime(new Date());
 							lastDay.add(Calendar.MONTH, ((ary11.get(Calendar.MONTH) + 1) - (cd1.get(Calendar.MONTH) + 1) + i));
 							lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));
-							//System.out.println("\t当前月最后一天:"+DateUtil.formatG(lastDay.getTime())+"==天数："+DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime())));
 							
 							int diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
 							
@@ -281,6 +278,20 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							if (i == 0 && m2 != 0) {
 								//开始日期和当前日期不在同一个月才进行就是,如果开始日期和当前日期是在同一个月则由下面的当月进行计算
 								if(!ym11.equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
+									
+									//判断该员工的到部门类型是否新增或转入
+									EmployeeEntity emp = ew.getEmp() ;
+									if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
+										if(emp.getDbmType() == 1 || emp.getDbmType() == 2) {
+											Calendar dbc = Calendar.getInstance() ;
+											dbc.setTime(DateUtil.formatGG(emp.getDbmDate())) ;
+											if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+												diff = DateCal.getWorkingDays(emp.getDbmDate(), DateUtil.formatG(lastDay.getTime()));
+												System.out.println("到部门-标准天数：" + diff +"=="+emp.getDbmDate()+"=="+DateUtil.formatG(lastDay.getTime()));
+											}
+										}
+									}
+									
 									int wd = DateCal.getWorkingDays(DateUtil.formatG(ary11.getTime()), DateUtil.formatG(lastDay.getTime()));
 									fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 									
@@ -313,8 +324,31 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							}
 							// 最后一个月，但开始和结束不是在同一个月
 							if (i == m2 && !ym11.equals(ym22)) {
+								
 								//并且不是已退出想的，如果是退出项目的，则有下面的来计算
 								if(ew.getStatus() != 4) {
+									
+									EmployeeEntity emp = ew.getEmp() ;
+									//判断该员工的离部门类型是否离职或转出
+									if(null != emp.getLbmType() && !"".equals(emp.getLbmType())) {
+										if(emp.getLbmType() == 1) {
+											Calendar dbc = Calendar.getInstance() ;
+											dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
+											if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+												diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), emp.getLbmDate());
+												System.out.println("离部门（转出-开发部）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+emp.getLbmDate());
+											}
+										}
+										if(emp.getLbmType() == 2 || emp.getLbmType() == 3) {
+											Calendar dbc = Calendar.getInstance() ;
+											dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
+											if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+												diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
+												System.out.println("离部门（转出-非开发部，离职）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime()));
+											}
+										}
+									}
+									
 									//如果这个月等于当前月
 									if((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)).equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
 										//判断当前日期是否小于结束日期，如果小于则按当前日期来计算，否则按结束日期来计算
@@ -339,18 +373,43 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 										quot = NumberUtils.formatNum((((Integer) wd).floatValue() * ew.getProject().getQuot())/((Integer)diff).floatValue()) ;
 										System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+ew.getProject().getQuot() +"  3稼22动率"+quot);
 									}
-									/*
-									int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
-									fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
-									
-									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * ew.getProject().getQuot())/((Integer)diff).floatValue()) ;
-									System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+ew.getProject().getQuot() +"  3稼22动率"+quot);
-									*/
 								}
 								
 							}
 							// 开始和结束是在同一个月
 							if (ym11.equals(ym22)) {
+								
+								EmployeeEntity emp = ew.getEmp() ;
+								//判断该员工的到部门类型是否新增或转入
+								if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
+									if(emp.getDbmType() == 1 || emp.getDbmType() == 2) {
+										Calendar dbc = Calendar.getInstance() ;
+										dbc.setTime(DateUtil.formatGG(emp.getDbmDate())) ;
+										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+											diff = DateCal.getWorkingDays(emp.getDbmDate(), DateUtil.formatG(lastDay.getTime()));
+											System.out.println("到部门-标准天数：" + diff +"=="+emp.getDbmDate()+"=="+DateUtil.formatG(lastDay.getTime()));
+										}
+									}
+								}
+								//判断该员工的离部门类型是否离职或转出
+								if(null != emp.getLbmType() && !"".equals(emp.getLbmType())) {
+									if(emp.getLbmType() == 1) {
+										Calendar dbc = Calendar.getInstance() ;
+										dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
+										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+											diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), emp.getLbmDate());
+											System.out.println("离部门（转出-开发部）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+emp.getLbmDate());
+										}
+									}
+									if(emp.getLbmType() == 2 || emp.getLbmType() == 3) {
+										Calendar dbc = Calendar.getInstance() ;
+										dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
+										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+											diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
+											System.out.println("离部门（转出-非开发部，离职）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime()));
+										}
+									}
+								}
 								
 								//判断当前日期是否小于结束日期，如果小于则按当前日期来计算，否则按结束日期来计算
 								int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(ew.getEndDate())) ;
@@ -367,12 +426,43 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * ew.getProject().getQuot())/((Integer)diff).floatValue()) ;
 									System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+ew.getProject().getQuot() +"  4稼动率"+quot);
 								}
-								
-								//System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
 							}
 							
 							// 当前月
 							if (!ym11.equals(ym22) && (fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)).equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
+								
+								EmployeeEntity emp = ew.getEmp() ;
+								//判断该员工的到部门类型是否新增或转入
+								if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
+									if(emp.getDbmType() == 1 || emp.getDbmType() == 2) {
+										Calendar dbc = Calendar.getInstance() ;
+										dbc.setTime(DateUtil.formatGG(emp.getDbmDate())) ;
+										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+											diff = DateCal.getWorkingDays(emp.getDbmDate(), DateUtil.formatG(lastDay.getTime()));
+											System.out.println("到部门-标准天数：" + diff +"=="+emp.getDbmDate()+"=="+DateUtil.formatG(lastDay.getTime()));
+										}
+									}
+								}
+								//判断该员工的离部门类型是否离职或转出
+								if(null != emp.getLbmType() && !"".equals(emp.getLbmType())) {
+									if(emp.getLbmType() == 1) {
+										Calendar dbc = Calendar.getInstance() ;
+										dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
+										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+											diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), emp.getLbmDate());
+											System.out.println("离部门（转出-开发部）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+emp.getLbmDate());
+										}
+									}
+									if(emp.getLbmType() == 2 || emp.getLbmType() == 3) {
+										Calendar dbc = Calendar.getInstance() ;
+										dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
+										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
+											diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
+											System.out.println("离部门（转出-非开发部，离职）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime()));
+										}
+									}
+								}
+								
 								// 表示该人员已退出项目，按退出时间来计算
 								if (ew.getStatus() == 4) {
 									//判断当前日期是否小于结束日期，如果小于则按当前日期来计算，否则按结束日期来计算
@@ -1182,7 +1272,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 	private String addWhere(String hql, ProjectTaskTimeForm form, Map<String, Object> params) {
 		if (null != form) {
 			if (null != form.getEmp_id() && !"".equals(form.getEmp_id())) {
-				hql += " and t.emp.id=:emp_id";
+				hql += " and t.id=:emp_id";
 				params.put("emp_id", form.getEmp_id());
 			}
 			if (null != form.getDept_id() && !"".equals(form.getDept_id())) {

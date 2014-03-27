@@ -6,15 +6,44 @@
 	$(function() {
 		$("#select1").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
-			width:190, idFiled:'pid', textFiled:'fullname', editable: false,
+			idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
 		 		$("#orgname").val(node.text);
 		 	}
 	    });
+		$("#dbmType").combobox({
+			valueField: 'label', textField: 'value', required: true,
+			data: [{ label: '1', value: '新增' },{ label: '2', value: '转入' },{ label: '3', value: '在职' },{ label: '4', value: '新人培训' }],
+			panelHeight:'auto', editable:false, autoShowPanel: true,
+			onSelect: function(node) {
+				//新增
+				if(node.label == 1) {
+					$("#dbmDate").datebox({"required": true, "disabled": false});
+					$("#dbmDate").datebox("setValue", new Date().format("YYYY-MM-dd"));
+				}
+				//转入
+				if(node.label == 2) {
+					$("#dbmDate").datebox({"required": true, "disabled": false});
+					$("#dbmDate").datebox("setValue", "");
+				}
+			}
+	    });
+		$("#lbmType").combobox({
+			valueField: 'label', textField: 'value',
+			data: [{ label: '1', value: '转出——开发部' },{ label: '2', value: '转出——非开发部' },{ label: '3', value: '离职' }],
+			panelHeight:'auto', editable:false, autoShowPanel: true,
+			onSelect: function(node) {
+				$("#lbmDate").datebox({"required": true, "disabled": false});
+				$("#lbmDate").datebox("setValue", "");
+			}
+	    });
+		if($('input[name=id]').val().length > 0) {
+			$("#lbmType").combobox({"disabled": false});
+		}
 		cg = $("#select2").combogrid({
 			url: yhq.basePath+"/sysmgr/empjob/treegrid.do",
-			width:190,panelWidth: 500, multiple: false,
+			panelWidth: 500, multiple: false,
 			idField: 'id', textField: 'job_name', method: 'get',
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
@@ -40,6 +69,10 @@
 						'status' : result.status,
 						'truename' : result.truename,
 						'japanese' : result.japanese,
+						'dbmType' : result.dbmType,
+						'dbmDate' : result.dbmDate,
+						'lbmType' : result.lbmType,
+						'dbmDate' : result.dbmDate,
 						'isLeader' : result.isLeader,
 						'bysj' : infosUtil.str2date(result.bysj).format("YYYY-MM-dd"),
 						'rzsj' : infosUtil.str2date(result.rzsj).format("YYYY-MM-dd"),
@@ -89,10 +122,10 @@
 		<table>
 		<tr>
 			<th>工号：</th>
-			<td><input name="id" validType="length[4,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
+			<td><input name="id" style="width:190px;" validType="length[4,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
 			<th>账号状态：</th>
 			<td>
-				<input class="easyui-combobox" style="width:157px;" name="status" data-options="
+				<input class="easyui-combobox" style="width:198px;" name="status" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : 'Y',
 					data: [{ label: 'Y', value: '激活' },{ label: 'N', value: '禁用' }],
 					panelHeight:'auto', editable:false" />
@@ -100,10 +133,10 @@
 		</tr>
 		<tr>
 			<th>姓名：</th>
-			<td><input name="truename" class="easyui-validatebox" type="text" data-options="required:true, prompt: '真实姓名'" /></td>
+			<td><input name="truename" style="width:190px;" class="easyui-validatebox" type="text" data-options="required:true, prompt: '真实姓名'" /></td>
 			<th>性别：</th>
 			<td>
-				<input class="easyui-combobox" style="width:157px;" name="sex" data-options="
+				<input class="easyui-combobox" style="width:198px;" name="sex" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : 'male',
 					data: [{ label: 'male', value: '男' },{ label: 'female', value: '女' }],
 					panelHeight:'auto', editable:false" />
@@ -111,14 +144,10 @@
 		</tr>
 		<tr>
 			<th>日语级别：</th>
-			<td><input name="japanese" class="easyui-validatebox" type="text" data-options="prompt: '日语级别'" /></td>
-			<!-- 
-			<th>邮箱：</th>
-			<td><input name="email" validType="email" class="easyui-validatebox" type="text" data-options="required:true, prompt: '邮箱地址'" /></td>
-			 -->
+			<td><input name="japanese" style="width:190px;" class="easyui-validatebox" type="text" data-options="prompt: '日语级别'" /></td>
 		 	<th>是否部长：</th>
 			<td>
-				<input class="easyui-combobox" style="width:157px;" name="isLeader" data-options="
+				<input class="easyui-combobox" style="width:198px;" name="isLeader" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : 'N',
 					data: [{ label: 'N', value: '否' },{ label: 'Y', value: '是' }],
 					panelHeight:'auto', editable:false" />
@@ -126,24 +155,32 @@
 		</tr>
 		<tr>
 			<th>毕业时间：</th>
-			<td><input name="bysj" class="easyui-datebox" editable="false" /></td>
+			<td><input name="bysj" style="width:198px;" class="easyui-datebox" editable="false" /></td>
 		 	<th>入职时间：</th>
-			<td><input name="rzsj" class="easyui-datebox" editable="false" /></td>
+			<td><input name="rzsj" style="width:198px;" class="easyui-datebox" editable="false" /></td>
 		</tr>
 		<tr>
 			<th>公司部门：</th>
-			<td><input id="select1" name="orgid" /></td>
+			<td><input id="select1" style="width:198px;" name="orgid" /></td>
 			<th>公司岗位：</th>
-			<td><input id="select2" /></td>
+			<td><input id="select2" style="width:198px;" /></td>
 		</tr>
-		<!-- 
 		<tr>
-			<th>职位变更历史：</th>
-			<td colspan="3">
-				<textarea style="width:200px;height:50px;"></textarea>
+		 	<th>到部门类型：</th>
+			<td>
+				<input id="dbmType" name="dbmType" style="width:198px;" />
 			</td>
+			<th>到部门日期：</th>
+			<td><input id="dbmDate" name="dbmDate" style="width:198px;" class="easyui-datebox" disabled="disabled" editable="false" /></td>
 		</tr>
-		 -->
+		<tr>
+		 	<th>离部门类型：</th>
+			<td>
+				<input id="lbmType" name="lbmType" style="width:198px;" disabled="disabled" />
+			</td>
+			<th>离部门日期：</th>
+			<td><input id="lbmDate" name="lbmDate" style="width:198px;" class="easyui-datebox" disabled="disabled" editable="false" /></td>
+		</tr>
 	</table>
 	</div>
 </form>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>whizen-miniOA</title>
+<title>华智综合管理平台</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 

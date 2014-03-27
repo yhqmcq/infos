@@ -62,6 +62,21 @@ public class EmployeeForm extends PageHelper{
 	
 	private String position_sname ;
 	
+	/** 到岗类型（0不选,1新增、2转入、3在职，4新人培训） */
+	private Integer dbmType = new Integer(0) ;
+	
+	/** 离岗类型（0不选,1转出——开发部、2转出——非开发部、3离职） */
+	private Integer lbmType = new Integer(0) ;
+	
+	/** 到部门日前 */
+	private String dbmDate ;
+	
+	/** 离开部门日前 */
+	private String lbmDate ;
+	
+	/** 员工状态(1在职，2离职，3停薪留职，4出差) */
+	private Integer state = new Integer(0) ;
+	
 	/** 是否主管 */
 	private String isLeader ;
 	
@@ -94,6 +109,14 @@ public class EmployeeForm extends PageHelper{
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
 	}
 
 	public String getPosition_sname() {
@@ -202,6 +225,38 @@ public class EmployeeForm extends PageHelper{
 
 	public void setRoleIds(String roleIds) {
 		this.roleIds = roleIds;
+	}
+
+	public Integer getDbmType() {
+		return dbmType;
+	}
+
+	public void setDbmType(Integer dbmType) {
+		this.dbmType = dbmType;
+	}
+
+	public Integer getLbmType() {
+		return lbmType;
+	}
+
+	public void setLbmType(Integer lbmType) {
+		this.lbmType = lbmType;
+	}
+
+	public String getDbmDate() {
+		return dbmDate;
+	}
+
+	public void setDbmDate(String dbmDate) {
+		this.dbmDate = dbmDate;
+	}
+
+	public String getLbmDate() {
+		return lbmDate;
+	}
+
+	public void setLbmDate(String lbmDate) {
+		this.lbmDate = lbmDate;
 	}
 
 	public String getRoleNames() {
