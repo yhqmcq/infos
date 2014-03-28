@@ -622,8 +622,12 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 			pf.setDept_name(e.getOrg().getFullname());
 			pf.setSd(DateUtil.formatG(p.getStartDate()));
 			pf.setEd(DateUtil.formatG(p.getEndDate()));
-			pf.setProject_name(p.getProject().getName());
+			ProjectMainEntity project = p.getProject() ;
 			pf.setProject_role(p.getProject_role());
+			if(project != null) {
+				pf.setProject_name(project.getName());
+				pf.setQuot(project.getQuot()) ;
+			}
 
 			// 加班小时
 			Map<String, Object> paramsOT = new HashMap<String, Object>();

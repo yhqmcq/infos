@@ -27,6 +27,8 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private String position_sname ;
 	
+	private Float quot = new Float(0);
+	
 	private String project_id ;
 	
 	private String project_name ;
@@ -123,6 +125,14 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public String getTruename() {
 		return truename;
+	}
+
+	public Float getQuot() {
+		return quot;
+	}
+
+	public void setQuot(Float quot) {
+		this.quot = quot;
 	}
 
 	public void setTruename(String truename) {

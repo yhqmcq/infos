@@ -20,6 +20,7 @@
 			]],
 			columns:[[
 				{ field: 'project_name', title: '项目名称', width: 200, sortable: true },
+				{ field: 'quot', title: '系数', width: 60, sortable: true },
 				{ field: 'position_sname', title: '公司岗位', width: 80, sortable: true },
 				{ field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
 					if(value == 0) {
