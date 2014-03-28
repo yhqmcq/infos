@@ -439,10 +439,13 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			for (ProjectEmpWorkingEntity i : ProjectEmpWorkingEntity) {
 				ProjectEmpWorkingForm uf = new ProjectEmpWorkingForm();
 				BeanUtils.copyProperties(i, uf);
-				uf.setEmpId(i.getEmp().getId()) ;
-				uf.setTruename(i.getEmp().getTruename()) ;
-				uf.setOrgname(i.getEmp().getOrg().getFullname()) ;
-				forms.add(uf);
+				EmployeeEntity emp = i.getEmp() ;
+				if(null != emp) {
+					uf.setEmpId(i.getEmp().getId()) ;
+					uf.setTruename(i.getEmp().getTruename()) ;
+					uf.setOrgname(i.getEmp().getOrg().getFullname()) ;
+					forms.add(uf);
+				}
 			}
 		}
 		return forms;

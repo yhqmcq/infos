@@ -32,13 +32,25 @@
 			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+value+"</a>", row.remark, row.position) ;
 			    	return str ;
 			    }},
-			    { field: 'bysj', title: '毕业时间', width: 120, sortable: true, formatter:function(value,row){
+			    { field: 'bysj', title: '毕业时间', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
-			    { field: 'rzsj', title: '入职时间', width: 120, sortable: true, formatter:function(value,row){
+			    { field: 'rzsj', title: '入职时间', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
-			    { field: 'japanese', title: '日语级别', width: 120, sortable: true },
+			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}
+			    }},
+			    { field: 'dbmDate', title: '到部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'lbmType', title: '离部门类型', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value == "1"){return "转出（开发部）";}else if(value == "2"){return "转出（非开发部）";}else if(value == "3"){return "离职";}else if(value == "4"){return "新人培训";}
+			    }},
+			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'japanese', title: '日语级别', width: 100, sortable: true },
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
@@ -66,6 +78,15 @@
 				dataGrid.datagrid("load",{"orgid": node.id, "notInStatus":9999});
 			}
 	    });
+		
+		var searchOpts = $("#topSearchbox").searchbox("options"), searcher = searchOpts.searcher;
+        searchOpts.searcher = function (value, name) {
+            if ($.isFunction(searcher)) { searcher.apply(this, arguments); }
+            var o = {} ;
+            o[name] = value ;
+            console.info(o) ;
+            dataGrid.datagrid("load",o);
+        };
 	});
 	
 	//显示岗位变更历史
@@ -130,9 +151,9 @@
 					$.post(yhq.basePath+"/sysmgr/employee/delete.do", {ids : ids.join(',')}, function(result) {
 						if (result.status) {
 							dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
-							$.easyui.messager.show({ icon: "info", msg: "删除记录成功。" });
+							$.easyui.messager.show({ icon: "info", msg: result.msg });
 						} else {
-							$.easyui.messager.show({ icon: "info", msg: "删除记录失败。" });
+							alertify.error(result.msg);
 						}
 					}, 'json');
 				}
@@ -156,6 +177,12 @@
                     <a onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 					部门：<input id="select1" name="pid" />
+					<input id="topSearchbox" class="easyui-searchbox" data-options="width: 350, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
+                    <div id="topSearchboxMenu" style="width: 85px;">
+                        <div data-options="name:'id', iconCls: 'icon-hamburg-zoom'">工号查询</div>
+                        <div data-options="name:'truename', iconCls: 'icon-hamburg-zoom'">姓名查询</div>
+                        <div data-options="name:'email', iconCls: 'icon-hamburg-zoom'">邮件查询</div>
+                    </div>
                     <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-disconnect'">取消筛选</a>
                 </div>
 			</div>

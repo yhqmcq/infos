@@ -79,3 +79,7 @@ if (cookieMap.containsKey("themeName")) {
 <script type="text/javascript" charset="utf-8" src="<%=basePath%>/js/plugins/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="<%=basePath%>/js/plugins/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="<%=basePath%>/js/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/js/plugins/alertify.js-0.3.11/themes/alertify.core.css" />
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/js/plugins/alertify.js-0.3.11/themes/alertify.bootstrap.css" />
+<script type="text/javascript" charset="utf-8" src="<%=basePath%>/js/plugins/alertify.js-0.3.11/lib/alertify.min.js"></script>

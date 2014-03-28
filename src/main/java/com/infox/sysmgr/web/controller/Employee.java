@@ -50,46 +50,19 @@ public class Employee extends BaseController {
 	@RequestMapping("/add.do")
 	@ResponseBody
 	synchronized public Json add(EmployeeForm form) throws Exception {
-		Json j = new Json() ;
-		try {
-			this.empservice.add(form) ;
-			j.setStatus(true) ;
-		} catch (Exception e) {
-			e.printStackTrace() ;
-			j.setMsg(e.getMessage()) ;
-		}
-		return j ;
+		return this.empservice.add(form) ;
 	}
 	
 	@RequestMapping("/edit.do")
 	@ResponseBody
 	public Json edit(EmployeeForm form) throws Exception {
-		Json j = new Json() ;
-		try {
-			this.empservice.edit(form) ;
-			j.setStatus(true) ;
-		} catch (Exception e) {
-			throw e;
-		}
-		return j ;
+		return this.empservice.edit(form) ;
 	}
 	
 	@RequestMapping("/delete.do")
 	@ResponseBody
 	public Json delete(String ids) throws Exception {
-		Json j = new Json();
-		try {
-			if(null != ids && !ids.equalsIgnoreCase("")) {
-				String[] id = ids.split(",") ;
-				for(int i=0;i<id.length;i++) {
-					this.empservice.delete(id[i]) ;
-				}
-				j.setStatus(true);
-			}
-		} catch (Exception e) {
-			throw e;
-		}
-		return j ;
+		return this.empservice.delete(ids) ;
 	}
 	
 	@RequestMapping("/datagrid.do")

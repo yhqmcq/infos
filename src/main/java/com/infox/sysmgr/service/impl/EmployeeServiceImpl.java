@@ -22,9 +22,11 @@ import com.infox.common.util.PinyinUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.util.StringUtil;
 import com.infox.common.web.page.DataGrid;
+import com.infox.common.web.page.Json;
 import com.infox.common.web.page.LoginInfoSession;
 import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.asynms.send.MailMessageSenderI;
+import com.infox.project.entity.ProjectMainEntity;
 import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.MenuEntity;
@@ -57,9 +59,13 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	
 	@Autowired
 	private RealPathResolver realPathResolver ;
+	
+	@Autowired
+	private BaseDaoI<ProjectMainEntity> basedaoProject ;
 
 	@Override
-	public void add(EmployeeForm form) throws Exception {
+	public Json add(EmployeeForm form) throws Exception {
+		Json j = new Json() ;
 		
 		String truename = StringUtil.replaceAllSpace(form.getTruename()) ;
 		String accountPY = PinyinUtil.getPinYin(truename) ;
@@ -71,7 +77,8 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		}
 		Long idCount = this.basedaoEmployee.count("select count(t.id) from EmployeeEntity t where t.id='"+form.getId()+"'") ;
 		if(idCount >= 1) {
-			throw new Exception("该工号已存在！ ") ;
+			j.setMsg("该工号已存在！") ;
+			return j ;
 		}
 		
 		
@@ -117,8 +124,12 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			mail.setRecipientTO(entity.getEmail()) ;
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "login_account.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
+			
+			j.setMsg("用户保持成功！") ; j.setStatus(true) ;
+			return j ;
 		} else {
-			throw new Exception("该用户已存在！ ") ;
+			j.setMsg("该用户已存在！") ;
+			return j ;
 		}
 		
 	}
@@ -174,14 +185,37 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	}
 
 	@Override
-	public void delete(String id) throws Exception {
-		EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, id) ;
-		this.basedaoEmployee.delete(employeeEntity);
-		modifyDeptMemNum(employeeEntity.getOrg().getId()) ;
+	public Json delete(String ids) throws Exception {
+		Json j = new Json() ;
+		
+		List<ProjectMainEntity> p = this.basedaoProject.find("select t from ProjectMainEntity t where t.emp.id='"+ids+"'") ;
+		if(null == p) {
+			if(null != ids && !ids.equalsIgnoreCase("")) {
+				String[] id = ids.split(",") ;
+				for(int i=0;i<id.length;i++) {
+					EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, id) ;
+					this.basedaoEmployee.delete(employeeEntity);
+					modifyDeptMemNum(employeeEntity.getOrg().getId()) ;
+				}
+				j.setMsg("删除成功！"); j.setStatus(true) ;
+			}
+			
+		} else {
+			StringBuffer s = new StringBuffer() ;
+			s.append("无法删除，该用户担任以下项目PM，请联系PJ管理更好PM后再删除！<br/><br/>") ;
+			for (ProjectMainEntity pp : p) {
+				s.append(pp.getName() + "<br>") ;
+			}
+			j.setMsg(s.toString()) ;
+		}
+		return j;
+		
 	}
 
 	@Override
-	public void edit(EmployeeForm form) throws Exception {
+	public Json edit(EmployeeForm form) throws Exception {
+		Json j = new Json() ;
+		
 		EmployeeEntity entity = this.basedaoEmployee.get(EmployeeEntity.class, form.getId());
 		
 		BeanUtils.copyProperties(form, entity ,new String[]{"creater","remark"});
@@ -220,6 +254,10 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		this.basedaoEmployee.update(entity);
 		
 		modifyDeptMemNum(entity.getOrg().getId()) ;
+		
+		j.setMsg("编辑成功！") ;
+		j.setStatus(true) ;
+		return j ;
 	}
 
 	@Override
@@ -379,8 +417,8 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	}
 
 	@Override
-	public void set_grant(EmployeeForm form) throws Exception {
-		
+	public Json set_grant(EmployeeForm form) throws Exception {
+		Json j = new Json() ;
 		if (form.getIds() != null && !"".equalsIgnoreCase(form.getIds())) {
 			List<RoleEntity> roles = new ArrayList<RoleEntity>();
 			if (form.getRoleIds() != null && form.getRoleIds().length() > 0) {
@@ -395,12 +433,12 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				}
 			}
 		}
-		
+		j.setMsg("授权成功！"); j.setStatus(true) ;
+		return j ;
 	}
 	
 	@Override
 	public void set_empjobs(EmployeeForm form) throws Exception {
-		
 		String jobs = form.getJobids() ;
 		if (jobs != null && !"".equalsIgnoreCase(jobs)) {
 			String[] split = jobs.split(",") ;

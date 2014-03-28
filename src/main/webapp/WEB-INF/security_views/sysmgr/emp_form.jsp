@@ -65,19 +65,17 @@
 					$('form').form('load', {
 						'id' : result.id,
 						'account' : result.account,
-						//'password' : result.password,
 						'status' : result.status,
 						'truename' : result.truename,
 						'japanese' : result.japanese,
 						'dbmType' : result.dbmType,
 						'dbmDate' : result.dbmDate,
 						'lbmType' : result.lbmType,
-						'dbmDate' : result.dbmDate,
+						'lbmDate' : result.lbmDate,
 						'isLeader' : result.isLeader,
 						'bysj' : infosUtil.str2date(result.bysj).format("YYYY-MM-dd"),
 						'rzsj' : infosUtil.str2date(result.rzsj).format("YYYY-MM-dd"),
 						'sex' : result.sex,
-						//'email' : result.email,
 						'tel' : result.tel,
 						'orgid' : result.orgid
 					});
@@ -101,7 +99,7 @@
 		$.post(form_url, form_data, function(result) {
 			if (result.status) {
 				$datagrid.datagrid('clearSelections');$datagrid.datagrid('clearChecked');$datagrid.datagrid('reload') ;
-				$.easyui.messager.show({ icon: "info", msg: "保存记录成功。" });
+				$.easyui.messager.show({ icon: "info", msg: result.msg });
 				$dialog.dialog("close") ;
 			} else {
 				$.easyui.messager.show({ icon: "warning", msg: result.msg });
