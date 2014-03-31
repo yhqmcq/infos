@@ -159,7 +159,7 @@
 	            title: "设置开发团队人员&nbsp;&nbsp;[<font color='red'>"+rows[0].name+"</font>]",
 	            href: yhq.basePath+"/project/project_main/project_member.do?id="+rows[0].id,
 	            iniframe: true, closable : false, width: 1024, height: 600,
-	            topMost: true, autoVCenter: true, autoHCenter: true, enableApplyButton: false,
+	            topMost: true, autoVCenter: true, maximizable: true, autoHCenter: true, enableApplyButton: false,
 	            enableSaveButton: false,  maximizable: true, autoRestore: true, enableCloseButton: false
 	        });
 		} else {
@@ -174,7 +174,7 @@
 		var dialog = $.easyui.showDialog({
             title: "开发人员详细列表&nbsp;&nbsp;[<font color='red'>"+name+"</font>]",
             href: yhq.basePath+"/project/project_main/project_Devdetail.do?id="+id,
-            iniframe: true, width: 950, height: 600, topMost: true, autoVCenter: true, autoHCenter: true,
+            iniframe: true, width: 950, height: 600, maximizable: true, topMost: true, autoVCenter: true, autoHCenter: true,
             enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel"
         });
 	}
@@ -186,8 +186,8 @@
 	            title: "设置项目参与人员邮件列表&nbsp;&nbsp;[<font color='red'>"+rows[0].name+"</font>]",
 	            href: yhq.basePath+"/project/project_main/project_maillist.do?id="+rows[0].id,
 	            iniframe: true,  width: 950, height: 600,
-	            topMost: true, autoVCenter: true, autoHCenter: true, enableApplyButton: false,
-	            enableSaveButton: false, enableCloseButton: false, saveButtonIconCls: "ext_save",
+	            topMost: true, autoVCenter: true, maximizable: true, autoHCenter: true, enableApplyButton: false,
+	            enableSaveButton: false, maximizable: true, enableCloseButton: false, saveButtonIconCls: "ext_save",
 	            onSave: function() { return $.easyui.parent.submitForm(dialog, dataGrid); }
 	        });
 		} else {
@@ -220,7 +220,7 @@
 	            title: "员工加班状况&nbsp;&nbsp;[<font color='red'>"+node.name+"</font>]",
 	            href: yhq.basePath+"/project/project_main/project_member_overtime.do?id="+node.id,
 	            iniframe: true, width: 1000, height: 600, topMost: true, autoVCenter: false, autoHCenter: false,
-	            enableApplyButton: false,  enableCloseButton: false, enableSaveButton: false,
+	            enableApplyButton: false, maximizable: true, enableCloseButton: false, enableSaveButton: false,
 	            buttons : [ 
 	              { text : '关闭', iconCls : 'ext_cancel', handler : function() { $dialog.dialog('destroy'); } } 
 	           	]

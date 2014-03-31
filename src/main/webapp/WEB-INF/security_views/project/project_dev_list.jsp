@@ -66,12 +66,47 @@
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
+			    { field: 'normalHour1', title: '结算平时加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'weekendHour1', title: '结算周末加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'holidaysHour1', title: '结算节假日加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'sum1', title: '剩余平时加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'sum2', title: '剩余周末加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'sum3', title: '剩余节假日加班', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
 			    { field: 'totalHour', title: '累计加班小时', width: 100, sortable: true, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'totalAllHourLV', title: '加班率', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'totalAllHourLV', title: '总加班率', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'></div>" ;
+			    	}
+			    } },
+			    { field: 'totalCurrentHourLV', title: '当前班率', width: 100, sortable: true, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'></div>" ;
 			    	}

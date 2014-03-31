@@ -55,6 +55,11 @@ public class OvertimeServiceImpl implements OvertimeServiceI {
 					oe.setNormalHour(form.getNormalHour()) ;
 					oe.setWeekendHour(form.getWeekendHour()) ;
 					oe.setHolidaysHour(form.getHolidaysHour()) ;
+					
+					oe.setNormalHour1(form.getNormalHour1()) ;
+					oe.setWeekendHour1(form.getWeekendHour1()) ;
+					oe.setHolidaysHour1(form.getHolidaysHour1()) ;
+					
 				} else {
 					EmployeeEntity emp = new EmployeeEntity() ;
 					emp.setId(id) ;

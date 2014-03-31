@@ -418,10 +418,17 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		float allExpendmm = 0f ;
 		float allmm = 0f ;
 		float allTotalHour = 0f ;
+		float totalCurrentHourLV = 0f ;
 		float allTotalHourLv = 0f ;
 		float allNormalHour = 0f ;
 		float allWeekendHour = 0f ;
 		float allHolidaysHour = 0f ;
+		float allNormalHour1 = 0f ;
+		float allWeekendHour1 = 0f ;
+		float allHolidaysHour1 = 0f ;
+		float sum1 = 0f ;
+		float sum2 = 0f ;
+		float sum3 = 0f ;
 		if (null != entity) {
 			Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
 			for (ProjectEmpWorkingEntity p : pwe) {
@@ -453,30 +460,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
 				
-				//加班小时
-				Map<String, Object> params = new HashMap<String, Object>() ;
-				params.put("empid", e.getId()) ; params.put("project_id", entity.getId()) ;
-				OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
-				if(null != oe) {
-					pf.setNormalHour(oe.getNormalHour()) ;
-					pf.setWeekendHour(oe.getWeekendHour()) ;
-					pf.setHolidaysHour(oe.getHolidaysHour()) ;
-					
-					allNormalHour += pf.getNormalHour() ;
-					allWeekendHour += pf.getWeekendHour() ;
-					allHolidaysHour += pf.getHolidaysHour() ;
-					
-					//总加班小时
-					pf.setTotalHour(oe.getNormalHour()+oe.getWeekendHour()+oe.getHolidaysHour()) ;
-					pf.setTotalAllHourLV(nt.format((pf.getTotalHour()/(dateDiff*8)))) ;
-					
-					//System.out.println(nt.format((pf.getTotalHour()/(dateDiff*8))));
-					//System.out.println((pf.getTotalHour()/(dateDiff*8)));
-					
-					allTotalHour += pf.getTotalHour() ;
-					allTotalHourLv += (pf.getTotalHour()/(dateDiff*8)) ;
-				}
-				
 				//消耗天数
 				long lastdateDiff = 0 ;
 				
@@ -486,6 +469,48 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					lastdateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(p.getEndDate())) ;
 				} else {
 					lastdateDiff = DateCal.getWorkingDays(DateUtil.formatG(p.getStartDate()), DateUtil.formatG(new Date())) ;
+				}
+				
+				//加班小时
+				Map<String, Object> params = new HashMap<String, Object>() ;
+				params.put("empid", e.getId()) ; params.put("project_id", entity.getId()) ;
+				OvertimeEntity oe = this.basedaoOvertime.get("select t from OvertimeEntity t where t.emp.id=:empid and t.project.id=:project_id", params) ;
+				if(null != oe) {
+					pf.setNormalHour(oe.getNormalHour()) ;
+					pf.setWeekendHour(oe.getWeekendHour()) ;
+					pf.setHolidaysHour(oe.getHolidaysHour()) ;
+					
+					pf.setNormalHour1(oe.getNormalHour1()) ;
+					pf.setWeekendHour1(oe.getWeekendHour1()) ;
+					pf.setHolidaysHour1(oe.getHolidaysHour1()) ;
+					
+					pf.setSum1(oe.getNormalHour()-oe.getNormalHour1()) ;
+					pf.setSum2(oe.getWeekendHour()-oe.getWeekendHour1()) ;
+					pf.setSum3(oe.getHolidaysHour()-oe.getHolidaysHour1()) ;
+					
+					allNormalHour += pf.getNormalHour() ;
+					allWeekendHour += pf.getWeekendHour() ;
+					allHolidaysHour += pf.getHolidaysHour() ;
+					
+					allNormalHour1 += pf.getNormalHour1() ;
+					allWeekendHour1 += pf.getWeekendHour1() ;
+					allHolidaysHour1 += pf.getHolidaysHour1() ;
+					
+					sum1 += pf.getSum1() ;
+					sum2 += pf.getSum2() ;
+					sum2 += pf.getSum3() ;
+					
+					//总加班小时
+					pf.setTotalHour(oe.getNormalHour()+oe.getWeekendHour()+oe.getHolidaysHour()) ;
+					pf.setTotalAllHourLV(nt.format((pf.getTotalHour()/(dateDiff*8)))) ;
+					pf.setTotalCurrentHourLV(nt.format((pf.getTotalHour()/(lastdateDiff*8)))) ;
+					
+					//System.out.println(nt.format((pf.getTotalHour()/(dateDiff*8))));
+					//System.out.println((pf.getTotalHour()/(dateDiff*8)));
+					
+					allTotalHour += pf.getTotalHour() ;
+					allTotalHourLv += (pf.getTotalHour()/(dateDiff*8)) ;
+					totalCurrentHourLV += (pf.getTotalHour()/(lastdateDiff*8)) ;
 				}
 				
 				//if(p.getEmp().getTruename().equals("陈嘉雯")) {
@@ -739,9 +764,16 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			map.put("normalHour", NumberUtils.formatNum(allNormalHour)) ;
 			map.put("weekendHour", NumberUtils.formatNum(allWeekendHour)) ;
 			map.put("holidaysHour", NumberUtils.formatNum(allHolidaysHour)) ;
+			map.put("normalHour1", NumberUtils.formatNum(allNormalHour1)) ;
+			map.put("weekendHour1", NumberUtils.formatNum(allWeekendHour1)) ;
+			map.put("holidaysHour1", NumberUtils.formatNum(allHolidaysHour1)) ;
+			map.put("sum1", NumberUtils.formatNum(sum1)) ;
+			map.put("sum2", NumberUtils.formatNum(sum2)) ;
+			map.put("sum3", NumberUtils.formatNum(sum3)) ;
 			map.put("totalHour", NumberUtils.formatNum(allTotalHour)) ;
 			//map.put("totalAllHourLV", nt.format(allTotalHourLv)) ;
 			map.put("totalAllHourLV", nt.format(((NumberUtils.formatNum(allNormalHour)+NumberUtils.formatNum(allWeekendHour)+NumberUtils.formatNum(allHolidaysHour))/(allTaskTime*8)))) ;
+			map.put("totalCurrentHourLV", nt.format(((NumberUtils.formatNum(allNormalHour)+NumberUtils.formatNum(allWeekendHour)+NumberUtils.formatNum(allHolidaysHour))/(allExpendDays*8)))) ;
 			
 			footer.add(map) ;
 			
@@ -791,6 +823,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					pf.setNormalHour(oe.getNormalHour()) ;
 					pf.setWeekendHour(oe.getWeekendHour()) ;
 					pf.setHolidaysHour(oe.getHolidaysHour()) ;
+					pf.setNormalHour1(oe.getNormalHour1()) ;
+					pf.setWeekendHour1(oe.getWeekendHour1()) ;
+					pf.setHolidaysHour1(oe.getHolidaysHour1()) ;
+					pf.setSum1(oe.getNormalHour()-oe.getNormalHour1()) ;
+					pf.setSum2(oe.getWeekendHour()-oe.getWeekendHour1()) ;
+					pf.setSum3(oe.getHolidaysHour()-oe.getHolidaysHour1()) ;
+					
 					pf.setTotalHour(oe.getHour()) ;
 					pf.setOtStartDate(oe.getStartDate()) ;
 					pf.setOtEndDate(oe.getEndDate()) ;

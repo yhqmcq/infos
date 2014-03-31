@@ -176,7 +176,7 @@
 		var dialog = $.easyui.showDialog({
             title: "员工稼动率详细列表&nbsp;&nbsp;[<font color='red'>"+name+"</font>]",
             href: yhq.basePath+"/project/project_report/getMemberInfoListDialog.do?id="+id,
-            iniframe: true, width: 1000, height: 600, topMost: true,  maximizable: true, autoRestore: true,
+            iniframe: true, width: 1000, height: 600, topMost: true, maximizable: true, autoRestore: true,
             enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel",
             onSave: function() {
             	return $.easyui.parent.submitForm(dialog, dataGrid);

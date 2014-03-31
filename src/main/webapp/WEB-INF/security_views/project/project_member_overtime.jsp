@@ -12,7 +12,7 @@
 		dataGrid = $("#d1").datagrid({
 			title: '员工列表', height:378,
 			url: yhq.basePath+"/project/project_main/get_ProjectAllDevMember.do?id=${project.id}",
-			idField: 'emp_id', fit: false, fitColumns: true, border: false, method: "post",
+			idField: 'emp_id', fit: true, fitColumns: false, border: false, method: "post",
 			remoteSort: false, striped:true, pagination: false, rownumbers: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
@@ -52,21 +52,63 @@
 			    { field: 'otEndDate', title: '加班开始时间', width: 130, formatter: function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd hh:ss") ;
 			    } },*/
-			    { field: 'normalHour', title: '平时加班', width: 90, sortable: true, formatter: function(value,row){
-			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    { field: 'normalHour', title: '平时加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'weekendHour', title: '周末加班', width: 90, sortable: true, formatter: function(value,row){
-			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    { field: 'weekendHour', title: '周末加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } },
-			    { field: 'holidaysHour', title: '节假日小时', width: 90, sortable: true, formatter: function(value,row){
-			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    { field: 'holidaysHour', title: '节假日小时', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
+			    } }, 
+			    { field: 'normalHour1', title: '结算平时加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
+			    } }, 
+			    { field: 'weekendHour1', title: '结算周末加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
+			    } },
+			    { field: 'holidaysHour1', title: '结算节假日小时', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
+			    } }, 
+			    { field: 'sum1', title: '剩余平时小时', width: 90, sortable: true, formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
+			    } }, 
+			    { field: 'sum2', title: '剩余周末小时', width: 90, sortable: true, formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
+			    } }, 
+			    { field: 'sum3', title: '剩余节假日小时', width: 90, sortable: true, formatter: function(value,row){
+			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } } 
-			    
 			]],
 			onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
 		        dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');
-		    }
+		    },
+		    onAfterEdit: function(data) {
+		    	$.fn.datagrid.extensions.onAfterEdit.apply(this, arguments);
+		    	var d = dataGrid.datagrid("getRowData", data) ;
+		    	var data = {} ;
+		    	data["project_id"] = "${project.id}";
+		    	data["emp_ids"] = d.emp_id;
+		    	data["normalHour"] = d.normalHour ;
+		    	data["weekendHour"] = d.weekendHour ;
+		    	data["holidaysHour"] = d.holidaysHour ;
+		    	data["normalHour1"] = d.normalHour1 ;
+		    	data["weekendHour1"] = d.weekendHour1 ;
+		    	data["holidaysHour1"] = d.holidaysHour1 ;
+		    	
+		    	$.post(yhq.basePath+"/project/overtime/add.do", data, function(result) {
+					if (result.status) {
+						dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
+						$.easyui.loaded();
+						$.easyui.messager.show({ icon: "info", msg: result.msg });
+					} else {
+						$.easyui.loaded();
+						$.easyui.messager.show({ icon: "info", msg: result.msg });
+					}
+				}, 'json');
+		    },
+		    autoEditing: true, extEditing: true, singleEditing: true
 	    });
 		
 		/*
@@ -179,39 +221,42 @@
 		<div data-options="region: 'center', border: true" style="overflow: hidden;">
 			<div id="d1" style="border:1px solid red;"></div>
 		</div>
+		
+		<!-- 
 		<div data-options="region: 'south', border: true" style="height:95px;">
 			<form id="dateform" class="easyui-form">
 				<table style="margin:0px;width:100%;padding:5px;">
 					<tr>
 						<td align="center" style="padding:5px 5px;">
-							<!-- 
 							<b>加班开始时间:</b><input id="startDate" name="startDate" />
 							&nbsp;&nbsp;&nbsp;
 							<b>加班结束时间:</b><input id="endDate" validType="TimeCheckLT['startDate']" invalidMessage="开始时间必须大于结束时间" name="endDate" />
-							 -->
 							<b>平时加班：</b><input type="text" name="normalHour" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
 							<b>周末加班：</b><input type="text" name="weekendHour" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
 							<b>节假日加班：</b><input type="text" name="holidaysHour" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
-							<!-- 
 							<a onclick="diffTime();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-sum'">计算时间</a>
-							 -->
-							<a onclick="setOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-add'">设置时间</a>
-							<!-- 
+							<a onclick="setOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-add'">加班时间</a>
 							<a onclick="removeOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-delete'">清除时间</a>
-							 -->
+						</td>
+					</tr>
+					<tr>
+						<td align="center" style="padding:5px 5px;">
+							<b>结算平时加班：</b><input type="text" name="normalHour1" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
+							<b>结算周末加班：</b><input type="text" name="weekendHour1" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
+							<b>结算节假日加班：</b><input type="text" name="holidaysHour1" class="easyui-validatebox" style="width:60px;" />小时&nbsp;&nbsp;
+							<a onclick="setOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-add'">结算时间</a>
 						</td>
 					</tr>
 					<tr>
 						<td align="center" style="padding:5px;">
 							<a onclick="removeOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-delete'">清除时间</a>
-							<!-- 
 							<a onclick="setOT();" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-time-add'">设置时间</a>
-							 -->
 						</td>
 					</tr>
 				</table>
 			</form>
 		</div>
+		 -->
 	</div>	
 </body>
 </html>

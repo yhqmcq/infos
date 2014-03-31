@@ -25,6 +25,24 @@ public class OvertimeForm extends PageHelper {
 	
 	/** 节假日加班 */
 	private Float holidaysHour = new Float(0) ;
+	
+	/** 结算平时加班 */
+	private Float normalHour1 = new Float(0) ;
+	
+	/** 结算周末加班 */
+	private Float weekendHour1 = new Float(0) ;
+	
+	/** 结算节假日加班 */
+	private Float holidaysHour1 = new Float(0) ;
+	
+	/** 剩余平时加班 */
+	private Float sum1 = new Float(0) ;
+	
+	/** 剩余周末加班 */
+	private Float sum2 = new Float(0) ;
+	
+	/** 剩余节假日加班 */
+	private Float sum3 = new Float(0) ;
 
 	private Date created = new Date();
 	
@@ -99,6 +117,54 @@ public class OvertimeForm extends PageHelper {
 
 	public Float getHour() {
 		return hour;
+	}
+
+	public Float getNormalHour1() {
+		return normalHour1;
+	}
+
+	public void setNormalHour1(Float normalHour1) {
+		this.normalHour1 = normalHour1;
+	}
+
+	public Float getWeekendHour1() {
+		return weekendHour1;
+	}
+
+	public void setWeekendHour1(Float weekendHour1) {
+		this.weekendHour1 = weekendHour1;
+	}
+
+	public Float getHolidaysHour1() {
+		return holidaysHour1;
+	}
+
+	public void setHolidaysHour1(Float holidaysHour1) {
+		this.holidaysHour1 = holidaysHour1;
+	}
+
+	public Float getSum1() {
+		return sum1;
+	}
+
+	public void setSum1(Float sum1) {
+		this.sum1 = sum1;
+	}
+
+	public Float getSum2() {
+		return sum2;
+	}
+
+	public void setSum2(Float sum2) {
+		this.sum2 = sum2;
+	}
+
+	public Float getSum3() {
+		return sum3;
+	}
+
+	public void setSum3(Float sum3) {
+		this.sum3 = sum3;
 	}
 
 	public void setHour(Float hour) {
