@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.infox.common.dao.BaseDaoI;
 import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
 import com.infox.common.mail.MailVO;
-import com.infox.common.util.DateUtil;
+import com.infox.common.util.ClobUtil;
 import com.infox.common.util.PinyinUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.util.StringUtil;
@@ -231,13 +231,6 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		for (EmpJobEntity ej : ejid) {
 			str1 = ej.getId() ; str2 = ej.getJob_name() ;
 		}
-		if(null != form.getJobids() && !"".equals(form.getJobids())) {
-			if(!str1.equals(form.getJobids())) {
-				String remark = "职位变更历史[日期："+DateUtil.formatG(new Date())+"   职位："+str2+"]"+(null!=entity.getRemark()?","+entity.getRemark()+",":",") ;
-				entity.setRemark(remark.substring(0,remark.length()-1)) ;
-			}
-		}
-		
 		
 		String jobs = form.getJobids() ;
 		if (jobs != null && !"".equalsIgnoreCase(jobs)) {
@@ -250,7 +243,21 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		} else {
 			entity.setEmpjobs(null) ;
 		}
-
+		
+		Set<EmpJobEntity> ejidAfter = entity.getEmpjobs() ;
+		String str2After = "" ;
+		for (EmpJobEntity ej : ejidAfter) {
+			str2After = ej.getJob_name() ;
+		}
+		
+		if(null != form.getJobids() && !"".equals(form.getJobids())) {
+			if(!str1.equals(form.getJobids())) {
+				String remark = "岗位变更历史[变更前岗位：" + str2 + "    变更后岗位："+str2After+"    实施日期："+form.getPositionDate()+"]" + (null!=entity.getRemark()?","+entity.getRemark()+",":",") ;
+				entity.setRemark(ClobUtil.getClob(remark.substring(0,remark.length()-1))) ;
+			}
+		}
+		
+		
 		this.basedaoEmployee.update(entity);
 		
 		modifyDeptMemNum(entity.getOrg().getId()) ;
@@ -301,7 +308,8 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		if (null != entity && entity.size() > 0) {
 			for (EmployeeEntity i : entity) {
 				EmployeeForm uf = new EmployeeForm();
-				BeanUtils.copyProperties(i, uf);
+				BeanUtils.copyProperties(i, uf, new String[]{"remark"});
+				uf.setRemark(ClobUtil.getString(i.getRemark())) ;
 				OrgDeptTreeEntity org = i.getOrg() ;
 				if(null != org) {
 					uf.setOrgname(org.getFullname()) ;

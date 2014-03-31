@@ -29,7 +29,10 @@ public class EmployeeForm extends PageHelper{
 	/** 入职时间 */
 	private Date rzsj ;
 	
-	/** 备注(升迁历史) */
+	/** 最后一次变更日期（岗位变更实施日期） */
+	private String positionDate ;
+	
+	/** 备注(岗位变更历史) */
 	private String remark ;
 	
 	private Date created = new Date();
@@ -309,6 +312,14 @@ public class EmployeeForm extends PageHelper{
 
 	public String getSex() {
 		return sex;
+	}
+
+	public String getPositionDate() {
+		return positionDate;
+	}
+
+	public void setPositionDate(String positionDate) {
+		this.positionDate = positionDate;
 	}
 
 	public void setSex(String sex) {

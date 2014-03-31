@@ -1,6 +1,7 @@
 package com.infox.sysmgr.entity;
 
 import java.io.Serializable;
+import java.sql.Clob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -64,8 +65,11 @@ public class EmployeeEntity implements Serializable{
 	/** 入职时间 */
 	private Date rzsj ;
 	
-	/** 备注(升迁历史) */
-	private String remark ;
+	/** 最后一次变更日期（岗位变更实施日期） */
+	private String positionDate ;
+	
+	/** 备注(岗位变更历史) */
+	private Clob remark ;
 	
 	/** 是否主管 */
 	private String isLeader ;
@@ -162,11 +166,12 @@ public class EmployeeEntity implements Serializable{
 		this.rzsj = rzsj;
 	}
 
-	public String getRemark() {
+
+	public Clob getRemark() {
 		return remark;
 	}
 
-	public void setRemark(String remark) {
+	public void setRemark(Clob remark) {
 		this.remark = remark;
 	}
 
@@ -302,6 +307,14 @@ public class EmployeeEntity implements Serializable{
 
 	public String getTel() {
 		return tel;
+	}
+
+	public String getPositionDate() {
+		return positionDate;
+	}
+
+	public void setPositionDate(String positionDate) {
+		this.positionDate = positionDate;
 	}
 
 	public void setTel(String tel) {

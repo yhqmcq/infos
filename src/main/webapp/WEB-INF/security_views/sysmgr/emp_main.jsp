@@ -32,6 +32,7 @@
 			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+value+"</a>", row.remark, row.position) ;
 			    	return str ;
 			    }},
+			    { field: 'positionDate', title: '岗位变更实施日期', width: 150, sortable: true },
 			    { field: 'bysj', title: '毕业时间', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
@@ -100,7 +101,7 @@
             title: "当前岗位【<font color='red'>"+cur+"</font>】",
             content: str,
             iniframe: false,
-            width: 500, height: 440,
+            width: 600, height: 440,
             topMost: true,
             autoVCenter: true,
             autoHCenter: true,

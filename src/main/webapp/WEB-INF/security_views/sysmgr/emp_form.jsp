@@ -3,6 +3,8 @@
 <script type="text/javascript">
 	var form_url = yhq.basePath+"/sysmgr/employee/add.do" ;
 	var cg ;
+	var old_position ;
+	var old_positionDate ;
 	$(function() {
 		$("#select1").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
@@ -51,10 +53,17 @@
 			]],
 			columns: [[
 			    { field: 'job_name', title: '职位名称', width: 180, sortable: true },
-			    { field: 'job_sname', title: '职位简称', width: 180, sortable: true },
-			    { field: 'job_level', title: '职位级别', width: 180, sortable: true },
-			    { field: 'description', title: '简介', width: 200, sortable: true }
-			]]
+			    { field: 'job_sname', title: '职位简称', width: 180, sortable: true }
+			]],
+			onClickRow: function(rowIndex, rowDate) {
+				if(rowDate.id == old_position) {
+					$("#positionDate").datebox({"required": false, "disabled": true});
+					$("#positionDate").datebox("setValue", old_positionDate) ;
+				} else {
+					$("#positionDate").datebox({"required": true, "disabled": false});
+					$("#positionDate").datebox("setValue", new Date().format("YYYY-MM-dd")) ;
+				}
+			}
 	    });
 		
 		//编辑，加载表单数据
@@ -72,6 +81,7 @@
 						'dbmDate' : result.dbmDate,
 						'lbmType' : result.lbmType,
 						'lbmDate' : result.lbmDate,
+						'positionDate' : result.positionDate,
 						'isLeader' : result.isLeader,
 						'bysj' : infosUtil.str2date(result.bysj).format("YYYY-MM-dd"),
 						'rzsj' : infosUtil.str2date(result.rzsj).format("YYYY-MM-dd"),
@@ -81,9 +91,18 @@
 					});
 					var s = result.jobids.split(",") ;
 					var vs = [] ;
-					for(var i=0;i<s.length;i++) {vs[i]=s[i];}
+					for(var i=0;i<s.length;i++) {vs[i]=s[i]; old_position = s[i];}
 					$("#select2").combogrid("setValues", vs);
 					$('input[name=id]').attr("readonly","readonly") ;
+					if(result.dbmDate != undefined || result.dbmDate != '') {
+						$("#dbmDate").datebox({"required": true, "disabled": false});
+						$("#dbmDate").datebox("setValue", result.dbmDate.format("YYYY-MM-dd")) ;
+					}
+					if(result.lbmDate != undefined || result.lbmDate != '') {
+						$("#lbmDate").datebox({"required": true, "disabled": false});
+						$("#lbmDate").datebox("setValue", result.lbmDate.format("YYYY-MM-dd")) ;
+					}
+					old_positionDate = result.positionDate ;
 				}
 			}, 'json');
 		}
@@ -159,9 +178,13 @@
 		</tr>
 		<tr>
 			<th>公司部门：</th>
-			<td><input id="select1" style="width:198px;" name="orgid" /></td>
+			<td colspan="3"><input id="select1" style="width:198px;" name="orgid" /></td>
+		</tr>
+		<tr>
 			<th>公司岗位：</th>
 			<td><input id="select2" style="width:198px;" /></td>
+			<th>岗位变更实施日期：</th>
+			<td><input id="positionDate" name="positionDate" style="width:198px;" class="easyui-datebox" disabled="disabled" editable="false" /></td>
 		</tr>
 		<tr>
 		 	<th>到部门类型：</th>
