@@ -48,6 +48,9 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	/** 统计加班小时 */
 	private Float totalHour ;
 	
+	/** 统计当前加班小时 */
+	private Float totalCurrentHour ;
+	
 	/** 总加班率 */
 	private String totalAllHourLV ;
 	
@@ -404,6 +407,14 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public String getSd() {
 		return sd;
+	}
+
+	public Float getTotalCurrentHour() {
+		return totalCurrentHour;
+	}
+
+	public void setTotalCurrentHour(Float totalCurrentHour) {
+		this.totalCurrentHour = totalCurrentHour;
 	}
 
 	public float getTotalTaskYear() {

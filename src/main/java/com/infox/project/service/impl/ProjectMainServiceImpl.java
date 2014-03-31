@@ -771,9 +771,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			map.put("sum2", NumberUtils.formatNum(sum2)) ;
 			map.put("sum3", NumberUtils.formatNum(sum3)) ;
 			map.put("totalHour", NumberUtils.formatNum(allTotalHour)) ;
-			//map.put("totalAllHourLV", nt.format(allTotalHourLv)) ;
 			map.put("totalAllHourLV", nt.format(((NumberUtils.formatNum(allNormalHour)+NumberUtils.formatNum(allWeekendHour)+NumberUtils.formatNum(allHolidaysHour))/(allTaskTime*8)))) ;
-			map.put("totalCurrentHourLV", nt.format(((NumberUtils.formatNum(allNormalHour)+NumberUtils.formatNum(allWeekendHour)+NumberUtils.formatNum(allHolidaysHour))/(allExpendDays*8)))) ;
+			map.put("totalCurrentHourLV", nt.format(((NumberUtils.formatNum(allNormalHour1)+NumberUtils.formatNum(allWeekendHour1)+NumberUtils.formatNum(allHolidaysHour1))/(allExpendDays*8)))) ;
 			
 			footer.add(map) ;
 			
