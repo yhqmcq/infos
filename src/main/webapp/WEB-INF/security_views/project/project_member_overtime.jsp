@@ -61,13 +61,13 @@
 			    { field: 'holidaysHour', title: '节假日小时', width: 90, sortable: true, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'normalHour1', title: '结算平时加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'normalHour1', title: '已结算平时加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'weekendHour1', title: '结算周末加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'weekendHour1', title: '已结算周末加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } },
-			    { field: 'holidaysHour1', title: '结算节假日小时', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'holidaysHour1', title: '已结算节假日小时', width: 90, sortable: true, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
 			    { field: 'sum1', title: '剩余平时小时', width: 90, sortable: true, formatter: function(value,row){

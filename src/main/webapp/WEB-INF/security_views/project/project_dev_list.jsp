@@ -66,17 +66,17 @@
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'normalHour1', title: '结算平时加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'normalHour1', title: '已结算平时加班', width: 100, sortable: true, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'weekendHour1', title: '结算周末加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'weekendHour1', title: '已结算周末加班', width: 100, sortable: true, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'holidaysHour1', title: '结算节假日加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'holidaysHour1', title: '已结算节假日加班', width: 100, sortable: true, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
