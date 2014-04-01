@@ -39,6 +39,9 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private Date endDate ;
 	
+	/** 岗位变更日期 */
+	private String positionDate ;
+	
 	/** 加班开始时间 */
 	private Date otStartDate ;
 	
@@ -511,6 +514,14 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public String getDept_id() {
 		return dept_id;
+	}
+
+	public String getPositionDate() {
+		return positionDate;
+	}
+
+	public void setPositionDate(String positionDate) {
+		this.positionDate = positionDate;
 	}
 
 	public void setDept_id(String dept_id) {

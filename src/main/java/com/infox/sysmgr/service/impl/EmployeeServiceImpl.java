@@ -101,6 +101,9 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				}
 				entity.setEmpjobs(empjobs) ;
 			}
+			if(null == entity.getWorkStatus()) {
+				entity.setWorkStatus(0) ;
+			}
 			
 			entity.setAccount(accountPY) ;
 			entity.setPassword(accountPY+RandomUtils.generateNumber(3)) ;
@@ -243,6 +246,10 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		} else {
 			entity.setEmpjobs(null) ;
 		}
+		if(null == entity.getWorkStatus()) {
+			entity.setWorkStatus(0) ;
+		}
+		
 		
 		Set<EmpJobEntity> ejidAfter = entity.getEmpjobs() ;
 		String str2After = "" ;
@@ -252,7 +259,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		
 		if(null != form.getJobids() && !"".equals(form.getJobids())) {
 			if(!str1.equals(form.getJobids())) {
-				String remark = "岗位变更历史[变更前岗位：" + str2 + "    变更后岗位："+str2After+"    实施日期："+form.getPositionDate()+"]" + (null!=entity.getRemark()?","+entity.getRemark()+",":",") ;
+				String remark = "岗位变更历史[变更前岗位：" + str2 + "    变更后岗位："+str2After+"    实施日期："+form.getPositionDate()+"]" + (null!=ClobUtil.getString(entity.getRemark())?","+ClobUtil.getString(entity.getRemark())+",":",") ;
 				entity.setRemark(ClobUtil.getClob(remark.substring(0,remark.length()-1))) ;
 			}
 		}
@@ -402,6 +409,14 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				hql += " and t.org.id=:orgid";
 				params.put("orgid", form.getOrgid());
 			}
+			if (form.getWorkStatus() != null && !"".equals(form.getWorkStatus())) {
+				hql += " and t.workStatus=:workStatus";
+				params.put("workStatus", form.getWorkStatus());
+			}
+			if (form.getLbmType() != null && !"".equals(form.getLbmType())) {
+				hql += " and t.lbmType=:lbmType";
+				params.put("lbmType", form.getLbmType());
+			}
 			if (null != form.getNotInStatus() && !"".equals(form.getNotInStatus())) {
 				hql += " and t.workStatus not in (:workStatus)";
 				String[] split = form.getNotInStatus().split(",");
@@ -421,6 +436,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				params.put("workStatus", states);
 			}
 		}
+		System.out.println(hql);
 		return hql;
 	}
 

@@ -27,15 +27,31 @@
 			    }},
 			]],
 			columns: [[
-			    { field: 'orgname', title: '公司部门', width: 150, sortable: true },
-			    { field: 'position', title: '公司岗位', width: 120, sortable: true },
-			    { field: 'bysj', title: '毕业时间', width: 120, sortable: true, formatter:function(value,row){
+			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
+			    { field: 'position', title: '公司岗位', width: 150, sortable: true, formatter:function(value,row){
+			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+value+"</a>", row.remark, row.position) ;
+			    	return str ;
+			    }},
+			    { field: 'positionDate', title: '岗位变更实施日期', width: 150, sortable: true },
+			    { field: 'bysj', title: '毕业时间', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
-			    { field: 'rzsj', title: '入职时间', width: 120, sortable: true, formatter:function(value,row){
+			    { field: 'rzsj', title: '入职时间', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
-			    { field: 'japanese', title: '日语级别', width: 120, sortable: true },
+			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}
+			    }},
+			    { field: 'dbmDate', title: '到部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'lbmType', title: '离部门类型', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value == "1"){return "转出（开发部）";}else if(value == "2"){return "转出（非开发部）";}else if(value == "3"){return "离职";}else if(value == "4"){return "新人培训";}
+			    }},
+			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'japanese', title: '日语级别', width: 100, sortable: true },
 			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
@@ -63,6 +79,28 @@
 				dataGrid.datagrid("load",{"orgid": node.id, "notInStatus":9999});
 			}
 	    });
+		
+		s2 = $("#select2").combobox({
+			valueField: 'label', textField: 'value',
+			data: [{ label: '1', value: '待机人员' },{ label: '2', value: '在项目人员' },{ label: '3', value: '离职人员' }],
+			panelHeight:'auto', editable:false, autoShowPanel: true,
+			onSelect: function(node) {
+				var data = {} ;
+				if(node.label == 1) { data["notInStatus"] = "9999,1" ; }
+				if(node.label == 2) { data["notInStatus"] = "9999,0" ; }
+				if(node.label == 3) { data["lbmType"] = 3 ; }
+				dataGrid.datagrid("load",data);
+			}
+	    });
+		
+		var searchOpts = $("#topSearchbox").searchbox("options"), searcher = searchOpts.searcher;
+        searchOpts.searcher = function (value, name) {
+            if ($.isFunction(searcher)) { searcher.apply(this, arguments); }
+            var o = {} ;
+            o[name] = value ;
+            console.info(o) ;
+            dataGrid.datagrid("load",o);
+        };
 	});
 	
 </script>
@@ -75,7 +113,14 @@
 			<div id="d1">
 				<div id="buttonbar">
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
-					部门：<input id="select1" name="pid" />
+					状态：<input id="select2" name="state" /> 
+					部门：<input id="select1" name="pid" /> 
+					<input id="topSearchbox" class="easyui-searchbox" data-options="width: 250, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
+                    <div id="topSearchboxMenu" style="width: 85px;">
+                        <div data-options="name:'id', iconCls: 'icon-hamburg-zoom'">工号查询</div>
+                        <div data-options="name:'truename', iconCls: 'icon-hamburg-zoom'">姓名查询</div>
+                        <div data-options="name:'email', iconCls: 'icon-hamburg-zoom'">邮件查询</div>
+                    </div>
                     <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-disconnect'">取消筛选</a>
                 </div>
 			</div>

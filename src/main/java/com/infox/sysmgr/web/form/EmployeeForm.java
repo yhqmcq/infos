@@ -66,10 +66,10 @@ public class EmployeeForm extends PageHelper{
 	private String position_sname ;
 	
 	/** 到岗类型（0不选,1新增、2转入、3在职，4新人培训） */
-	private Integer dbmType = new Integer(0) ;
+	private Integer dbmType ;
 	
 	/** 离岗类型（0不选,1转出——开发部、2转出——非开发部、3离职） */
-	private Integer lbmType = new Integer(0) ;
+	private Integer lbmType ;
 	
 	/** 到部门日前 */
 	private String dbmDate ;
@@ -87,7 +87,7 @@ public class EmployeeForm extends PageHelper{
 	private String japanese ;
 	
 	/** 员工工作状态（0空闲，1已在项目，2出差） */
-	private int workStatus = 0 ;
+	private Integer workStatus ;
 	
 	/** 用于IN查询(0,1,2,3,4) */
 	private String inStatus;
@@ -166,11 +166,11 @@ public class EmployeeForm extends PageHelper{
 		this.notInStatus = notInStatus;
 	}
 
-	public int getWorkStatus() {
+	public Integer getWorkStatus() {
 		return workStatus;
 	}
 
-	public void setWorkStatus(int workStatus) {
+	public void setWorkStatus(Integer workStatus) {
 		this.workStatus = workStatus;
 	}
 

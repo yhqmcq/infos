@@ -460,6 +460,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
 				
+				if(null != e.getPositionDate() && !"".equals(e.getPositionDate())) {
+					pf.setPositionDate(e.getPositionDate()) ;
+				}
+				
 				//消耗天数
 				long lastdateDiff = 0 ;
 				

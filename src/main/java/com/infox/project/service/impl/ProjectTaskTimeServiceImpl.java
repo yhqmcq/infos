@@ -282,7 +282,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									//判断该员工的到部门类型是否新增或转入
 									EmployeeEntity emp = ew.getEmp() ;
 									if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
-										if(emp.getDbmType() == 1 || emp.getDbmType() == 2) {
+										if(emp.getDbmType() == 1 || emp.getDbmType() == 2 || emp.getDbmType() == 5) {
 											Calendar dbc = Calendar.getInstance() ;
 											dbc.setTime(DateUtil.formatGG(emp.getDbmDate())) ;
 											if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
@@ -330,7 +330,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									EmployeeEntity emp = ew.getEmp() ;
 									//判断该员工的离部门类型是否离职或转出
 									if(null != emp.getLbmType() && !"".equals(emp.getLbmType())) {
-										if(emp.getLbmType() == 1 || emp.getLbmType() == 3) {
+										if(emp.getLbmType() == 1 || emp.getLbmType() == 3 || emp.getLbmType() == 4) {
 											Calendar dbc = Calendar.getInstance() ;
 											dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
 											if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
@@ -387,7 +387,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								EmployeeEntity emp = ew.getEmp() ;
 								//判断该员工的到部门类型是否新增或转入
 								if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
-									if(emp.getDbmType() == 1 || emp.getDbmType() == 2) {
+									if(emp.getDbmType() == 1 || emp.getDbmType() == 2 || emp.getDbmType() == 5) {
 										Calendar dbc = Calendar.getInstance() ;
 										dbc.setTime(DateUtil.formatGG(emp.getDbmDate())) ;
 										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
@@ -398,7 +398,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								}
 								//判断该员工的离部门类型是否离职或转出
 								if(null != emp.getLbmType() && !"".equals(emp.getLbmType())) {
-									if(emp.getLbmType() == 1 || emp.getLbmType() == 3) {
+									if(emp.getLbmType() == 1 || emp.getLbmType() == 3 || emp.getLbmType() == 4) {
 										Calendar dbc = Calendar.getInstance() ;
 										dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
 										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
@@ -445,7 +445,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								EmployeeEntity emp = ew.getEmp() ;
 								//判断该员工的到部门类型是否新增或转入
 								if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
-									if(emp.getDbmType() == 1 || emp.getDbmType() == 2) {
+									if(emp.getDbmType() == 1 || emp.getDbmType() == 2 || emp.getDbmType() == 5) {
 										Calendar dbc = Calendar.getInstance() ;
 										dbc.setTime(DateUtil.formatGG(emp.getDbmDate())) ;
 										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
@@ -456,7 +456,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								}
 								//判断该员工的离部门类型是否离职或转出
 								if(null != emp.getLbmType() && !"".equals(emp.getLbmType())) {
-									if(emp.getLbmType() == 1 || emp.getLbmType() == 3) {
+									if(emp.getLbmType() == 1 || emp.getLbmType() == 3 || emp.getLbmType() == 4) {
 										Calendar dbc = Calendar.getInstance() ;
 										dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
 										if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {

@@ -22,6 +22,7 @@
 			columns: [[
 			    { field: 'dept_name', title: '部门', width: 120, sortable: true },
 			    { field: 'position_sname', title: '公司岗位', width: 120, sortable: true },
+			    { field: 'positionDate', title: '岗位变更实施日期', width: 120, sortable: true },
 			    { field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
 			    	if(value == 0) {
 			    		return "未设置角色" ;

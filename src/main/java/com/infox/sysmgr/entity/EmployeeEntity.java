@@ -77,10 +77,10 @@ public class EmployeeEntity implements Serializable{
 	/** 日语级别 */
 	private String japanese ;
 	
-	/** 到岗类型（0不选,1新增、2转入、3在职，4新人培训） */
+	/** 到岗类型（0不选,1新增、2转入、3在职，4新人培训、5停薪留职返回） */
 	private Integer dbmType = new Integer(0) ;
 	
-	/** 离岗类型（0不选,1转出——开发部、2转出——非开发部、3离职） */
+	/** 离岗类型（0不选,1转出——开发部、2转出——非开发部、3离职、4停薪留职） */
 	private Integer lbmType = new Integer(0) ;
 	
 	/** 到部门日前 */
@@ -93,7 +93,7 @@ public class EmployeeEntity implements Serializable{
 	private Integer state = new Integer(0) ;
 	
 	/** 员工工作状态（0空闲，1已在项目，2出差） */
-	private int workStatus = 0 ;
+	private Integer workStatus = new Integer(0) ;
 	
 	private OrgDeptTreeEntity org ;
 	
@@ -183,9 +183,6 @@ public class EmployeeEntity implements Serializable{
 		this.isLeader = isLeader;
 	}
 
-	public int getWorkStatus() {
-		return workStatus;
-	}
 
 	public String getJapanese() {
 		return japanese;
@@ -195,7 +192,12 @@ public class EmployeeEntity implements Serializable{
 		this.japanese = japanese;
 	}
 
-	public void setWorkStatus(int workStatus) {
+
+	public Integer getWorkStatus() {
+		return workStatus;
+	}
+
+	public void setWorkStatus(Integer workStatus) {
 		this.workStatus = workStatus;
 	}
 

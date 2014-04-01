@@ -16,7 +16,7 @@
 	    });
 		$("#dbmType").combobox({
 			valueField: 'label', textField: 'value', required: true,
-			data: [{ label: '1', value: '新增' },{ label: '2', value: '转入' },{ label: '3', value: '在职' },{ label: '4', value: '新人培训' }],
+			data: [{ label: '1', value: '新增' },{ label: '2', value: '转入' },{ label: '3', value: '在职' },{ label: '4', value: '新人培训' },{ label: '5', value: '停薪留职返回' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				//新增
@@ -33,7 +33,7 @@
 	    });
 		$("#lbmType").combobox({
 			valueField: 'label', textField: 'value',
-			data: [{ label: '1', value: '转出——开发部' },{ label: '2', value: '转出——非开发部' },{ label: '3', value: '离职' }],
+			data: [{ label: '1', value: '转出——开发部' },{ label: '2', value: '转出——非开发部' },{ label: '3', value: '离职' },{ label: '4', value: '停薪留职' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				$("#lbmDate").datebox({"required": true, "disabled": false});
@@ -98,7 +98,7 @@
 						$("#dbmDate").datebox({"required": true, "disabled": false});
 						$("#dbmDate").datebox("setValue", result.dbmDate.format("YYYY-MM-dd")) ;
 					}
-					if(result.lbmDate != undefined || result.lbmDate != '') {
+					if(result.lbmDate != undefined && result.lbmDate != '') {
 						$("#lbmDate").datebox({"required": true, "disabled": false});
 						$("#lbmDate").datebox("setValue", result.lbmDate.format("YYYY-MM-dd")) ;
 					}
