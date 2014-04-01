@@ -436,7 +436,6 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				params.put("workStatus", states);
 			}
 		}
-		System.out.println(hql);
 		return hql;
 	}
 
