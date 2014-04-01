@@ -59,7 +59,8 @@ public class ServletContextRealPathResolver implements RealPathResolver, Servlet
 
 	@Override
 	public String getServerRoot() {
-		return "http://"+getLocalIp()+":"+ConfigUtil.get("post");
+		String port = ConfigUtil.get("post") ;
+		return "http://"+getLocalIp()+(null != port && !"".equals(port)?":"+port:"");
 	}
 
 }

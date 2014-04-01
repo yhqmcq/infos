@@ -229,15 +229,15 @@ public class MailUtil {
 			//设置暗送人的地址
 			msg.addRecipients(RecipientType.BCC, bccAddress) ;
 			
-			logger.info("暗送人数量："+success + "    暗送地址错误数量：" + unsuccess);
-			logger.info("所有暗送人地址：");
+			//logger.info("暗送人数量："+success + "    暗送地址错误数量：" + unsuccess);
+			//logger.info("所有暗送人地址：");
 			StringBuffer strbuf = new StringBuffer() ;
 			Object[] array = list.toArray() ;
 			if(null != array && array.length > 0) {
 				for (int i = 0; i < array.length; i++) {
 					if(i%3==0) strbuf.append("\r\n\t\t\t") ;
 					strbuf.append(array[i]+",") ;
-					logger.info(array[i]) ;
+					//logger.info(array[i]) ;
 				}
 			}
 			success = 0 ; unsuccess = 0 ;

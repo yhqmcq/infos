@@ -211,7 +211,7 @@
                 title: "修改密码",
                 href: yhq.basePath+"/user/modifyPwd.jsp",
                 iniframe: false,
-                width: 550, height: 280,
+                width: 350, height: 200,
                 topMost: true,
                 autoVCenter: true,
                 autoHCenter: true,

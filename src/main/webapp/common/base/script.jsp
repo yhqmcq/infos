@@ -68,6 +68,7 @@ if (cookieMap.containsKey("themeName")) {
 <script src="<%=basePath%>/js/plugins/easyui/my-ext/my-easyui-ext.js" type="text/javascript"></script>
 <script src="<%=basePath%>/js/plugins/other/jquery-jrumble.js" type="text/javascript"></script>
 <script src="<%=basePath%>/js/plugins/other/myExt.util.js" type="text/javascript"></script>
+<script src="<%=basePath%>/js/plugins/other/PinYin.js" type="text/javascript"></script>
 <link href="<%=basePath%>/common/view-index-resource/base.css" rel="stylesheet" />
 
 <link rel="stylesheet" type="text/css" href="<%=basePath%>/js/plugins/jquery.imgareaselect-0.9.10/css/imgareaselect-default.css" />

@@ -27,6 +27,16 @@
 				//转入
 				if(node.label == 2) {
 					$("#dbmDate").datebox({"required": true, "disabled": false});
+					$("#dbmDate").datebox("setValue", new Date().format("YYYY-MM-dd"));
+				}
+				//停薪留职返回
+				if(node.label == 5) {
+					$("#dbmDate").datebox({"required": true, "disabled": false});
+					$("#dbmDate").datebox("setValue", new Date().format("YYYY-MM-dd"));
+				}
+				//在职
+				if(node.label == 3) {
+					$("#dbmDate").datebox({"required": false, "disabled": true});
 					$("#dbmDate").datebox("setValue", "");
 				}
 			}
@@ -106,6 +116,12 @@
 				}
 			}, 'json');
 		}
+		$("#form input[name=truename]").blur(function(){
+			if(undefined != $(this).val() && "" != $(this).val()) {
+				var pinyin= PinYin.topy($(this).val());
+				$("#form input[name=email]").val(pinyin+"@whizen.com") ;
+			}
+		});
 		$("#form input:visible")[0].focus();
 	});
 	
@@ -143,7 +159,7 @@
 			<th>账号状态：</th>
 			<td>
 				<input class="easyui-combobox" style="width:198px;" name="status" data-options="
-					valueField: 'label', textField: 'value', editable: false, value : 'Y',
+					valueField: 'label', textField: 'value', editable: false, value : 'N',
 					data: [{ label: 'Y', value: '激活' },{ label: 'N', value: '禁用' }],
 					panelHeight:'auto', editable:false" />
 			</td>
@@ -151,6 +167,10 @@
 		<tr>
 			<th>姓名：</th>
 			<td><input name="truename" style="width:190px;" class="easyui-validatebox" type="text" data-options="required:true, prompt: '真实姓名'" /></td>
+			<th>邮箱：</th>
+			<td><input name="email" style="width:190px;" class="easyui-validatebox" type="text" data-options="required:true, prompt: '邮箱地址'" /></td>
+		</tr>
+		<tr>
 			<th>性别：</th>
 			<td>
 				<input class="easyui-combobox" style="width:198px;" name="sex" data-options="
@@ -158,17 +178,8 @@
 					data: [{ label: 'male', value: '男' },{ label: 'female', value: '女' }],
 					panelHeight:'auto', editable:false" />
 			</td>
-		</tr>
-		<tr>
 			<th>日语级别：</th>
 			<td><input name="japanese" style="width:190px;" class="easyui-validatebox" type="text" data-options="prompt: '日语级别'" /></td>
-		 	<th>是否部长：</th>
-			<td>
-				<input class="easyui-combobox" style="width:198px;" name="isLeader" data-options="
-					valueField: 'label', textField: 'value', editable: false, value : 'N',
-					data: [{ label: 'N', value: '否' },{ label: 'Y', value: '是' }],
-					panelHeight:'auto', editable:false" />
-			</td>
 		</tr>
 		<tr>
 			<th>毕业时间：</th>
@@ -178,7 +189,14 @@
 		</tr>
 		<tr>
 			<th>公司部门：</th>
-			<td colspan="3"><input id="select1" style="width:198px;" name="orgid" /></td>
+			<td><input id="select1" style="width:198px;" name="orgid" /></td>
+			<th>是否部长：</th>
+			<td>
+				<input class="easyui-combobox" style="width:198px;" name="isLeader" data-options="
+					valueField: 'label', textField: 'value', editable: false, value : 'N',
+					data: [{ label: 'N', value: '否' },{ label: 'Y', value: '是' }],
+					panelHeight:'auto', editable:false" />
+			</td>
 		</tr>
 		<tr>
 			<th>公司岗位：</th>

@@ -27,6 +27,9 @@
 			    }},
 			]],
 			columns: [[
+			    { field: 'status', title: '账号状态', width: 80, sortable: true, formatter:function(value,row){
+			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
+			    }},
 			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
 			    { field: 'position', title: '公司岗位', width: 150, sortable: true, formatter:function(value,row){
 			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+value+"</a>", row.remark, row.position) ;
@@ -56,9 +59,6 @@
 			    	if(value == "male"){return "男";}else{return "女";}
 			    }},
 			    { field: 'account', title: '账号', width: 120, sortable: true },
-			    { field: 'status', title: '账号状态', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
-			    }},
 			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
 			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]],

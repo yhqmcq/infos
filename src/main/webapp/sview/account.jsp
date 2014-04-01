@@ -1,3 +1,4 @@
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -102,23 +103,24 @@
     	</div>
     	
     	<div class="content">
-    		您好：${name} <br><br>
+    		您好：杨浩泉 <br><br>
     		
     		&nbsp;&nbsp;&nbsp;如下是你在华智PJM系统的登录账号和密码。<br>
     		&nbsp;&nbsp;&nbsp;登录账号：${account} <br>
     		&nbsp;&nbsp;&nbsp;登录密码：${password} <br>
-    		&nbsp;&nbsp;&nbsp;访问地址：<a href="${reportURL}" target="_blank">&nbsp;请点击这里&nbsp;</a> <br><br><br>
+    		&nbsp;&nbsp;&nbsp;访问地址：${password} <br>
     		
     		<font color="red">
-	    		注：<br>
-	    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    		&diams;以上密码为你的初始化密码，可登陆系统后进行修改。建议修改为你个人电脑的登陆密码。<br>
-	    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    		&diams;请使用  IE(Version 9/10/11)/ Chrome/ Firefox  系列浏览器<br>
-	    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    		&diams;系统不支持IE9以下的浏览器，推荐您使用最新版的 Chrome、Firefox 及以上版本的浏览器，以获取最佳的浏览效果<br>
-	    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    		&diams;已共享 Chrome、Firefox浏览器，地址：\\192.168.2.206\浏览器\
+    		<br><br><br>
+    		注：<br>
+    		&nbsp;&nbsp;&nbsp;&nbsp;
+    		&diams;以上密码为你的初始化密码，可登陆系统后进行修改。建议修改为你个人电脑的登陆密码。<br>
+    		&nbsp;&nbsp;&nbsp;&nbsp;
+    		&diams;请使用  IE(Version 9/10/11)/ Chrome/ Firefox  系列浏览器<br>
+    		&nbsp;&nbsp;&nbsp;&nbsp;
+    		&diams;系统不支持IE9以下的浏览器，推荐您使用最新版的 Chrome、Firefox 及以上版本的浏览器，以获取最佳的浏览效果<br>
+    		&nbsp;&nbsp;&nbsp;&nbsp;
+    		&diams;已共享 Chrome、Firefox浏览器，地址：\\192.168.2.206\浏览器\
     		</font>
     	</div>
     	
@@ -126,7 +128,7 @@
     		<div>
 	    		<ul>
 	    			<li>广州华智科技有限公司&copy;品质保证部</li>
-	    			<li>打印日期：${currentdate?string("yyyy-MM-dd")}</li>
+	    			<li>打印日期：</li>
 	    		</ul>
     		</div>
     	</div>

@@ -24,20 +24,21 @@
 </script>
 
 <form id="form" class="easyui-form">
-	<table id="tab_box" style="width:100%">
-		<input type="hidden" value="${_LOGIN_EMP_KEY.emp.id}" name="id">
-		<tr>
-			<th>旧密码：</th>
-			<td><input name="oldPwd" validType="password" class="easyui-validatebox" type="password" data-options="required:true, prompt: '旧密码'" /></td>
-		</tr>
-		<tr>
-			<th>新密码：</th>
-			<td><input id="password" name="password" validType="password" class="easyui-validatebox" type="password" data-options="required:true, prompt: '新密码'" /></td>
-		</tr>
-		<tr>
-			<th>确认密码：</th>
-			<td><input validType="equals[$('#password').val()]" invalidMessage="两次输入密码不匹配" class="easyui-validatebox" type="password" data-options="required:true, prompt: '确认密码'" /></td>
-		</tr>
-	</table>
-	
+	<input type="hidden" value="${LOGIN_USER_KEY.user.id}" name="id">
+	<div class="form_base">
+		<table>
+			<tr>
+				<th>旧密码：</th>
+				<td><input name="oldPwd" validType="length[6,8]" class="easyui-validatebox" type="password" data-options="required:true, prompt: '旧密码'" /></td>
+			</tr>
+			<tr>
+				<th>新密码：</th>
+				<td><input id="password" name="password" validType="length[6,8]" class="easyui-validatebox" type="password" data-options="required:true, prompt: '新密码'" /></td>
+			</tr>
+			<tr>
+				<th>确认密码：</th>
+				<td><input validType="equals[$('#password').val()]" invalidMessage="两次输入密码不匹配" class="easyui-validatebox" type="password" data-options="required:true, prompt: '确认密码'" /></td>
+			</tr>
+		</table>
+	</div>
 </form>

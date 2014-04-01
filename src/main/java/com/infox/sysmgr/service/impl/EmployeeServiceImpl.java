@@ -18,7 +18,6 @@ import com.infox.common.dao.BaseDaoI;
 import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
 import com.infox.common.mail.MailVO;
 import com.infox.common.util.ClobUtil;
-import com.infox.common.util.PinyinUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.util.StringUtil;
 import com.infox.common.web.page.DataGrid;
@@ -62,19 +61,17 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	
 	@Autowired
 	private BaseDaoI<ProjectMainEntity> basedaoProject ;
-
+	
 	@Override
 	public Json add(EmployeeForm form) throws Exception {
 		Json j = new Json() ;
 		
-		String truename = StringUtil.replaceAllSpace(form.getTruename()) ;
-		String accountPY = PinyinUtil.getPinYin(truename) ;
-		
-		//如果该账户存在，则获得同名账户的个数加一作为新账号
-		Long accountCount = this.basedaoEmployee.count("select count(t.account) from EmployeeEntity t where t.account='"+accountPY+"'") ;
-		if(accountCount >= 1) {
-			accountPY+=accountCount ;
+		Long emailCount = this.basedaoEmployee.count("select count(t.email) from EmployeeEntity t where t.email='"+form.getEmail()+"'") ;
+		if(emailCount >= 1) {
+			j.setMsg("该邮箱已存在！") ;
+			return j ;
 		}
+		
 		Long idCount = this.basedaoEmployee.count("select count(t.id) from EmployeeEntity t where t.id='"+form.getId()+"'") ;
 		if(idCount >= 1) {
 			j.setMsg("该工号已存在！") ;
@@ -86,7 +83,11 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		if(null == employee) {
 			EmployeeEntity entity = new EmployeeEntity();
 			BeanUtils.copyProperties(form, entity);
-			entity.setTruename(truename) ;
+			entity.setTruename(StringUtil.replaceAllSpace(form.getTruename())) ;
+			
+			entity.setAccount(form.getEmail().substring(0,form.getEmail().indexOf("@"))) ;
+			entity.setPassword(RandomUtils.generateNumber(6)) ;
+			//entity.setEmail("yanghaoquan@whizen.com") ; 
 			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
@@ -105,30 +106,28 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				entity.setWorkStatus(0) ;
 			}
 			
-			entity.setAccount(accountPY) ;
-			entity.setPassword(accountPY+RandomUtils.generateNumber(3)) ;
-			//entity.setEmail(accountPY+MailConfiguraton.getEmailDomain()) ;
-			entity.setEmail("yhqmcq@126.com") ;
-			
 			this.basedaoEmployee.save(entity);
 			
-			modifyDeptMemNum(entity.getOrg().getId()) ;
+			if(null != entity.getOrg()) {
+				modifyDeptMemNum(entity.getOrg().getId()) ;
+			}
 			
 			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 			model.put("name", entity.getTruename()) ;
 			model.put("account", entity.getAccount()) ;
 			model.put("password", entity.getPassword()) ;
+			model.put("reportURL", this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
 			model.put("currentdate", new Date()) ;
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("华智[miniOA办公自动化管理系统-登录账号和密码]") ;
+			mail.setSubject("华智PJM管理系统[登录账号和密码]") ;
 			mail.setRecipientTO(entity.getEmail()) ;
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "login_account.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
 			
-			j.setMsg("用户保持成功！") ; j.setStatus(true) ;
+			j.setMsg("用户保存成功！") ; j.setStatus(true) ;
 			return j ;
 		} else {
 			j.setMsg("该用户已存在！") ;
@@ -214,7 +213,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		return j;
 		
 	}
-
+	
 	@Override
 	public Json edit(EmployeeForm form) throws Exception {
 		Json j = new Json() ;

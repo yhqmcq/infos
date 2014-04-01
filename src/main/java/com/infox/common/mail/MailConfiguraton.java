@@ -21,7 +21,7 @@ public class MailConfiguraton {
 	
 	private String mailAuth ;			/** 是否需要验证 */
 	
-	private String mailAliasName ;		/** 是否需要验证 */
+	private String mailAliasName ;		/** 邮件别名 */
 	
 	private String mailFromAdmin ;	/** 缺省为管理员发送人地址 */
 	
@@ -47,7 +47,7 @@ public class MailConfiguraton {
 		this.setMailPOP3Port(ConfigUtil.get("mail.pop3.port")) ;
 		this.setMailPOP3Protocol(ConfigUtil.get("mail.pop3.protocol")) ;
 		this.setMailAuth(ConfigUtil.get("mail.smtp.auth")) ;
-		this.setMailAliasName(ConfigUtil.get("mail.aliasname")) ;
+		this.setMailAliasName((null == ConfigUtil.get("mail.aliasname") || "".equals(ConfigUtil.get("mail.aliasname"))?"华智PJM管理系统":ConfigUtil.get("mail.aliasname"))) ;
 		this.setMailFromAdmin( ConfigUtil.get("mail.from")) ;
 		this.setUserNameAdmin(ConfigUtil.get("mail.username")) ;
 		this.setPassWordAdmin(ConfigUtil.get("mail.password")) ;
