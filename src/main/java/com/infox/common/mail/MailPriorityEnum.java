@@ -7,7 +7,7 @@ public enum MailPriorityEnum {
 		public String getName() {return "1";}
 	},/** 普通邮件*/NORMAL {
 		@Override
-		public String getName() {return "3";}
+		public String getName() {return "3";} 
 	},/** 缓慢邮件 */SLOW {
 		@Override
 		public String getName() {return "4";}
