@@ -216,7 +216,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		if(flag) {
 			//定时任务（重新设定项目的触发时间）
-			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:35:30", 2) ;
+			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:35:30", 3) ;
 			if(dateCron.length > 1) {
 				for (int i = 0; i < dateCron.length; i++) {
 					//先删除原有的触发器,在建立新的触发器
@@ -1236,6 +1236,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		Json json = new Json();
 		json.setStatus(false);
 
+		System.out.println(form+"=============="+form.getStatus());
+		
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
 		
 		// 开始项目（进行中）
@@ -1265,7 +1267,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					Set<String> dateGroup = new HashSet<String>() ;
 					Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
 					for (ProjectEmpWorkingEntity member : pwes) {
-						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 08:35:30", 2) ;
+						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 08:35:30", 3) ;
 						for (int i = 0; i < dateCron.length; i++) {
 							//将相同日期的归为一组，进行定时
 							dateGroup.add(dateCron[i]) ;
@@ -1286,7 +1288,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					
 					
 					//设置定时任务
-					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:30:00", 2) ;
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:35:00", 3) ;
 					if(dateCron.length > 1) {
 						for (int i = 0; i < dateCron.length; i++) {
 							TaskForm task = new TaskForm() ;

@@ -87,7 +87,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			
 			entity.setAccount(form.getEmail().substring(0,form.getEmail().indexOf("@"))) ;
 			entity.setPassword(RandomUtils.generateNumber(6)) ;
-			//entity.setEmail("yanghaoquan@whizen.com") ; 
+			entity.setEmail("huanglichang@whizen.com") ; 
 			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
