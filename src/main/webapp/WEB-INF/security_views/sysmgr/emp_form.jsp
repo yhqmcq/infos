@@ -6,6 +6,7 @@
 	var cg ;
 	var old_position ;
 	var old_positionDate ;
+	var s1 ;
 	$(function() {
 		$("#select1").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
@@ -42,7 +43,7 @@
 				}
 			}
 	    });
-		$("#lbmType").combobox({
+		s1 = $("#lbmType").combobox({
 			valueField: 'label', textField: 'value',
 			data: [{ label: '1', value: '转出——到开发部' },{ label: '2', value: '转出——到非开发部' },{ label: '3', value: '离职' },{ label: '4', value: '停薪留职' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
@@ -200,7 +201,7 @@
 			<th>毕业时间：</th>
 			<td><input name="bysj" style="width:198px;" class="easyui-datebox" editable="false" /></td>
 		 	<th>入职时间：</th>
-			<td><input name="rzsj" style="width:198px;" class="easyui-datebox" editable="false" /></td>
+			<td><input name="rzsj" required="true" style="width:198px;" class="easyui-datebox" editable="false" /></td>
 		</tr>
 		<tr>
 			<th>公司部门：</th>
@@ -231,9 +232,10 @@
 		 	<th>离部门类型：</th>
 			<td>
 				<input id="lbmType" name="lbmType" style="width:198px;" disabled="disabled" />
+				<a onClick="s1.combobox({required: false, disabled: false, value: ''});$('#lbmDate').datebox({required: false, disabled: true});$('#lbmDate').datebox('setValue', '')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'"></a>
 			</td>
 			<th>离部门日期：</th>
-			<td><input id="lbmDate" name="lbmDate" style="width:198px;" class="easyui-datebox" disabled="disabled" editable="false" /></td>
+			<td><input id="lbmDate" name="lbmDate" style="width:198px;" validType="TimeCheck['dbmDate']" invalidMessage="离部门日期必须大于到部门日期" class="easyui-datebox" disabled="disabled" editable="false" /></td>
 		</tr>
 	</table>
 	</div>
