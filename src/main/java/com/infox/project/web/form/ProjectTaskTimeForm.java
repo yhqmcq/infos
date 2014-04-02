@@ -39,6 +39,18 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private Date endDate ;
 	
+	/** 到岗类型（0不选,1新增、2转入、3在职，4新人培训） */
+	private Integer dbmType ;
+	
+	/** 离岗类型（0不选,1转出——开发部、2转出——非开发部、3离职） */
+	private Integer lbmType ;
+	
+	/** 到部门日前 */
+	private String dbmDate ;
+	
+	/** 离开部门日前 */
+	private String lbmDate ;
+	
 	/** 岗位变更日期 */
 	private String positionDate ;
 	
@@ -470,6 +482,38 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 
 	public void setExpendDays(long expendDays) {
 		this.expendDays = expendDays;
+	}
+
+	public Integer getDbmType() {
+		return dbmType;
+	}
+
+	public void setDbmType(Integer dbmType) {
+		this.dbmType = dbmType;
+	}
+
+	public Integer getLbmType() {
+		return lbmType;
+	}
+
+	public void setLbmType(Integer lbmType) {
+		this.lbmType = lbmType;
+	}
+
+	public String getDbmDate() {
+		return dbmDate;
+	}
+
+	public void setDbmDate(String dbmDate) {
+		this.dbmDate = dbmDate;
+	}
+
+	public String getLbmDate() {
+		return lbmDate;
+	}
+
+	public void setLbmDate(String lbmDate) {
+		this.lbmDate = lbmDate;
 	}
 
 	public static long getSerialversionuid() {

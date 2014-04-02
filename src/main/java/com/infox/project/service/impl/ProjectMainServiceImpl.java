@@ -91,7 +91,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if(count >= 1) {
 			throw new Exception("项目编号已存在！ ") ;
 		}
-		ProjectMainForm project = this.get(form.getCode());
+		ProjectMainForm project = this.get(form.getProjectNum());
 		if (null == project) {
 			ProjectMainEntity entity = new ProjectMainEntity();
 
@@ -137,7 +137,33 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				del(r);
 			}
 		}
+		
+		//删除员工在项目的工作时间
+		Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
+		if(null != pwe && !pwe.isEmpty()) {
+			for (ProjectEmpWorkingEntity p : pwe) {
+				delPwe(p) ;
+			}
+		}
+		
+		//删除员工邮件列表
+		Set<ProjectMailListEntity> mailists = entity.getProjectmails() ;
+		if(null != mailists && !mailists.isEmpty()) {
+			for (ProjectMailListEntity p : mailists) {
+				this.basedaoMailList.delete(p) ;
+			}
+		}
+		
 		this.basedaoProject.delete(entity);
+	}
+	
+	public void delPwe(ProjectEmpWorkingEntity entity) {
+		if (entity.getPews() != null && entity.getPews().size() > 0) {
+			for (ProjectEmpWorkingEntity r : entity.getPews()) {
+				delPwe(r);
+			}
+		}
+		this.basedaoProjectEW.delete(entity);
 	}
 
 	@Override
@@ -376,6 +402,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	@Override
 	public ProjectMainForm get(String id) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
+		//System.out.println(entity+"============");
 		if (null != entity) {
 			ProjectMainForm form = new ProjectMainForm();
 			
@@ -463,6 +490,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				if(null != e.getPositionDate() && !"".equals(e.getPositionDate())) {
 					pf.setPositionDate(e.getPositionDate()) ;
 				}
+				pf.setLbmType(e.getLbmType()) ;
+				pf.setDbmType(e.getDbmType()) ;
+				pf.setLbmDate(e.getLbmDate()) ;
+				pf.setDbmDate(e.getDbmDate()) ;
 				
 				//消耗天数
 				long lastdateDiff = 0 ;

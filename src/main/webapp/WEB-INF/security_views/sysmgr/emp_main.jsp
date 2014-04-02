@@ -43,13 +43,13 @@
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
 			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}
+			    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}else if(value == "5"){return "停薪留职返回";}
 			    }},
 			    { field: 'dbmDate', title: '到部门日期', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
 			    { field: 'lbmType', title: '离部门类型', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value == "1"){return "转出（开发部）";}else if(value == "2"){return "转出（非开发部）";}else if(value == "3"){return "离职";}else if(value == "4"){return "新人培训";}
+			    	if(value == "1"){return "转出（到开发部）";}else if(value == "2"){return "转出（到非开发部）";}else if(value == "3"){return "离职";}else if(value == "4"){return "停薪留职";}
 			    }},
 			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;

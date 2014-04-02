@@ -189,15 +189,15 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 	@Override
 	public Json delete(String ids) throws Exception {
 		Json j = new Json() ;
-		
 		List<ProjectMainEntity> p = this.basedaoProject.find("select t from ProjectMainEntity t where t.emp.id='"+ids+"'") ;
-		if(null == p) {
+		if(null == p || p.isEmpty()) {
 			if(null != ids && !ids.equalsIgnoreCase("")) {
 				String[] id = ids.split(",") ;
 				for(int i=0;i<id.length;i++) {
-					EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, id) ;
+					EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, id[i]) ;
+					String deptid = employeeEntity.getOrg().getId() ;
 					this.basedaoEmployee.delete(employeeEntity);
-					modifyDeptMemNum(employeeEntity.getOrg().getId()) ;
+					modifyDeptMemNum(deptid) ;
 				}
 				j.setMsg("删除成功！"); j.setStatus(true) ;
 			}

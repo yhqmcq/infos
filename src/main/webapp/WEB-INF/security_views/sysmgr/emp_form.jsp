@@ -2,6 +2,7 @@
 
 <script type="text/javascript">
 	var form_url = yhq.basePath+"/sysmgr/employee/add.do" ;
+	var id = "" ;
 	var cg ;
 	var old_position ;
 	var old_positionDate ;
@@ -43,7 +44,7 @@
 	    });
 		$("#lbmType").combobox({
 			valueField: 'label', textField: 'value',
-			data: [{ label: '1', value: '转出——开发部' },{ label: '2', value: '转出——非开发部' },{ label: '3', value: '离职' },{ label: '4', value: '停薪留职' }],
+			data: [{ label: '1', value: '转出——到开发部' },{ label: '2', value: '转出——到非开发部' },{ label: '3', value: '离职' },{ label: '4', value: '停薪留职' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				$("#lbmDate").datebox({"required": true, "disabled": false});
@@ -66,13 +67,16 @@
 			    { field: 'job_sname', title: '职位简称', width: 180, sortable: true }
 			]],
 			onClickRow: function(rowIndex, rowDate) {
-				if(rowDate.id == old_position) {
-					$("#positionDate").datebox({"required": false, "disabled": true});
-					$("#positionDate").datebox("setValue", old_positionDate) ;
-				} else {
-					$("#positionDate").datebox({"required": true, "disabled": false});
-					$("#positionDate").datebox("setValue", new Date().format("YYYY-MM-dd")) ;
+				if(id.length > 0) {
+					if(rowDate.id == old_position) {
+						$("#positionDate").datebox({"required": false, "disabled": true});
+						$("#positionDate").datebox("setValue", old_positionDate) ;
+					} else {
+						$("#positionDate").datebox({"required": true, "disabled": false});
+						$("#positionDate").datebox("setValue", "") ;
+					}
 				}
+				
 			}
 	    });
 		
@@ -86,6 +90,7 @@
 						'account' : result.account,
 						'status' : result.status,
 						'truename' : result.truename,
+						'email' : result.email,
 						'japanese' : result.japanese,
 						'dbmType' : result.dbmType,
 						'dbmDate' : result.dbmDate,
@@ -99,18 +104,26 @@
 						'tel' : result.tel,
 						'orgid' : result.orgid
 					});
+					id = result.id ;
 					var s = result.jobids.split(",") ;
 					var vs = [] ;
 					for(var i=0;i<s.length;i++) {vs[i]=s[i]; old_position = s[i];}
 					$("#select2").combogrid("setValues", vs);
 					$('input[name=id]').attr("readonly","readonly") ;
-					if(result.dbmDate != undefined || result.dbmDate != '') {
+					
+					if(result.dbmDate != undefined && result.dbmDate != '') {
 						$("#dbmDate").datebox({"required": true, "disabled": false});
 						$("#dbmDate").datebox("setValue", result.dbmDate.format("YYYY-MM-dd")) ;
 					}
 					if(result.lbmDate != undefined && result.lbmDate != '') {
 						$("#lbmDate").datebox({"required": true, "disabled": false});
 						$("#lbmDate").datebox("setValue", result.lbmDate.format("YYYY-MM-dd")) ;
+					}
+					if(result.lbmType == 3 || result.lbmType == 4) {
+						$("#dbmType").combobox({"required": false, "disabled": true, value: result.dbmType});
+						$("#lbmType").combobox({"required": false, "disabled": true, value: result.lbmType});
+						$("#dbmDate").datebox({"required": false, "disabled": true});
+						$("#lbmDate").datebox({"required": false, "disabled": true});
 					}
 					old_positionDate = result.positionDate ;
 				}
