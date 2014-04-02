@@ -124,6 +124,8 @@
 						$("#lbmType").combobox({"required": false, "disabled": true, value: result.lbmType});
 						$("#dbmDate").datebox({"required": false, "disabled": true});
 						$("#lbmDate").datebox({"required": false, "disabled": true});
+						
+						$("#select2").combogrid({"disabled": true, value: vs});
 					}
 					old_positionDate = result.positionDate ;
 				}

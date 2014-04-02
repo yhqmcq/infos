@@ -22,6 +22,7 @@
 			columns: [[
 			    { field: 'dept_name', title: '部门', width: 120, sortable: true },
 			    { field: 'position_sname', title: '公司岗位', width: 120, sortable: true },
+			    { field: 'positionDate', title: '岗位变更实施日期', width: 120, sortable: true },
 			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value != undefined) {
 				    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}else if(value == "5"){return "停薪留职返回";}
@@ -38,7 +39,6 @@
 			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
-			    { field: 'positionDate', title: '岗位变更实施日期', width: 120, sortable: true },
 			    { field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
 			    	if(value == 0) {
 			    		return "未设置角色" ;
