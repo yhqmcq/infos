@@ -49,7 +49,7 @@
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
 			    { field: 'lbmType', title: '离部门类型', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value == "1"){return "转出（到开发部）";}else if(value == "2"){return "转出（到非开发部）";}else if(value == "3"){return "离职";}else if(value == "4"){return "停薪留职";}
+			    	if(value == "1"){return "转出（到开发部）";}else if(value == "2"){return "转出（到非开发部）";}else if(value == "3"){return "<font color='red'>离职</font>";}else if(value == "4"){return "停薪留职";}
 			    }},
 			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
