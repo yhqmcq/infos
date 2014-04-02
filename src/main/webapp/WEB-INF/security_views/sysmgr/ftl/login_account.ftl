@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>华智PJM管理系统-登录账号密码</title>
+<title>华智项目管理系统-登录账号密码</title>
 <meta charset="utf-8" />
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -98,13 +98,13 @@
     <div id="main">
     	<div class="header">
     		<div class="logo"></div>
-    		<div class="title">华智PJM系统登录账号和密码</div>
+    		<div class="title">华智项目管理系统登录账号和密码</div>
     	</div>
     	
     	<div class="content">
     		您好：${name} <br><br>
     		
-    		&nbsp;&nbsp;&nbsp;如下是你在华智PJM系统的登录账号和密码。<br>
+    		&nbsp;&nbsp;&nbsp;如下是你在华智项目管理系统的登录账号和密码。<br>
     		&nbsp;&nbsp;&nbsp;登录账号：${account} <br>
     		&nbsp;&nbsp;&nbsp;登录密码：${password} <br>
     		&nbsp;&nbsp;&nbsp;访问地址：<a href="${reportURL}" target="_blank">&nbsp;请点击这里&nbsp;</a> <br><br><br>

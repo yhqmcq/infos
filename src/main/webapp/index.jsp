@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>华智PJM</title>
+<title>华智项目管理系统</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 
