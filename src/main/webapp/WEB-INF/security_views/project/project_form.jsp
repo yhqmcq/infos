@@ -5,11 +5,13 @@
 	var form_url = yhq.basePath+"/project/project_main/add.do" ;
 	$(function() {
 		$("#t").tabs({ width:738, lineHeight: 0 });
+		/*
 		$("#project_type").combobox({
 			width: 258, valueField: 'label', textField: 'value', value: '0',
 			data: [{ label: '0', value: '对日短期保守项目' },{ label: '1', value: '对日长期保守项目' },{ label: '2', value: '对日新规项目' },{ label: '3', value: '国内项目' },{ label: '4', value: '公司内部项目' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true
 	    });
+		*/
 		$("#deptid").combotree({
 			url : yhq.basePath+"/sysmgr/org/treegrid.do",
 			width:258, idFiled:'pid', textFiled:'fullname', editable: false,
@@ -47,6 +49,7 @@
 						'deptid' : result.deptid,
 						'leader_id' : result.leader_id,
 						'taskScope' : result.taskScope,
+						'project_gm' : result.project_gm,
 						'contractNum' : result.contractNum,
 						'quot' : result.quot,
 						'project_buglv' : result.project_buglv,
@@ -64,6 +67,7 @@
 			}, 'json');
 		}
 		
+		/*
 		window.setTimeout(function(){
 			editor = new UE.ui.Editor({
 				toolbars : [ [ "source", "bold", "forecolor", "fontsize","inserttable", "insertimage", "scrawl", "attachment","insertvideo", "map", "wordimage" ] ]
@@ -95,6 +99,7 @@
 			editor.render('editor6');
 			
 		},500);
+		*/
 	});
 	
 	//提交表单数据
@@ -132,8 +137,8 @@
 			<tr>
 				<th>项目编号：</th>
 				<td><input type="text" name="projectNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '项目编号'" ></td>
-				<th>合同编号：</th>
-				<td><input type="text" name="contractNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '合同编号'" ></td>
+				<th>案件编号：</th>
+				<td><input type="text" name="contractNum" class="easyui-validatebox"  data-options="required:true, prompt: '合同编号'" ></td>
 			</tr>
 			<tr> 
 				<th>项目名称：</th>
@@ -142,20 +147,20 @@
 				<td><input type="text"  name="quot" class="easyui-validatebox" ></td>
 			</tr>
 			<tr>
-				<th>开始日期：</th>
+				<th>项目负责人：</th>
+			 	<td><input id="select2" style="width:258px;" name="leader_id" /><input id="leader_name" name="project_leader" type="hidden"></td>
+			 	<th>开始日期：</th>
 				<td><input name="startDate" class="easyui-datebox" required="true" missingMessage="日期必须填写" editable="false" /></td>
-				<th>结束日期：</th>
-				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="结束日期必须大于开始日期" editable="false" /></td>
 			</tr>
 			<tr>
 				<th>项目所属部门：</th>
 				<td><input id="deptid" name="deptid" /></td>
-				<th>项目负责人：</th>
-			 	<td><input id="select2" style="width:250px;" name="leader_id" /><input id="leader_name" name="project_leader" type="hidden"></td>
+				<th>结束日期：</th>
+				<td><input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="结束日期必须大于开始日期" editable="false" /></td>
 			</tr>
 			<tr>
 				<th>项目类型：</th>
-				<td><input id="project_type" name="project_type" /></td>
+				<td><input class="easyui-validatebox" name="project_type" style="width:250px;" /></td>
 				<th>合同受注状况：</th>
 				<td><input class="easyui-combobox" style="width:157px;" name="shouzhu" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : '0',
@@ -164,11 +169,32 @@
 			</tr>
 			<tr>
 				<th>作业范围：</th>
-				<td colspan="3"><input id="taskScope" class="easyui-validatebox" name="taskScope" style="width:610px;" /></td>
+				<td><input id="taskScope" class="easyui-validatebox" name="taskScope" style="width:250px;" /></td>
+				<th>项目规模：</th>
+				<td><input id="project_gm" class="easyui-validatebox" name="project_gm" /> /Ks</td>
+			</tr>
+			<tr>
+				<th>顾客返回BUG率目标：</th>
+				<td><input class="easyui-validatebox" name="project_buglv" style="width:250px;" />件/Ks</td>
+				<th>报价总人月：</th>
+				<td><input class="easyui-validatebox" name="project_bjzry" /></td>
+			</tr>
+			<tr>
+				<th>预计投入总人月数：</th>
+				<td><input class="easyui-validatebox" name="project_yjtrzry" style="width:250px;" /></td>
+				<th>报价生产性：</th>
+				<td><input class="easyui-validatebox" name="project_bjscx" /> Ks/人月</td>
+			</tr>
+			<tr>
+				<th>初始粗利润率：</th>
+				<td><input class="easyui-validatebox" name="project_ydscx" style="width:250px;" /></td>
+				<th>预定生产性：</th>
+				<td><input class="easyui-validatebox" name="project_clrl" /> Ks/人月</td>
 			</tr>
 		</table>
 	</div>
 	
+	<!-- 
 	<div class="form_base">
 		<div id="t">
 		    <div data-options="title: '顾客反馈BUG率目标', refreshable: false, selected: true">
@@ -189,15 +215,17 @@
 		    <div data-options="title: '粗利润率', refreshable: false, selected: true">
 		    	<textarea id="editor6" name="project_clrl" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
-		    <!-- 
+		    
+		    
 		    <div data-options="title: '项目目标', refreshable: false, selected: true">
 		    	<textarea id="editor1" name="project_target" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
 		    <div data-options="title: '项目描述', refreshable: false">
 		    	<textarea id="editor2" name="project_desc" style="margin-top:5px;height:130px;width:99.7%;"></textarea>
 		    </div>
-		     -->
+		    
 		</div>
 	</div>
+	-->
 </form>
 

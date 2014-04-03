@@ -22,13 +22,11 @@ import com.infox.common.freemarker.FreeMarkerToHtmlUtil;
 import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
 import com.infox.common.mail.MailVO;
 import com.infox.common.util.BeanUtils;
-import com.infox.common.util.ClobUtil;
 import com.infox.common.util.Constants;
 import com.infox.common.util.DateCal;
 import com.infox.common.util.DateUtil;
 import com.infox.common.util.NumberUtils;
 import com.infox.common.util.RandomUtils;
-import com.infox.common.util.StringUtil;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
 import com.infox.common.web.springmvc.RealPathResolver;
@@ -95,16 +93,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if (null == project) {
 			ProjectMainEntity entity = new ProjectMainEntity();
 
-			BeanUtils.copyProperties(form, entity, new String[]{"id", "project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-			entity.setProject_buglv(ClobUtil.getClob(form.getProject_buglv())) ;
-			//entity.setProject_manyidu(ClobUtil.getClob(form.getProject_manyidu())) ;
-			//entity.setProject_scx(ClobUtil.getClob(form.getProject_scx())) ;
-			
-			entity.setProject_bjzry(ClobUtil.getClob(form.getProject_scx())) ;
-			entity.setProject_yjtrzry(ClobUtil.getClob(form.getProject_yjtrzry())) ;
-			entity.setProject_bjscx(ClobUtil.getClob(form.getProject_bjscx())) ;
-			entity.setProject_ydscx(ClobUtil.getClob(form.getProject_ydscx())) ;
-			entity.setProject_clrl(ClobUtil.getClob(form.getProject_clrl())) ;
+			BeanUtils.copyProperties(form, entity, new String[]{"id"});
 			
 			if (null != form.getDeptid() && !"".equalsIgnoreCase(form.getDeptid())) {
 				OrgDeptTreeEntity dept = new OrgDeptTreeEntity();
@@ -191,16 +180,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		}
 		
 		
-		BeanUtils.copyProperties(form, entity, new String[]{ "creater", "status", "project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-		entity.setProject_buglv(ClobUtil.getClob(form.getProject_buglv())) ;
-		//entity.setProject_manyidu(ClobUtil.getClob(form.getProject_manyidu())) ;
-		//entity.setProject_scx(ClobUtil.getClob(form.getProject_scx())) ;
-		
-		entity.setProject_bjzry(ClobUtil.getClob(form.getProject_bjzry())) ;
-		entity.setProject_yjtrzry(ClobUtil.getClob(form.getProject_yjtrzry())) ;
-		entity.setProject_bjscx(ClobUtil.getClob(form.getProject_bjscx())) ;
-		entity.setProject_ydscx(ClobUtil.getClob(form.getProject_ydscx())) ;
-		entity.setProject_clrl(ClobUtil.getClob(form.getProject_clrl())) ;
+		BeanUtils.copyProperties(form, entity, new String[]{ "creater", "status"});
 		
 		
 		if (null != form.getDeptid() && !"".equalsIgnoreCase(form.getDeptid())) {
@@ -255,12 +235,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc"}) ;
-		
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-		project.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
-		project.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
-		project.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+		BeanUtils.copyProperties(entity, project);
 		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
@@ -331,10 +306,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
 		
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-		project.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
-		project.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
-		project.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+		BeanUtils.copyProperties(entity, project);
 		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
@@ -406,10 +378,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if (null != entity) {
 			ProjectMainForm form = new ProjectMainForm();
 			
-			BeanUtils.copyProperties(entity, form, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-			form.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
-			form.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
-			form.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+			BeanUtils.copyProperties(entity, form);
 			
 			OrgDeptTreeEntity dept = entity.getDept();
 			if (null != dept) {
@@ -889,10 +858,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if (null != entity) {
 			ProjectMainForm form = new ProjectMainForm();
 			
-			BeanUtils.copyProperties(entity, form, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-			form.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
-			form.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
-			form.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+			BeanUtils.copyProperties(entity, form);
 			
 			OrgDeptTreeEntity dept = entity.getDept();
 			if (null != dept) {
@@ -945,10 +911,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			ProjectMainForm pform = new ProjectMainForm();
 			
 			
-			BeanUtils.copyProperties(entity, form, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-			form.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
-			form.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
-			form.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+			BeanUtils.copyProperties(entity, form);
 			
 			return pform;
 		} else {
@@ -974,17 +937,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				//float allTotalMM = 0f ;
 				float totalAllMonth = 0f ;
 				ProjectMainForm uf = new ProjectMainForm();
-				BeanUtils.copyProperties(project, uf, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-				uf.setProject_buglv(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_buglv()))) ;
-				
-				//uf.setProject_manyidu(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_manyidu()))) ;
-				//uf.setProject_scx(StringUtil.removeHTMLLable(ClobUtil.getString(project.getProject_scx()))) ;
-				
-				uf.setProject_bjzry(ClobUtil.getString(project.getProject_bjzry())) ;
-				uf.setProject_yjtrzry(ClobUtil.getString(project.getProject_yjtrzry())) ;
-				uf.setProject_bjscx(ClobUtil.getString(project.getProject_bjscx())) ;
-				uf.setProject_ydscx(ClobUtil.getString(project.getProject_ydscx())) ;
-				uf.setProject_clrl(ClobUtil.getString(project.getProject_clrl())) ;
+				BeanUtils.copyProperties(project, uf);
 				
 				uf.setLeader_name(project.getEmp().getTruename()) ;
 				
@@ -1381,10 +1334,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
 		
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-		project.setProject_buglv(StringUtil.removeHTMLLable(ClobUtil.getString(entity.getProject_buglv()))) ;
-		project.setProject_manyidu(StringUtil.removeHTMLLable(ClobUtil.getString(entity.getProject_manyidu()))) ;
-		project.setProject_scx(StringUtil.removeHTMLLable(ClobUtil.getString(entity.getProject_scx()))) ;
+		BeanUtils.copyProperties(entity, project);
 		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
@@ -1483,10 +1433,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
 		
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-		project.setProject_buglv(StringUtil.removeHTMLLable(ClobUtil.getString(entity.getProject_buglv()))) ;
-		project.setProject_manyidu(StringUtil.removeHTMLLable(ClobUtil.getString(entity.getProject_manyidu()))) ;
-		project.setProject_scx(StringUtil.removeHTMLLable(ClobUtil.getString(entity.getProject_scx()))) ;
+		BeanUtils.copyProperties(entity, project);
 		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;

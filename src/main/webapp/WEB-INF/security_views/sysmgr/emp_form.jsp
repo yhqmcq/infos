@@ -124,7 +124,9 @@
 						$("#dbmType").combobox({"required": false, "disabled": true, value: result.dbmType});
 						$("#lbmType").combobox({"required": false, "disabled": true, value: result.lbmType});
 						$("#dbmDate").datebox({"required": false, "disabled": true});
+						$("#dbmDate").datebox("setValue", result.dbmDate);
 						$("#lbmDate").datebox({"required": false, "disabled": true});
+						$("#lbmDate").datebox("setValue", result.lbmDate);
 						
 						$("#select2").combogrid({"disabled": true, value: vs});
 					}

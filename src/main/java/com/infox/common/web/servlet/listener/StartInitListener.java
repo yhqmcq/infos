@@ -88,7 +88,7 @@ public class StartInitListener implements ServletContextListener, HttpSessionLis
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	public void sessionCreated(HttpSessionEvent arg0) { }
 

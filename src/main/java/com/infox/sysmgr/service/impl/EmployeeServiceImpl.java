@@ -86,7 +86,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			entity.setTruename(StringUtil.replaceAllSpace(form.getTruename())) ;
 			
 			entity.setAccount(form.getEmail().substring(0,form.getEmail().indexOf("@"))) ;
-			entity.setPassword(RandomUtils.generateNumber(6)) ;
+			entity.setPassword(RandomUtils.generateNumber(8)) ;
 			entity.setEmail("huanglichang@whizen.com") ; 
 			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
@@ -122,7 +122,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			model.put("currentdate", new Date()) ;
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("华智PJM管理系统[登录账号和密码]") ;
+			mail.setSubject("华智项目管理系统[登录账号和密码]") ;
 			mail.setRecipientTO(entity.getEmail()) ;
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "login_account.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;

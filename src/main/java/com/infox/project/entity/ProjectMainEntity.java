@@ -68,7 +68,7 @@ public class ProjectMainEntity implements Serializable {
 	private String team_name ;
 	
 	/** 项目类型（短期迭代，长期项目，运维项目） */
-	private Integer project_type ;
+	private String project_type ;
 	
 	/** 项目状态（0.未开始，1.进行中，2.已挂起，3.已完成，4.激活，5.历史） */
 	private Integer status ;
@@ -82,34 +82,37 @@ public class ProjectMainEntity implements Serializable {
 	/** 作业范围 */
 	private String taskScope ;
 	
+	/** 项目规模 */
+	private Float project_gm = new Float(0);
+	
 	/** 所属部门（Name） */
 	private String deptname ;
 	
 	/** 反馈BUG率 */
-	private Clob project_buglv;
+	private String project_buglv;
 	
 	/** 顾客满意度 */
-	private Clob project_manyidu;
+	private String project_manyidu;
 	
 	/** 生产性目标 */
-	private Clob project_scx;
+	private String project_scx;
 	
 	/** 报价总人月 */
-	private Clob project_bjzry;
+	private String project_bjzry;
 	/** 预计投入总人月 */
-	private Clob project_yjtrzry;
+	private String project_yjtrzry;
 	/** 报价生产性 */
-	private Clob project_bjscx;
+	private String project_bjscx;
 	/** 预定生产性 */
-	private Clob project_ydscx;
+	private String project_ydscx;
 	/** 粗利润率 */
-	private Clob project_clrl;
+	private String project_clrl;
 	
 	/** 项目目标 */
-	private Clob project_target ;
+	private String project_target ;
 	
 	/** 项目描述 */
-	private Clob project_desc ;
+	private String project_desc ;
 	
 	/** 创建时间 */
 	private Date created = new Date() ;
@@ -210,25 +213,6 @@ public class ProjectMainEntity implements Serializable {
 		this.contractNum = contractNum;
 	}
 
-	public Clob getProject_bjzry() {
-		return project_bjzry;
-	}
-
-	public void setProject_bjzry(Clob project_bjzry) {
-		this.project_bjzry = project_bjzry;
-	}
-
-	public Clob getProject_yjtrzry() {
-		return project_yjtrzry;
-	}
-
-	public void setProject_yjtrzry(Clob project_yjtrzry) {
-		this.project_yjtrzry = project_yjtrzry;
-	}
-
-	public Clob getProject_bjscx() {
-		return project_bjscx;
-	}
 
 	public Float getQuot() {
 		return quot;
@@ -238,25 +222,6 @@ public class ProjectMainEntity implements Serializable {
 		this.quot = quot;
 	}
 
-	public void setProject_bjscx(Clob project_bjscx) {
-		this.project_bjscx = project_bjscx;
-	}
-
-	public Clob getProject_ydscx() {
-		return project_ydscx;
-	}
-
-	public void setProject_ydscx(Clob project_ydscx) {
-		this.project_ydscx = project_ydscx;
-	}
-
-	public Clob getProject_clrl() {
-		return project_clrl;
-	}
-
-	public void setProject_clrl(Clob project_clrl) {
-		this.project_clrl = project_clrl;
-	}
 
 	@Id
 	public String getId() {
@@ -274,45 +239,15 @@ public class ProjectMainEntity implements Serializable {
 		return deptname;
 	}
 
-	public Clob getProject_target() {
-		return project_target;
+
+	public Float getProject_gm() {
+		return project_gm;
 	}
 
-	public void setProject_target(Clob project_target) {
-		this.project_target = project_target;
+	public void setProject_gm(Float project_gm) {
+		this.project_gm = project_gm;
 	}
 
-	public Clob getProject_desc() {
-		return project_desc;
-	}
-
-	public Clob getProject_buglv() {
-		return project_buglv;
-	}
-
-	public void setProject_buglv(Clob project_buglv) {
-		this.project_buglv = project_buglv;
-	}
-
-	public Clob getProject_manyidu() {
-		return project_manyidu;
-	}
-
-	public void setProject_manyidu(Clob project_manyidu) {
-		this.project_manyidu = project_manyidu;
-	}
-
-	public Clob getProject_scx() {
-		return project_scx;
-	}
-
-	public void setProject_scx(Clob project_scx) {
-		this.project_scx = project_scx;
-	}
-
-	public void setProject_desc(Clob project_desc) {
-		this.project_desc = project_desc;
-	}
 
 	public void setDeptname(String deptname) {
 		this.deptname = deptname;
@@ -358,12 +293,93 @@ public class ProjectMainEntity implements Serializable {
 		this.team_name = team_name;
 	}
 
-	public Integer getProject_type() {
+
+	public String getProject_type() {
 		return project_type;
 	}
 
-	public void setProject_type(Integer project_type) {
+	public void setProject_type(String project_type) {
 		this.project_type = project_type;
+	}
+
+	public String getProject_buglv() {
+		return project_buglv;
+	}
+
+	public void setProject_buglv(String project_buglv) {
+		this.project_buglv = project_buglv;
+	}
+
+	public String getProject_manyidu() {
+		return project_manyidu;
+	}
+
+	public void setProject_manyidu(String project_manyidu) {
+		this.project_manyidu = project_manyidu;
+	}
+
+	public String getProject_scx() {
+		return project_scx;
+	}
+
+	public void setProject_scx(String project_scx) {
+		this.project_scx = project_scx;
+	}
+
+	public String getProject_bjzry() {
+		return project_bjzry;
+	}
+
+	public void setProject_bjzry(String project_bjzry) {
+		this.project_bjzry = project_bjzry;
+	}
+
+	public String getProject_yjtrzry() {
+		return project_yjtrzry;
+	}
+
+	public void setProject_yjtrzry(String project_yjtrzry) {
+		this.project_yjtrzry = project_yjtrzry;
+	}
+
+	public String getProject_bjscx() {
+		return project_bjscx;
+	}
+
+	public void setProject_bjscx(String project_bjscx) {
+		this.project_bjscx = project_bjscx;
+	}
+
+	public String getProject_ydscx() {
+		return project_ydscx;
+	}
+
+	public void setProject_ydscx(String project_ydscx) {
+		this.project_ydscx = project_ydscx;
+	}
+
+	public String getProject_clrl() {
+		return project_clrl;
+	}
+
+	public void setProject_clrl(String project_clrl) {
+		this.project_clrl = project_clrl;
+	}
+
+	public String getProject_target() {
+		return project_target;
+	}
+
+	public void setProject_target(String project_target) {
+		this.project_target = project_target;
+	}
+
+	public String getProject_desc() {
+		return project_desc;
+	}
+
+	public void setProject_desc(String project_desc) {
+		this.project_desc = project_desc;
 	}
 
 	public Integer getStatus() {

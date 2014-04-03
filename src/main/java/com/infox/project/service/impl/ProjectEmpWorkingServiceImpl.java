@@ -20,7 +20,6 @@ import com.infox.common.freemarker.FreeMarkerToHtmlUtil;
 import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
 import com.infox.common.mail.MailVO;
 import com.infox.common.util.BeanUtils;
-import com.infox.common.util.ClobUtil;
 import com.infox.common.util.Constants;
 import com.infox.common.util.DateUtil;
 import com.infox.common.web.page.DataGrid;
@@ -183,10 +182,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
 		
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-		project.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
-		project.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
-		project.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+		BeanUtils.copyProperties(entity, project);
 		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
@@ -305,10 +301,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
 		
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-		project.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
-		project.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
-		project.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+		BeanUtils.copyProperties(entity, project);
 		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
@@ -588,10 +581,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		
 		ProjectMainForm project = new ProjectMainForm() ;
 		
-		BeanUtils.copyProperties(entity, project, new String[]{"project_target", "project_desc", "project_buglv", "project_manyidu", "project_scx"});
-		project.setProject_buglv(ClobUtil.getString(entity.getProject_buglv())) ;
-		project.setProject_manyidu(ClobUtil.getString(entity.getProject_manyidu())) ;
-		project.setProject_scx(ClobUtil.getString(entity.getProject_scx())) ;
+		BeanUtils.copyProperties(entity, project);
 		
 		project.setDeptname(entity.getDept().getFullname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;

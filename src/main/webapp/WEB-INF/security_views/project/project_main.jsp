@@ -23,9 +23,9 @@
 			    { field: 'contractNum', title: '合同编号', width: 150, sortable: true }, 
 			    { field: 'shouzhu', title: '合同受注状况', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
-			    		return "<font color='blue'>未受注</font>" ; 
+			    		return "<font color='red'>未受注</font>" ; 
 			    	} else if(value == 1) { 
-			    		return "<font color='blue'>已受注</font>" ; 
+			    		return "<font color='green'>已受注</font>" ; 
 			    	}
 			    } },
 			    { field: 'name', title: '项目名称', width: 250, sortable: true, tooltip: true, formatter:function(value,row,index){
@@ -59,10 +59,11 @@
 			    //{ field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return infosUtil.numberf(value,2)+"&nbsp;人月";} },
 			    { field: 'dateDiff', title: '总天数', width: 80, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
 			    { field: 'lastdateDiff', title: '剩余天数', width: 80, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
-			    { field: 'project_type', title: '项目类型', width: 120, sortable: true, formatter:function(value,row){
-			    	if(value == 0){ return "对日短期保守项目" ; } else  if(value == 1) { return "对日长期保守项目" ; } else  if(value == 2) { return "对日新规项目" ; } else  if(value == 3) { return "国内项目" ; } else { return "公司内部项目" ; }
+			    { field: 'project_type', title: '项目类型', width: 120, sortable: true},
+			    { field: 'taskScope', title: '作业范围', width: 80, sortable: true, tooltip: true },
+			    { field: 'project_gm', title: '项目规模', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
+			    	return (undefined != value?value:0) + "&nbsp;Ks" ;
 			    } },
-			    { field: 'taskScope', title: '作业范围', width: 100, sortable: true, tooltip: true },
 			    { field: 'project_buglv', title: '顾客反馈BUG率目标', width: 120, sortable: true, tooltip: true },
 			    { field: 'project_bjzry', title: '报价总人月', width: 120, sortable: true, tooltip: true },
 			    { field: 'project_yjtrzry', title: '预计投入总人月数', width: 120, sortable: true, tooltip: true },
@@ -100,7 +101,7 @@
 		}
 		var $dialog = $.easyui.showDialog({
             title: "表单", href: form_url, iniframe: false,
-            width: 760, height: 530, topMost: true, autoVCenter: false, autoHCenter: false,
+            width: 860, height: 530, topMost: true, autoVCenter: false, autoHCenter: false,
             enableApplyButton: false, enableCloseButton: false, enableSaveButton: false,
             buttons : [ 
               { text : '保存', iconCls : 'ext_save', handler : function() { $.easyui.parent.submitForm($dialog, dataGrid) ; } },

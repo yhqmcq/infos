@@ -29,11 +29,11 @@
 		<table>
 			<tr>
 				<th>旧密码：</th>
-				<td><input name="oldPwd" validType="length[6,8]" class="easyui-validatebox" type="password" data-options="required:true, prompt: '旧密码'" /></td>
+				<td><input name="oldPwd" validType="length[8,10]" class="easyui-validatebox" type="password" data-options="required:true, prompt: '旧密码'" /></td>
 			</tr>
 			<tr>
 				<th>新密码：</th>
-				<td><input id="password" name="password" validType="length[6,8]" class="easyui-validatebox" type="password" data-options="required:true, prompt: '新密码'" /></td>
+				<td><input id="password" name="password" validType="length[8,10]" class="easyui-validatebox" type="password" data-options="required:true, prompt: '新密码'" /></td>
 			</tr>
 			<tr>
 				<th>确认密码：</th>

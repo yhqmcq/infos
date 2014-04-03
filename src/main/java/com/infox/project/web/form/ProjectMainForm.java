@@ -37,7 +37,7 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	private String team_name;
 
 	/** 项目类型（短期迭代，长期项目，运维项目） */
-	private Integer project_type;
+	private String project_type;
 
 	/** 项目状态（0.未开始，1.进行中，2.已挂起，3.已完成，4.激活，5.历史） */
 	private Integer status;
@@ -68,6 +68,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	
 	/** 作业范围 */
 	private String taskScope ;
+	
+	/** 项目规模 */
+	private Float project_gm = new Float(0);
 	
 	/** 反馈BUG率 */
 	private String project_buglv;
@@ -357,6 +360,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 		return leader_name;
 	}
 
+	public Float getProject_gm() {
+		return project_gm;
+	}
+
+	public void setProject_gm(Float project_gm) {
+		this.project_gm = project_gm;
+	}
+
 	public void setLeader_name(String leader_name) {
 		this.leader_name = leader_name;
 	}
@@ -381,11 +392,12 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 		this.team_name = team_name;
 	}
 
-	public Integer getProject_type() {
+
+	public String getProject_type() {
 		return project_type;
 	}
 
-	public void setProject_type(Integer project_type) {
+	public void setProject_type(String project_type) {
 		this.project_type = project_type;
 	}
 
