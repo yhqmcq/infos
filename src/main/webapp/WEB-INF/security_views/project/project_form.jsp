@@ -60,8 +60,8 @@
 						'project_clrl' : result.project_clrl,
 						'leader_name' : result.leader_name
 					});
-					$("input[name=projectNum]").attr("readonly","readonly") ;
-					$("input[name=contractNum]").attr("readonly","readonly") ;
+					//$("input[name=projectNum]").attr("readonly","readonly") ;
+					//$("input[name=contractNum]").attr("readonly","readonly") ;
 					$("#form input:visible")[0].focus();
 				}
 			}, 'json');

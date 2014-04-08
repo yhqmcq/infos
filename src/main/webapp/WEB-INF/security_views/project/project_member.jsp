@@ -12,8 +12,8 @@
 	var addIds = [] ;
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
-			title: '空闲员工列表', 
-			url: yhq.basePath+"/sysmgr/employee/datagrid.do?inStatus=0",
+			title: '待机员工列表', 
+			url: yhq.basePath+"/sysmgr/employee/datagrid.do?notInStatus=9999,1,3",
 			idField: 'id', fit: true, border: false, method: "post",pageSize: 15, pageList: [15,20,30,40,100],
 			remoteSort: false, toolbar: '#buttonbar1', striped:true, pagination: true,rownumbers: true,
 			frozenColumns: [[
@@ -132,11 +132,15 @@
 	}
 	
 	function addAllMember() {
-		dataGrid1.datagrid("checkAll");
-		var rows = dataGrid1.datagrid("getSelections");
-		if(rows.length > 0) {
-			addMember() ;
-		}
+		$.messager.confirm("您确定要进行该操作？", function (c) { 
+			if(c) {
+				dataGrid1.datagrid("checkAll");
+				var rows = dataGrid1.datagrid("getSelections");
+				if(rows.length > 0) {
+					addMember() ;
+				}
+			}
+		});
 	}
 	function addMember() {
 		var rows = dataGrid1.datagrid("getSelections");
@@ -167,11 +171,15 @@
 		}
 	}
 	function revertAllMember() {
-		dataGrid2.datagrid("checkAll");
-		var rows = dataGrid2.datagrid("getSelections");
-		if(rows.length > 0) {
-			revertMember() ;
-		}
+		$.messager.confirm("您确定要进行该操作？", function (c) { 
+			if(c) {
+				dataGrid2.datagrid("checkAll");
+				var rows = dataGrid2.datagrid("getSelections");
+				if(rows.length > 0) {
+					revertMember() ;
+				}
+			}
+		});	
 	}
 	function revertMember() {
 		var rows = dataGrid2.datagrid("getSelections");

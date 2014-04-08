@@ -87,7 +87,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			
 			entity.setAccount(form.getEmail().substring(0,form.getEmail().indexOf("@"))) ;
 			entity.setPassword(RandomUtils.generateNumber(8)) ;
-			entity.setEmail("huanglichang@whizen.com") ; 
+			entity.setEmail("yhqmcq@126.com") ; 
 			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
@@ -247,6 +247,9 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		}
 		if(null == entity.getWorkStatus()) {
 			entity.setWorkStatus(0) ;
+		}
+		if(3 == entity.getLbmType()) {
+			entity.setWorkStatus(3) ;
 		}
 		
 		
@@ -416,6 +419,15 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				hql += " and t.lbmType=:lbmType";
 				params.put("lbmType", form.getLbmType());
 			}
+			/*if (null != form.getNotInLbmType() && !"".equals(form.getNotInLbmType())) {
+				hql += " and t.lbmType not in (:lbmType)";
+				String[] split = form.getNotInLbmType().split(",");
+				Integer[] states = new Integer[split.length];
+				for (int i = 0; i < states.length; i++) {
+					states[i] = Integer.parseInt(split[i]);
+				}
+				params.put("lbmType", states);
+			}*/
 			if (null != form.getNotInStatus() && !"".equals(form.getNotInStatus())) {
 				hql += " and t.workStatus not in (:workStatus)";
 				String[] split = form.getNotInStatus().split(",");
@@ -435,6 +447,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				params.put("workStatus", states);
 			}
 		}
+		System.out.println(hql);
 		return hql;
 	}
 

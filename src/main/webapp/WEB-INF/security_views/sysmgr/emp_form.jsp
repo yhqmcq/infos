@@ -134,12 +134,14 @@
 				}
 			}, 'json');
 		}
-		$("#form input[name=truename]").blur(function(){
-			if(undefined != $(this).val() && "" != $(this).val()) {
-				var pinyin= PinYin.topy($(this).val());
-				$("#form input[name=email]").val(pinyin+"@whizen.com") ;
-			}
-		});
+		if($('input[name=id]').val()=="") {
+			$("#form input[name=truename]").blur(function(){
+				if(undefined != $(this).val() && "" != $(this).val()) {
+					var pinyin= PinYin.topy($(this).val());
+					$("#form input[name=email]").val(pinyin+"@whizen.com") ;
+				}
+			});
+		}
 		$("#form input:visible")[0].focus();
 	});
 	

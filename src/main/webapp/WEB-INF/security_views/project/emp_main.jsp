@@ -82,13 +82,13 @@
 		
 		s2 = $("#select2").combobox({
 			valueField: 'label', textField: 'value',
-			data: [{ label: '1', value: '待机人员' },{ label: '2', value: '在项目人员' },{ label: '3', value: '离职人员' }],
+			data: [{ label: '1', value: '待机人员' },{ label: '3', value: '离职人员' },{ label: '2', value: '在项目人员' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				var data = {} ;
-				if(node.label == 1) { data["notInStatus"] = "9999,1" ; }
-				if(node.label == 2) { data["notInStatus"] = "9999,0" ; }
-				if(node.label == 3) { data["lbmType"] = 3 ; }
+				if(node.label == 1) { data["notInStatus"] = "9999,1,3" ; }
+				if(node.label == 2) { data["notInStatus"] = "9999,0,3" ; }
+				if(node.label == 3) { data["notInStatus"] = "9999,0,1" ; }
 				dataGrid.datagrid("load",data);
 			}
 	    });

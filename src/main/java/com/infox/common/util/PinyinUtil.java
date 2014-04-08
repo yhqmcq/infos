@@ -67,7 +67,7 @@ public class PinyinUtil {
 	}
 
 	public static void main(String[] args) {
-		String cnStr = "杨浩泉（A-C）";
+		String cnStr = "李寧（A-C）";
 		System.out.println(getPinYin(cnStr));
 		System.out.println(getPinYinHeadChar(cnStr));
 		System.out.println(getCnASCII(cnStr));

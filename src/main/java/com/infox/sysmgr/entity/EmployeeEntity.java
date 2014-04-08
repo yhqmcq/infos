@@ -92,7 +92,7 @@ public class EmployeeEntity implements Serializable{
 	/** 员工状态(1在职，2离职，3停薪留职，4出差) */
 	private Integer state = new Integer(0) ;
 	
-	/** 员工工作状态（0空闲，1已在项目，2出差） */
+	/** 员工工作状态（0空闲，1已在项目，2出差，3离职） */
 	private Integer workStatus = new Integer(0) ;
 	
 	private OrgDeptTreeEntity org ;

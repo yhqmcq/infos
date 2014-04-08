@@ -89,8 +89,16 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	@Override
 	public void cancelOperate(ProjectEmpWorkingForm form) {
 		String[] ids = form.getIds().split(",") ;
+		List<String> list = new ArrayList<String>();
+		
+		for (int i = 0; i < ids.length; i++) {
+			if (!list.contains(ids[i])) {// 如果数组 list 不包含当前项，则增加该项到数组中
+				list.add(ids[i]);
+			}
+		}
+		
 		if(null != ids && ids.length > 0) {
-			for (String id : ids) {
+			for (String id : list.toArray(new String[1])) {
 				ProjectEmpWorkingEntity p = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id) ;
 				p.getEmp().setWorkStatus(0) ;
 				this.basedaoProjectEW.delete(p) ;

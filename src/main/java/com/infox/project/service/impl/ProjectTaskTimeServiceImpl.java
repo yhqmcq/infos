@@ -144,6 +144,10 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					
 					uf.setEmp_id(e.getId());
 					uf.setEmp_name(e.getTruename());
+					uf.setDbmType(e.getDbmType()) ;
+					uf.setDbmDate(e.getDbmDate()) ;
+					uf.setLbmType(e.getLbmType()) ;
+					uf.setLbmDate(e.getLbmDate()) ;
 					
 					OrgDeptTreeEntity org = e.getOrg();
 					if (null != org) {

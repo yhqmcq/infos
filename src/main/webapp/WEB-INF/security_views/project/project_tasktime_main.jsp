@@ -66,7 +66,23 @@
 			    { field: 'month9', title: '九月', width: 60, sortable: true },
 			    { field: 'month10', title: '十月', width: 60, sortable: true },
 			    { field: 'month11', title: '十一月', width: 60, sortable: true },
-			    { field: 'month12', title: '十二月', width: 60, sortable: true }
+			    { field: 'month12', title: '十二月', width: 60, sortable: true },
+			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value != undefined) {
+				    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}else if(value == "5"){return "停薪留职返回";}
+			    	} else {return "" ;}  
+			    }},
+			    { field: 'dbmDate', title: '到部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'lbmType', title: '离部门类型', width: 110, sortable: true, formatter:function(value,row){
+			    	if(value != undefined) {
+				    	if(value == "1"){return "转出（到开发部）";}else if(value == "2"){return "转出（到非开发部）";}else if(value == "3"){return "<font color='red'>离职</font>";}else if(value == "4"){return "停薪留职";}
+			    	} else {return "" ;}  
+			    }},
+			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }}
 			]],
 			detailFormatter:function(index,row){
 			 	return '<div class="ddv" style="padding:5px 0"></div>';
