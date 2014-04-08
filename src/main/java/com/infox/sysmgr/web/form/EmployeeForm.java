@@ -93,16 +93,6 @@ public class EmployeeForm extends PageHelper{
 	private String inStatus;
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus;
-	/** 用于NOT IN查询离部门类型(0,1,2,3,4) */
-	private String notInLbmType;
-
-	public String getNotInLbmType() {
-		return notInLbmType;
-	}
-
-	public void setNotInLbmType(String notInLbmType) {
-		this.notInLbmType = notInLbmType;
-	}
 
 	public String getInStatus() {
 		return inStatus;

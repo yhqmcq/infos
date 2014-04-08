@@ -419,15 +419,6 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				hql += " and t.lbmType=:lbmType";
 				params.put("lbmType", form.getLbmType());
 			}
-			/*if (null != form.getNotInLbmType() && !"".equals(form.getNotInLbmType())) {
-				hql += " and t.lbmType not in (:lbmType)";
-				String[] split = form.getNotInLbmType().split(",");
-				Integer[] states = new Integer[split.length];
-				for (int i = 0; i < states.length; i++) {
-					states[i] = Integer.parseInt(split[i]);
-				}
-				params.put("lbmType", states);
-			}*/
 			if (null != form.getNotInStatus() && !"".equals(form.getNotInStatus())) {
 				hql += " and t.workStatus not in (:workStatus)";
 				String[] split = form.getNotInStatus().split(",");
