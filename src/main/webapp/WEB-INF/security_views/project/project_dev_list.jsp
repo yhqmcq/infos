@@ -20,50 +20,48 @@
 			    { field: 'emp_name', title: '姓名', width: 70, sortable: true }
 			]],
 			columns: [[
-			    { field: 'dept_name', title: '部门', width: 120, sortable: true },
-			    { field: 'position_sname', title: '公司岗位', width: 120, sortable: true },
-			    { field: 'positionDate', title: '岗位变更实施日期', width: 120, sortable: true },
-			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value != undefined) {
-				    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}else if(value == "5"){return "停薪留职返回";}
-			    	} else {return "" ;}  
-			    }},
-			    { field: 'dbmDate', title: '到部门日期', width: 100, sortable: true, formatter:function(value,row){
-			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
-			    }},
-			    { field: 'lbmType', title: '离部门类型', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value != undefined) {
-				    	if(value == "1"){return "转出（到开发部）";}else if(value == "2"){return "转出（到非开发部）";}else if(value == "3"){return "<font color='red'>离职</font>";}else if(value == "4"){return "停薪留职";}
-			    	} else {return "" ;}  
-			    }},
-			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
-			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
-			    }},
-			    { field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
-			    	if(value == 0) {
-			    		return "未设置角色" ;
-			    	} else if(value == 1) {
-			    		return "PM" ;
-			    	} else if(value == 2) {
-			    		return "PL" ;
-			    	} else if(value == 3) {
-			    		return "SE" ;
-			    	} else if(value == 4) {
-			    		return "PG" ;
-			    	} else if(value == 5) {
-			    		return "初级PG1" ;
-			    	}else if(value == 6) {
-			    		return "初级PG2" ;
-			    	}else if(value == 7) {
-			    		return "初级PG3" ;
-			    	}
-			    }},
+			    { field: 'dept_name', title: '部门', width: 50, sortable: true },
 			    { field: 'sd', title: '开始时间', width: 80, sortable: true },
 			    { field: 'ed', title: '结束时间', width: 80, sortable: true },
-			    { field: 'totalTaskTime', title: '天数', width: 80, sortable: true },
-			    { field: 'mm', title: '人月', width: 80, sortable: true, formatter: function(value,row){
+			    { field: 'totalTaskTime', title: '天数', width: 50, sortable: true },
+			    { field: 'mm', title: '人月', width: 50, sortable: true, formatter: function(value,row){
 			    	return infosUtil.numberf(value, 2) ;
 			    }},
+				{ field: 'project_role', title: '担任角色', width: 70, sortable: true, formatter: function(value,row){
+					if(value == 0) {
+						return "未设置角色" ;
+					} else if(value == 1) {
+						return "PM" ;
+					} else if(value == 2) {
+						return "PL" ;
+					} else if(value == 3) {
+						return "SE" ;
+					} else if(value == 4) {
+						return "PG" ;
+					} else if(value == 5) {
+						return "初级PG1" ;
+					}else if(value == 6) {
+						return "初级PG2" ;
+					}else if(value == 7) {
+						return "初级PG3" ;
+					}
+				}},
+				{ field: 'position_sname', title: '公司岗位', width: 70, sortable: true },
+				{ field: 'totalHour', title: '累计加班', width: 70, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'totalCurrentHourLV', title: '当前累计加班率', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'></div>" ;
+			    	}
+			    } },
+			    { field: 'totalAllHourLV', title: '总加班率', width: 60, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'></div>" ;
+			    	}
+			    } }, 
 			    { field: 'expendDays', title: '已消耗天数', width: 80, sortable: true},
 			    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
 			    	return infosUtil.numberf(value, 2) ;
@@ -113,21 +111,23 @@
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'totalHour', title: '累计加班小时', width: 100, sortable: true, formatter: function(value, row){
-			    	if(undefined != value) {
-				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
-			    	}
-			    } },
-			    { field: 'totalAllHourLV', title: '总加班率', width: 100, sortable: true, formatter: function(value, row){
-			    	if(undefined != value) {
-				    	return "<div style='float:left'>"+value+"</div><div style='float:right'></div>" ;
-			    	}
-			    } },
-			    { field: 'totalCurrentHourLV', title: '当前班率', width: 100, sortable: true, formatter: function(value, row){
-			    	if(undefined != value) {
-				    	return "<div style='float:left'>"+value+"</div><div style='float:right'></div>" ;
-			    	}
-			    } },
+			    { field: 'positionDate', title: '岗位变更实施日期', width: 120, sortable: true },
+			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value != undefined) {
+				    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}else if(value == "5"){return "停薪留职返回";}
+			    	} else {return "" ;}  
+			    }},
+			    { field: 'dbmDate', title: '到部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'lbmType', title: '离部门类型', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value != undefined) {
+				    	if(value == "1"){return "转出（到开发部）";}else if(value == "2"){return "转出（到非开发部）";}else if(value == "3"){return "<font color='red'>离职</font>";}else if(value == "4"){return "停薪留职";}
+			    	} else {return "" ;}  
+			    }},
+			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
 			    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 			    }}

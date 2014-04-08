@@ -187,9 +187,9 @@
 			</tr>
 			<tr>
 				<th>初始粗利润率：</th>
-				<td><input class="easyui-validatebox" name="project_ydscx" style="width:250px;" /></td>
+				<td><input class="easyui-validatebox" name="project_clrl" style="width:250px;" /></td>
 				<th>预定生产性：</th>
-				<td><input class="easyui-validatebox" name="project_clrl" /> Ks/人月</td>
+				<td><input class="easyui-validatebox" name="project_ydscx" /> Ks/人月</td>
 			</tr>
 		</table>
 	</div>

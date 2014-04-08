@@ -15,12 +15,51 @@
 			idField: 'id', fit: true, method: "post", border: false, remoteSort: false, rownumbers :true,
 			toolbar: '#buttonbar', singleSelect: true, striped:true, pagination: true,pageSize: 15,pageList: [15,25,35,50],
 			frozenColumns: [[
-			    { field: 'ck', checkbox: true }
-		    ]],
-			columns: [[
+			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: 'ID', width: 80, sortable: true, hidden: true },
 			    { field: 'projectNum', title: '项目编号', width: 80, sortable: true }, 
-			    { field: 'contractNum', title: '合同编号', width: 150, sortable: true }, 
+			    { field: 'name', title: '项目名称', width: 200, sortable: true, tooltip: true, formatter:function(value,row,index){
+		    		//var opa = $.string.format("<p><a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a><p/>", row.id, value);
+		    		var opa = $.string.format("<p><a href='javascript:;' onclick='getDevList(\"{0}\",\"{1}\")'>{1}</a><p/>", row.id, value, value);
+		    		return opa ;
+		    	}}
+		    ]],
+			columns: [[
+			    { field: 'sedate', title: '项目起止日期', width: 170, sortable: true, formatter:function(value,row){
+			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd") ;
+			    	return sed ;
+			    } },
+			    { field: 'totalMonth', title: '月数', width: 60, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>个月</div>" ;} },
+			    //{ field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return infosUtil.numberf(value,2)+"&nbsp;人月";} },
+			    { field: 'dateDiff', title: '总天数', width: 60, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
+			    { field: 'lastdateDiff', title: '剩余天数', width: 70, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
+			    { field: 'quot', title: '系数', width: 40, sortable: true },
+			    { field: 'leader_name', title: '项目负责人', width: 70, sortable: true },
+			    { field: 'deptname', title: '所属部门', width: 60, sortable: true },
+			    { field: 'deptLeader', title: '所属部长', width: 60, sortable: true },
+			    //{ field: 'code', title: '项目简称', width: 110, sortable: true },
+			    { field: 'project_type', title: '项目类型', width: 120, sortable: true},
+			    { field: 'taskScope', title: '作业范围', width: 80, sortable: true, tooltip: true },
+			    { field: 'project_gm', title: '项目规模', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
+			    	return (undefined != value?value:0) + "&nbsp;Ks" ;
+			    } },
+			    { field: 'project_buglv', title: '顾客反馈BUG率目标', width: 120, sortable: true, tooltip: true, formatter:function(value,row){
+			    	return (undefined != value?value:0) + "&nbsp;件/Ks" ;
+			    } },
+			    { field: 'project_bjzry', title: '报价总人月数', width: 90, sortable: true, tooltip: true },
+			    { field: 'project_yjtrzry', title: '预计投入总人月数', width: 120, sortable: true, tooltip: true },
+			    { field: 'project_bjscx', title: '报价生产性', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
+			    	return (undefined != value?value:0) + "&nbsp;Ks/人月" ;
+			    } },
+			    { field: 'project_ydscx', title: '预定生产性', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
+			    	return (undefined != value?value:0) + "&nbsp;Ks/人月" ;
+			    } },
+			    { field: 'project_clrl', title: '粗利润率', width: 60, sortable: true, tooltip: true, formatter:function(value,row){
+			    	return (undefined != value?value:0) + "&nbsp;%" ;
+			    } },
+			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
+			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
+			    { field: 'contractNum', title: '合同编号', width: 90, sortable: true }, 
 			    { field: 'shouzhu', title: '合同受注状况', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='red'>未受注</font>" ; 
@@ -28,16 +67,6 @@
 			    		return "<font color='green'>已受注</font>" ; 
 			    	}
 			    } },
-			    { field: 'name', title: '项目名称', width: 250, sortable: true, tooltip: true, formatter:function(value,row,index){
-		    		//var opa = $.string.format("<p><a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a><p/>", row.id, value);
-		    		var opa = $.string.format("<p><a href='javascript:;' onclick='getDevList(\"{0}\",\"{1}\")'>{1}</a><p/>", row.id, value, value);
-		    		return opa ;
-		    	}},
-			    { field: 'quot', title: '系数', width: 60, sortable: true },
-			    { field: 'deptname', title: '所属部门', width: 100, sortable: true },
-			    { field: 'deptLeader', title: '所属部长', width: 100, sortable: true },
-			    { field: 'leader_name', title: '项目负责人', width: 100, sortable: true },
-			    //{ field: 'code', title: '项目简称', width: 110, sortable: true },
 			    { field: 'status', title: '状态', width: 60, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='blue'>未开始</font>" ; 
@@ -51,27 +80,6 @@
 			    		return "历史" ; 
 			    	}
 			    } },
-			    { field: 'sedate', title: '项目起止日期', width: 180, sortable: true, formatter:function(value,row){
-			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd") ;
-			    	return sed ;
-			    } },
-			    { field: 'totalMonth', title: '月数', width: 80, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>个月</div>" ;} },
-			    //{ field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return infosUtil.numberf(value,2)+"&nbsp;人月";} },
-			    { field: 'dateDiff', title: '总天数', width: 80, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
-			    { field: 'lastdateDiff', title: '剩余天数', width: 80, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
-			    { field: 'project_type', title: '项目类型', width: 120, sortable: true},
-			    { field: 'taskScope', title: '作业范围', width: 80, sortable: true, tooltip: true },
-			    { field: 'project_gm', title: '项目规模', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
-			    	return (undefined != value?value:0) + "&nbsp;Ks" ;
-			    } },
-			    { field: 'project_buglv', title: '顾客反馈BUG率目标', width: 120, sortable: true, tooltip: true },
-			    { field: 'project_bjzry', title: '报价总人月', width: 120, sortable: true, tooltip: true },
-			    { field: 'project_yjtrzry', title: '预计投入总人月数', width: 120, sortable: true, tooltip: true },
-			    { field: 'project_bjscx', title: '报价生产性', width: 120, sortable: true, tooltip: true },
-			    { field: 'project_ydscx', title: '预定生产性', width: 120, sortable: true, tooltip: true },
-			    { field: 'project_clrl', title: '粗利润率', width: 120, sortable: true, tooltip: true },
-			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
-			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
 			]],
 		 	onDblClickRow : function(rowIndex, rowData) {
