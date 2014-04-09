@@ -201,6 +201,9 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					// 获取个人的所有工时人月等等
 					List<ProjectEmpWorkingEntity> pews = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.emp.id=:empid and t.startDate between :startdate and :enddate", params);
 					
+					System.out.println("----------------------------------------");
+					
+					
 					for (ProjectEmpWorkingEntity ew : pews) {
 						
 						// 计算有效天数（减去周六日）
@@ -273,6 +276,9 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						
 						//System.out.println("*********************************begin计算每个月的人月*************************************");
 						
+						//这里会修改数据库的数据
+						//ew.setStartDate(DateUtil.formatGG("2014-01-01")) ;
+						
 						Calendar ary11 = Calendar.getInstance();
 						ary11.setTime(DateUtil.formatGG(DateUtil.formatG(ew.getStartDate())));
 						String ym11 = ary11.get(Calendar.YEAR) + "" + (ary11.get(Calendar.MONTH)+1);
@@ -283,6 +289,16 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						
 						Calendar cd1 = Calendar.getInstance();
 						cd1.setTime(new Date());
+						
+						System.out.println(DateUtil.formatG(ew.getStartDate())+"==="+ary11.get(Calendar.YEAR) + "=1111=" + cd1.get(Calendar.YEAR));
+						//判断年份，如果开始日期的年份小于当前年份，则将开始日期重置为当前年的一月一号，在计算稼动率，稼动率只算今天的。
+						if(ary11.get(Calendar.YEAR) < cd1.get(Calendar.YEAR)) {
+							ary11.set(Calendar.YEAR, cd1.get(Calendar.YEAR)) ;
+							ary11.set(Calendar.MONTH, 0) ;
+							ary11.set(Calendar.DAY_OF_MONTH, 1) ;
+							System.out.println("========"+DateUtil.formatG(ary11.getTime()));
+						}
+						
 						
 						int m2 = (ary22.get(Calendar.MONTH) + 1) - (ary11.get(Calendar.MONTH) + 1);
 						
@@ -590,7 +606,9 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(new Date())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+ew.getProject().getQuot() +"  --6稼动率"+quot);
 								}
 								
-								if("秦亚强".equals(e.getTruename())) {
+								
+								//如果到部门的日期是否小于进入项目的开始日期，如果是则计算之前月份的标准天数，如（到部门：2014-02-17 进项目的开始日期：2014-04-01）也需要计算2、3月份的标准天数（2月10天，3月21天）
+								if(null != e.getDbmDate() && !"".equals(e.getDbmDate())) {
 									System.out.println("到部门时间："+e.getDbmDate() + "  进项目的开始工作时间："+ew.getStartDate());
 									
 									//到部门的时间
@@ -603,48 +621,50 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									
 									int ps = (projectStartCal.get(Calendar.MONTH)+1) ;
 									int dbmDate = (dbmCal.get(Calendar.MONTH)+1) ;
-									int months = ps - dbmDate ;
-									for(int di=1; di<months+1; di++) {
-										int swithMonth = 0 ;
-										
-										//说明，当前月相隔到部门的月只是相差一个月，所以不能按整月的有效天数计算，只能按到部门的实际日期来计算
-										if(di == 1) {
-											swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
+									
+									if(dbmDate < ps) {
+										int months = ps - dbmDate ;
+										for(int di=1; di<months+1; di++) {
+											int swithMonth = 0 ;
 											
-											//最后一天
-											Calendar dbmCalLast = Calendar.getInstance() ;
-											dbmCalLast.setTime(DateUtil.formatGG(e.getDbmDate())) ;
-											dbmCalLast.set(Calendar.DAY_OF_MONTH, dbmCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+											//说明，当前月相隔到部门的月只是相差一个月，所以不能按整月的有效天数计算，只能按到部门的实际日期来计算
+											if(di == 1) {
+												swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
+												
+												//最后一天
+												Calendar dbmCalLast = Calendar.getInstance() ;
+												dbmCalLast.setTime(DateUtil.formatGG(e.getDbmDate())) ;
+												dbmCalLast.set(Calendar.DAY_OF_MONTH, dbmCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+												
+												int workingDays = DateCal.getWorkingDays(e.getDbmDate(), DateUtil.formatG(dbmCalLast.getTime()));
+												
+												sjyxts = ((Integer)workingDays).floatValue() ;
+												System.out.println("==="+e.getDbmDate()+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
+											}
 											
-											int workingDays = DateCal.getWorkingDays(e.getDbmDate(), DateUtil.formatG(dbmCalLast.getTime()));
+											if(di > 1) {
+												int setMonth = dbmDate++ ;
+												
+												//System.out.println(DateUtil.formatG(dbmCal.getTime()) +"==="+dbmCal.get(Calendar.MONTH)+"=="+di+"==" + ((di-(dbmCal.get(Calendar.MONTH)==0?dbmCal.get(Calendar.MONTH)+1:dbmCal.get(Calendar.MONTH)))+1));
+												dbmCal.set(Calendar.MONTH, setMonth) ;
+												
+												dbmCal.set(Calendar.MONTH, setMonth) ;
+												dbmCal.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
+												String d1 = DateUtil.formatG(dbmCal.getTime()) ;
+												
+												dbmCal.set(Calendar.DAY_OF_MONTH, dbmCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+												String d2 = DateUtil.formatG(dbmCal.getTime()) ;
+												
+												int workingDays = DateCal.getWorkingDays(d1, d2);
+												
+												sjyxts = ((Integer)workingDays).floatValue() ;
+												
+												swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
+												
+												System.out.println("==="+d1 +"==="+d2 +"===" + sjyxts);
+											}
 											
-											sjyxts = ((Integer)workingDays).floatValue() ;
-											System.out.println("==="+e.getDbmDate()+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
-										}
-										
-										if(di > 1) {
-											int setMonth = dbmDate++ ;
-											
-											//System.out.println(DateUtil.formatG(dbmCal.getTime()) +"==="+dbmCal.get(Calendar.MONTH)+"=="+di+"==" + ((di-(dbmCal.get(Calendar.MONTH)==0?dbmCal.get(Calendar.MONTH)+1:dbmCal.get(Calendar.MONTH)))+1));
-											dbmCal.set(Calendar.MONTH, setMonth) ;
-											
-											dbmCal.set(Calendar.MONTH, setMonth) ;
-											dbmCal.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
-											String d1 = DateUtil.formatG(dbmCal.getTime()) ;
-											
-											dbmCal.set(Calendar.DAY_OF_MONTH, dbmCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-											String d2 = DateUtil.formatG(dbmCal.getTime()) ;
-											
-											int workingDays = DateCal.getWorkingDays(d1, d2);
-											
-											sjyxts = ((Integer)workingDays).floatValue() ;
-											
-											swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
-											
-											System.out.println("==="+d1 +"==="+d2 +"===" + sjyxts);
-										}
-										
-										switch (swithMonth) {
+											switch (swithMonth) {
 											case 1:
 												allyxts1 += sjyxts ;
 												break;
@@ -683,10 +703,11 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 												break;
 											default:
 												break;
+											}
 										}
 									}
+									
 								}
-								
 							}
 							
 							
@@ -1492,6 +1513,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select t from EmployeeEntity t where 1=1";
 		hql = addWhere(hql, form, params) + addOrdeby(form);
+		System.out.println(hql);
 		return this.basedaoEmployee.find(hql, params, form.getPage(), form.getRows());
 	}
 
