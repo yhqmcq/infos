@@ -88,8 +88,21 @@
 		    	$.fn.datagrid.extensions.onAfterEdit.apply(this, arguments);
 		    	var d = dataGrid.datagrid("getRowData", data) ;
 		    	
-		    	if(d.normalHour1 >= d.normalHour) {
-		    		alert(d.normalHour1);
+		    	if(d.normalHour1 > d.normalHour) {
+		    		$.easyui.messager.show({ icon: "error", msg: "数据有误！" });
+		    		dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
+		    		return ;
+		    	}
+		    	
+		    	if(d.weekendHour1 > d.weekendHour) {
+		    		$.easyui.messager.show({ icon: "error", msg: "数据有误！" });
+		    		dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
+		    		return ;
+		    	}
+		    	
+		    	if(d.holidaysHour1 > d.holidaysHour) {
+		    		$.easyui.messager.show({ icon: "error", msg: "数据有误！" });
+		    		dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');dataGrid.datagrid('reload') ;
 		    		return ;
 		    	}
 		    	
@@ -99,9 +112,9 @@
 		    	data["normalHour"] = d.normalHour ;
 		    	data["weekendHour"] = d.weekendHour ;
 		    	data["holidaysHour"] = d.holidaysHour ;
-		    	data["normalHour1"] = (d.normalHour1 >= d.normalHour?d.normalHour:d.normalHour1) ;
-		    	data["weekendHour1"] = (d.weekendHour1 >= d.weekendHour?d.weekendHour:d.weekendHour1) ;
-		    	data["holidaysHour1"] = (d.holidaysHour1 >= d.holidaysHour?d.holidaysHour:d.holidaysHour1) ;
+		    	data["normalHour1"] = d.normalHour1 ;
+		    	data["weekendHour1"] = d.weekendHour1 ;
+		    	data["holidaysHour1"] = d.holidaysHour1 ;
 		    	
 		    	$.post(yhq.basePath+"/project/overtime/add.do", data, function(result) {
 					if (result.status) {
