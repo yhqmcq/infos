@@ -776,7 +776,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			map.put("sum3", NumberUtils.formatNum(sum3)) ;
 			map.put("totalHour", NumberUtils.formatNum(allTotalHour)) ;
 			map.put("totalAllHourLV", nt.format(((NumberUtils.formatNum(allNormalHour)+NumberUtils.formatNum(allWeekendHour)+NumberUtils.formatNum(allHolidaysHour))/(allTaskTime*8)))) ;
-			map.put("totalCurrentHourLV", nt.format(((NumberUtils.formatNum(allNormalHour1)+NumberUtils.formatNum(allWeekendHour1)+NumberUtils.formatNum(allHolidaysHour1))/(allExpendDays*8)))) ;
+			map.put("totalCurrentHourLV", nt.format((NumberUtils.formatNum(allTotalHour)/(allExpendDays*8)))) ;
 			
 			footer.add(map) ;
 			
@@ -1189,8 +1189,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		Json json = new Json();
 		json.setStatus(false);
 
-		System.out.println(form+"=============="+form.getStatus());
-		
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
 		
 		// 开始项目（进行中）

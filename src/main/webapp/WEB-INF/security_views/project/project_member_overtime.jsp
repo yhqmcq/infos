@@ -87,15 +87,21 @@
 		    onAfterEdit: function(data) {
 		    	$.fn.datagrid.extensions.onAfterEdit.apply(this, arguments);
 		    	var d = dataGrid.datagrid("getRowData", data) ;
+		    	
+		    	if(d.normalHour1 >= d.normalHour) {
+		    		alert(d.normalHour1);
+		    		return ;
+		    	}
+		    	
 		    	var data = {} ;
 		    	data["project_id"] = "${project.id}";
 		    	data["emp_ids"] = d.emp_id;
 		    	data["normalHour"] = d.normalHour ;
 		    	data["weekendHour"] = d.weekendHour ;
 		    	data["holidaysHour"] = d.holidaysHour ;
-		    	data["normalHour1"] = d.normalHour1 ;
-		    	data["weekendHour1"] = d.weekendHour1 ;
-		    	data["holidaysHour1"] = d.holidaysHour1 ;
+		    	data["normalHour1"] = (d.normalHour1 >= d.normalHour?d.normalHour:d.normalHour1) ;
+		    	data["weekendHour1"] = (d.weekendHour1 >= d.weekendHour?d.weekendHour:d.weekendHour1) ;
+		    	data["holidaysHour1"] = (d.holidaysHour1 >= d.holidaysHour?d.holidaysHour:d.holidaysHour1) ;
 		    	
 		    	$.post(yhq.basePath+"/project/overtime/add.do", data, function(result) {
 					if (result.status) {
@@ -107,6 +113,7 @@
 						$.easyui.messager.show({ icon: "info", msg: result.msg });
 					}
 				}, 'json');
+		    	
 		    },
 		    autoEditing: true, extEditing: true, singleEditing: true
 	    });
