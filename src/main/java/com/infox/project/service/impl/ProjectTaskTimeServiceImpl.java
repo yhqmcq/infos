@@ -195,13 +195,12 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					// 根据年份选择
 					Map<String, Object> params = new HashMap<String, Object>();
 					params.put("empid", e.getId());
-					params.put("startdate", DateUtil.formatGG(yd1));
-					params.put("enddate", DateUtil.formatGG(yd2));
+					//params.put("startdate", DateUtil.formatGG(yd1));
+					//params.put("enddate", DateUtil.formatGG(yd2));
 					
 					// 获取个人的所有工时人月等等
-					List<ProjectEmpWorkingEntity> pews = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.emp.id=:empid and t.startDate between :startdate and :enddate", params);
-					
-					System.out.println("----------------------------------------");
+					//List<ProjectEmpWorkingEntity> pews = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.emp.id=:empid and t.startDate between :startdate and :enddate", params);
+					List<ProjectEmpWorkingEntity> pews = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.emp.id=:empid", params);
 					
 					
 					for (ProjectEmpWorkingEntity ew : pews) {
@@ -290,18 +289,22 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						Calendar cd1 = Calendar.getInstance();
 						cd1.setTime(new Date());
 						
-						System.out.println(DateUtil.formatG(ew.getStartDate())+"==="+ary11.get(Calendar.YEAR) + "=1111=" + cd1.get(Calendar.YEAR));
+						//System.out.println(DateUtil.formatG(ew.getStartDate())+"============"+ary11.get(Calendar.YEAR) + "==============" + cd1.get(Calendar.YEAR));
 						//判断年份，如果开始日期的年份小于当前年份，则将开始日期重置为当前年的一月一号，在计算稼动率，稼动率只算今天的。
 						if(ary11.get(Calendar.YEAR) < cd1.get(Calendar.YEAR)) {
 							ary11.set(Calendar.YEAR, cd1.get(Calendar.YEAR)) ;
 							ary11.set(Calendar.MONTH, 0) ;
 							ary11.set(Calendar.DAY_OF_MONTH, 1) ;
-							System.out.println("========"+DateUtil.formatG(ary11.getTime()));
+							//System.out.println("========"+DateUtil.formatG(ary11.getTime()));
 						}
 						
 						
 						int m2 = (ary22.get(Calendar.MONTH) + 1) - (ary11.get(Calendar.MONTH) + 1);
 						
+						int startDateMonth = (ary11.get(Calendar.MONTH) + 1) ;
+						int currentMonth = (cd1.get(Calendar.MONTH) + 1) ;
+						
+						int month_for = startDateMonth - currentMonth ;
 						for (int i = 0; i <= m2; i++) {
 							
 							//人月
@@ -316,12 +319,12 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							
 							Calendar fristDay = Calendar.getInstance();
 							fristDay.setTime(new Date());
-							fristDay.add(Calendar.MONTH, ((ary11.get(Calendar.MONTH) + 1) - (cd1.get(Calendar.MONTH) + 1) + i));
+							fristDay.add(Calendar.MONTH, month_for + i);
 							fristDay.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
 							
 							Calendar lastDay = Calendar.getInstance();
 							lastDay.setTime(new Date());
-							lastDay.add(Calendar.MONTH, ((ary11.get(Calendar.MONTH) + 1) - (cd1.get(Calendar.MONTH) + 1) + i));
+							lastDay.add(Calendar.MONTH, month_for + i);
 							lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));
 							
 							int diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
@@ -382,10 +385,23 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								}
 								
 							}
+							
 							// 最后一个月，但开始和结束不是在同一个月
 							if (i == m2 && !ym11.equals(ym22)) {
 								
-								//并且不是已退出想的，如果是退出项目的，则有下面的来计算
+								//如果是退出项目的，则下面的来计算
+								if(ew.getStatus() == 4) {
+									int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
+									fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
+
+									sjyxts = ((Integer)diff).floatValue() ;
+									sjgzts = ((Integer) wd).floatValue() * ew.getProject().getQuot() ;
+									
+									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * ew.getProject().getQuot())/((Integer)diff).floatValue()) ;
+									System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+ew.getProject().getQuot() +"  3稼22动率"+quot);
+								}
+								
+								//并且不是已退出项目的
 								if(ew.getStatus() != 4) {
 									
 									EmployeeEntity emp = ew.getEmp() ;
@@ -413,19 +429,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 											if(cdd1 == -1) {
 												ew.setEndDate(DateUtil.formatGG(emp.getLbmDate())) ;
 											}
-											
-											/*dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
-											if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
-												System.out.println("-----------");
-												diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), emp.getLbmDate());
-												System.out.println("离部门（转出-非开发部，离职，停薪留职）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+emp.getLbmDate());
-												
-												//如果离部门时间小于项目的结束时间，则按离部门时间计算，并修改项目的结束时间为离部门时间
-												int cdd1 = DateUtil.compare_date2(emp.getLbmDate(), emp.getLbmDate()) ;
-												if(cdd1 == -1) {
-													ew.setEndDate(DateUtil.formatGG(emp.getLbmDate())) ;
-												}
-											}*/
 										}
 									}
 									
@@ -609,7 +612,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								
 								//如果到部门的日期是否小于进入项目的开始日期，如果是则计算之前月份的标准天数，如（到部门：2014-02-17 进项目的开始日期：2014-04-01）也需要计算2、3月份的标准天数（2月10天，3月21天）
 								if(null != e.getDbmDate() && !"".equals(e.getDbmDate())) {
-									System.out.println("到部门时间："+e.getDbmDate() + "  进项目的开始工作时间："+ew.getStartDate());
+									//System.out.println("到部门时间："+e.getDbmDate() + "  进项目的开始工作时间："+ew.getStartDate());
 									
 									//到部门的时间
 									Calendar dbmCal = Calendar.getInstance() ;
@@ -639,7 +642,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 												int workingDays = DateCal.getWorkingDays(e.getDbmDate(), DateUtil.formatG(dbmCalLast.getTime()));
 												
 												sjyxts = ((Integer)workingDays).floatValue() ;
-												System.out.println("==="+e.getDbmDate()+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
+												//System.out.println("==="+e.getDbmDate()+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
 											}
 											
 											if(di > 1) {
@@ -661,7 +664,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 												
 												swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
 												
-												System.out.println("==="+d1 +"==="+d2 +"===" + sjyxts);
+												//System.out.println("==="+d1 +"==="+d2 +"===" + sjyxts);
 											}
 											
 											switch (swithMonth) {

@@ -278,8 +278,12 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				}
 				//标记为结束(退出项目组)
 				entity.setStatus(4) ;
-				//重新设置结束日期为当天退出的日期
-				entity.setEndDate(new Date()) ;
+				
+				//如果结束日期大于当前日期则重置为当前日期
+				int cdd1 = DateUtil.compare_date2(DateUtil.formatG(entity.getEndDate()), DateUtil.formatG(new Date())) ;
+				if(cdd1 == 1) {
+					entity.setEndDate(new Date()) ;
+				}
 				//最后修改日期
 				entity.setCreated(new Date()) ;
 				
