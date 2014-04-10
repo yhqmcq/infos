@@ -12,13 +12,18 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public class TestReadExcel {
 	
-	private static Logger logger = Logger.getLogger(TestReadExcel.class);
-
 	public static void main(String[] args) {
 		try {
-			File file = new File("c:/") ;
+			File file = new File("c:/员工信息记录.xls") ;
 			HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file)) ;
-			HSSFSheet sheet = workbook.getSheet("竞赛人员");
+			HSSFSheet sheet = workbook.getSheetAt(0) ;
+			if(null != sheet) {
+				
+				System.out.println(sheet.getRow(0).getCell(0).toString());
+				
+				System.out.println(sheet.getLastRowNum());
+			}
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
