@@ -165,6 +165,12 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.3.1</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>3.1-FINAL</version>
+		</dependency>
 
 		<!-- 加入拼音转换工具 -->
 		<dependency>
