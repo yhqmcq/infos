@@ -15,6 +15,7 @@ import com.infox.common.web.page.Json;
 import com.infox.common.web.page.LoginInfoSession;
 import com.infox.sysmgr.service.EmployeeServiceI;
 import com.infox.sysmgr.web.form.EmployeeForm;
+import com.infox.sysmgr.web.form.FileWrapForm;
 
 @Controller
 @RequestMapping("/sysmgr/employee")
@@ -34,6 +35,20 @@ public class Employee extends BaseController {
 			request.setAttribute("id", form.getId()) ;
 		}
 		return Constants.SYSTEM + "emp_form" ;
+	}
+	
+	@RequestMapping("/upload.do")
+	public String upload(FileWrapForm form, HttpServletRequest request) throws Exception {
+		request.setAttribute("upload_path", form.getPath()) ;
+		request.setAttribute("isParent", form.isParent()) ;
+		request.setAttribute("isDateFolder", form.isDateFolder()) ;
+		return  Constants.SYSTEM + "emp_import_date" ;
+	}
+	
+	@RequestMapping("/import_emp_data.do")
+	@ResponseBody
+	public Json import_emp_data(EmployeeForm form, HttpServletRequest request) throws Exception {
+		return this.empservice.import_emp_data(form) ;
 	}
 	
 	@RequestMapping("/get.do")

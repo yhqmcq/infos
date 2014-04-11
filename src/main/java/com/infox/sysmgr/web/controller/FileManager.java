@@ -42,6 +42,8 @@ public class FileManager extends BaseController {
 	@RequestMapping("/upload.do")
 	public String upload(FileWrapForm form, HttpServletRequest request) throws Exception {
 		request.setAttribute("upload_path", form.getPath()) ;
+		request.setAttribute("isParent", form.isParent()) ;
+		request.setAttribute("isDateFolder", form.isDateFolder()) ;
 		return  Constants.SYSTEM + "file_upload" ;
 	}
 	

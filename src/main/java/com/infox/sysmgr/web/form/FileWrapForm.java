@@ -38,6 +38,34 @@ public class FileWrapForm extends Tree<FileWrapForm> {
 	/** 修改的文件名*/
 	private String destName ;
 	
+	
+	/** 是否上传文件到当前项目父目录中true,否则上传到当前项目目录中false */
+	private boolean isParent ;
+	
+	/** 文件是否加入当前日期(true,false) */
+	private boolean isDateFolder ;
+	
+	public boolean isParent() {
+		return isParent;
+	}
+
+	public void setParent(boolean isParent) {
+		this.isParent = isParent;
+	}
+
+
+	public boolean isDateFolder() {
+		return isDateFolder;
+	}
+
+	public void setDateFolder(boolean isDateFolder) {
+		this.isDateFolder = isDateFolder;
+	}
+
+	public static String[] getEditableExt() {
+		return EDITABLE_EXT;
+	}
+
 	public String getOrigName() {
 		return origName;
 	}
@@ -202,4 +230,11 @@ public class FileWrapForm extends Tree<FileWrapForm> {
 			}
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "FileWrapForm [fileName=" + fileName + ", fileSize=" + fileSize + ", lastModified=" + lastModified + ", dirName=" + dirName + ", path=" + path + ", isDir=" + isDir + ", editable=" + editable + ", iconCls=" + iconCls + ", origName=" + origName + ", destName=" + destName + ", isParent=" + isParent + ", isDateFolder=" + isDateFolder + "]";
+	}
+	
+	
 }

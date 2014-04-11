@@ -17,8 +17,8 @@
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 20,pageList: [10,20,30,50],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: '工号', width: 60, sortable: true },
-			    { field: 'truename', title: '姓名', width: 120, sortable: true, formatter:function(value,row){
+			    { field: 'id', title: '工号', width: 50, sortable: true },
+			    { field: 'truename', title: '姓名', width: 80, sortable: true, formatter:function(value,row){
 			    	if(row.isLeader == "Y") {
 			    		return "<font color='red'>"+value+"</font>";
 			    	} else {
@@ -35,7 +35,7 @@
 			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+(undefined != value?value:"")+"</a>", row.remark, row.position) ;
 			    	return str ;
 			    }},
-			    { field: 'positionDate', title: '岗位变更实施日期', width: 150, sortable: true },
+			    { field: 'positionDate', title: '岗位变更实施日期', width: 110, sortable: true },
 			    { field: 'bysj', title: '毕业时间', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
@@ -55,9 +55,7 @@
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
 			    { field: 'japanese', title: '日语级别', width: 100, sortable: true },
-			    { field: 'sex', title: '性别', width:55, sortable: true, formatter:function(value,row){
-			    	if(value == "male"){return "男";}else{return "女";}
-			    }},
+			    { field: 'sex', title: '性别', width:55, sortable: true},
 			    { field: 'account', title: '账号', width: 120, sortable: true },
 			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
 			    { field: 'created', title: '日期', width: 140, sortable: true }
@@ -164,6 +162,19 @@
 		}
 	}
 	
+	function importEmp() {
+		$.easyui.showDialog({
+            title: "上传文件",
+            width: 595, height: 395,
+            topMost: false,
+            href: yhq.basePath+"/sysmgr/employee/upload.do?path=/emp_data&parent=true&dateFolder=true",
+            iniframe: false,
+            enableApplyButton: false,
+            enableSaveButton: false,
+            enableCloseButton: false,
+        });
+	}
+	
 </script>
 
 </head>
@@ -178,13 +189,24 @@
                     <a onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
 					部门：<input id="select1" name="pid" />
-					<input id="topSearchbox" class="easyui-searchbox" data-options="width: 350, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
+					<input id="topSearchbox" class="easyui-searchbox" data-options="width: 250, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
                     <div id="topSearchboxMenu" style="width: 85px;">
                         <div data-options="name:'id', iconCls: 'icon-hamburg-zoom'">工号查询</div>
                         <div data-options="name:'truename', iconCls: 'icon-hamburg-zoom'">姓名查询</div>
                         <div data-options="name:'email', iconCls: 'icon-hamburg-zoom'">邮件查询</div>
                     </div>
                     <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-disconnect'">取消筛选</a>
+                    
+                    <a href="javascript:;" class="easyui-menubutton" data-options="menu:'#navMenu_toggleMenu',iconCls:'ext_settings'">功能操作</a>
+                    <div id="navMenu_toggleMenu" class="easyui-menu">
+	                    <div data-options="iconCls: 'icon-metro-contract'">
+	                    	<span>员工数据</span>
+	                    	<div>
+		                    	<div onclick="importEmp()" data-options="iconCls: 'icon-metro-expand'">导入</div>
+		                    	<div onclick="exportEmp()" data-options="iconCls: 'icon-metro-expand'">导出</div>
+	                    	</div>
+	                    </div>
+                	</div>
                 </div>
 			</div>
 		</div>

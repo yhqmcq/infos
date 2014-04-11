@@ -1,5 +1,7 @@
 package com.infox.sysmgr.service.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,15 +11,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
-import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
-import com.infox.common.mail.MailVO;
 import com.infox.common.util.ClobUtil;
+import com.infox.common.util.DateUtil;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.util.StringUtil;
 import com.infox.common.web.page.DataGrid;
@@ -112,7 +118,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				modifyDeptMemNum(entity.getOrg().getId()) ;
 			}
 			
-			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
+			/*String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 			model.put("name", entity.getTruename()) ;
 			model.put("account", entity.getAccount()) ;
@@ -125,7 +131,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			mail.setSubject("华智项目管理系统[登录账号和密码]") ;
 			mail.setRecipientTO(entity.getEmail()) ;
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "login_account.ftl", model)) ;
-			this.mailMessageSend.sendMail(mail) ;
+			this.mailMessageSend.sendMail(mail) ;*/
 			
 			j.setMsg("用户保存成功！") ; j.setStatus(true) ;
 			return j ;
@@ -220,7 +226,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		
 		EmployeeEntity entity = this.basedaoEmployee.get(EmployeeEntity.class, form.getId());
 		
-		BeanUtils.copyProperties(form, entity ,new String[]{"creater","remark"});
+		BeanUtils.copyProperties(form, entity ,new String[]{"creater","remark","account"});
 		entity.setTruename(StringUtil.replaceAllSpace(form.getTruename())) ;
 
 		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
@@ -248,7 +254,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		if(null == entity.getWorkStatus()) {
 			entity.setWorkStatus(0) ;
 		}
-		if(3 == entity.getLbmType()) {
+		if(null != entity.getLbmType() && 3 == entity.getLbmType()) {
 			entity.setWorkStatus(3) ;
 		}
 		
@@ -274,6 +280,117 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		j.setMsg("编辑成功！") ;
 		j.setStatus(true) ;
 		return j ;
+	}
+	
+
+	@Override
+	public Json import_emp_data(EmployeeForm form) throws Exception {
+		Json j = new Json() ;
+		
+		File file = new File(form.getFilepath()) ;
+		Workbook book = null;
+        try {
+            book = new XSSFWorkbook(new FileInputStream(file));
+        } catch (Exception ex) {
+            book = new HSSFWorkbook(new FileInputStream(file));
+        }
+        
+        
+        if(null != book) {
+        	Sheet sheet = book.getSheetAt(0) ;
+        	int lastRowNum = sheet.getLastRowNum() ;
+        	if(lastRowNum > 0) {
+        		List<Object> list = new ArrayList<Object>() ;
+        		
+        		for(int i=3; i<lastRowNum; i++) {
+        			String id = getCellValue(sheet.getRow(i).getCell(1)) ;
+        			String name = getCellValue(sheet.getRow(i).getCell(2)) ;
+        			String sex = getCellValue(sheet.getRow(i).getCell(3)) ;
+        			String email = getCellValue(sheet.getRow(i).getCell(4)) ;
+        			String dept = getCellValue(sheet.getRow(i).getCell(5)) ;
+        			String jp = getCellValue(sheet.getRow(i).getCell(6)) ;
+        			String bysj = getCellValue(sheet.getRow(i).getCell(7)) ;
+        			String rzsj = getCellValue(sheet.getRow(i).getCell(8)) ;
+        			String position = getCellValue(sheet.getRow(i).getCell(9)) ;
+        			
+        			OrgDeptTreeEntity od = this.basedaoOrg.get("select t from OrgDeptTreeEntity t where t.fullname='"+StringUtil.replaceAllSpace(dept)+"'") ;
+        			EmpJobEntity je = this.basedaoEmpJob.get("select t from EmpJobEntity t where t.job_name='"+StringUtil.replaceAllSpace(position)+"'") ;
+        			
+        			if(null == od) {
+        				j.setMsg("导入数据失败，该部门不存在！["+dept+"]") ;
+        				return j ;
+        			}
+        			if(je == null) {
+        				j.setMsg("导入数据失败，该公司岗位不存在！["+dept+"]") ;
+        				return j ;
+        			}
+        			
+        			EmployeeForm emp_form = new EmployeeForm() ;
+        			emp_form.setId(id) ;
+        			emp_form.setTruename(name) ;
+        			emp_form.setSex(sex) ;
+        			emp_form.setEmail(email) ;
+        			emp_form.setOrgid(od.getId()) ;
+        			emp_form.setJapanese(jp) ;
+        			emp_form.setBysj(DateUtil.formatGG(bysj)) ;
+        			emp_form.setRzsj(DateUtil.formatGG(rzsj)) ;
+        			emp_form.setJobids(je.getId()) ;
+        			emp_form.setDbmType(3) ;
+        			emp_form.setStatus("N") ;
+        			
+        			try {
+						Json json = this.add(emp_form) ;
+						if(json.isStatus()) {
+							Map<String, Object> map = new HashMap<String, Object>() ;
+							map.put("id", id) ;
+							map.put("truename", name) ;
+							map.put("status", true) ;
+							list.add(map) ;
+						} else{
+							Map<String, Object> map = new HashMap<String, Object>() ;
+							map.put("id", id) ;
+							map.put("truename", name) ;
+							map.put("status", false) ;
+							list.add(map) ;
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					} 
+        			//System.out.println(i+"=="+id+"=="+name+"=="+sex+"=="+dept+"=="+jp+"=="+bysj+"=="+rzsj+"=="+position);
+        		}
+        		
+        		j.setObj(list) ;
+        	}
+        }
+        j.setMsg("导入数据完成！") ;
+		j.setStatus(true) ;
+		
+		return j ;
+	}
+	
+	public static String getCellValue(Cell cell) {
+		String str = null;
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_BLANK:
+			str = "";
+			break;
+		case Cell.CELL_TYPE_BOOLEAN:
+			str = String.valueOf(cell.getBooleanCellValue());
+			break;
+		case Cell.CELL_TYPE_FORMULA:
+			str = String.valueOf(cell.getCellFormula());
+			break;
+		case Cell.CELL_TYPE_NUMERIC:
+			str = String.valueOf((long) cell.getNumericCellValue());
+			break;
+		case Cell.CELL_TYPE_STRING:
+			str = String.valueOf(cell.getStringCellValue());
+			break;
+		default:
+			str = null;
+			break;
+		}
+		return str;
 	}
 
 	@Override
@@ -589,5 +706,6 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		}
 		return false;
 	}
+
 
 }

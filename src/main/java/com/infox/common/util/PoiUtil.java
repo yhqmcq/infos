@@ -1,5 +1,8 @@
 package com.infox.common.util;
 
+import org.apache.poi.ss.usermodel.Cell;
+
+
 
 /**
  * POI工具类
@@ -8,14 +11,14 @@ package com.infox.common.util;
  * 
  */
 public class PoiUtil {
-
+	
 	/**
 	 * 由于Excel当中的单元格Cell存在类型,若获取类型错误就会产生异常, 所以通过此方法将Cell内容全部转换为String类型
 	 * 
 	 * @param cell
 	 * @return
 	 */
-	/*public static String getCellValue(Cell cell) {
+	public static String getCellValue(Cell cell) {
 		String str = null;
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_BLANK:
@@ -38,6 +41,6 @@ public class PoiUtil {
 			break;
 		}
 		return str;
-	}*/
+	}
 
 }

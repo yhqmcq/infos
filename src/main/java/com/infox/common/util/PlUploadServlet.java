@@ -105,7 +105,7 @@ public class PlUploadServlet extends HttpServlet {
 					f.setContentType(item.getContentType()) ;
 					if (item.isFormField()) {// 是文本域
 						if (item.getFieldName().equals("name")) {
-							srcName = item.getString();
+							srcName = item.getString("utf-8");
 							//System.out.println("临时文件名：" + srcName);
 						} else if (item.getFieldName().equals("chunk")) {
 							chunk = Integer.parseInt(item.getString());
@@ -125,7 +125,7 @@ public class PlUploadServlet extends HttpServlet {
 						}
 					}
 				}
-
+				
 				newName = UUID.randomUUID().toString().replace("-", "").concat(".").concat(FilenameUtils.getExtension(srcName));
 				
 				if (chunks == null) {// 如果不分块上传，那么只有一个名称，就是临时文件的名称

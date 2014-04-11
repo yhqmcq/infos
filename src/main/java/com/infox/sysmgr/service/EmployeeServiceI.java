@@ -21,6 +21,8 @@ public interface EmployeeServiceI {
 	
 	public Json set_grant(EmployeeForm form) throws Exception ;
 	
+	public Json import_emp_data(EmployeeForm form) throws Exception ;
+	
 	public EmployeeForm getPermission(EmployeeForm form) throws Exception ;
 	
 	public EmployeeForm login(EmployeeForm user) throws Exception  ;

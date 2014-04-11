@@ -6,7 +6,7 @@ $(function() {
 	uploader = new plupload.Uploader({
 		runtimes : 'html5,flash,html4',
 		flash_swf_url : '${pageContext.request.contextPath}/js/plugins/plupload-2.1.1/js/Moxie.swf',	//Flash支持
-		url : '${pageContext.request.contextPath}/plupload?fileFolder=${upload_path}&isParent=true&isDateFolder=false',
+		url : '${pageContext.request.contextPath}/plupload?fileFolder=${upload_path}&parent=${isParent}&dateFolder=${isDateFolder}',
 		browse_button : 'pickfiles', 
 		container: 'container', 
 		/*
@@ -16,42 +16,32 @@ $(function() {
 				{title : "Image files", extensions : "jpg,gif,png"},
 				{title : "Zip files", extensions : "zip"}
 			]
-		},*/
+		},
+		*/
 		init: {
-			PostInit: function() {
-				$("#filelist").empty();
-				$("#uploadfiles").click(function() {
-					if (uploader.files.length > 0) {
-						$('#filescountlist').show() ;
-						
-						$('#filesTotal').html(uploader.files.length+'&nbsp;') ;
-						
-						uploader.start();
-						return false;
-			        } else {
-			        	alert('列表中没有文件，请添加！');
-			        }
-				});
-			},
+			PostInit: function() {},
 			FilesAdded: function(up, files) {
+				$("#filelist").empty();
 				plupload.each(files, function(file, index) {
 					var fl = '<tr id="' + file.id + '">'+
 							 '<td style="width:40px;text-align:center;">'+(index+1)+'</td>'+
 							 '<td style="padding-left:5px;">'+file.name+'</td>'+
 							 '<td style="width:80px;text-align:center;">'+plupload.formatSize(file.size)+'</td>'+
 							 '<td style="width:50px;text-align:center;"><b>0%</b></td>'+
-							 '<td id="img_' + file.id + '" style="width:50px;text-align:center;border-right:1px solid #ddd;">'+
-							 '<img style="margin-top:4px;" onclick="uploader.removeFile(uploader.getFile($(this).parent().parent().attr(\'id\')));$(this).parent().parent().remove();" src="${pageContext.request.contextPath}/js/plugins/easyui/icons/icon-ext/edit_remove1.png"></td>'+
+							 '<td id="img_' + file.id + '" style="width:50px;text-align:center;border-right:1px solid #ddd;"></td>'+
 							 '</tr>' ;
 					$("#filelist").append(fl) ;
 				});
+				$("#pickfiles").linkbutton({ disabled: true });
+				uploader.start();
 			},
 			FileUploaded: function(up, file, info) {
 				var response = $.parseJSON(info.response);
 				if (response.status) {
-					$("#filesFail").html("&nbsp;"+uploader.total.failed+"&nbsp;") ;
-					$("#filesSuccess").html("&nbsp;"+uploader.total.uploaded+"&nbsp;") ;
-					$("#img_"+file.id).empty();
+					$.easyui.loading({ msg: "正在导入数据，请稍等..." });
+					$("#img_"+file.id).html('<img style="margin-top:4px;" src="${pageContext.request.contextPath}/js/plugins/easyui/icons/icon-ext/Check.png">');
+					export_data(response.fileinfo) ;
+					$("#pickfiles").linkbutton({ disabled: false });					
 				} else {
 					$('#filelist').append("<div>错误: " + response.msg+"</div>");
 				}
@@ -69,15 +59,69 @@ $(function() {
 
 	uploader.init();
 });
+
+function export_data(data) {
+	$.post(yhq.basePath+"/sysmgr/employee/import_emp_data.do", {filepath:data.realPath+data.newName}, function(result) {
+		if (result.status) {
+			var _infolist = $("#infolist") ;
+			_infolist.empty() ;
+			
+			$.each(result.obj, function(n,p) {
+				_infolist.append("<span style='width:100px;display:block;float:left;'>"+p.id+"</span><span style='width:100px;display:block;float:left;'>"+p.truename+"</span><span style='width:100px;display:block;float:left;'>"+(p.status==true?"[<font color='green'>成功</font>]":"[<font color='red'>失败</font>]")+"</span><br>") ;
+			});
+			
+			$.easyui.loaded();
+			$.easyui.messager.show({ icon: "info", msg: result.msg });
+		} else {
+			$.easyui.loaded();
+			alertify.error(result.msg);
+		}
+	}, 'json').error(function() {
+		$.easyui.loaded();
+	});
+}
 </script>
 <style>
-.tbh{background:#eee;width:100%;height:50px}
-.tbh th{height:26px;border-bottom:1px solid #ddd;border-left:1px solid #ddd}
-.tbc{width:100%}.tbc td{height:30px;border-bottom:1px solid #ddd;border-left:1px solid #ddd}
-.tl{display:block;height:264px;overflow-y:scroll}
-#container{width:100%;height:41px;border:1px solid #ddd;border-left:0;margin-top:2px;text-align:center;position:relative}
-#filescountlist{position:absolute;top:13px;right:12px;display:none}
+#browse_div{
+	width:100%;
+	height:50px;
+	background: #eee;
+}
+#browse_div .browse{
+	height: 30px;
+	float:left;
+	margin: 12px 10px;
+}
+#browse_div .info{
+	width:450px;
+	height: 50px;
+	float:left;
+	line-height: 50px;
+}
+#infolist {
+	width:100% ;
+	height:305px;
+	background: #999;
+	overflow: scroll;
+}
 </style>
+
+<div id="container">
+	<div id="browse_div">
+		<div class="browse">
+			<a  id="pickfiles" class="easyui-linkbutton" data-options="plain: false, iconCls: 'ext_edit'">选择文件</a>
+		</div>
+		<div class="info" id="filelist">
+			
+		</div>
+	</div>
+</div>
+
+<div id="infolist">
+	
+</div>
+
+<!-- 
 <table class="tbh">
 	<tr>
 		<th style="width:40px;text-align:center;">序号</th>
@@ -90,14 +134,7 @@ $(function() {
 </table>
 <div class="tl">
 	<table class="tbc" id="filelist">
-		<!-- 
-		<tr>
-			<td style="width:40px;text-align:center;">序号</td>
-			<td style="padding-left:5px;">文件名称</th>
-			<td style="width:80px;text-align:center;">大小</td>
-			<td style="width:50px;text-align:center;">完成</td>
-		</tr>
-		 -->
+		
 	</table>
 </div>
 <div id="container">
@@ -108,6 +145,7 @@ $(function() {
 		[<b id="fileFail" style="color:red;">&nbsp;0&nbsp;</b><b id="filesSuccess" style="color:green;">&nbsp;0&nbsp;</b>&nbsp;/&nbsp;<b id="filesTotal" style="color:block;">&nbsp;0&nbsp;</b>]
 	</span>
 </div>
+ -->
 
 
 

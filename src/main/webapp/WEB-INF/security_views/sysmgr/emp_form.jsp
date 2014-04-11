@@ -194,8 +194,8 @@
 			<th>性别：</th>
 			<td>
 				<input class="easyui-combobox" style="width:198px;" name="sex" data-options="
-					valueField: 'label', textField: 'value', editable: false, value : 'male',
-					data: [{ label: 'male', value: '男' },{ label: 'female', value: '女' }],
+					valueField: 'label', textField: 'value', editable: false, value : '男',
+					data: [{ label: '男', value: '男' },{ label: '女', value: '女' }],
 					panelHeight:'auto', editable:false" />
 			</td>
 			<th>日语级别：</th>

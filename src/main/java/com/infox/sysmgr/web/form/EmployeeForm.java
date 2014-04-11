@@ -65,6 +65,8 @@ public class EmployeeForm extends PageHelper{
 	
 	private String position_sname ;
 	
+	private String deptName ;
+	
 	/** 到岗类型（0不选,1新增、2转入、3在职，4新人培训） */
 	private Integer dbmType ;
 	
@@ -93,6 +95,17 @@ public class EmployeeForm extends PageHelper{
 	private String inStatus;
 	/** 用于NOT IN查询(0,1,2,3,4) */
 	private String notInStatus;
+	
+	/** 导入数据的文件路径 */
+	private String filepath ;
+
+	public String getFilepath() {
+		return filepath;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
+	}
 
 	public String getInStatus() {
 		return inStatus;
@@ -104,6 +117,14 @@ public class EmployeeForm extends PageHelper{
 
 	public String getNotInStatus() {
 		return notInStatus;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 
 	public String getRemark() {
