@@ -38,7 +38,6 @@ public class FileWrapForm extends Tree<FileWrapForm> {
 	/** 修改的文件名*/
 	private String destName ;
 	
-	
 	/** 是否上传文件到当前项目父目录中true,否则上传到当前项目目录中false */
 	private boolean isParent ;
 	
