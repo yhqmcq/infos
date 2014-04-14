@@ -27,9 +27,8 @@
 			]],
 			columns: [[
 			    { field: 'truename', title: '姓名', width: 100, sortable: true },
-			    { field: 'orgname', title: '机构部门', width: 120, sortable: true },
-			    { field: 'empjobsName', title: '职位', width: 100, sortable: true },
-			    { field: 'created', title: '日期', width: 140, sortable: true }
+			    { field: 'orgname', title: '部门', width: 80, sortable: true },
+			    { field: 'position_sname', title: '公司岗位', width: 80, sortable: true }
 			]]
 	    });
 		
@@ -52,6 +51,7 @@
 						'project_gm' : result.project_gm,
 						'contractNum' : result.contractNum,
 						'quot' : result.quot,
+						'shouzhu' : result.shouzhu,
 						'project_buglv' : result.project_buglv,
 						'project_bjzry' : result.project_bjzry,
 						'project_yjtrzry' : result.project_yjtrzry,

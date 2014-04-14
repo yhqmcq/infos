@@ -1,7 +1,6 @@
 package com.infox.project.entity;
 
 import java.io.Serializable;
-import java.sql.Clob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

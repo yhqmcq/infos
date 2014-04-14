@@ -127,6 +127,48 @@
     				<td>广州华智CMS内容管理系统</td>
     			</tr>
     			<tr>
+    				<th>所属部门：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    				<th>项目负责人：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    			</tr>
+    			<tr>
+    				<th>所属部门：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    				<th>项目负责人：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    			</tr>
+    			<tr>
+    				<th>所属部门：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    				<th>项目负责人：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    			</tr>
+    			<tr>
+    				<th>所属部门：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    				<th>项目负责人：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    			</tr>
+    			<tr>
+    				<th>所属部门：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    				<th>项目负责人：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    			</tr>
+    			<tr>
+    				<th>所属部门：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    				<th>项目负责人：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    			</tr>
+    			<tr>
+    				<th>所属部门：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    				<th>项目负责人：</th>
+    				<td>广州华智CMS内容管理系统</td>
+    			</tr>
+    			<tr>
     				<th width="140">项目参与人员：</th>
     				<td>
     					<dl>
@@ -177,14 +219,6 @@
     						</tr>
     					</table>
     				</th>
-    			</tr>
-    			<tr>
-    				<th>项目目标：</th>
-    				<td colspan="3">广州华智CMS内容管理系统</td>
-    			</tr>
-    			<tr>
-    				<th>项目描述：</th>
-    				<td colspan="3">广州华智CMS内容管理系统</td> 
     			</tr>
     		</table>
     	</div>

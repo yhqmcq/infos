@@ -104,10 +104,16 @@
     	<div class="content">
     		<table>
     			<tr>
+    				<th width="140">项目编号：</th>
+    				<td width="320">${project.projectNum}</td>
+    				<th width="140">案件编号：</th>
+    				<td width="320">${project.contractNum}</td>
+    			</tr>
+    			<tr>
     				<th width="140">项目名称：</th>
     				<td width="320">${project.name}</td>
-    				<th width="140">项目代号：</th>
-    				<td width="320">${project.code}</td>
+    				<th width="140">项目系数：</th>
+    				<td width="320">${project.quot}</td>
     			</tr>
     			<tr>
     				<th>起始日期：</th>
@@ -117,23 +123,47 @@
     			</tr>
     			<tr>
     				<th>项目类型：</th>
+    				<td>${project.project_type}</td>
+    				<th>合同受注状况：</th>
     				<td>
-    					<#if project.project_type == 0>
-    						短期迭代
-    					<#elseif project.project_type == 1>
-    						长期项目
+    					<#if project.shouzhu == 0>
+    						未受注
+    					<#elseif project.shouzhu == 1>
+    						已受注
     					<#else>
-    						运维项目
+    						未知
     					</#if>
     				</td>
-    				<th>团队名称：</th>
-    				<td>${project.team_name}</td>
     			</tr>
     			<tr>
     				<th>所属部门：</th>
     				<td>${project.deptname}</td>
     				<th>项目负责人：</th>
     				<td>${project.leader_name}</td>
+    			</tr>
+    			<tr>
+    				<th>作业范围：</th>
+    				<td>${project.taskScope}</td>
+    				<th>项目规模：</th>
+    				<td>${project.project_gm} Ks</td>
+    			</tr>
+    			<tr>
+    				<th>顾客返回BUG率目标：</th>
+    				<td>${project.project_buglv}&nbsp;</td>
+    				<th>报价总人月：</th>
+    				<td>${project.project_bjzry}</td>
+    			</tr>
+    			<tr>
+    				<th>预计投入总人月数：</th>
+    				<td>${project.project_yjtrzry}</td>
+    				<th>报价生产性：</th>
+    				<td>${project.project_bjscx}&nbsp;Ks/人月</td>
+    			</tr>
+    			<tr>
+    				<th>初始粗利润率：</th>
+    				<td>${project.project_clrl}&nbsp;%</td>
+    				<th>预定生产性：</th>
+    				<td>${project.project_ydscx}&nbsp;Ks/人月</td>
     			</tr>
     			<tr>
     				<th>项目状态：</th>
@@ -218,18 +248,6 @@
     						</tr>
     					</table>
     				</th>
-    			</tr>
-    			<tr>
-    				<th>反馈BUG率：</th>
-    				<td colspan="3">${project.project_buglv}</td>
-    			</tr>
-    			<tr>
-    				<th>顾客满意度：</th>
-    				<td colspan="3">${project.project_manyidu}</td> 
-    			</tr>
-    			<tr>
-    				<th>顾客满意度：</th>
-    				<td colspan="3">${project.project_scx}</td> 
     			</tr>
     		</table>
     	</div>

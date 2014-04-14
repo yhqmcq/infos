@@ -31,7 +31,7 @@
 			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
 			    }},
 			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
-			    { field: 'position', title: '公司岗位', width: 150, sortable: true, formatter:function(value,row){
+			    { field: 'position_sname', title: '公司岗位', width: 80, sortable: true, formatter:function(value,row){
 			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+(undefined != value?value:"")+"</a>", row.remark, row.position) ;
 			    	return str ;
 			    }},
@@ -203,7 +203,6 @@
 	                    	<span>员工数据</span>
 	                    	<div>
 		                    	<div onclick="importEmp()" data-options="iconCls: 'icon-metro-expand'">导入</div>
-		                    	<div onclick="exportEmp()" data-options="iconCls: 'icon-metro-expand'">导出</div>
 	                    	</div>
 	                    </div>
                 	</div>

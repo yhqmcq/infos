@@ -25,11 +25,11 @@
 			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
 			    }},
 			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
-			    { field: 'position', title: '公司岗位', width: 150, sortable: true, formatter:function(value,row){
+			    { field: 'position_sname', title: '公司岗位', width: 80, sortable: true, formatter:function(value,row){
 			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+(undefined != value?value:"")+"</a>", row.remark, row.position) ;
 			    	return str ;
 			    }},
-			    { field: 'positionDate', title: '岗位变更实施日期', width: 150, sortable: true },
+			    { field: 'positionDate', title: '岗位变更实施日期', width: 110, sortable: true },
 			    { field: 'bysj', title: '毕业时间', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
