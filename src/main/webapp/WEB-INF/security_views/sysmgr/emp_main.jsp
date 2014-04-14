@@ -27,21 +27,21 @@
 			    }},
 			]],
 			columns: [[
-			    { field: 'status', title: '账号状态', width: 80, sortable: true, formatter:function(value,row){
-			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
-			    }},
+			    { field: 'sex', title: '性别', width:55, sortable: true},
+			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
 			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
 			    { field: 'position_sname', title: '公司岗位', width: 80, sortable: true, formatter:function(value,row){
 			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+(undefined != value?value:"")+"</a>", row.remark, row.position) ;
 			    	return str ;
 			    }},
-			    { field: 'positionDate', title: '岗位变更实施日期', width: 110, sortable: true },
-			    { field: 'bysj', title: '毕业时间', width: 100, sortable: true, formatter:function(value,row){
-			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
-			    }},
+			    { field: 'japanese', title: '日语级别', width: 100, sortable: true }, 
 			    { field: 'rzsj', title: '入职时间', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
+			    { field: 'bysj', title: '毕业时间', width: 100, sortable: true, formatter:function(value,row){
+			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
+			    }},
+			    { field: 'positionDate', title: '岗位变更实施日期', width: 110, sortable: true },
 			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}else if(value == "5"){return "停薪留职返回";}
 			    }},
@@ -54,10 +54,10 @@
 			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
-			    { field: 'japanese', title: '日语级别', width: 100, sortable: true },
-			    { field: 'sex', title: '性别', width:55, sortable: true},
 			    { field: 'account', title: '账号', width: 120, sortable: true },
-			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
+			    { field: 'status', title: '账号状态', width: 80, sortable: true, formatter:function(value,row){
+			    	if(value == "Y"){return "<font color='green'>激活</font>";}else{return "<font color='red'>禁用</font>";}
+			    }},
 			    { field: 'created', title: '日期', width: 140, sortable: true }
 			]],
 			onLoadSuccess: function(data) {
