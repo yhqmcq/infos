@@ -13,7 +13,7 @@
 	    });
 		*/
 		$("#deptid").combotree({
-			url : yhq.basePath+"/sysmgr/org/treegrid.do",
+			url : yhq.basePath+"/sysmgr/org/treegrid.do",required:true,
 			width:258, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true
 	    });

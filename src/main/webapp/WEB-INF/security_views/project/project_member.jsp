@@ -215,7 +215,7 @@
 				data["ids"] = ids.join(",");
 				var sd = infosUtil.str2date(data.startDate).format("YYYY") ;
 				var ed = infosUtil.str2date(data.endDate).format("YYYY") ;
-				if(sd == ed) {
+				//if(sd == ed) {
 					$.post(yhq.basePath+"/project/pwe_emp_working/set_workdate.do", data, function(result) {
 						if (result.status) {
 							dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
@@ -226,9 +226,10 @@
 							$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期失败。" });
 						}
 					}, 'json');
-				} else {
-					$.messager.alert("开始日期和结束日期的取值范围<br>必须是在[<font color='red'>"+sd+"</font>]年内"); 
-				}
+				//} else {
+				//	$.easyui.loaded();
+				//	$.messager.alert("开始日期和结束日期的取值范围<br>必须是在[<font color='red'>"+sd+"</font>]年内"); 
+				//}
 			} else {$.easyui.loaded();}
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });

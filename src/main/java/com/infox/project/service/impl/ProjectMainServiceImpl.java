@@ -951,6 +951,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				//获取部长
 				StringBuffer sb = new StringBuffer() ;
 				Map<String, Object> params = new HashMap<String, Object>() ;
+				System.out.println(project.getDept());
 				params.put("isLeader", "Y") ; params.put("deptid", project.getDept().getId()) ;				
 				List<EmployeeEntity> leaders = this.basedaoEmployee.find("select t from EmployeeEntity t where t.isLeader=:isLeader and t.org.id=:deptid", params) ;
 				for (EmployeeEntity e : leaders) {

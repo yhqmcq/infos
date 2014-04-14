@@ -295,7 +295,6 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
             book = new HSSFWorkbook(new FileInputStream(file));
         }
         
-        
         if(null != book) {
         	Sheet sheet = book.getSheetAt(0) ;
         	int lastRowNum = sheet.getLastRowNum() ;
@@ -313,7 +312,9 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
         			String rzsj = getCellValue(sheet.getRow(i).getCell(8)) ;
         			String position = getCellValue(sheet.getRow(i).getCell(9)) ;
         			
-        			OrgDeptTreeEntity od = this.basedaoOrg.get("select t from OrgDeptTreeEntity t where t.fullname='"+StringUtil.replaceAllSpace(dept)+"'") ;
+        			
+        			
+        			OrgDeptTreeEntity od = this.basedaoOrg.get("select t from OrgDeptTreeEntity t where t.sname='"+StringUtil.replaceAllSpace(dept)+"'") ;
         			EmpJobEntity je = this.basedaoEmpJob.get("select t from EmpJobEntity t where t.job_name='"+StringUtil.replaceAllSpace(position)+"'") ;
         			
         			if(null == od) {
