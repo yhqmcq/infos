@@ -237,7 +237,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project);
 		
-		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setDeptname(entity.getDept().getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
 		try {
@@ -311,7 +311,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, entity.getDept().getId()) ;
 		
-		project.setDeptname(orgDeptTreeEntity.getFullname()) ;
+		project.setDeptname(orgDeptTreeEntity.getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
 		try {
@@ -377,7 +377,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	@Override
 	public ProjectMainForm get(String id) throws Exception {
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, id);
-		////System.out.println(entity+"============");
 		if (null != entity) {
 			ProjectMainForm form = new ProjectMainForm();
 			
@@ -455,7 +454,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				pf.setPosition_name(sb1.toString()) ;
 				pf.setPosition_sname(sb2.toString()) ;
 				pf.setProject_role(p.getProject_role()) ;
-				pf.setDept_name(e.getOrg().getFullname()) ;
+				pf.setDept_name(e.getOrg().getSname()) ;
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
 				
@@ -817,7 +816,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				pf.setPosition_name(sb1.toString()) ;
 				pf.setPosition_sname(sb2.toString()) ;
 				pf.setProject_role(p.getProject_role()) ;
-				pf.setDept_name(e.getOrg().getFullname()) ;
+				pf.setDept_name(e.getOrg().getSname()) ;
 				pf.setSd(DateUtil.formatG(p.getStartDate())) ;
 				pf.setEd(DateUtil.formatG(p.getEndDate())) ;
 				
@@ -880,7 +879,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				EmployeeEntity e = p.getEmp() ;
 				pf.setEmp_id(e.getId()) ;
 				pf.setEmp_name(e.getTruename()) ;
-				pf.setDept_name(e.getOrg().getFullname()) ;
+				pf.setDept_name(e.getOrg().getSname()) ;
 				pf.setStartDate(p.getStartDate()) ;
 				pf.setEndDate(p.getEndDate()) ;
 				
@@ -946,7 +945,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				
 				//部门
 				if (null != project.getDept()) {
-					uf.setDeptname(project.getDept().getFullname());
+					uf.setDeptname(project.getDept().getSname());
 				}
 				
 				//获取部长
@@ -1172,7 +1171,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			f.setEmpname(p.getEmployee().getTruename()) ;
 			f.setEmail(p.getEmployee().getEmail()) ;
 			
-			f.setDeptname(p.getEmployee().getOrg().getFullname()) ;
+			f.setDeptname(p.getEmployee().getOrg().getSname()) ;
 			
 			f.setProject_name(p.getProjectmain().getName()) ;
 			
@@ -1337,7 +1336,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		BeanUtils.copyProperties(entity, project);
 		
-		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setDeptname(entity.getDept().getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
 		try {
@@ -1436,7 +1435,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		BeanUtils.copyProperties(entity, project);
 		
-		project.setDeptname(entity.getDept().getFullname()) ;
+		project.setDeptname(entity.getDept().getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
 		try {

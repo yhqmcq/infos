@@ -152,7 +152,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					OrgDeptTreeEntity org = e.getOrg();
 					if (null != org) {
 						uf.setDept_id(e.getOrg().getId());
-						uf.setDept_name(e.getOrg().getFullname());
+						uf.setDept_name(e.getOrg().getSname());
 					}
 					
 					Set<EmpJobEntity> empjobs = e.getEmpjobs();
@@ -882,7 +882,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 			EmployeeEntity e = p.getEmp();
 			pf.setEmp_id(e.getId());
 			pf.setEmp_name(e.getTruename());
-			pf.setDept_name(e.getOrg().getFullname());
+			pf.setDept_name(e.getOrg().getSname());
 			pf.setSd(DateUtil.formatG(p.getStartDate()));
 			pf.setEd(DateUtil.formatG(p.getEndDate()));
 			ProjectMainEntity project = p.getProject() ;
@@ -1218,7 +1218,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				OrgDeptTreeEntity org = e.getOrg();
 				if (null != org) {
 					uf.setDept_id(e.getOrg().getId());
-					uf.setDept_name(e.getOrg().getFullname());
+					uf.setDept_name(e.getOrg().getSname());
 				}
 
 				Set<EmpJobEntity> empjobs = e.getEmpjobs();

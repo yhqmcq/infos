@@ -438,7 +438,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				uf.setRemark(ClobUtil.getString(i.getRemark())) ;
 				OrgDeptTreeEntity org = i.getOrg() ;
 				if(null != org) {
-					uf.setOrgname(org.getFullname()) ;
+					uf.setOrgname(org.getSname()) ;
 				}
 				Set<EmpJobEntity> empjobs = i.getEmpjobs() ;
 				if(null != empjobs && empjobs.size() > 0) {
