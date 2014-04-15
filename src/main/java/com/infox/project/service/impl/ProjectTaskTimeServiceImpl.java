@@ -358,180 +358,270 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 									
-									//如果一个人拥有两个项目,但项目A的结束日期在3.15,B项目在3.16开始,会造成汇总时数据有误,因为总的有效天数多一个了一个月的有效天数
-									if(dgxm>1) {
-										String d = lastEndDate.get(lastEndDate.size()-1) ;
-										Calendar ccc = Calendar.getInstance() ;
-										ccc.setTime(DateUtil.formatGG(d)) ;
-										
-										Calendar ddd = Calendar.getInstance() ;
-										ddd.setTime(ew.getStartDate()) ;
-										String c1 = ccc.get(Calendar.YEAR)+""+(ccc.get(Calendar.MONTH)+1) ;
-										String d1 = ddd.get(Calendar.YEAR)+""+(ddd.get(Calendar.MONTH)+1) ;
-										
-										if(c1.equals(d1)) {
-											System.out.println("" + ew.getEmp().getTruename()+"=-====1======"+dgxm+"---"+sjyxts);
-											
-											switch (ccc.get(Calendar.MONTH)+1) {
-											case 1:
-												allyxts1 = allyxts1 - sjyxts ;
-												break;
-											case 2:
-												allyxts2 = allyxts2 - sjyxts ;
-												break;
-											case 3:
-												allyxts3 = allyxts3 - sjyxts ;
-												break;
-											case 4:
-												allyxts4 = allyxts4 - sjyxts ;
-												break;
-											case 5:
-												allyxts5 = allyxts5 - sjyxts ;
-												break;
-											case 6:
-												allyxts6 = allyxts6 - sjyxts ;
-												break;
-											case 7:
-												allyxts7 = allyxts7 - sjyxts ;
-												break;
-											case 8:
-												allyxts8 = allyxts8 - sjyxts ;
-												break;
-											case 9:
-												allyxts9 = allyxts9 - sjyxts ;
-												break;
-											case 10:
-												allyxts10 = allyxts10 - sjyxts ;
-												break;
-											case 11:
-												allyxts11 = allyxts12 - sjyxts ;
-												break;
-											case 12:
-												allyxts12 = allyxts12 - sjyxts ;
-												break;
-											default:
-												break;
-											}
-											
-										}
-										
-										
-									}
-									
 									System.out.println(DateUtil.formatG(ary11.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  1稼动率"+quot);
+								}
+								
+								
+								//如果一个人拥有两个项目,但项目A的结束日期在3.15,B项目在3.16开始,会造成汇总时数据有误,因为总的有效天数多一个了一个月的有效天数
+								if(dgxm>1) {
+									String d = lastEndDate.get(lastEndDate.size()-1) ;
+									Calendar ccc = Calendar.getInstance() ;
+									ccc.setTime(DateUtil.formatGG(d)) ;
+									
+									Calendar ddd = Calendar.getInstance() ;
+									ddd.setTime(ew.getStartDate()) ;
+									String c1 = ccc.get(Calendar.YEAR)+""+(ccc.get(Calendar.MONTH)+1) ;
+									String d1 = ddd.get(Calendar.YEAR)+""+(ddd.get(Calendar.MONTH)+1) ;
+									
+									if(c1.equals(d1)) {
+										System.out.println("" + ew.getEmp().getTruename()+"=-====1======"+dgxm+"---"+sjyxts);
+										
+										switch (ccc.get(Calendar.MONTH)+1) {
+										case 1:
+											allyxts1 = allyxts1 - sjyxts ;
+											break;
+										case 2:
+											allyxts2 = allyxts2 - sjyxts ;
+											break;
+										case 3:
+											allyxts3 = allyxts3 - sjyxts ;
+											break;
+										case 4:
+											allyxts4 = allyxts4 - sjyxts ;
+											break;
+										case 5:
+											allyxts5 = allyxts5 - sjyxts ;
+											break;
+										case 6:
+											allyxts6 = allyxts6 - sjyxts ;
+											break;
+										case 7:
+											allyxts7 = allyxts7 - sjyxts ;
+											break;
+										case 8:
+											allyxts8 = allyxts8 - sjyxts ;
+											break;
+										case 9:
+											allyxts9 = allyxts9 - sjyxts ;
+											break;
+										case 10:
+											allyxts10 = allyxts10 - sjyxts ;
+											break;
+										case 11:
+											allyxts11 = allyxts12 - sjyxts ;
+											break;
+										case 12:
+											allyxts12 = allyxts12 - sjyxts ;
+											break;
+										default:
+											break;
+										}
+									}
 								}
 								
 								
 								
 								Float sjyxts1 = new Float(0) ;
 								//如果到部门的日期是否小于进入项目的开始日期，如果是则计算之前月份的标准天数，如（到部门：2014-02-17 进项目的开始日期：2014-04-01）也需要计算2、3月份的标准天数（2月10天，3月21天）
-								if(null != e.getDbmDate() && !"".equals(e.getDbmDate())) {
-									//System.out.println("到部门时间："+e.getDbmDate() + "  进项目的开始工作时间："+ew.getStartDate());
+								//if(null != e.getDbmDate() && !"".equals(e.getDbmDate())) {
+								//System.out.println("到部门时间："+e.getDbmDate() + "  进项目的开始工作时间："+ew.getStartDate());
+								
+								Calendar dbmsj = Calendar.getInstance() ;
+								dbmsj.setTime(new Date()) ;
+								
+								//在职，则为旧员工，则按当前年的一月一号来计算
+								if(e.getDbmType() == 3) {
+									dbmsj.set(Calendar.MONTH, 0) ;
+									dbmsj.set(Calendar.DAY_OF_MONTH, 1);
 									
-									Calendar dbmsj = Calendar.getInstance() ;
-									dbmsj.setTime(new Date()) ;
+								} else {	//转入或其他的则按到部门时间来计算
+									dbmsj.setTime(DateUtil.formatGG(e.getDbmDate())) ;
+								}
+								
+								//到部门的时间
+								Calendar dbmCal = Calendar.getInstance() ;
+								dbmCal.setTime(dbmsj.getTime()) ;
+								
+								//进项目工作的开始时间
+								Calendar projectStartCal = Calendar.getInstance() ;
+								projectStartCal.setTime(ew.getStartDate()) ;
+								
+								int ps = (projectStartCal.get(Calendar.MONTH)+1) ;
+								int dbmDate = (dbmCal.get(Calendar.MONTH)+1) ;
+								
+								if(dbmDate < ps) {
 									
-									//在职，则为旧员工，则按当前年的一月一号来计算
-									if(e.getDbmType() == 3) {
-										dbmsj.set(Calendar.MONTH, 0) ;
-										dbmsj.set(Calendar.DAY_OF_MONTH, 1);
-									} else {	//转入或其他的则按到部门时间来计算
-										dbmsj.setTime(DateUtil.formatGG(e.getDbmDate())) ;
-									}
-									
-									//到部门的时间
-									Calendar dbmCal = Calendar.getInstance() ;
-									dbmCal.setTime(dbmsj.getTime()) ;
-									
-									//进项目工作的开始时间
-									Calendar projectStartCal = Calendar.getInstance() ;
-									projectStartCal.setTime(ew.getStartDate()) ;
-									
-									int ps = (projectStartCal.get(Calendar.MONTH)+1) ;
-									int dbmDate = (dbmCal.get(Calendar.MONTH)+1) ;
-									
-									if(dbmDate < ps) {
+									int months = ps - dbmDate ;
+									for(int di=1; di<months+1; di++) {
+										int swithMonth = 0 ;
 										
-										int months = ps - dbmDate ;
-										for(int di=1; di<months+1; di++) {
-											int swithMonth = 0 ;
+										//说明，当前月相隔到部门的月只是相差一个月，所以不能按整月的有效天数计算，只能按到部门的实际日期来计算
+										if(di == 1) {
+											swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
 											
-											//说明，当前月相隔到部门的月只是相差一个月，所以不能按整月的有效天数计算，只能按到部门的实际日期来计算
-											if(di == 1) {
-												swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
-												
-												//最后一天
-												Calendar dbmCalLast = Calendar.getInstance() ;
-												dbmCalLast.setTime(dbmCal.getTime()) ;
-												dbmCalLast.set(Calendar.DAY_OF_MONTH, dbmCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-												
-												int workingDays = DateCal.getWorkingDays(DateUtil.formatG(dbmCal.getTime()), DateUtil.formatG(dbmCalLast.getTime()));
-												
-												sjyxts1 = ((Integer)workingDays).floatValue() ;
-												//System.out.println("=1=="+DateUtil.formatG(dbmCalLast.getTime())+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
-											}
+											//最后一天
+											Calendar dbmCalLast = Calendar.getInstance() ;
+											dbmCalLast.setTime(dbmCal.getTime()) ;
+											dbmCalLast.set(Calendar.DAY_OF_MONTH, dbmCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 											
-											if(di > 1) {
-												int setMonth = dbmDate++ ;
-												
-												dbmCal.set(Calendar.MONTH, setMonth) ;
-												dbmCal.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
-												String d1 = DateUtil.formatG(dbmCal.getTime()) ;
-												
-												dbmCal.set(Calendar.DAY_OF_MONTH, dbmCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-												String d2 = DateUtil.formatG(dbmCal.getTime()) ;
-												
-												int workingDays = DateCal.getWorkingDays(d1, d2);
-												
-												sjyxts1 = ((Integer)workingDays).floatValue() ;
-												
-												swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
-												
-												//System.out.println("=2=="+d1 +"==="+d2 +"===" + sjyxts);
-											}
-											switch (swithMonth) {
-											case 1:
-												allyxts1 += sjyxts1 ;
-												break;
-											case 2:
-												allyxts2 += sjyxts1 ;
-												break;
-											case 3:
-												allyxts3 += sjyxts1 ;
-												break;
-											case 4:
-												allyxts4 += sjyxts1 ;
-												break;
-											case 5:
-												allyxts5 += sjyxts1 ;
-												break;
-											case 6:
-												allyxts6 += sjyxts1 ;
-												break;
-											case 7:
-												allyxts7 += sjyxts1 ;
-												break;
-											case 8:
-												allyxts8 += sjyxts1 ;
-												break;
-											case 9:
-												allyxts9 += sjyxts1 ;
-												break;
-											case 10:
-												allyxts10 += sjyxts1 ;
-												break;
-											case 11:
-												allyxts11 += sjyxts1 ;
-												break;
-											case 12:
-												allyxts12 += sjyxts1 ;
-												break;
-											default:
-												break;
+											int workingDays = DateCal.getWorkingDays(DateUtil.formatG(dbmCal.getTime()), DateUtil.formatG(dbmCalLast.getTime()));
+											
+											sjyxts1 = ((Integer)workingDays).floatValue() ;
+											System.out.println("=1=="+DateUtil.formatG(dbmCalLast.getTime())+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
+											
+											if(dgxm>1) {
+												System.out.println(e.getTruename()+"---------------"+dgxm+"----------------");
+												System.out.println(swithMonth + "==.....=" + allyxts2 + "===" + sjyxts1);
+												switch (swithMonth) {
+												case 1:
+													allyxts1 = allyxts1 - sjyxts1 ;
+													break;
+												case 2:
+													allyxts2 = allyxts2 - sjyxts1 ;
+													break;
+												case 3:
+													allyxts3 = allyxts3 - sjyxts1 ;
+													break;
+												case 4:
+													allyxts4 = allyxts4 - sjyxts1 ;
+													break;
+												case 5:
+													allyxts5 = allyxts5 - sjyxts1 ;
+													break;
+												case 6:
+													allyxts6 = allyxts6 - sjyxts1 ;
+													break;
+												case 7:
+													allyxts7 = allyxts7 - sjyxts1 ;
+													break;
+												case 8:
+													allyxts8 = allyxts8 - sjyxts1 ;
+													break;
+												case 9:
+													allyxts9 = allyxts9 - sjyxts1 ;
+													break;
+												case 10:
+													allyxts10 = allyxts10 - sjyxts1 ;
+													break;
+												case 11:
+													allyxts11 = allyxts12 - sjyxts1 ;
+													break;
+												case 12:
+													allyxts12 = allyxts12 - sjyxts1 ;
+													break;
+												default:
+													break;
+												}
 											}
 										}
+										if(di > 1) {
+											int setMonth = dbmDate++ ;
+											
+											dbmCal.set(Calendar.MONTH, setMonth) ;
+											dbmCal.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
+											String d1 = DateUtil.formatG(dbmCal.getTime()) ;
+											
+											dbmCal.set(Calendar.DAY_OF_MONTH, dbmCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+											String d2 = DateUtil.formatG(dbmCal.getTime()) ;
+											
+											int workingDays = DateCal.getWorkingDays(d1, d2);
+											
+											sjyxts1 = ((Integer)workingDays).floatValue() ;
+											
+											swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
+											
+											System.out.println("=2=="+d1 +"==="+d2 +"===" + sjyxts);
+											
+											if(dgxm>1) {
+												System.out.println(e.getTruename()+"---------------"+dgxm+"----------------");
+												System.out.println(swithMonth + "==.....=" + allyxts2 + "===" + sjyxts1);
+												switch (swithMonth) {
+												case 1:
+													allyxts1 = allyxts1 - sjyxts1 ;
+													break;
+												case 2:
+													allyxts2 = allyxts2 - sjyxts1 ;
+													break;
+												case 3:
+													allyxts3 = allyxts3 - sjyxts1 ;
+													break;
+												case 4:
+													allyxts4 = allyxts4 - sjyxts1 ;
+													break;
+												case 5:
+													allyxts5 = allyxts5 - sjyxts1 ;
+													break;
+												case 6:
+													allyxts6 = allyxts6 - sjyxts1 ;
+													break;
+												case 7:
+													allyxts7 = allyxts7 - sjyxts1 ;
+													break;
+												case 8:
+													allyxts8 = allyxts8 - sjyxts1 ;
+													break;
+												case 9:
+													allyxts9 = allyxts9 - sjyxts1 ;
+													break;
+												case 10:
+													allyxts10 = allyxts10 - sjyxts1 ;
+													break;
+												case 11:
+													allyxts11 = allyxts12 - sjyxts1 ;
+													break;
+												case 12:
+													allyxts12 = allyxts12 - sjyxts1 ;
+													break;
+												default:
+													break;
+												}
+											}
+										}
+										
+										
+										
+										switch (swithMonth) {
+										case 1:
+											allyxts1 += sjyxts1 ;
+											break;
+										case 2:
+											allyxts2 += sjyxts1 ;
+											break;
+										case 3:
+											allyxts3 += sjyxts1 ;
+											break;
+										case 4:
+											allyxts4 += sjyxts1 ;
+											break;
+										case 5:
+											allyxts5 += sjyxts1 ;
+											break;
+										case 6:
+											allyxts6 += sjyxts1 ;
+											break;
+										case 7:
+											allyxts7 += sjyxts1 ;
+											break;
+										case 8:
+											allyxts8 += sjyxts1 ;
+											break;
+										case 9:
+											allyxts9 += sjyxts1 ;
+											break;
+										case 10:
+											allyxts10 += sjyxts1 ;
+											break;
+										case 11:
+											allyxts11 += sjyxts1 ;
+											break;
+										case 12:
+											allyxts12 += sjyxts1 ;
+											break;
+										default:
+											break;
+										}
 									}
-									
+									//}
 								}
 								
 							}
@@ -1026,6 +1116,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		System.out.println("allyxts2："+allyxts2 + "=----=" + allgzts2);
 		System.out.println("有效天数2："+allyxts2 + "   工作天数：" + allgzts2 + "   率：" + nt.format(allgzts2/allyxts2));
 		System.out.println("有效天数3："+allyxts3 + "   工作天数：" + allgzts3 + "   率：" + nt.format(allgzts3/allyxts3));
+		System.out.println("有效天数5："+allyxts5 + "   工作天数：" + allgzts5 + "   率：" + nt.format(allgzts5/allyxts5));
 		map.put("month1", (allgzts1>0?nt.format(allgzts1/allyxts1):nt.format(0.0)));
 		map.put("month2", (allgzts2>0?nt.format(allgzts2/allyxts2):nt.format(0.0)));
 		map.put("month3", (allgzts3>0?nt.format(allgzts3/allyxts3):nt.format(0.0)));
