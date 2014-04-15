@@ -448,7 +448,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				if(null != emp) {
 					uf.setEmpId(i.getEmp().getId()) ;
 					uf.setTruename(i.getEmp().getTruename()) ;
-					uf.setOrgname(i.getEmp().getOrg().getFullname()) ;
+					uf.setOrgname(i.getEmp().getOrg().getSname()) ;
 					forms.add(uf);
 				}
 			}

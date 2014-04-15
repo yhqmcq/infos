@@ -313,16 +313,15 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
         			String position = getCellValue(sheet.getRow(i).getCell(9)) ;
         			
         			
-        			
         			OrgDeptTreeEntity od = this.basedaoOrg.get("select t from OrgDeptTreeEntity t where t.sname='"+StringUtil.replaceAllSpace(dept)+"'") ;
-        			EmpJobEntity je = this.basedaoEmpJob.get("select t from EmpJobEntity t where t.job_name='"+StringUtil.replaceAllSpace(position)+"'") ;
+        			EmpJobEntity je = this.basedaoEmpJob.get("select t from EmpJobEntity t where t.job_sname='"+StringUtil.replaceAllSpace(position)+"'") ;
         			
         			if(null == od) {
         				j.setMsg("导入数据失败，该部门不存在！["+dept+"]") ;
         				return j ;
         			}
         			if(je == null) {
-        				j.setMsg("导入数据失败，该公司岗位不存在！["+dept+"]") ;
+        				j.setMsg("导入数据失败，该公司岗位不存在！["+position+"]") ;
         				return j ;
         			}
         			
@@ -434,6 +433,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 
 		if (null != entity && entity.size() > 0) {
 			for (EmployeeEntity i : entity) {
+				//i.setDbmDate(DateUtil.formatG(i.getRzsj())) ;
 				EmployeeForm uf = new EmployeeForm();
 				BeanUtils.copyProperties(i, uf, new String[]{"remark"});
 				uf.setRemark(ClobUtil.getString(i.getRemark())) ;

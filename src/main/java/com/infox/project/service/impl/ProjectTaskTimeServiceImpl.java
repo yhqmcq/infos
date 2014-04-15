@@ -203,6 +203,10 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					List<ProjectEmpWorkingEntity> pews = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.emp.id=:empid", params);
 					
 					
+					//如果一个人拥有两个项目,但项目A的结束日期在3.15,B项目在3.16开始,会造成汇总时数据有误,因为总的有效天数多一个了一个月的有效天数
+					int dgxm=1 ;
+					List<String> lastEndDate = new ArrayList<String>() ;
+					
 					for (ProjectEmpWorkingEntity ew : pews) {
 						
 						// 计算有效天数（减去周六日）
@@ -354,6 +358,66 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 									
+									//如果一个人拥有两个项目,但项目A的结束日期在3.15,B项目在3.16开始,会造成汇总时数据有误,因为总的有效天数多一个了一个月的有效天数
+									if(dgxm>1) {
+										String d = lastEndDate.get(lastEndDate.size()-1) ;
+										Calendar ccc = Calendar.getInstance() ;
+										ccc.setTime(DateUtil.formatGG(d)) ;
+										
+										Calendar ddd = Calendar.getInstance() ;
+										ddd.setTime(ew.getStartDate()) ;
+										String c1 = ccc.get(Calendar.YEAR)+""+(ccc.get(Calendar.MONTH)+1) ;
+										String d1 = ddd.get(Calendar.YEAR)+""+(ddd.get(Calendar.MONTH)+1) ;
+										
+										if(c1.equals(d1)) {
+											System.out.println("" + ew.getEmp().getTruename()+"=-====1======"+dgxm+"---"+sjyxts);
+											
+											switch (ccc.get(Calendar.MONTH)+1) {
+											case 1:
+												allyxts1 = allyxts1 - sjyxts ;
+												break;
+											case 2:
+												allyxts2 = allyxts2 - sjyxts ;
+												break;
+											case 3:
+												allyxts3 = allyxts3 - sjyxts ;
+												break;
+											case 4:
+												allyxts4 = allyxts4 - sjyxts ;
+												break;
+											case 5:
+												allyxts5 = allyxts5 - sjyxts ;
+												break;
+											case 6:
+												allyxts6 = allyxts6 - sjyxts ;
+												break;
+											case 7:
+												allyxts7 = allyxts7 - sjyxts ;
+												break;
+											case 8:
+												allyxts8 = allyxts8 - sjyxts ;
+												break;
+											case 9:
+												allyxts9 = allyxts9 - sjyxts ;
+												break;
+											case 10:
+												allyxts10 = allyxts10 - sjyxts ;
+												break;
+											case 11:
+												allyxts11 = allyxts12 - sjyxts ;
+												break;
+											case 12:
+												allyxts12 = allyxts12 - sjyxts ;
+												break;
+											default:
+												break;
+											}
+											
+										}
+										
+										
+									}
+									
 									System.out.println(DateUtil.formatG(ary11.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  1稼动率"+quot);
 								}
 								
@@ -404,7 +468,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 												int workingDays = DateCal.getWorkingDays(DateUtil.formatG(dbmCal.getTime()), DateUtil.formatG(dbmCalLast.getTime()));
 												
 												sjyxts1 = ((Integer)workingDays).floatValue() ;
-												System.out.println("=1=="+DateUtil.formatG(dbmCalLast.getTime())+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
+												//System.out.println("=1=="+DateUtil.formatG(dbmCalLast.getTime())+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
 											}
 											
 											if(di > 1) {
@@ -423,7 +487,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 												
 												swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
 												
-												System.out.println("=2=="+d1 +"==="+d2 +"===" + sjyxts);
+												//System.out.println("=2=="+d1 +"==="+d2 +"===" + sjyxts);
 											}
 											switch (swithMonth) {
 											case 1:
@@ -448,19 +512,19 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 												allyxts7 += sjyxts1 ;
 												break;
 											case 8:
-												allyxts8 += sjyxts ;
+												allyxts8 += sjyxts1 ;
 												break;
 											case 9:
-												allyxts9 += sjyxts ;
+												allyxts9 += sjyxts1 ;
 												break;
 											case 10:
-												allyxts10 += sjyxts ;
+												allyxts10 += sjyxts1 ;
 												break;
 											case 11:
-												allyxts11 += sjyxts ;
+												allyxts11 += sjyxts1 ;
 												break;
 											case 12:
-												allyxts12 += sjyxts ;
+												allyxts12 += sjyxts1 ;
 												break;
 											default:
 												break;
@@ -506,11 +570,15 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								if(ew.getStatus() == 4) {
 									int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
 									fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
+									
 
 									sjyxts = ((Integer)diff).floatValue() ;
 									sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 									
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
+									
+									lastEndDate.add(DateUtil.formatG(ew.getEndDate())) ;
+									
 									System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼22动率"+quot);
 								}
 								
@@ -557,7 +625,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 											sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 											
 											quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼22动率"+quot);
+											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼1动率"+quot);
 										} else {
 											int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
 											fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -566,7 +634,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 											sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 											
 											quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼22动率"+quot);
+											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼2动率"+quot);
 										}
 									} else {
 										int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
@@ -576,7 +644,8 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 										sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 										
 										quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-										System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼22动率"+quot);
+										
+										System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼3动率"+quot);
 									}
 								}
 								
@@ -906,6 +975,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								break;
 							}
 						}
+						dgxm ++ ;
 					}
 					// uf.setTotalTaskYear((float)allTotalDays / 21f) ; //总月数
 					// uf.setAllMM((float)uf.getTotalTaskTime() / 21f) ; //总人月
@@ -953,8 +1023,9 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		map.put("month11", (form.getDept_id()!=null && 11<month?dept.getMonth11()!=0?nt.format(month11/dept.getMonth11()):nt.format(0.0):count!=0?nt.format(month11/count):nt.format(0.0)));
 		map.put("month12", (form.getDept_id()!=null && 12<=month?dept.getMonth12()!=0?nt.format(month12/dept.getMonth12()):nt.format(0.0):count!=0?nt.format(month12/count):nt.format(0.0)));
 		*/
-		System.out.println("3月："+allyxts2 + "=----=" + allyxts2);
-		System.out.println("有效天数："+allyxts2 + "   工作天数：" + allgzts2 + "   率：" + nt.format(allgzts2/allyxts2));
+		System.out.println("allyxts2："+allyxts2 + "=----=" + allgzts2);
+		System.out.println("有效天数2："+allyxts2 + "   工作天数：" + allgzts2 + "   率：" + nt.format(allgzts2/allyxts2));
+		System.out.println("有效天数3："+allyxts3 + "   工作天数：" + allgzts3 + "   率：" + nt.format(allgzts3/allyxts3));
 		map.put("month1", (allgzts1>0?nt.format(allgzts1/allyxts1):nt.format(0.0)));
 		map.put("month2", (allgzts2>0?nt.format(allgzts2/allyxts2):nt.format(0.0)));
 		map.put("month3", (allgzts3>0?nt.format(allgzts3/allyxts3):nt.format(0.0)));
