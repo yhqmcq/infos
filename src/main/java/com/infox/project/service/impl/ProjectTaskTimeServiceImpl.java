@@ -129,6 +129,8 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		Float allgzts1111 = new Float(0);
 		Float allgzts1212 = new Float(0);
 		
+		int step = 1;
+		
 		List<EmployeeEntity> entitys = this.find(form);
 		if (null != entitys && entitys.size() > 0) {
 			for (EmployeeEntity e : entitys) {
@@ -222,7 +224,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					List<String> lastEndDate = new ArrayList<String>() ;
 					
 					for (ProjectEmpWorkingEntity ew : pews) {
-						
 						// 计算有效天数（减去周六日）
 						long totalDays = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
 						allTotalDays += totalDays;
@@ -244,7 +245,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						
 						// 人月累加
 						Float zry = new Float(0);
-						
 						for (int i = 0; i <= m; i++) {
 							
 							Calendar fristDay = Calendar.getInstance();
@@ -321,9 +321,9 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 						int startDateMonth = (ary11.get(Calendar.MONTH) + 1) ;
 						int currentMonth = (cd1.get(Calendar.MONTH) + 1) ;
 						
+						
 						int month_for = startDateMonth - currentMonth ;
 						for (int i = 0; i <= m2; i++) {
-							
 							//人月
 							Float fc = new Float(0);
 							//当前月的实际有效天数
@@ -378,6 +378,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								
 								//如果一个人拥有两个项目,但项目A的结束日期在3.15,B项目在3.16开始,会造成汇总时数据有误,因为总的有效天数多一个了一个月的有效天数
 								if(dgxm>1) {
+									System.out.println(lastEndDate);
 									String d = lastEndDate.get(lastEndDate.size()-1) ;
 									Calendar ccc = Calendar.getInstance() ;
 									ccc.setTime(DateUtil.formatGG(d)) ;
@@ -481,11 +482,32 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 											int workingDays = DateCal.getWorkingDays(DateUtil.formatG(dbmCal.getTime()), DateUtil.formatG(dbmCalLast.getTime()));
 											
 											sjyxts1 = ((Integer)workingDays).floatValue() ;
-											System.out.println("=1=="+DateUtil.formatG(dbmCalLast.getTime())+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts);
+											System.out.println("=1=="+DateUtil.formatG(dbmCal.getTime())+"="+DateUtil.formatG(dbmCalLast.getTime()) +"===" + sjyxts1);
+											
+											/*if(ym11.equals(ym22)) {
+												
+												Calendar cm1 = Calendar.getInstance() ;
+												cm1.setTime(new Date()) ;
+												cm1.set(Calendar.DAY_OF_MONTH, 1);
+												Calendar cm2 = Calendar.getInstance() ;
+												cm2.setTime(new Date()) ;
+												cm2.set(Calendar.DAY_OF_MONTH, cm2.getActualMaximum(Calendar.DAY_OF_MONTH));
+												int count = 0 ;
+												int aa = DateUtil.compare_date2(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date())) ;
+												if(aa<=0){
+													List<EmployeeEntity> totalEntitys = this.find(form);
+													count = (null!=totalEntitys?totalEntitys.size():0) ;
+													for (EmployeeEntity ec : totalEntitys) {
+														List<ProjectEmpWorkingEntity> find = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.endDate>='"+DateUtil.formatG(dbmCal.getTime())+"' and t.endDate<='"+DateUtil.formatG(dbmCalLast.getTime())+"' and t.emp.id='"+ec.getId()+"' order by t.endDate") ;
+														for (ProjectEmpWorkingEntity cs : find) {
+															count-- ;
+														}
+													}
+													System.out.println("----"+count);
+												}
+											}*/
 											
 											if(dgxm>1) {
-												//System.out.println(e.getTruename()+"---------------"+dgxm+"----------------");
-												//System.out.println(swithMonth + "==.....=" + allyxts2 + "===" + sjyxts1);
 												switch (swithMonth) {
 												case 1:
 													allyxts1 = allyxts1 - sjyxts1 ;
@@ -544,11 +566,29 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 											
 											swithMonth = (dbmCal.get(Calendar.MONTH)+1) ;
 											
-											System.out.println("=2=="+d1 +"==="+d2 +"===" + sjyxts);
+											System.out.println("=2=="+d1 +"==="+d2 +"===" + sjyxts1);
+											
+											/*Calendar cm1 = Calendar.getInstance() ;
+											cm1.setTime(new Date()) ;
+											cm1.set(Calendar.DAY_OF_MONTH, 1);
+											Calendar cm2 = Calendar.getInstance() ;
+											cm2.setTime(new Date()) ;
+											cm2.set(Calendar.DAY_OF_MONTH, cm2.getActualMaximum(Calendar.DAY_OF_MONTH));
+											int count = 0 ;
+											int aa = DateUtil.compare_date2(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date())) ;
+											if(aa<=0){
+												List<EmployeeEntity> totalEntitys = this.find(form);
+												count = (null!=totalEntitys?totalEntitys.size():0) ;
+												for (EmployeeEntity ec : totalEntitys) {
+													List<ProjectEmpWorkingEntity> find = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.endDate>='"+d1+"' and t.endDate<='"+d2+"' and t.emp.id='"+ec.getId()+"' order by t.endDate") ;
+													for (ProjectEmpWorkingEntity cs : find) {
+														count-- ;
+													}
+												}
+												System.out.println(count);
+											}*/
 											
 											if(dgxm>1) {
-												//System.out.println(e.getTruename()+"---------------"+dgxm+"----------------");
-												//System.out.println(swithMonth + "==.....=" + allyxts2 + "===" + sjyxts1);
 												switch (swithMonth) {
 												case 1:
 													allyxts1 = allyxts1 - sjyxts1 ;
@@ -662,7 +702,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 									 
-									System.out.println(DateUtil.formatG(fristDay.getTime())+"=-------------="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  2稼动率2="+quot);
+									System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  2稼动率2="+quot);
 								}
 								
 								
@@ -675,13 +715,13 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 										if(null == ec.getLbmType()) {
 											count ++ ;
 										} else {
-											if(1!=ec.getLbmType() && 3!=ec.getLbmType()&& 4!=ec.getLbmType()) {
+											if(2!=ec.getLbmType() && 3!=ec.getLbmType()&& 4!=ec.getLbmType()) {
 												count ++ ;
 											}
 										}
 									}
 									
-									System.out.println(count*diff+"=="+(((Integer)count).floatValue() * ((Integer)diff).floatValue()));
+									System.out.println("中间："+count*diff+"=="+(((Integer)count).floatValue() * ((Integer)diff).floatValue()));
 									switch ((fristDay.get(Calendar.MONTH) + 1)) {
 									case 1:
 										allyxts1 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
@@ -722,7 +762,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									default:
 										break;
 									}
-									System.out.println(allyxts4+";';';';';");
 								}
 							}
 							
@@ -748,7 +787,6 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								
 								//并且不是已退出项目的
 								if(ew.getStatus() != 4) {
-									
 									EmployeeEntity emp = ew.getEmp() ;
 									//判断该员工的离部门类型是否离职或转出
 									if(null != emp.getLbmType() && !"".equals(emp.getLbmType())) {
@@ -822,7 +860,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 										if(null == ec.getLbmType()) {
 											count ++ ;
 										} else {
-											if(1!=ec.getLbmType() && 3!=ec.getLbmType()&& 4!=ec.getLbmType()) {
+											if(2!=ec.getLbmType() && 3!=ec.getLbmType()&& 4!=ec.getLbmType()) {
 												count ++ ;
 											}
 										}
@@ -871,7 +909,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 							}
 							// 开始和结束是在同一个月
 							if (ym11.equals(ym22)) {
-								
+								lastEndDate.add(DateUtil.formatG(ew.getEndDate())) ;
 								EmployeeEntity emp = ew.getEmp() ;
 								//判断该员工的到部门类型是否新增或转入
 								if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
@@ -920,22 +958,22 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 									
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-									System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼动率"+quot);
+									System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼1动率"+quot);
 								} else {
 									int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
 									fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 
 									sjyxts = ((Integer)diff).floatValue() ;
 									sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
-									
+									System.out.println(sjyxts);
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-									System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼动率"+quot);
+									System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼2动率"+quot);
 								}
 							}
 							
+							
 							// 当前月
 							if (!ym11.equals(ym22) && (fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)).equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
-								
 								EmployeeEntity emp = ew.getEmp() ;
 								//判断该员工的到部门类型是否新增或转入
 								if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
@@ -999,6 +1037,8 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									}
 								}
 								
+								
+								
 								if(ym11.equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
 									int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(new Date()));
 									fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -1009,69 +1049,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 									System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(new Date())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  --6稼动率"+quot);
 								}
-								
-								
-								/*int count = 0 ;
-								int aa = DateUtil.compare_date2(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date())) ;
-								System.out.println(aa+"...---000");
-								if(aa<=0){
-									//sjyxts = 0f ;
-									List<EmployeeEntity> totalEntitys = this.find(form);
-									for (EmployeeEntity ec : totalEntitys) {
-										if(null == ec.getLbmType()) {
-											count ++ ;
-										} else {
-											if(1!=ec.getLbmType() && 3!=ec.getLbmType()&& 4!=ec.getLbmType()) {
-												count ++ ;
-											}
-										}
-									}
-									System.out.println(count+"==="+diff);
-									System.out.println(count*diff+"=="+(((Integer)count).floatValue() * ((Integer)diff).floatValue()));
-									switch ((fristDay.get(Calendar.MONTH) + 1)) {
-									case 1:
-										allyxts1 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 2:
-										allyxts2 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 3:
-										allyxts3 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 4:
-										allyxts4 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 5:
-										allyxts5 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 6:
-										allyxts6 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 7:
-										allyxts7 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 8:
-										allyxts8 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 9:
-										allyxts9 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 10:
-										allyxts10 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 11:
-										allyxts11 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									case 12:
-										allyxts12 = (((Integer)count).floatValue() * ((Integer)diff).floatValue()) ;
-										break;
-									default:
-										break;
-									}
-									System.out.println(allyxts4+";';';';';");
-								}*/
-								
-								
+								//allyxts4 = 152f;
 								
 								
 								
@@ -1178,6 +1156,78 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 									
 								}
 								
+							}
+							
+							if (!ym11.equals(ym22) && (fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)).equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
+								if(step==1) {
+									step ++ ;
+									Float ext_d = new Float(0) ;
+									Calendar cm1 = Calendar.getInstance() ;
+									cm1.setTime(new Date()) ;
+									cm1.set(Calendar.DAY_OF_MONTH, 1);
+									
+									Calendar cm2 = Calendar.getInstance() ;
+									cm2.setTime(new Date()) ;
+									cm2.set(Calendar.DAY_OF_MONTH, cm2.getActualMaximum(Calendar.DAY_OF_MONTH));
+									
+									int workingDays2 = DateCal.getWorkingDays(DateUtil.formatG(cm1.getTime()), DateUtil.formatG(cm2.getTime())) ;
+									
+									int count = 0 ;
+									
+									int aa = DateUtil.compare_date2(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date())) ;
+									if(aa<=0){
+										
+										List<EmployeeEntity> totalEntitys = this.find(form);
+										for (EmployeeEntity ec : totalEntitys) {
+											
+											List<ProjectEmpWorkingEntity> find = this.basedaoProjectEW.find("select t from ProjectEmpWorkingEntity t where t.emp.lbmType is null and t.endDate<'"+DateUtil.formatG(fristDay.getTime())+"' and t.emp.id='"+ec.getId()+"' order by t.endDate") ;
+											ext_d += (null != find?find.size()*workingDays2:0f) ;
+										}
+										System.out.println("-------------------"+allyxts4+"...."+diff+".....-==+"+count+".........-=="+ext_d);
+										
+										switch ((fristDay.get(Calendar.MONTH) + 1)) {
+										case 1:
+											allyxts1 += ext_d ;
+											break;
+										case 2:
+											allyxts2 += ext_d ;
+											break;
+										case 3:
+											allyxts3 += ext_d ;
+											break;
+										case 4:
+											allyxts4 += ext_d ;
+											break;
+										case 5:
+											allyxts5 += ext_d ;
+											break;
+										case 6:
+											allyxts6 += ext_d ;
+											break;
+										case 7:
+											allyxts7 += ext_d ;
+											break;
+										case 8:
+											allyxts8 += ext_d ;
+											break;
+										case 9:
+											allyxts9 += ext_d ;
+											break;
+										case 10:
+											allyxts10 += ext_d ;
+											break;
+										case 11:
+											allyxts11 += ext_d ;
+											break;
+										case 12:
+											allyxts12 += ext_d ;
+											break;
+										default:
+											break;
+										}
+										System.out.println("......--------======="+ext_d);
+									}
+								}
 							}
 							
 							switch ((fristDay.get(Calendar.MONTH) + 1)) {
@@ -1308,6 +1358,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 		map.put("month12", (form.getDept_id()!=null && 12<=month?dept.getMonth12()!=0?nt.format(month12/dept.getMonth12()):nt.format(0.0):count!=0?nt.format(month12/count):nt.format(0.0)));
 		*/ 
 		System.out.println("allyxts2："+allyxts2 + "=----=" + allgzts2);
+		System.out.println("有效天数1："+allyxts1 + "   工作天数：" + allgzts1 + "   率：" + nt.format(allgzts1/allyxts1));
 		System.out.println("有效天数2："+allyxts2 + "   工作天数：" + allgzts2 + "   率：" + nt.format(allgzts2/allyxts2));
 		System.out.println("有效天数3："+allyxts3 + "   工作天数：" + allgzts3 + "   率：" + nt.format(allgzts3/allyxts3));
 		System.out.println("有效天数4："+allyxts4 + "   工作天数：" + allgzts4 + "   率：" + nt.format(allgzts4/allyxts4));

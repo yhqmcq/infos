@@ -17,19 +17,19 @@
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 20,pageList: [10,20,30,50],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'emp_id', title: '工号', width: 60, sortable: true },
-			    { field: 'emp_name', title: '姓名', width: 70, sortable: true }
+			    { field: 'emp_id', title: '工号', width: 60 },
+			    { field: 'emp_name', title: '姓名', width: 70 }
 			]],
 			columns: [[
-			    { field: 'dept_name', title: '部门', width: 80, sortable: true },
-			    { field: 'totalTaskYear', title: '总月数', width: 80, sortable: true, formatter: function(value, row){
+			    { field: 'dept_name', title: '部门', width: 80 },
+			    { field: 'totalTaskYear', title: '总月数', width: 80, formatter: function(value, row){
 			    	if(undefined == value) {
 			    		return "" ;
 			    	}else {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>月</div>" ;
 			    	}
 			    } },
-			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true, formatter: function(value, row){
+			    { field: 'totalTaskTime', title: '总天数', width: 80, formatter: function(value, row){
 			    	if(undefined == value) {
 			    		return "" ;
 			    	} else if(value=="汇总"){
@@ -39,48 +39,48 @@
 			    	}
 			    } },
 			    /*
-			    { field: 'normalHour', title: '平时加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'normalHour', title: '平时加班', width: 100, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'weekendHour', title: '周末加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'weekendHour', title: '周末加班', width: 100, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'holidaysHour', title: '节假日加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'holidaysHour', title: '节假日加班', width: 100, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
 			    */
-			    { field: 'month1', title: '一月', width: 60, sortable: true },
-			    { field: 'month2', title: '二月', width: 60, sortable: true },
-			    { field: 'month3', title: '三月', width: 60, sortable: true },
-			    { field: 'month4', title: '四月', width: 60, sortable: true },
-			    { field: 'month5', title: '五月', width: 60, sortable: true },
-			    { field: 'month6', title: '六月', width: 60, sortable: true },
-			    { field: 'month7', title: '七月', width: 60, sortable: true },
-			    { field: 'month8', title: '八月', width: 60, sortable: true },
-			    { field: 'month9', title: '九月', width: 60, sortable: true },
-			    { field: 'month10', title: '十月', width: 60, sortable: true },
-			    { field: 'month11', title: '十一月', width: 60, sortable: true },
-			    { field: 'month12', title: '十二月', width: 60, sortable: true },
-			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
+			    { field: 'month1', title: '一月', width: 60 },
+			    { field: 'month2', title: '二月', width: 60 },
+			    { field: 'month3', title: '三月', width: 60 },
+			    { field: 'month4', title: '四月', width: 60 },
+			    { field: 'month5', title: '五月', width: 60 },
+			    { field: 'month6', title: '六月', width: 60 },
+			    { field: 'month7', title: '七月', width: 60 },
+			    { field: 'month8', title: '八月', width: 60 },
+			    { field: 'month9', title: '九月', width: 60 },
+			    { field: 'month10', title: '十月', width: 60 },
+			    { field: 'month11', title: '十一月', width: 60 },
+			    { field: 'month12', title: '十二月', width: 60 },
+			    { field: 'dbmType', title: '到部门类型', width: 100, formatter:function(value,row){
 			    	if(value != undefined) {
 				    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}else if(value == "5"){return "停薪留职返回";}
 			    	} else {return "" ;}  
 			    }},
-			    { field: 'dbmDate', title: '到部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    { field: 'dbmDate', title: '到部门日期', width: 100, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }},
-			    { field: 'lbmType', title: '离部门类型', width: 110, sortable: true, formatter:function(value,row){
+			    { field: 'lbmType', title: '离部门类型', width: 110, formatter:function(value,row){
 			    	if(value != undefined) {
 				    	if(value == "1"){return "转出（到开发部）";}else if(value == "2"){return "转出（到非开发部）";}else if(value == "3"){return "<font color='red'>离职</font>";}else if(value == "4"){return "停薪留职";}
 			    	} else {return "" ;}  
 			    }},
-			    { field: 'lbmDate', title: '离部门日期', width: 100, sortable: true, formatter:function(value,row){
+			    { field: 'lbmDate', title: '离部门日期', width: 100, formatter:function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 			    }}
 			]],
@@ -96,9 +96,9 @@
 				rownumbers:true,
 				height:'auto',
 				columns:[[
-					{ field: 'project_name', title: '项目名称', width: 200, sortable: true },
-					{ field: 'position_sname', title: '公司岗位', width: 80, sortable: true },
-					{ field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
+					{ field: 'project_name', title: '项目名称', width: 200 },
+					{ field: 'position_sname', title: '公司岗位', width: 80 },
+					{ field: 'project_role', title: '担任角色', width: 80, formatter: function(value,row){
 						if(value == 0) {
 				    		return "未设置角色" ;
 				    	} else if(value == 1) {
@@ -117,22 +117,22 @@
 				    		return "初级PG3" ;
 				    	}
 				    }},
-					{ field: 'sd', title: '开始时间', width: 80, sortable: true },
-				    { field: 'ed', title: '结束时间', width: 80, sortable: true }, 
-				    { field: 'totalTaskTime', title: '天数', width: 80, sortable: true },
-				    { field: 'mm', title: '人月', width: 80, sortable: true, formatter: function(value,row){
+					{ field: 'sd', title: '开始时间', width: 80 },
+				    { field: 'ed', title: '结束时间', width: 80 }, 
+				    { field: 'totalTaskTime', title: '天数', width: 80 },
+				    { field: 'mm', title: '人月', width: 80, formatter: function(value,row){
 				    	return infosUtil.numberf(value, 2) ;
 				    }},
-				    { field: 'expendDays', title: '已消耗天数', width: 80, sortable: true},
-				    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
+				    { field: 'expendDays', title: '已消耗天数', width: 80},
+				    { field: 'expendMM', title: '已消耗人月', width: 80, formatter: function(value,row){
 				    	return value ;
 				    }},
-				    { field: 'totalHour', title: '加班小时', width: 100, sortable: true, formatter: function(value, row){
+				    { field: 'totalHour', title: '加班小时', width: 100, formatter: function(value, row){
 				    	if(undefined != value) {
 					    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 				    	}
 				    } },
-				    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
+				    { field: 'status', title: '状态', width: 80, formatter: function(value,row){
 				    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 				    }}
 				]],
