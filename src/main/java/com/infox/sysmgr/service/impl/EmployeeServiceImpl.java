@@ -301,7 +301,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
         	if(lastRowNum > 0) {
         		List<Object> list = new ArrayList<Object>() ;
         		
-        		for(int i=3; i<lastRowNum; i++) {
+        		for(int i=3; i<=lastRowNum; i++) {
         			String id = getCellValue(sheet.getRow(i).getCell(1)) ;
         			String name = getCellValue(sheet.getRow(i).getCell(2)) ;
         			String sex = getCellValue(sheet.getRow(i).getCell(3)) ;
