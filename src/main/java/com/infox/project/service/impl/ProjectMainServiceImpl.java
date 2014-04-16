@@ -1058,7 +1058,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					
 					day = 0 ;
 				}
-				System.out.println(totalAllMonth);
 				uf.setTotalMonth(NumberUtils.formatNum(totalAllMonth)) ;
 				
 				forms.add(uf);
