@@ -936,7 +936,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 		if (null != ProjectMainEntity && ProjectMainEntity.size() > 0) {
 			for (ProjectMainEntity project : ProjectMainEntity) {
-				//float allTotalMM = 0f ;
 				float totalAllMonth = 0f ;
 				ProjectMainForm uf = new ProjectMainForm();
 				BeanUtils.copyProperties(project, uf);
@@ -951,7 +950,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				//获取部长
 				StringBuffer sb = new StringBuffer() ;
 				Map<String, Object> params = new HashMap<String, Object>() ;
-				System.out.println(project.getDept());
 				params.put("isLeader", "Y") ; params.put("deptid", project.getDept().getId()) ;				
 				List<EmployeeEntity> leaders = this.basedaoEmployee.find("select t from EmployeeEntity t where t.isLeader=:isLeader and t.org.id=:deptid", params) ;
 				for (EmployeeEntity e : leaders) {
@@ -1030,7 +1028,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					if(ym1.equals(frist) && !ym1.equals(ym2)) {
 						long diff = DateCal.getWorkingDays(sd, DateUtil.formatG(lastDay.getTime()));
 						day+=((Long)diff).intValue() ;
-						totalAllMonth+=NumberUtils.formatNum(((Long)diff).floatValue()/((Long)diffDay).floatValue());
+						totalAllMonth+=((Long)diff).floatValue()/((Long)diffDay).floatValue();
 						////System.err.println("第一个月有效工作天数===="+sd+"=="+DateUtil.formatG(lastDay.getTime())+"==["+diff+"]"+"==【"+diffDay+"】"+((Long)diff).floatValue()/((Long)diffDay).floatValue());
 					}
 					
@@ -1038,7 +1036,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					if(!ym1.equals(frist) && !ym2.equals(frist) && !ym1.equals(ym2)) {
 						long diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
 						day+=((Long)diff).intValue() ;
-						totalAllMonth+=NumberUtils.formatNum(((Long)diff).floatValue()/((Long)diffDay).floatValue());
+						totalAllMonth+=((Long)diff).floatValue()/((Long)diffDay).floatValue();
 						////System.err.println("中间月有效工作天数===="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+"==["+diff+"]"+"==【"+diffDay+"】"+((Long)diff).floatValue()/((Long)diffDay).floatValue());
 					}
 					
@@ -1046,7 +1044,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					if(ym2.equals(frist) && !ym1.equals(ym2)) {
 						long diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), ed);
 						day+=((Long)diff).intValue() ;
-						totalAllMonth+=NumberUtils.formatNum(((Long)diff).floatValue()/((Long)diffDay).floatValue());
+						totalAllMonth+=((Long)diff).floatValue()/((Long)diffDay).floatValue();
 						////System.err.println("最后一个月有效工作天数===="+DateUtil.formatG(fristDay.getTime())+"=="+ed+"==["+diff+"]"+"==【"+diffDay+"】"+((Long)diff).floatValue()/((Long)diffDay).floatValue());
 					}
 					
@@ -1054,14 +1052,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					if(ym1.equals(ym2)) {
 						long diff = DateCal.getWorkingDays(sd, ed);
 						day+=((Long)diff).intValue() ;
-						totalAllMonth+=NumberUtils.formatNum(((Long)diff).floatValue()/((Long)diffDay).floatValue());
+						totalAllMonth+=((Long)diff).floatValue()/((Long)diffDay).floatValue();
 						////System.err.println("开始日期和结束日期都在单月有效工作天数===="+sd+"=="+DateUtil.formatG(lastDay.getTime())+"==["+diff+"]"+"==【"+diffDay+"】"+((Long)diff).floatValue()/((Long)diffDay).floatValue());
 					}
 					
 					day = 0 ;
 				}
-				
-				uf.setTotalMonth(totalAllMonth) ;
+				System.out.println(totalAllMonth);
+				uf.setTotalMonth(NumberUtils.formatNum(totalAllMonth)) ;
 				
 				forms.add(uf);
 			}

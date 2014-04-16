@@ -344,6 +344,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 							Map<String, Object> map = new HashMap<String, Object>() ;
 							map.put("id", id) ;
 							map.put("truename", name) ;
+							map.put("msg", json.getMsg()) ;
 							map.put("status", true) ;
 							list.add(map) ;
 						} else{
@@ -555,7 +556,6 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				}
 				params.put("workStatus", states);
 			}
-			System.out.println(hql);
 		}
 		return hql;
 	}

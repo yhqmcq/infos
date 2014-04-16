@@ -67,7 +67,7 @@ function export_data(data) {
 			_infolist.empty() ;
 			
 			$.each(result.obj, function(n,p) {
-				_infolist.append("<span style='width:100px;display:block;float:left;'>"+p.id+"</span><span style='width:100px;display:block;float:left;'>"+p.truename+"</span><span style='width:100px;display:block;float:left;'>"+(p.status==true?"[<font color='green'>成功</font>]":"[<font color='red'>失败</font>]")+"</span><br>") ;
+				_infolist.append("<span style='width:100px;display:block;float:left;'>"+p.id+"</span><span style='width:100px;display:block;float:left;'>"+p.truename+"</span><span style='width:100px;display:block;float:left;'>"+(p.status==true?"[<font color='green'>成功</font>]":"[<font color='red'>失败</font>]")+"</span><span style='width:200px;display:block;float:left;'>"+p.msg+"</span><br>") ;
 			});
 			
 			$.easyui.loaded();
