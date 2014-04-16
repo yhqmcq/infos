@@ -23,12 +23,12 @@
 			panelWidth: 500, panelHeight: 200, multiple: false, mode:'remote',required:true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'id', title: '工号', width: 60, sortable: true }
+			    { field: 'id', title: '工号', width: 60 }
 			]],
 			columns: [[
-			    { field: 'truename', title: '姓名', width: 100, sortable: true },
-			    { field: 'orgname', title: '部门', width: 80, sortable: true },
-			    { field: 'position_sname', title: '公司岗位', width: 80, sortable: true }
+			    { field: 'truename', title: '姓名', width: 100 },
+			    { field: 'orgname', title: '部门', width: 80 },
+			    { field: 'position_sname', title: '公司岗位', width: 80 }
 			]]
 	    });
 		
