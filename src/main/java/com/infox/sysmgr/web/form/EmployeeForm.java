@@ -1,10 +1,14 @@
 package com.infox.sysmgr.web.form;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.infox.common.web.page.PageHelper;
 
-public class EmployeeForm extends PageHelper{
+public class EmployeeForm extends PageHelper implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 
 	private String account;
