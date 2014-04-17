@@ -22,13 +22,13 @@
 			]],
 			columns: [[
 			    { field: 'dept_name', title: '部门', width: 80 },
-			    { field: 'totalTaskYear', title: '总月数', width: 80, formatter: function(value, row){
+			    /* { field: 'totalTaskYear', title: '总月数', width: 80, formatter: function(value, row){
 			    	if(undefined == value) {
 			    		return "" ;
 			    	}else {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>月</div>" ;
 			    	}
-			    } },
+			    } }, */
 			    { field: 'totalTaskTime', title: '总天数', width: 80, formatter: function(value, row){
 			    	if(undefined == value) {
 			    		return "" ;
