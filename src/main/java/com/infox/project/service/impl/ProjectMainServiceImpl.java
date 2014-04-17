@@ -1214,43 +1214,48 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					json.setMsg("项目开启成功！");
 					json.setStatus(true);
 					
-					//项目开发人员起止日期提醒（定时器）
-					Set<String> dateGroup = new HashSet<String>() ;
-					Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
-					for (ProjectEmpWorkingEntity member : pwes) {
-						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 08:35:30", 3) ;
-						for (int i = 0; i < dateCron.length; i++) {
-							//将相同日期的归为一组，进行定时
-							dateGroup.add(dateCron[i]) ;
+					//项目的结束日期大于当前日期,才设置定时器
+					int compare_date2 = DateUtil.compare_date2(DateUtil.formatG(entity.getEndDate()), DateUtil.formatG(new Date())) ;
+					if(compare_date2 == 1) {
+						//项目开发人员起止日期提醒（定时器）
+						Set<String> dateGroup = new HashSet<String>() ;
+						Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
+						for (ProjectEmpWorkingEntity member : pwes) {
+							String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 23:59:30", 3) ;
+							for (int i = 0; i < dateCron.length; i++) {
+								//将相同日期的归为一组，进行定时
+								dateGroup.add(dateCron[i]) ;
+							}
 						}
-					}
-					int j=0;
-					for (String date : dateGroup) {
-						TaskForm task = new TaskForm() ;
-				 		task.setTask_type("system") ;
-						task.setTask_type_name("项目开发人员起止日期提醒") ;
-						task.setTask_job_class("com.infox.project.job.ProjectMemberWorkSchedulerEmail") ;
-						task.setTask_enable("Y") ;
-						task.setTask_name("项目开发人员起止日期提醒") ;
-						task.setRelationOperate(entity.getId() +":M" + j++) ;
-						task.setCron_expression(date) ; 
-						this.taskScheduler.add(task) ;
-					}
-					
-					
-					//设置定时任务
-					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:35:00", 3) ;
-					if(dateCron.length > 1) {
-						for (int i = 0; i < dateCron.length; i++) {
+						int j=0;
+						for (String date : dateGroup) {
 							TaskForm task = new TaskForm() ;
-					 		task.setTask_type("system") ;
-							task.setTask_type_name("项目结束定时邮件") ;
-							task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+							task.setTask_type("system") ;
+							task.setTask_type_name("项目开发人员起止日期提醒") ;
+							task.setTask_job_class("com.infox.project.job.ProjectMemberWorkSchedulerEmail") ;
 							task.setTask_enable("Y") ;
-							task.setTask_name("项目结束日期提醒") ;
-							task.setRelationOperate(entity.getId() +":" + i) ;
-							task.setCron_expression(dateCron[i]) ; 
+							task.setTask_name("项目开发人员起止日期提醒") ;
+							task.setRelationOperate(entity.getId() +":M" + j++) ;
+							task.setCron_expression(date) ; 
 							this.taskScheduler.add(task) ;
+						}
+						
+						
+						//设置定时任务
+						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:59:00", 3) ;
+						if(dateCron.length > 1) {
+							for (int i = 0; i < dateCron.length; i++) {
+								TaskForm task = new TaskForm() ;
+								task.setTask_type("system") ;
+								task.setTask_type_name("项目结束定时邮件") ;
+								task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+								task.setTask_enable("Y") ;
+								task.setTask_name("项目结束日期提醒") ;
+								task.setRelationOperate(entity.getId() +":" + i) ;
+								task.setCron_expression(dateCron[i]) ; 
+								System.out.println(dateCron[i]);
+								this.taskScheduler.add(task) ;
+							}
 						}
 					}
 					
@@ -1497,6 +1502,22 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				//项目结束
 				entity.setStatus(3) ;
 				this.basedaoProject.update(entity) ;
+				
+				Set<ProjectEmpWorkingEntity> projectEmpWorkingEntity = entity.getPwe() ;
+				for (ProjectEmpWorkingEntity pwe : projectEmpWorkingEntity) {
+					//将员工设为空闲人员
+					EmployeeEntity emp = pwe.getEmp() ;
+					emp.setWorkStatus(0) ;
+					this.basedaoEmployee.update(emp);
+					
+					pwe.setStatus(4) ;//修改状态为退出
+					pwe.setEndDate(new Date()) ; //如果员工的结束日期大于项目的结束日期，则将员工的结束日期设置为当前项目的结束日期
+					pwe.setCreated(new Date()) ;//修改退出的时间	
+					this.basedaoProjectEW.update(pwe);
+				}
+				
+				
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace() ;

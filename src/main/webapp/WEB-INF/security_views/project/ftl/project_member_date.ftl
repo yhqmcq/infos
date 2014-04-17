@@ -143,27 +143,27 @@
     			</tr>
     			<tr>
     				<th>作业范围：</th>
-    				<td>${project.taskScope}</td>
+    				<td>${project.taskScope?default('')}</td>
     				<th>项目规模：</th>
-    				<td>${project.project_gm} Ks</td>
+    				<td>${project.project_gm?default('')} Ks</td>
     			</tr>
     			<tr>
     				<th>顾客返回BUG率目标：</th>
-    				<td>${project.project_buglv}&nbsp;</td>
+    				<td>${project.project_buglv?default('')}&nbsp;</td>
     				<th>报价总人月：</th>
-    				<td>${project.project_bjzry}</td>
+    				<td>${project.project_bjzry?default('')}</td>
     			</tr>
     			<tr>
     				<th>预计投入总人月数：</th>
-    				<td>${project.project_yjtrzry}</td>
+    				<td>${project.project_yjtrzry?default('')}</td>
     				<th>报价生产性：</th>
-    				<td>${project.project_bjscx}&nbsp;Ks/人月</td>
+    				<td>${project.project_bjscx?default('')}&nbsp;Ks/人月</td>
     			</tr>
     			<tr>
     				<th>初始粗利润率：</th>
-    				<td>${project.project_clrl}&nbsp;%</td>
+    				<td>${project.project_clrl?default('')}&nbsp;%</td>
     				<th>预定生产性：</th>
-    				<td>${project.project_ydscx}&nbsp;Ks/人月</td>
+    				<td>${project.project_ydscx?default('')}&nbsp;Ks/人月</td>
     			</tr>
     			<tr>
     				<th>项目状态：</th>

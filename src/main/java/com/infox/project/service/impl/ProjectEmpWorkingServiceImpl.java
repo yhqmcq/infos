@@ -604,7 +604,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		//通过当前触发触日期加上2天获得开发人员期满的日期，来作为条件检索日期
 		Calendar sc = Calendar.getInstance() ;
 		sc.setTime(sdf.parse(currentDate)) ;
-		sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
+		sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+3);
 		if((sc.get(Calendar.DAY_OF_WEEK)-1) == 6){	//加两天如果是星期六，则再加两天，则为星期一
 			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+2);
 		}
@@ -633,15 +633,18 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					ProjectEmpWorkingForm exitProjectMembersForm = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwe, exitProjectMembersForm) ;
 					exitProjectMembers.add(exitProjectMembersForm) ;            
+					
+					/** 这里不修改人的状态(空闲)，通过项目结束定时来设置 */
+					/*
 					//将员工设为空闲人员
 					EmployeeEntity emp = pwe.getEmp() ;
 					emp.setWorkStatus(0) ;
 					this.basedaoEmployee.update(emp);
 					
-					pwe.setStatus(4) ;//修改退出的时间
+					pwe.setStatus(4) ;//修改状态为退出
 					pwe.setCreated(new Date()) ;//修改退出的时间	
 					this.basedaoProjectEW.update(pwe);
-					
+					*/
 				} else {
 					//如果开发人员的结束日期不是今天，则装入集合，后续判断，进行邮件提醒
 					ProjectEmpWorkingForm unExitProjectMembersForm = new ProjectEmpWorkingForm() ;

@@ -108,6 +108,7 @@
 			]]
 	    });
 		$("input[name=projectStartDate]").val(infosUtil.str2date("${project.startDate}").format("YYYY-MM-dd"));
+		$("input[name=projectEndDate]").val(infosUtil.str2date("${project.endDate}").format("YYYY-MM-dd"));
 		
 		$("<a data-options=\"plain: true, iconCls: 'pagination-last'\" style=\"cursor: pointer;position: absolute;left:5px; top:110px;\"></a>").linkbutton().tooltip({ content: "选择全部" }).appendTo($("#aaa")).click(function () {addAllMember();}) ;
 		$("<a data-options=\"plain: true, iconCls: 'pagination-next'\" style=\"cursor: pointer;position: absolute;left:5px; top:140px;\"></a>").linkbutton().tooltip({ content: "选择勾选部分" }).appendTo($("#aaa")).click(function () {addMember();}) ;
@@ -216,6 +217,12 @@
 				data["ids"] = ids.join(",");
 				var sd = infosUtil.str2date(data.startDate).format("YYYY") ;
 				var ed = infosUtil.str2date(data.endDate).format("YYYY") ;
+				
+				//人员的结束日期不能大于项目的结束日期
+				var projectEndDate = "${project.endDate}" ;
+				var memberEndDate = $("#cendDate").datebox("getValue") ;
+				//console.info(memberEndDate +"==" + infosUtil.str2date(projectEndDate).format("YYYY-MM-dd")) ;
+				
 				//if(sd == ed) {
 					$.post(yhq.basePath+"/project/pwe_emp_working/set_workdate.do", data, function(result) {
 						if (result.status) {
@@ -384,7 +391,8 @@
 								<tr>
 									<th>结束日期：</th>
 									<td>
-										<input name="endDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false">
+										<input name="projectEndDate" type="hidden" />
+										<input name="endDate" id="cendDate" class="easyui-datebox" required="true" validType="TimeCheck['startDate']" invalidMessage="开始日期必须大于结束日期" editable="false">
 										<a onclick="setMemberDate()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-cologne-date'">设置日期</a>
 									</td>
 								</tr>

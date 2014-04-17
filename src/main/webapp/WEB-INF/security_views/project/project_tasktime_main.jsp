@@ -13,7 +13,7 @@
 		dataGrid = $("#d1").datagrid({
 			title: '人员稼动率管理', fitColumns: false, //view: detailview,
 			url: yhq.basePath+"/project/project_report/employeeTaskTimeReport.do?notInStatus=9999",
-			idField: 'emp_id', fit: true, border: false, method: "post",showFooter: true, singleSelect: true,
+			idField: 'emp_id', fit: true, border: false, method: "post",showFooter: false, singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 20,pageList: [10,20,30,50],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },

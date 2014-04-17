@@ -570,9 +570,9 @@ public class DateUtil {
 		
 		cron[0] = sc.get(Calendar.MINUTE)+" "+sc.get(Calendar.SECOND)+" "+sc.get(Calendar.HOUR_OF_DAY)+" "+sc.get(Calendar.DAY_OF_MONTH)+" "+(sc.get(Calendar.MONTH)+1)+" ? " ;
 		//提前天数，避开周六日
+		
 		if(day > 0) {
 			sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)-day); 
-			
 			if(sc.get(Calendar.DAY_OF_WEEK) == 6) {
 				sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)-1); 
 			}
