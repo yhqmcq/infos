@@ -8,7 +8,7 @@
 <style type="text/css">
 	dt{margin:0px;padding:0px;display: table;}
 	dd{margin:0px;padding:0px;display: table;}
-	ul{list-style: none;margin:0px;padding:0px;} ul li{margin:0px;padding:0px;}
+	ul{list-style: none;margin:0px;padding:0px;}
 	table{border-spacing: 0px;border-collapse: 0px;}
 	a{text-decoration: none; color: blue;}
 	#main{
@@ -50,7 +50,7 @@
 	}
 	.content table th{
 		text-align: left;
-		padding:8px 5px;
+		padding:3px 5px;
 	}
 	.content table td{
 		padding:0px;
@@ -75,7 +75,9 @@
 		color:red;
 	}
 	.lname{
-		width:100px;float:left;
+		width:100px;
+		float:left;
+		margin-left:30px; 
 	}
 	.ltime{
 		width:230px;
@@ -168,60 +170,45 @@
     				<th>项目负责人：</th>
     				<td>广州华智CMS内容管理系统</td>
     			</tr>
-    			<tr>
-    				<th width="140">项目参与人员：</th>
-    				<td>
-    					<dl>
-							<dt>张三</dt>
-							<dt>李四</dt>
-							<dt>王八</dt>
-							<dt>老六</dt>
-							<dd>4（人） </dd>
-						</dl>
-    				</td>
-    				<th colspan="2" style="padding:0px;">
-    					<table width="100%" height="100%">
-    						<tr>
-    							<th style="width:140px;">当天退出人员：</th>
-    							<td class="devlist">
-    								<ul>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li>4（人）</li>
-    								</ul>
-    							</td>
-    						</tr>
-    						<tr>
-    							<th width="140">即将到期人员：</th>
-    							<td class="devlist">
-    								<ul>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li>4（人）</li>
-    								</ul>
-    							</td>
-    						</tr>
-    						<tr>
-    							<th>目前开发人员：</th>
-    							<td class="devlist">
-    								<ul>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li><div class="lname">努尔哈赤</div><div class="ltime">2013-01-02 - 2013-01-02</div></li>
-    									<li>4（人）</li>
-    								</ul>
-    							</td>
-    						</tr>
-    					</table>
-    				</th>
-    			</tr>
     		</table>
     	</div>
+    	 
+    	<div style="width:width:980px;border:1px solid red; margin-top:5px;display:block;float:left;"> 
+    		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">项目参与人员：</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    		<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海</div>
+    	</div> 
+    	
+    	<div style="width:width:980px;border:1px solid red; margin-top:5px;display:block;float:left;"> 
+    		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">项目参与人员：</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    		<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">刘青海[2014-02-05 - 2014-04-16]</div>
+    	</div> 
     	
     	<div class="footer">
     		<div class="zy">

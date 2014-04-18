@@ -51,7 +51,7 @@
 	}
 	.content table th{
 		text-align: left;
-		padding:8px 5px;
+		padding:2px 5px;
 	}
 	.content table td{
 		padding:0px;
@@ -150,22 +150,6 @@
     			<tr>
     				<th>顾客返回BUG率目标：</th>
     				<td>${project.project_buglv?default('')}&nbsp;</td>
-    				<th>报价总人月：</th>
-    				<td>${project.project_bjzry?default('')}</td>
-    			</tr>
-    			<tr>
-    				<th>预计投入总人月数：</th>
-    				<td>${project.project_yjtrzry?default('')}</td>
-    				<th>报价生产性：</th>
-    				<td>${project.project_bjscx?default('')}&nbsp;Ks/人月</td>
-    			</tr>
-    			<tr>
-    				<th>初始粗利润率：</th>
-    				<td>${project.project_clrl?default('')}&nbsp;%</td>
-    				<th>预定生产性：</th>
-    				<td>${project.project_ydscx?default('')}&nbsp;Ks/人月</td>
-    			</tr>
-    			<tr>
     				<th>项目状态：</th>
     				<td>
     					<#if project.status == 0>
@@ -178,46 +162,29 @@
     						<font color='red'>已结束</font>
     					</#if>
     				</td>
-    				<th>项目创建者：</th>
-    				<td>${project.createrName}</td>
-    			</tr>
-    			<tr>
-    				<th width="140px">项目参与人员：</th>
-    				<td class="devlist">
-    					<ul>
-							<#list projectmails as c>
-								<li>${c.empname}</li>
-								<#if !c_has_next >
-	    							<li>${projectmails?size}（人） </li>
-	    						</#if>
-							</#list>
-							<#if (projectmails?size lt 1) >
-								<li>项目暂无参与人员</li>
-							</#if>
-						</ul>
-    				</td>
-    				<th colspan="2" style="padding:0px;">
-    					<table width="100%" height="100%">
-    						<tr>
-    							<th width="140">开发人员：</th>
-    							<td class="devlist">
-    								<ul>
-    									<#list currentMembers as c>
-    										<li><div class="lname">${c.truename}</div><div class="ltime">${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div></li>
-			    							<#if !c_has_next >
-				    							<li>${currentMembers?size}（人） </li>
-				    						</#if>
-			    						</#list>
-			    						<#if (currentMembers?size lt 1) >
-			    							<li>目前暂无开发人员</li>
-			    						</#if>
-    								</ul>
-    							</td>
-    						</tr>
-    					</table>
-    				</th>
     			</tr>
     		</table>
+    	</div>
+    	
+    	<div style="width:width:980px;border:1px solid red; margin:5px 0px;display:block;float:left;"> 
+    		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">项目参与人员：</div>
+    		<#list projectmails as c>
+				<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.empname}</div>
+			</#list>
+			<#if (projectmails?size lt 1) >
+				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">项目暂无参与人员</div>
+			</#if>
+    	</div> 
+    	
+    	<div style="width:width:980px;border:1px solid red; margin:5px 0px;display:block;float:left;"> 
+    		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">开发人员：</div>
+    		
+    		<#list currentMembers as c>
+    			<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename}${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}</div>
+			</#list>
+			<#if (currentMembers?size lt 1) >
+				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">目前暂无开发人员</div>
+			</#if>
     	</div>
     	
     	<div class="footer">

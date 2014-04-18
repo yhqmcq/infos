@@ -1,5 +1,8 @@
 package com.infox.project.web.controll;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +141,12 @@ public class ProjectEmpWorking extends BaseController {
 		Json j = new Json();
 		try {
 			this.projectEWService.set_workdate(form) ;
+			
+			
+			//记录修改日期的人员，用于邮件通知好识别谁变更了。
+			Map<String,String> map = new HashMap<String,String>() ;
+			map.put("bgMembers", form.getIds()) ;
+			j.setObj(map) ;
 			j.setStatus(true);
 		} catch (Exception e) {
 			throw e;

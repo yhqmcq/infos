@@ -226,6 +226,7 @@
 				//if(sd == ed) {
 					$.post(yhq.basePath+"/project/pwe_emp_working/set_workdate.do", data, function(result) {
 						if (result.status) {
+							$("#bgMembers").val(result.obj.bgMembers) ;
 							dataGrid2.datagrid('clearSelections');dataGrid2.datagrid('clearChecked');dataGrid2.datagrid('reload') ;
 							$.easyui.loaded();
 							$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期成功。" });
@@ -293,7 +294,7 @@
 	}
 	function sd() {
 		$.easyui.loading({ msg: "数据提交中，请稍等..." });
-		$.post(yhq.basePath+"/project/pwe_emp_working/saveAndSendMail.do", {project_id: "${project.id}"}, function(result) {
+		$.post(yhq.basePath+"/project/pwe_emp_working/saveAndSendMail.do", {project_id: "${project.id}","bgMembers":$("#bgMembers").val()}, function(result) {
 			if (result.status) {
 				$.easyui.loaded();
 				$.easyui.messager.show({ icon: "info", msg: "操作成功。" });
@@ -377,6 +378,7 @@
 				</div>
 				<div data-options="region: 'center', border: false" style="overflow: hidden;width:200px;height:300px;">
 					<form id="dateform" class="easyui-form">
+						<input type="hidden" value="" id="bgMembers"><!-- 变更的人员ID -->
 						<div class="form_base" style="width:100%;">
 							<table style="margin:0px;">
 								<tr rowspan="2">

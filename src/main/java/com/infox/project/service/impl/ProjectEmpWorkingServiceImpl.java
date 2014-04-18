@@ -33,6 +33,7 @@ import com.infox.project.web.form.ProjectEmpWorkingForm;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
 import com.infox.sysmgr.entity.EmployeeEntity;
+import com.infox.sysmgr.entity.OrgDeptTreeEntity;
 import com.infox.sysmgr.entity.TaskEntity;
 import com.infox.sysmgr.service.TaskSchedulerServiceI;
 import com.infox.sysmgr.web.form.TaskForm;
@@ -46,6 +47,9 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	
 	@Autowired
 	private BaseDaoI<ProjectMainEntity> basedaoProject;
+	
+	@Autowired
+	private BaseDaoI<OrgDeptTreeEntity> basedaoOrg;
 	
 	@Autowired
 	private BaseDaoI<EmployeeEntity> basedaoEmployee;
@@ -137,7 +141,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			}
 			if(i>0) {
 				//发送邮件通知
-				sendMailToMemberDate(p) ;
+				sendMailToMemberDate(p, form.getBgMembers()) ;
 			}
 		}
 	}
@@ -185,14 +189,15 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 
 	}
 	
-	private void sendMailToMemberDate(ProjectMainEntity entity) {
+	private void sendMailToMemberDate(ProjectMainEntity entity, String bgMembers) {
 		
 		//项目信息
 		ProjectMainForm project = new ProjectMainForm() ;
 		
 		BeanUtils.copyProperties(entity, project);
 		
-		project.setDeptname(entity.getDept().getFullname()) ;
+		OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, entity.getDept().getId()) ;
+		project.setDeptname(orgDeptTreeEntity.getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
 		try {
@@ -227,10 +232,26 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			}
 			
 			
+			List<ProjectEmpWorkingForm> modMembers = new ArrayList<ProjectEmpWorkingForm>() ;
+			if(null != bgMembers && !"".equals(bgMembers)) {
+				String[] id = bgMembers.split(",") ;
+				for (int i = 0; i < id.length; i++) {
+					ProjectEmpWorkingEntity pp = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id[i]) ;
+					
+					EmployeeEntity e = pp.getEmp() ;
+					ProjectEmpWorkingForm p = new ProjectEmpWorkingForm() ;
+					BeanUtils.copyProperties(pp, p) ;
+					p.setTruename(e.getTruename()) ;
+					modMembers.add(p) ;
+				}
+			}
+			
+			
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
 			model.put("currentMembers", currentMembers) ;//目前开发人员
+			model.put("modMembers", modMembers) ;//目前开发人员
 			model.put("reportURL", this.realPathResolver.getServerRoot()+"/"+Constants.WWWROOT_RELAESE+"/report_mail/project_member_date_"+htmlId+".html") ;
 			model.put("context_path",this.realPathResolver.getServerRoot()+this.realPathResolver.getContextPath()) ;
 			model.put("currentdate", new Date()) ;
@@ -315,7 +336,8 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		
 		BeanUtils.copyProperties(entity, project);
 		
-		project.setDeptname(entity.getDept().getFullname()) ;
+		OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, entity.getDept().getId()) ;
+		project.setDeptname(orgDeptTreeEntity.getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
 		try {
@@ -595,7 +617,8 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		
 		BeanUtils.copyProperties(entity, project);
 		
-		project.setDeptname(entity.getDept().getFullname()) ;
+		OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, entity.getDept().getId()) ;
+		project.setDeptname(orgDeptTreeEntity.getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d") ;

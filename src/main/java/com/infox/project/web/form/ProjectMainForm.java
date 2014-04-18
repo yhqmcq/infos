@@ -125,7 +125,7 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	
 	/** 用于项目详细信息 的开发人员统计 */
 	private List<ProjectTaskTimeForm> devMemList ;
- 
+	
 	public String getPid() {
 		return pid;
 	}

@@ -226,7 +226,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		//项目为开始状态才进行邮件发送
 		if(entity.getStatus() == 1) {
 			//发送项目参数变更邮件
-			this.contentChange(entity) ;
+			//this.contentChange(entity) ;
 		}
 	}
 	
@@ -237,7 +237,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		ProjectMainForm project = new ProjectMainForm() ;
 		BeanUtils.copyProperties(entity, project);
 		
-		project.setDeptname(entity.getDept().getSname()) ;
+		
+		OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, entity.getDept().getId()) ;
+		
+		project.setDeptname(orgDeptTreeEntity.getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
 		try {

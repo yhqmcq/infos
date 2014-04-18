@@ -42,6 +42,17 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	/** 用于IN查询(0,1,2,3,4) */
 	private String inStatus ;
 	
+	/** 变更日期的人员ID */
+	private String bgMembers ;
+ 
+	public String getBgMembers() {
+		return bgMembers;
+	}
+
+	public void setBgMembers(String bgMembers) {
+		this.bgMembers = bgMembers;
+	}
+	
 	public String getInStatus() {
 		return inStatus;
 	}

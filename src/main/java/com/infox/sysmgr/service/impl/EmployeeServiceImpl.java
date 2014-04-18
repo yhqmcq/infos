@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.freemarker.FreeMarkerToMailTemplateUtil;
+import com.infox.common.mail.MailVO;
 import com.infox.common.util.ClobUtil;
 import com.infox.common.util.DateUtil;
 import com.infox.common.util.RandomUtils;
@@ -93,7 +95,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			
 			entity.setAccount(form.getEmail().substring(0,form.getEmail().indexOf("@"))) ;
 			entity.setPassword(RandomUtils.generateNumber(8)) ;
-			entity.setEmail("yanghaoquan@whizen.com") ; 
+			entity.setEmail("huanglichang.whizen.com,yanghaoquan@whizen.com") ; 
 			
 			if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
 				entity.setOrg(this.basedaoOrg.get(OrgDeptTreeEntity.class, form.getOrgid()));
@@ -118,7 +120,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				modifyDeptMemNum(entity.getOrg().getId()) ;
 			}
 			
-			/*String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 			model.put("name", entity.getTruename()) ;
 			model.put("account", entity.getAccount()) ;
@@ -131,7 +133,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			mail.setSubject("华智项目管理系统[登录账号和密码]") ;
 			mail.setRecipientTO(entity.getEmail()) ;
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "login_account.ftl", model)) ;
-			this.mailMessageSend.sendMail(mail) ;*/
+			this.mailMessageSend.sendMail(mail) ;
 			
 			j.setMsg("用户保存成功！") ; j.setStatus(true) ;
 			return j ;
