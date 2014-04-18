@@ -47,7 +47,7 @@ public class MailConfiguraton {
 		this.setMailPOP3Port(ConfigUtil.get("mail.pop3.port")) ;
 		this.setMailPOP3Protocol(ConfigUtil.get("mail.pop3.protocol")) ;
 		this.setMailAuth(ConfigUtil.get("mail.smtp.auth")) ;
-		this.setMailAliasName((null == ConfigUtil.get("mail.aliasname") || "".equals(ConfigUtil.get("mail.aliasname"))?"华智PJM管理系统":ConfigUtil.get("mail.aliasname"))) ;
+		this.setMailAliasName((null == ConfigUtil.get("mail.aliasname") || "".equals(ConfigUtil.get("mail.aliasname"))?"华智项目管理系统":ConfigUtil.get("mail.aliasname"))) ;
 		this.setMailFromAdmin( ConfigUtil.get("mail.from")) ;
 		this.setUserNameAdmin(ConfigUtil.get("mail.username")) ;
 		this.setPassWordAdmin(ConfigUtil.get("mail.password")) ;

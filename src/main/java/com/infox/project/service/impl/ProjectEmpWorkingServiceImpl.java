@@ -258,7 +258,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("项目开发人员日期和人员变更-["+entity.getName()+"]") ;
+			mail.setSubject("项目人员作业时间变更-["+entity.getName()+"]") ;
 			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
 				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
 				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
