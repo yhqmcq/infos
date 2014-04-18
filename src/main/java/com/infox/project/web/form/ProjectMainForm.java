@@ -123,6 +123,16 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	private String pid;
 	
+	private String view_member_ids ;
+	
+	public String getView_member_ids() {
+		return view_member_ids;
+	}
+
+	public void setView_member_ids(String view_member_ids) {
+		this.view_member_ids = view_member_ids;
+	}
+
 	/** 用于项目详细信息 的开发人员统计 */
 	private List<ProjectTaskTimeForm> devMemList ;
 	

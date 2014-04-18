@@ -945,6 +945,19 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				
 				uf.setLeader_name(project.getEmp().getTruename()) ;
 				
+				
+				
+				Set<ProjectMailListEntity> projectmails = project.getProjectmails() ;
+				for (ProjectMailListEntity projectMailListEntity : projectmails) {
+					System.out.println(projectMailListEntity.getEmployee().getId() +"===="+projectMailListEntity.getEmployee().getTruename());
+				}
+				Set<ProjectEmpWorkingEntity> pwe2 = project.getPwe() ;
+				for (ProjectEmpWorkingEntity projectEmpWorkingEntity : pwe2) {
+					System.out.println(projectEmpWorkingEntity.getEmp().getId()+"==="+projectEmpWorkingEntity.getEmp().getTruename());
+				}
+				
+				
+				
 				//部门
 				if (null != project.getDept()) {
 					uf.setDeptname(project.getDept().getSname());
@@ -1100,6 +1113,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			if (form.getCode() != null && !"".equals(form.getCode())) {
 				hql += " and t.code=:code";
 				params.put("code", form.getCode());
+			}
+			if (form.getId() != null && !"".equals(form.getId())) {
+				hql += " and t.id=:id";
+				params.put("id", form.getId());
+			}
+			if (form.getDeptid() != null && !"".equals(form.getDeptid())) {
+				hql += " and t.dept.id=:dept_id";
+				params.put("dept_id", form.getDeptid());
 			}
 			if (form.getPid() != null && !"".equals(form.getPid())) {
 				hql += " and t.project.id=:pid";
