@@ -54,12 +54,12 @@
 			    { field: 'project_ydscx', title: '预定生产性', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:0) + "&nbsp;Ks/人月" ;
 			    } },
-			    { field: 'project_clrl', title: '粗利润率', width: 60, sortable: true, tooltip: true, formatter:function(value,row){
+			    { field: 'project_clrl', title: '初始粗利润率', width: 60, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:0) + "&nbsp;%" ;
 			    } },
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
-			    { field: 'contractNum', title: '合同编号', width: 90, sortable: true }, 
+			    { field: 'contractNum', title: '案件编号', width: 90, sortable: true }, 
 			    { field: 'shouzhu', title: '合同受注状况', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='red'>未受注</font>" ; 
