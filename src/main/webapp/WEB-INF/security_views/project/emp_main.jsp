@@ -80,7 +80,7 @@
 		
 		s2 = $("#select2").combobox({
 			valueField: 'label', textField: 'value',
-			data: [{ label: '1', value: '待机人员' },{ label: '3', value: '离职人员' },{ label: '2', value: '在项目人员' }],
+			data: [{ label: '1', value: '待机人员' },{ label: '3', value: '离职人员' },{ label: '2', value: '在项目人员' },{ label: '4', value: '停薪留职' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				var data = {} ;

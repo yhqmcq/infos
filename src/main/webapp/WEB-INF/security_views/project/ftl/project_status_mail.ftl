@@ -148,7 +148,7 @@
     				<td>${project.project_gm?default('')} Ks</td>
     			</tr>
     			<tr>
-    				<th>顾客返回BUG率目标：</th>
+    				<th>顾客反馈BUG率目标：</th>
     				<td>${project.project_buglv?default('')}&nbsp;</td>
     				<th>项目状态：</th>
     				<td>

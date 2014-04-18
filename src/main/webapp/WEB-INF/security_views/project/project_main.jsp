@@ -54,7 +54,7 @@
 			    { field: 'project_ydscx', title: '预定生产性', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:0) + "&nbsp;Ks/人月" ;
 			    } },
-			    { field: 'project_clrl', title: '初始粗利润率', width: 60, sortable: true, tooltip: true, formatter:function(value,row){
+			    { field: 'project_clrl', title: '初始粗利润率', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:0) + "&nbsp;%" ;
 			    } },
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
