@@ -38,7 +38,7 @@
 			    { field: 'deptname', title: '所属部门', width: 60, sortable: true },
 			    { field: 'deptLeader', title: '所属部长', width: 60, sortable: true },
 			    //{ field: 'code', title: '项目简称', width: 110, sortable: true },
-			    { field: 'project_type', title: '项目类型', width: 120, sortable: true},
+			    { field: 'project_type', title: '项目类型', width: 90, sortable: true}, 
 			    { field: 'taskScope', title: '作业范围', width: 80, sortable: true, tooltip: true },
 			    { field: 'project_gm', title: '项目规模', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:0) + "&nbsp;Ks" ;
@@ -55,6 +55,9 @@
 			    	return (undefined != value?value:0) + "&nbsp;Ks/人月" ;
 			    } },
 			    { field: 'project_clrl', title: '初始粗利润率', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
+			    	return (undefined != value?value:0) + "&nbsp;%" ;
+			    } },
+			    { field: 'project_cclrl', title: '当前粗利润率', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:0) + "&nbsp;%" ;
 			    } },
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },

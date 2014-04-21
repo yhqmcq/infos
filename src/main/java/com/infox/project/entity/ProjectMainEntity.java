@@ -106,6 +106,8 @@ public class ProjectMainEntity implements Serializable {
 	private String project_ydscx;
 	/** 粗利润率 */
 	private String project_clrl;
+	/** 当前粗利润率 */
+	private String project_cclrl;
 	
 	/** 项目目标 */
 	private String project_target ;
@@ -215,6 +217,14 @@ public class ProjectMainEntity implements Serializable {
 
 	public Float getQuot() {
 		return quot;
+	}
+
+	public String getProject_cclrl() {
+		return project_cclrl;
+	}
+
+	public void setProject_cclrl(String project_cclrl) {
+		this.project_cclrl = project_cclrl;
 	}
 
 	public void setQuot(Float quot) {
