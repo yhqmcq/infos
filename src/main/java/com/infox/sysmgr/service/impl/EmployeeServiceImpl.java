@@ -259,6 +259,9 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		if(null != entity.getLbmType() && 3 == entity.getLbmType()) {
 			entity.setWorkStatus(3) ;
 		}
+		if(null != entity.getLbmType() && 4 == entity.getLbmType()) {
+			entity.setWorkStatus(4) ;
+		}
 		
 		
 		Set<EmpJobEntity> ejidAfter = entity.getEmpjobs() ;

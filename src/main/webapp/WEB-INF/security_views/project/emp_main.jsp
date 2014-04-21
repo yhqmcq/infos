@@ -18,7 +18,7 @@
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: '工号', width: 60, sortable: true },
-			    { field: 'truename', title: '姓名', width: 120, sortable: true, formatter:function(value,row){
+			    { field: 'truename', title: '姓名', width: 80, sortable: true, formatter:function(value,row){
 			    	if(row.isLeader == "Y") {
 			    		return "<font color='red'>"+value+"</font>";
 			    	} else {
@@ -29,16 +29,16 @@
 			columns: [[
 				{ field: 'sex', title: '性别', width:55, sortable: true},
 				{ field: 'email', title: '邮箱地址', width: 180, sortable: true },
-				{ field: 'orgname', title: '公司部门', width: 100, sortable: true },
+				{ field: 'orgname', title: '公司部门', width: 80, sortable: true },
 				{ field: 'position_sname', title: '公司岗位', width: 80, sortable: true, formatter:function(value,row){
 					var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+(undefined != value?value:"")+"</a>", row.remark, row.position) ;
 					return str ;
 				}},
-				{ field: 'japanese', title: '日语级别', width: 100, sortable: true }, 
+				{ field: 'japanese', title: '日语级别', width: 80, sortable: true }, 
 				{ field: 'rzsj', title: '入职时间', width: 100, sortable: true, formatter:function(value,row){
 					return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 				}},
-				{ field: 'bysj', title: '毕业时间', width: 100, sortable: true, formatter:function(value,row){
+				{ field: 'bysj', title: '毕业时间', width: 80, sortable: true, formatter:function(value,row){
 					return infosUtil.str2date(value).format("YYYY-MM-dd") ;
 				}},
 				{ field: 'positionDate', title: '岗位变更实施日期', width: 110, sortable: true },
@@ -80,13 +80,14 @@
 		
 		s2 = $("#select2").combobox({
 			valueField: 'label', textField: 'value',
-			data: [{ label: '1', value: '待机人员' },{ label: '3', value: '离职人员' },{ label: '2', value: '在项目人员' },{ label: '4', value: '停薪留职' }],
+			data: [{ label: '1', value: '待机人员' },{ label: '2', value: '在项目人员' },{ label: '3', value: '离职人员' },{ label: '4', value: '停薪留职' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				var data = {} ;
-				if(node.label == 1) { data["notInStatus"] = "9999,1,3" ; }
-				if(node.label == 2) { data["notInStatus"] = "9999,0,3" ; }
-				if(node.label == 3) { data["notInStatus"] = "9999,0,1" ; }
+				if(node.label == 1) { data["notInStatus"] = "9999,1,3,4" ; }
+				if(node.label == 2) { data["notInStatus"] = "9999,0,3,4" ; }
+				if(node.label == 3) { data["notInStatus"] = "9999,0,1,4" ; }
+				if(node.label == 4) { data["notInStatus"] = "9999,0,1,2,3" ; }
 				dataGrid.datagrid("load",data);
 			}
 	    });

@@ -92,7 +92,7 @@ public class EmployeeForm extends PageHelper implements Serializable{
 	/** 日语级别 */
 	private String japanese ;
 	
-	/** 员工工作状态（0空闲，1已在项目，2出差） */
+	/** 员工工作状态（0空闲，1已在项目，2出差，3离职，4停薪留职） */
 	private Integer workStatus ;
 	
 	/** 用于IN查询(0,1,2,3,4) */
