@@ -1192,8 +1192,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			
 			StringBuffer sb = new StringBuffer() ;
 			Set<EmpJobEntity> empjobs = p.getEmployee().getEmpjobs() ;
-			for (EmpJobEntity eje : empjobs) {
-				sb.append(eje.getJob_name()) ;
+			if(empjobs != null && !empjobs.isEmpty()) {
+				for (EmpJobEntity eje : empjobs) {
+					sb.append(eje.getJob_name()) ;
+				}
 			}
 			f.setEmpid(p.getEmployee().getId()) ;
 			f.setEmpjobname(sb.toString()) ;
@@ -1645,16 +1647,17 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         			if(null == sheet.getRow(i)) {
         				break ;
         			}
-        			String e_id = getCellValue(sheet.getRow(i).getCell(1)) ;
+        			String e_id = getCellValue(sheet.getRow(i).getCell(0)) ;
     				EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
         			if(null != e) {
-        				s.append(e_id+",") ;
+        				s.append(e.getId()+",") ;
         			}
         		}
-        		System.out.println(s.deleteCharAt(s.length()-1).toString());
-        		mf.setEmpjobid(s.deleteCharAt(s.length()-1).toString()) ;
-        		mf.setProjectid(projectid.toString()) ;
-        		this.addMailList(mf) ;
+        		if(null != s && s.length() > 0) {
+        			mf.setIds(s.deleteCharAt(s.length()-1).toString()) ;
+        			mf.setProjectid(projectid.toString()) ;
+        			this.addMailList(mf) ;
+        		}
         		
         		j.setObj(map) ;
         	}
