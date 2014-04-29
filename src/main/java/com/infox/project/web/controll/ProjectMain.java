@@ -14,6 +14,7 @@ import com.infox.common.web.page.Json;
 import com.infox.project.service.ProjectMainServiceI;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
+import com.infox.sysmgr.web.form.FileWrapForm;
 
 @Controller
 @RequestMapping("/project/project_main")
@@ -204,6 +205,18 @@ public class ProjectMain extends BaseController {
 		return this.projectService.maillist_datagrid(form) ;
 	}
 	
-	
+	@RequestMapping("/upload.do")
+	public String upload(FileWrapForm form, HttpServletRequest request) throws Exception {
+		request.setAttribute("upload_path", form.getPath()) ;
+		request.setAttribute("isParent", form.isParent()) ;
+		request.setAttribute("isDateFolder", form.isDateFolder()) ;
+		return  Constants.PROJECT + "project_upload_info" ;
+	}
 
+	@RequestMapping("/import_project_info.do")
+	@ResponseBody
+	public Json import_project_info(ProjectMainForm form, HttpServletRequest request) throws Exception {
+		return this.projectService.import_project_info(form) ;
+	}
+	
 }

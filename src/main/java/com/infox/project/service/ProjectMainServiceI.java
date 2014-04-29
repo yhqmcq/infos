@@ -1,5 +1,7 @@
 package com.infox.project.service;
 
+import java.io.Serializable;
+
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
 import com.infox.project.web.form.ProjectMailListForm;
@@ -7,7 +9,7 @@ import com.infox.project.web.form.ProjectMainForm;
 
 public interface ProjectMainServiceI {
 	
-	public void add(ProjectMainForm form) throws Exception ;
+	public Serializable add(ProjectMainForm form) throws Exception ;
 	
 	public void delete(String id) throws Exception ;
 	
@@ -34,5 +36,7 @@ public interface ProjectMainServiceI {
 	public Json statusChange(ProjectMainForm form) throws Exception ;
 	
 	public void projectNotify(ProjectMainForm form) throws Exception ;
+	
+	public Json import_project_info(ProjectMainForm form) throws Exception ;
 	
 }

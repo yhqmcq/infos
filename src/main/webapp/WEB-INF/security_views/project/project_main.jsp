@@ -243,6 +243,19 @@
 		}
 	}
 	
+	function importProjectInfo() {
+		$.easyui.showDialog({
+            title: "上传文件",
+            width: 595, height: 395,
+            topMost: false,
+            href: yhq.basePath+"/project/project_main/upload.do?path=/project_info&parent=true&dateFolder=true",
+            iniframe: false,
+            enableApplyButton: false,
+            enableSaveButton: false,
+            enableCloseButton: false,
+        });
+	}
+	
 </script>
 
 </head>
@@ -277,6 +290,9 @@
 		                    	<div onclick="devMember()" data-options="iconCls: 'icon-metro-expand'">项目开发人员</div>
 	                    	</div>
 	                    </div>
+	                    <div class="menu-sep"></div>
+	                    
+                    	<div onclick="importProjectInfo()" data-options="iconCls: 'icon-metro-expand'">导入项目信息</div>
 	                    <!-- 
 	                    <div class="menu-sep"></div>
 	                    <div data-options="iconCls: 'icon-metro-contract'">

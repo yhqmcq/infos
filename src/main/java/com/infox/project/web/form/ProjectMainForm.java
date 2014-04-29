@@ -127,6 +127,17 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	
 	private String view_member_ids ;
 	
+	/** 导入数据的文件路径 */
+	private String filepath ;
+	
+	public String getFilepath() {
+		return filepath;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
+	}
+
 	public String getView_member_ids() {
 		return view_member_ids;
 	}

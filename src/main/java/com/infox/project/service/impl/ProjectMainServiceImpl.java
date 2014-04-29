@@ -1,6 +1,8 @@
 package com.infox.project.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,7 +88,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	private BaseDaoI<OvertimeEntity> basedaoOvertime ;
 
 	@Override
-	public void add(ProjectMainForm form) throws Exception {
+	public Serializable add(ProjectMainForm form) throws Exception {
 		if(form.getProjectNum() == null || form.getProjectNum().equals("")) {
 			throw new Exception("项目编号不能为空！ ") ;
 		}
@@ -108,7 +115,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 			entity.setStatus(0);
 			
-			this.basedaoProject.save(entity);
+			return this.basedaoProject.save(entity);
 		} else {
 			throw new Exception("该项目已存在！ ");
 		}
@@ -949,11 +956,11 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				
 				Set<ProjectMailListEntity> projectmails = project.getProjectmails() ;
 				for (ProjectMailListEntity projectMailListEntity : projectmails) {
-					System.out.println(projectMailListEntity.getEmployee().getId() +"===="+projectMailListEntity.getEmployee().getTruename());
+					//System.out.println(projectMailListEntity.getEmployee().getId() +"===="+projectMailListEntity.getEmployee().getTruename());
 				}
 				Set<ProjectEmpWorkingEntity> pwe2 = project.getPwe() ;
 				for (ProjectEmpWorkingEntity projectEmpWorkingEntity : pwe2) {
-					System.out.println(projectEmpWorkingEntity.getEmp().getId()+"==="+projectEmpWorkingEntity.getEmp().getTruename());
+					//System.out.println(projectEmpWorkingEntity.getEmp().getId()+"==="+projectEmpWorkingEntity.getEmp().getTruename());
 				}
 				
 				
@@ -1546,5 +1553,140 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
+	}
+
+	@Override
+	public Json import_project_info(ProjectMainForm form) throws Exception {
+		Json j = new Json() ;
+		
+		File file = new File(form.getFilepath()) ;
+		Workbook book = null;
+        try {
+            book = new XSSFWorkbook(new FileInputStream(file));
+        } catch (Exception ex) {
+            book = new HSSFWorkbook(new FileInputStream(file));
+        }
+        
+        if(null != book) {
+    		Sheet sheet = book.getSheet("数据模板") ;
+        	int lastRowNum = sheet.getLastRowNum() ;
+        	if(lastRowNum > 0) {
+        		Map<String, Object> map = new HashMap<String, Object>() ;
+        		
+        		
+        		String p_id = getCellValue(sheet.getRow(1).getCell(2)) ;
+        		String p_sd = getCellValue(sheet.getRow(2).getCell(2)) ;
+        		String p_ed = getCellValue(sheet.getRow(2).getCell(4)) ;
+        		String p_num = getCellValue(sheet.getRow(3).getCell(2)) ;
+        		String p_name = getCellValue(sheet.getRow(4).getCell(2)) ;
+        		String p_dept = getCellValue(sheet.getRow(5).getCell(2)) ;
+        		String p_pm = getCellValue(sheet.getRow(6).getCell(2)) ;
+        		
+        		ProjectMainEntity project_id = this.basedaoProject.get("select t from ProjectMainEntity t where t.projectNum='"+p_id+"'") ;
+        		if(project_id != null) {
+        			j.setMsg("该项目已存在【"+p_id+"】！") ;
+    				return j;
+        		}
+        		List<EmployeeEntity> pm = this.basedaoEmployee.find("select t from EmployeeEntity t where t.truename='"+p_pm+"'") ;
+        		if(pm == null || pm.isEmpty()) {
+        			j.setMsg("该PM不存在【"+p_pm+"】，请检查！") ;
+    				return j;
+        		}
+        		OrgDeptTreeEntity dept = this.basedaoOrg.get("select t from OrgDeptTreeEntity t where t.sname='"+p_dept+"'") ;
+        		if(dept == null) {
+        			j.setMsg("该部门不存在【"+p_dept+"】，请检查！") ;
+    				return j;
+        		}
+        		int wdcc = DateUtil.compare_date2(p_sd, DateUtil.formatG(new Date())) ;
+        		if(wdcc == -1) {
+        			j.setMsg("项目的开始日期不能小于当前日期！") ;
+    				return j;
+        		}
+        		
+        		ProjectMainForm p = new ProjectMainForm() ;
+        		p.setProjectNum(p_id) ;
+        		p.setName(p_name) ;
+        		p.setStartDate(DateUtil.formatGG(p_sd)) ;
+        		p.setEndDate(DateUtil.formatGG(p_ed)) ;
+        		p.setDeptid(dept.getId()) ;
+        		p.setLeader_id(pm.iterator().next().getId()) ;
+        		p.setContractNum(p_num) ;
+        		
+        		Serializable projectid = this.add(p) ;
+        		map.put("project", p) ;
+        		
+        		
+        		
+        		//项目开发人员
+        		List<Object> list = new ArrayList<Object>() ;
+        		int count = 0 ;
+        		for(int i=9;i<lastRowNum;i++) {
+        			count=i ;
+        			if(null == sheet.getRow(i)) {
+        				break ;
+        			}
+        			String e_id = getCellValue(sheet.getRow(i).getCell(0)) ;
+        			String e_name = getCellValue(sheet.getRow(i).getCell(1)) ;
+        			String pj_role = getCellValue(sheet.getRow(i).getCell(2)) ;
+        			String e_sd = getCellValue(sheet.getRow(i).getCell(3)) ;
+        			String e_ed = getCellValue(sheet.getRow(i).getCell(4)) ;
+        			EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
+        			
+        			if(null != e) {
+        				System.out.println(i+"=="+e.getTruename()+"==="+e_name) ;
+        			}
+        		} 
+        		System.out.println("---------------------");
+        		
+        		//项目参与人员
+        		ProjectMailListForm mf = new ProjectMailListForm() ;
+        		StringBuffer s = new StringBuffer() ;
+        		for(int i=count+1;i<=lastRowNum;i++) {
+        			if(null == sheet.getRow(i)) {
+        				break ;
+        			}
+        			String e_id = getCellValue(sheet.getRow(i).getCell(1)) ;
+    				EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
+        			if(null != e) {
+        				s.append(e_id+",") ;
+        			}
+        		}
+        		System.out.println(s.deleteCharAt(s.length()-1).toString());
+        		mf.setEmpjobid(s.deleteCharAt(s.length()-1).toString()) ;
+        		mf.setProjectid(projectid.toString()) ;
+        		this.addMailList(mf) ;
+        		
+        		j.setObj(map) ;
+        	}
+        }
+        
+        j.setMsg("导入数据完成！") ;
+		j.setStatus(true) ;
+		return j;
+	}
+	
+	public static String getCellValue(Cell cell) {
+		String str = null;
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_BLANK:
+			str = "";
+			break;
+		case Cell.CELL_TYPE_BOOLEAN:
+			str = String.valueOf(cell.getBooleanCellValue());
+			break;
+		case Cell.CELL_TYPE_FORMULA:
+			str = String.valueOf(cell.getCellFormula());
+			break;
+		case Cell.CELL_TYPE_NUMERIC:
+			str = String.valueOf((long) cell.getNumericCellValue());
+			break;
+		case Cell.CELL_TYPE_STRING:
+			str = String.valueOf(cell.getStringCellValue());
+			break;
+		default:
+			str = null;
+			break;
+		}
+		return str;
 	}
 }
