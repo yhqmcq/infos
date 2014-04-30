@@ -1,12 +1,14 @@
 package com.infox.project.service;
 
+import java.io.Serializable;
+
 import com.infox.common.web.page.DataGrid;
 import com.infox.project.web.form.ProjectEmpWorkingForm;
 import com.infox.project.web.form.ProjectMainForm;
 
 public interface ProjectEmpWorkingServiceI {
 	
-	public void add(ProjectEmpWorkingForm form) throws Exception ;
+	public Serializable add(ProjectEmpWorkingForm form) throws Exception ;
 	
 	public void delete(String id) throws Exception ;
 	

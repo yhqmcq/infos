@@ -15,63 +15,45 @@
 			remoteSort: false, striped:true, 
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'emp_id', title: '工号', width: 60, sortable: true },
-			    { field: 'emp_name', title: '姓名', width: 70, sortable: true }
+			    { field: 'emp_id', title: '工号', width: 60 },
+			    { field: 'emp_name', title: '姓名', width: 70 }
 			]],
 			columns:[[
-				{ field: 'project_name', title: '项目名称', width: 200, sortable: true },
-				{ field: 'quot', title: '系数', width: 60, sortable: true },
-				{ field: 'position_sname', title: '公司岗位', width: 80, sortable: true },
-				{ field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
-					if(value == 0) {
-			    		return "未设置角色" ;
-			    	} else if(value == 1) {
-			    		return "PM" ;
-			    	} else if(value == 2) {
-			    		return "PL" ;
-			    	} else if(value == 3) {
-			    		return "SE" ;
-			    	} else if(value == 4) {
-			    		return "PG" ;
-			    	} else if(value == 5) {
-			    		return "初级PG1" ;
-			    	}else if(value == 6) {
-			    		return "初级PG2" ;
-			    	}else if(value == 7) {
-			    		return "初级PG3" ;
-			    	}
-			    }},
-				{ field: 'sd', title: '开始时间', width: 80, sortable: true },
-			    { field: 'ed', title: '结束时间', width: 80, sortable: true }, 
-			    { field: 'totalTaskTime', title: '天数', width: 80, sortable: true },
-			    { field: 'mm', title: '人月', width: 80, sortable: true, formatter: function(value,row){
+				{ field: 'project_name', title: '项目名称', width: 200 },
+				{ field: 'quot', title: '系数', width: 60 },
+				{ field: 'position_sname', title: '公司岗位', width: 80 },
+				{ field: 'project_role', title: '担任角色', width: 80},
+				{ field: 'sd', title: '开始时间', width: 80 },
+			    { field: 'ed', title: '结束时间', width: 80 }, 
+			    { field: 'totalTaskTime', title: '天数', width: 80 },
+			    { field: 'mm', title: '人月', width: 80, formatter: function(value,row){
 			    	return infosUtil.numberf(value, 2) ;
 			    }},
-			    { field: 'expendDays', title: '已消耗天数', width: 80, sortable: true},
-			    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
+			    { field: 'expendDays', title: '已消耗天数', width: 80},
+			    { field: 'expendMM', title: '已消耗人月', width: 80, formatter: function(value,row){
 			    	return infosUtil.numberf(value, 2) ;
 			    }},
-			    { field: 'normalHour', title: '平时加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'normalHour', title: '平时加班', width: 100, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'weekendHour', title: '周末加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'weekendHour', title: '周末加班', width: 100, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'holidaysHour', title: '节假日加班', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'holidaysHour', title: '节假日加班', width: 100, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'totalHour', title: '累计加班小时', width: 100, sortable: true, formatter: function(value, row){
+			    { field: 'totalHour', title: '累计加班小时', width: 100, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
 			    	}
 			    } },
-			    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
+			    { field: 'status', title: '状态', width: 80, formatter: function(value,row){
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 			    }}
 			]],

@@ -42,6 +42,7 @@ import com.infox.project.entity.OvertimeEntity;
 import com.infox.project.entity.ProjectEmpWorkingEntity;
 import com.infox.project.entity.ProjectMailListEntity;
 import com.infox.project.entity.ProjectMainEntity;
+import com.infox.project.service.ProjectEmpWorkingServiceI;
 import com.infox.project.service.ProjectMainServiceI;
 import com.infox.project.web.form.ProjectEmpWorkingForm;
 import com.infox.project.web.form.ProjectMailListForm;
@@ -86,6 +87,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	
 	@Autowired
 	private BaseDaoI<OvertimeEntity> basedaoOvertime ;
+	
+	@Autowired
+	private ProjectEmpWorkingServiceI pewService ;
 
 	@Override
 	public Serializable add(ProjectMainForm form) throws Exception {
@@ -138,6 +142,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
 		if(null != pwe && !pwe.isEmpty()) {
 			for (ProjectEmpWorkingEntity p : pwe) {
+				EmployeeEntity emp = p.getEmp() ;
+				emp.setWorkStatus(0) ;
+				this.basedaoEmployee.update(emp) ;
 				delPwe(p) ;
 			}
 		}
@@ -1632,12 +1639,32 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         			String pj_role = getCellValue(sheet.getRow(i).getCell(2)) ;
         			String e_sd = getCellValue(sheet.getRow(i).getCell(3)) ;
         			String e_ed = getCellValue(sheet.getRow(i).getCell(4)) ;
-        			EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
         			
+        			EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
         			if(null != e) {
-        				System.out.println(i+"=="+e.getTruename()+"==="+e_name) ;
+        				System.out.println(i+"=="+e.getTruename()+"==="+e_name+"=="+e.getWorkStatus()) ;
+        				
+        				ProjectEmpWorkingForm pwf = new ProjectEmpWorkingForm() ;
+        				pwf.setEmpId(e.getId()) ;
+        				pwf.setProject_id(projectid.toString()) ;
+        				Serializable serid = this.pewService.add(pwf) ;
+        				
+        				if(null != serid) {
+        					ProjectEmpWorkingForm pwf1 = new ProjectEmpWorkingForm() ;
+        					pwf1.setIds(serid.toString()) ;
+        					pwf1.setStartDate(DateUtil.formatGG(e_sd)) ;
+        					pwf1.setEndDate(DateUtil.formatGG(e_ed)) ;
+        					this.pewService.set_workdate(pwf1) ;
+        					
+        					ProjectEmpWorkingForm pwf2 = new ProjectEmpWorkingForm() ;
+        					pwf2.setIds(serid.toString()) ;
+        					pwf2.setProject_role(pj_role) ;
+        					this.pewService.set_projectRole(pwf2) ;
+        				}
+        				
         			}
         		} 
+        		
         		System.out.println("---------------------");
         		
         		//项目参与人员

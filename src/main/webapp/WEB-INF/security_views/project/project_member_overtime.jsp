@@ -16,34 +16,16 @@
 			remoteSort: false, striped:true, pagination: false, rownumbers: true,
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
-			    { field: 'emp_id', title: '工号', width: 60, sortable: true },
-			    { field: 'emp_name', title: '姓名', width: 70, sortable: true }
+			    { field: 'emp_id', title: '工号', width: 60 },
+			    { field: 'emp_name', title: '姓名', width: 70 }
 			]],
 			columns: [[
-			    { field: 'dept_name', title: '部门', width: 90, sortable: true },
-			    { field: 'position_sname', title: '公司岗位', width: 100, sortable: true },
-			    { field: 'project_role', title: '担任角色', width: 80, sortable: true, formatter: function(value,row){
-			    	if(value == 0) {
-			    		return "未设置角色" ;
-			    	} else if(value == 1) {
-			    		return "PM" ;
-			    	} else if(value == 2) {
-			    		return "PL" ;
-			    	} else if(value == 3) {
-			    		return "SE" ;
-			    	} else if(value == 4) {
-			    		return "PG" ;
-			    	} else if(value == 5) {
-			    		return "初级PG1" ;
-			    	}else if(value == 6) {
-			    		return "初级PG2" ;
-			    	}else if(value == 7) {
-			    		return "初级PG3" ;
-			    	}
-			    }},
-			    { field: 'sd', title: '开始时间', width: 80, sortable: true },
-			    { field: 'ed', title: '结束时间', width: 80, sortable: true },
-			    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
+			    { field: 'dept_name', title: '部门', width: 90 },
+			    { field: 'position_sname', title: '公司岗位', width: 100 },
+			    { field: 'project_role', title: '担任角色', width: 80},
+			    { field: 'sd', title: '开始时间', width: 80 },
+			    { field: 'ed', title: '结束时间', width: 80 },
+			    { field: 'status', title: '状态', width: 80, formatter: function(value,row){
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 			    }},
 			    /*{ field: 'otStartDate', title: '加班开始时间', width: 130, formatter: function(value,row){
@@ -52,31 +34,31 @@
 			    { field: 'otEndDate', title: '加班开始时间', width: 130, formatter: function(value,row){
 			    	return infosUtil.str2date(value).format("YYYY-MM-dd hh:ss") ;
 			    } },*/
-			    { field: 'normalHour', title: '平时加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'normalHour', title: '平时加班', width: 90, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'weekendHour', title: '周末加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'weekendHour', title: '周末加班', width: 90, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } },
-			    { field: 'holidaysHour', title: '节假日小时', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'holidaysHour', title: '节假日小时', width: 90, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'normalHour1', title: '已结算平时加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'normalHour1', title: '已结算平时加班', width: 90, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'weekendHour1', title: '已结算周末加班', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'weekendHour1', title: '已结算周末加班', width: 90, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } },
-			    { field: 'holidaysHour1', title: '已结算节假日小时', width: 90, sortable: true, editor: "text", formatter: function(value,row){
+			    { field: 'holidaysHour1', title: '已结算节假日小时', width: 90, editor: "text", formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'sum1', title: '剩余平时小时', width: 90, sortable: true, formatter: function(value,row){
+			    { field: 'sum1', title: '剩余平时小时', width: 90, formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'sum2', title: '剩余周末小时', width: 90, sortable: true, formatter: function(value,row){
+			    { field: 'sum2', title: '剩余周末小时', width: 90, formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } }, 
-			    { field: 'sum3', title: '剩余节假日小时', width: 90, sortable: true, formatter: function(value,row){
+			    { field: 'sum3', title: '剩余节假日小时', width: 90, formatter: function(value,row){
 			    	return "<div style='float:left'>"+(undefined != value ? value : "")+"</div><div style='float:right'>小时</div>" ;
 			    } } 
 			]],

@@ -27,25 +27,7 @@
 			    { field: 'mm', title: '人月', width: 50, sortable: true, formatter: function(value,row){
 			    	return infosUtil.numberf(value, 2) ;
 			    }},
-				{ field: 'project_role', title: '担任角色', width: 70, sortable: true, formatter: function(value,row){
-					if(value == 0) {
-						return "未设置角色" ;
-					} else if(value == 1) {
-						return "PM" ;
-					} else if(value == 2) {
-						return "PL" ;
-					} else if(value == 3) {
-						return "SE" ;
-					} else if(value == 4) {
-						return "PG" ;
-					} else if(value == 5) {
-						return "初级PG1" ;
-					}else if(value == 6) {
-						return "初级PG2" ;
-					}else if(value == 7) {
-						return "初级PG3" ;
-					}
-				}},
+				{ field: 'project_role', title: '担任角色', width: 70, sortable: true},
 				{ field: 'position_sname', title: '公司岗位', width: 70, sortable: true },
 				{ field: 'totalHour', title: '累计加班', width: 70, sortable: true, formatter: function(value, row){
 			    	if(undefined != value) {

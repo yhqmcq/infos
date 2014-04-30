@@ -1,6 +1,7 @@
 package com.infox.project.service.impl;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,7 +65,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	private TaskSchedulerServiceI taskScheduler ;
 
 	@Override
-	public void add(ProjectEmpWorkingForm form) throws Exception {
+	public Serializable add(ProjectEmpWorkingForm form) throws Exception {
 		String empIds = form.getEmpId() ;
 		if(null != empIds && !"".equals(empIds)) {
 			String[] empIdsSplit = empIds.split(",") ;
@@ -83,10 +84,11 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					entity.setProject(project);
 					entity.setStatus(0) ;
 					
-					this.basedaoProjectEW.save(entity);
+					return this.basedaoProjectEW.save(entity);
 				}
 			}
 		}
+		return null ;
 	}
 	
 	//点击取消按钮，将取消之前的全部操作，并删除已添加的开发人员
@@ -533,7 +535,6 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			String[] id = ids.split(",") ;
 			for (int i = 0; i < id.length; i++) {
 				ProjectEmpWorkingEntity entity = this.basedaoProjectEW.get(ProjectEmpWorkingEntity.class, id[i]) ;
-				
 				if(entity.getStatus() == 0) {	//未设置日期
 					entity.setStatus(1) ;
 					entity.setStartDate(form.getStartDate()) ;

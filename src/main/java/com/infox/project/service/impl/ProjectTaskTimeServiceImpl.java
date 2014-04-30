@@ -358,7 +358,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 												}
 											}
 										}
-										
+										lastEndDate.add(DateUtil.formatG(ew.getEndDate())) ;
 										int wd = DateCal.getWorkingDays(DateUtil.formatG(ary11.getTime()), DateUtil.formatG(lastDay.getTime()));
 										fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 										
