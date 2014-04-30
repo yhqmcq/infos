@@ -1590,6 +1590,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         		String p_name = getCellValue(sheet.getRow(4).getCell(2)) ;
         		String p_dept = getCellValue(sheet.getRow(5).getCell(2)) ;
         		String p_pm = getCellValue(sheet.getRow(6).getCell(2)) ;
+        		String p_xs = getCellValue(sheet.getRow(7).getCell(2)) ;
         		
         		ProjectMainEntity project_id = this.basedaoProject.get("select t from ProjectMainEntity t where t.projectNum='"+p_id+"'") ;
         		if(project_id != null) {
@@ -1617,11 +1618,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         		p.setName(p_name) ;
         		p.setStartDate(DateUtil.formatGG(p_sd)) ;
         		p.setEndDate(DateUtil.formatGG(p_ed)) ;
+        		p.setQuot(Float.parseFloat(p_xs)) ;
         		p.setDeptid(dept.getId()) ;
         		p.setLeader_id(pm.iterator().next().getId()) ;
         		p.setContractNum(p_num) ;
         		
         		Serializable projectid = this.add(p) ;
+        		p.setDeptname(p_dept) ;
+        		p.setDeptLeader(p_pm) ;
         		map.put("project", p) ;
         		
         		
@@ -1629,7 +1633,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         		//项目开发人员
         		List<Object> list = new ArrayList<Object>() ;
         		int count = 0 ;
-        		for(int i=9;i<lastRowNum;i++) {
+        		for(int i=10;i<lastRowNum;i++) {
+        			Map<String, Object> m = new HashMap<String, Object>() ;
+        			
         			count=i ;
         			if(null == sheet.getRow(i)) {
         				break ;
@@ -1639,10 +1645,15 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         			String pj_role = getCellValue(sheet.getRow(i).getCell(2)) ;
         			String e_sd = getCellValue(sheet.getRow(i).getCell(3)) ;
         			String e_ed = getCellValue(sheet.getRow(i).getCell(4)) ;
-        			
         			EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
+        			
         			if(null != e) {
-        				System.out.println(i+"=="+e.getTruename()+"==="+e_name+"=="+e.getWorkStatus()) ;
+        				m.put("id", e.getId()) ;
+        				m.put("name", e.getTruename()) ;
+        				m.put("e_sd", e_sd) ;
+        				m.put("e_ed", e_ed) ;
+        				m.put("pj_role", pj_role) ;
+        				m.put("msg", true) ;
         				
         				ProjectEmpWorkingForm pwf = new ProjectEmpWorkingForm() ;
         				pwf.setEmpId(e.getId()) ;
@@ -1661,25 +1672,45 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         					pwf2.setProject_role(pj_role) ;
         					this.pewService.set_projectRole(pwf2) ;
         				}
-        				
+        			} else {
+        				m.put("id", e_id) ;
+        				m.put("name", e_name) ;
+        				m.put("e_sd", e_sd) ;
+        				m.put("e_ed", e_ed) ;
+        				m.put("pj_role", pj_role) ;
+        				m.put("msg", false) ;
         			}
+        			list.add(m) ;
         		} 
-        		
-        		System.out.println("---------------------");
+        		map.put("dev", list) ;
         		
         		//项目参与人员
+        		List<Object> list1 = new ArrayList<Object>() ;
         		ProjectMailListForm mf = new ProjectMailListForm() ;
         		StringBuffer s = new StringBuffer() ;
-        		for(int i=count+1;i<=lastRowNum;i++) {
+        		for(int i=count+2;i<=lastRowNum;i++) {
+        			Map<String, Object> m = new HashMap<String, Object>() ;
+        			
         			if(null == sheet.getRow(i)) {
         				break ;
         			}
         			String e_id = getCellValue(sheet.getRow(i).getCell(0)) ;
+        			String e_name = getCellValue(sheet.getRow(i).getCell(1)) ;
     				EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
         			if(null != e) {
+        				m.put("id", e_id) ;
+        				m.put("name", e.getTruename()) ;
+        				m.put("msg", true) ;
+        				
         				s.append(e.getId()+",") ;
+        			} else {
+        				m.put("id", e_id) ;
+        				m.put("name", e_name) ;
+        				m.put("msg", false) ;
         			}
+        			list1.add(m) ;
         		}
+        		map.put("cy", list1) ;
         		if(null != s && s.length() > 0) {
         			mf.setIds(s.deleteCharAt(s.length()-1).toString()) ;
         			mf.setProjectid(projectid.toString()) ;

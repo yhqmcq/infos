@@ -66,8 +66,27 @@ function export_data(data) {
 			var _infolist = $("#infolist") ;
 			_infolist.empty() ;
 			
-			$.each(result.obj, function(n,p) {
-				_infolist.append("<span style='width:100px;display:block;float:left;'>"+p.id+"</span><span style='width:100px;display:block;float:left;'>"+p.truename+"</span><span style='width:100px;display:block;float:left;'>"+(p.status==true?"[<font color='green'>成功</font>]":"[<font color='red'>失败</font>]")+"</span><span style='width:200px;display:block;float:left;'>"+p.msg+"</span><br>") ;
+			_infolist.append("<span style='display:block;float:left;'><b>项目编号：</b></span><span style='display:block;float:left;'>"+result.obj.project.projectNum+"</span><br>") ;
+			_infolist.append("<span style='display:block;float:left;'><b>起止日期：</b></span><span style='display:block;float:left;'>"+$.date.format($.string.toDate(result.obj.project.startDate), "yyyy-MM-dd")+"&nbsp;&harr;&nbsp;"+$.date.format($.string.toDate(result.obj.project.endDate), "yyyy-MM-dd")+"</span><br>") ;
+			_infolist.append("<span style='display:block;float:left;'><b>合同编号：</b></span><span style='display:block;float:left;'>"+result.obj.project.contractNum+"</span><br>") ;
+			_infolist.append("<span style='display:block;float:left;'><b>项目名称：</b></span><span style='display:block;float:left;'>"+result.obj.project.name+"</span><br>") ;
+			_infolist.append("<span style='display:block;float:left;'><b>所属部门：</b></span><span style='display:block;float:left;'>"+result.obj.project.deptname+"</span><br>") ;
+			_infolist.append("<span style='display:block;float:left;'><b>项目经理：</b></span><span style='display:block;float:left;'>"+result.obj.project.deptLeader+"</span><br>") ;
+			_infolist.append("<span style='display:block;float:left;'><b>项目系数：</b></span><span style='display:block;float:left;'>"+result.obj.project.quot+"</span><br>") ;
+			
+			_infolist.append("<br></br><span style='display:block;float:left;'><b>开发人员</b></span></br><hr>") ;
+			$.each(result.obj.dev, function(n,p) {
+				_infolist.append("<span style='width:60px;display:block;float:left;'>"+p.id+"</span><span style='width:100px;display:block;float:left;'>"+p.name+"</span>"+
+						"<span style='width:100px;display:block;float:left;'>"+p.e_sd+"</span>"+
+						"<span style='width:100px;display:block;float:left;'>"+p.e_ed+"</span>"+
+						"<span style='width:100px;display:block;float:left;'>"+p.pj_role+"</span>"+
+						"<span style='width:50px;display:block;float:left;'>"+(p.msg==true?"[<font color='green'>成功</font>]":"[<font color='red'>失败</font>]")+"</span><br>") ;
+			});
+			
+			
+			_infolist.append("<br></br></br><span style='display:block;float:left;'><b>参与人员</b></span></br><hr>") ;
+			$.each(result.obj.cy, function(n,p) {
+				_infolist.append("<span style='width:100px;display:block;float:left;'>"+p.id+"</span><span style='width:100px;display:block;float:left;'>"+p.name+"</span><span style='width:100px;display:block;float:left;'>"+(p.msg==true?"[<font color='green'>成功</font>]":"[<font color='red'>失败</font>]")+"</span><br>") ;
 			});
 			
 			$.easyui.loaded();
