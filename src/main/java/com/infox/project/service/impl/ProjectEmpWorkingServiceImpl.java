@@ -65,11 +65,38 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 	private TaskSchedulerServiceI taskScheduler ;
 
 	@Override
-	public Serializable add(ProjectEmpWorkingForm form) throws Exception {
+	public void add(ProjectEmpWorkingForm form) throws Exception {
 		String empIds = form.getEmpId() ;
 		if(null != empIds && !"".equals(empIds)) {
 			String[] empIdsSplit = empIds.split(",") ;
 			for(int i=0;i<empIdsSplit.length;i++) {
+				EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, empIdsSplit[i]) ;
+				if(employeeEntity.getWorkStatus() != 1) {
+					employeeEntity.setWorkStatus(1) ;
+					
+					ProjectEmpWorkingEntity entity = new ProjectEmpWorkingEntity();
+					BeanUtils.copyProperties(form, entity);
+					
+					entity.setEmp(employeeEntity) ;
+					
+					ProjectMainEntity project = new ProjectMainEntity() ;
+					project.setId(form.getProject_id()) ;
+					entity.setProject(project);
+					entity.setStatus(0) ;
+					
+					this.basedaoProjectEW.save(entity);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public Serializable add_import(ProjectEmpWorkingForm form) throws Exception {
+		String empIds = form.getEmpId() ;
+		if(null != empIds && !"".equals(empIds)) {
+			String[] empIdsSplit = empIds.split(",") ;
+			for(int i=0;i<empIdsSplit.length;i++) {
+				System.out.println(empIdsSplit[i]);
 				EmployeeEntity employeeEntity = this.basedaoEmployee.get(EmployeeEntity.class, empIdsSplit[i]) ;
 				if(employeeEntity.getWorkStatus() != 1) {
 					employeeEntity.setWorkStatus(1) ;

@@ -8,7 +8,9 @@ import com.infox.project.web.form.ProjectMainForm;
 
 public interface ProjectEmpWorkingServiceI {
 	
-	public Serializable add(ProjectEmpWorkingForm form) throws Exception ;
+	public void add(ProjectEmpWorkingForm form) throws Exception ;
+	
+	public Serializable add_import(ProjectEmpWorkingForm form) throws Exception ;
 	
 	public void delete(String id) throws Exception ;
 	

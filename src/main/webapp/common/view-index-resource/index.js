@@ -162,7 +162,7 @@
     //初始化应用程序主界面左侧面板中“个人收藏”的数据。
     window.mainpage.instFavoMenus = function () {
         window.mainpage.instFavoTree();
-        window.mainpage.loadFavoMenus();
+        //window.mainpage.loadFavoMenus();
     };
 
 

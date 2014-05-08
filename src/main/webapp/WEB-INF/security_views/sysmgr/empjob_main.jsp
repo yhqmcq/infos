@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>菜单管理</title>
+<title>公司岗位管理</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 
@@ -10,7 +10,7 @@
 	var treeGrid ;
 	$(function() {
 		treeGrid = $("#t1").treegrid({
-			title: '组织机构管理',
+			title: '公司岗位管理',
 			method: "get",
 			url: yhq.basePath+"/sysmgr/empjob/treegrid.do",
 			idField: 'id',

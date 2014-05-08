@@ -1658,7 +1658,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         				ProjectEmpWorkingForm pwf = new ProjectEmpWorkingForm() ;
         				pwf.setEmpId(e.getId()) ;
         				pwf.setProject_id(projectid.toString()) ;
-        				Serializable serid = this.pewService.add(pwf) ;
+        				Serializable serid = this.pewService.add_import(pwf) ;
         				
         				if(null != serid) {
         					ProjectEmpWorkingForm pwf1 = new ProjectEmpWorkingForm() ;

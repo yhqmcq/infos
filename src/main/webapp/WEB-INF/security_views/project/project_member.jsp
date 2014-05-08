@@ -138,6 +138,7 @@
 				}
 				var workdata = {} ;
 				workdata["empId"] = empIds.join(',');
+				console.info(workdata) ;
 				workdata["project_id"] = "${project.id}";
 				workdata["project_name"] = "${project.name}";
 				$.post(yhq.basePath+"/project/pwe_emp_working/add.do", workdata, function(result) {
