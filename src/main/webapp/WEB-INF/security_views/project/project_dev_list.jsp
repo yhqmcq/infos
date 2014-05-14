@@ -10,7 +10,7 @@
 	var dataGrid1 ;
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
-			title: '员工列表',
+			title: '列表',
 			url: yhq.basePath+"/project/project_main/get_ProjectDevList.do?id=${id}",
 			idField: 'emp_id', fit: true, fitColumns: false, border: false, method: "post",
 			remoteSort: false, striped:true, pagination: false,showFooter: true, rownumbers: true,
@@ -28,7 +28,7 @@
 			    	return infosUtil.numberf(value, 2) ;
 			    }},
 				{ field: 'project_role', title: '担任角色', width: 70, sortable: true},
-				{ field: 'position_sname', title: '公司岗位', width: 70, sortable: true },
+				{ field: 'position_name', title: '公司岗位', width: 100, sortable: true },
 				{ field: 'totalHour', title: '累计加班', width: 70, sortable: true, formatter: function(value, row){
 			    	if(undefined != value) {
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;

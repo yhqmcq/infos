@@ -135,7 +135,7 @@ public class OrgDeptTreeServiceImpl implements OrgDeptTreeServiceI {
 		BeanUtils.copyProperties(me, mf) ;
 		
 		//combotree方式显示
-		mf.setText(me.getSname()) ;
+		mf.setText(me.getFullname()) ;
 		
 		if(null != me.getOrgs() && me.getOrgs().size() > 0) {
 			mf.setState("closed") ;

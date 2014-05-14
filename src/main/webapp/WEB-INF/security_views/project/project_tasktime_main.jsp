@@ -97,7 +97,7 @@
 				height:'auto',
 				columns:[[
 					{ field: 'project_name', title: '项目名称', width: 200 },
-					{ field: 'position_sname', title: '公司岗位', width: 80 },
+					{ field: 'position_name', title: '公司岗位', width: 80 },
 					{ field: 'project_role', title: '担任角色', width: 80, formatter: function(value,row){
 						if(value == 0) {
 				    		return "未设置角色" ;

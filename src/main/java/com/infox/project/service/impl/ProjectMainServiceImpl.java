@@ -1253,7 +1253,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					entity.setStatus(1); // 开始状态
 					json.setMsg("项目开启成功！");
 					json.setStatus(true);
-					
+					/*########
 					//项目的结束日期大于当前日期,才设置定时器
 					int compare_date2 = DateUtil.compare_date2(DateUtil.formatG(entity.getEndDate()), DateUtil.formatG(new Date())) ;
 					if(compare_date2 == 1) {
@@ -1298,7 +1298,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							}
 						}
 					}
-					
+					*/
 				} else {
 					json.setMsg("项目未设置参与人员邮件列表，请设置后再开始项目。");
 				}
@@ -1366,7 +1366,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		//发送异步消息（项目信息邮件）
 		if(json.isStatus()) {
-			this.status(entity) ;
+			//########this.status(entity) ;
 		}
 
 		return json;

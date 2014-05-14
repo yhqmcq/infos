@@ -30,7 +30,7 @@
 			    { field: 'sex', title: '性别', width:55, sortable: true},
 			    { field: 'email', title: '邮箱地址', width: 180, sortable: true },
 			    { field: 'orgname', title: '公司部门', width: 100, sortable: true },
-			    { field: 'position_sname', title: '公司岗位', width: 80, sortable: true, formatter:function(value,row){
+			    { field: 'position', title: '公司岗位', width: 100, sortable: true, formatter:function(value,row){
 			    	var str = $.string.format("<a href='javascript:;' onclick='showForc(\"{0}\",\"{1}\")'>"+(undefined != value?value:"")+"</a>", row.remark, row.position) ;
 			    	return str ;
 			    }},
