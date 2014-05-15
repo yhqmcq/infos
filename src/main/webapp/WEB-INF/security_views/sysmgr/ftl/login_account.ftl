@@ -109,8 +109,8 @@
     		&nbsp;&nbsp;&nbsp;登录密码：${password} <br>
     		&nbsp;&nbsp;&nbsp;访问地址：<a href="${reportURL}" target="_blank">&nbsp;请点击这里&nbsp;</a> <br><br><br>
     		
-    		<font color="red">
-	    		注：<br>
+    		<font>
+	    		相关事项：<br>
 	    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	    		&diams;以上密码为你的初始化密码，可登陆系统后进行修改。建议修改为你个人电脑的登陆密码。<br>
 	    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -120,6 +120,8 @@
 	    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	    		&diams;已共享 Chrome、Firefox浏览器，地址：\\192.168.2.206\浏览器\
     		</font>
+    		<br><br>
+    		<h2 style="color:red;">注意：系统登录权限开放时间为：2014-05-26</h2>
     	</div>
     	
     	<div class="footer">

@@ -119,7 +119,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 				modifyDeptMemNum(entity.getOrg().getId()) ;
 			}
 			
-			/*String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
+			String rootPath = this.realPathResolver.get("/WEB-INF/security_views/sysmgr/ftl") ;
 			Map<String,Object> model = new HashMap<String,Object>() ;
 			model.put("name", entity.getTruename()) ;
 			model.put("account", entity.getAccount()) ;
@@ -132,7 +132,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 			mail.setSubject("华智项目管理系统[登录账号和密码]") ;
 			mail.setRecipientTO(entity.getEmail()) ;
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "login_account.ftl", model)) ;
-			this.mailMessageSend.sendMail(mail) ;*/
+			this.mailMessageSend.sendMail(mail) ;
 			
 			j.setMsg("用户保存成功！") ; j.setStatus(true) ;
 			return j ;
@@ -306,6 +306,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
         		List<Object> list = new ArrayList<Object>() ;
         		
         		for(int i=3; i<=lastRowNum; i++) {
+        			
         			String id = getCellValue(sheet.getRow(i).getCell(1)) ;
         			String name = getCellValue(sheet.getRow(i).getCell(2)) ;
         			String sex = getCellValue(sheet.getRow(i).getCell(3)) ;
@@ -316,9 +317,13 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
         			String rzsj = getCellValue(sheet.getRow(i).getCell(8)) ;
         			String position = getCellValue(sheet.getRow(i).getCell(9)) ;
         			
+        			if(null == email || "".equals(email)) {
+        				email = RandomUtils.generateNumber(15)+"@whizen.com" ;
+        			}
+        			System.out.println(i+"==" + email);
         			
         			OrgDeptTreeEntity od = this.basedaoOrg.get("select t from OrgDeptTreeEntity t where t.sname='"+StringUtil.replaceAllSpace(dept)+"'") ;
-        			EmpJobEntity je = this.basedaoEmpJob.get("select t from EmpJobEntity t where t.job_sname='"+StringUtil.replaceAllSpace(position)+"'") ;
+        			EmpJobEntity je = this.basedaoEmpJob.get("select t from EmpJobEntity t where t.job_name='"+StringUtil.replaceAllSpace(position)+"'") ;
         			
         			if(null == od) {
         				j.setMsg("导入数据失败，该部门不存在！["+dept+"]") ;
