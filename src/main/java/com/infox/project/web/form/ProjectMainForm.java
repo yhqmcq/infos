@@ -127,6 +127,17 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	
 	private String view_member_ids ;
 	
+	/** 查询的类型 */
+	private String viewType = "N" ;
+	
+	public String getViewType() {
+		return viewType;
+	}
+
+	public void setViewType(String viewType) {
+		this.viewType = viewType;
+	}
+
 	/** 导入数据的文件路径 */
 	private String filepath ;
 	

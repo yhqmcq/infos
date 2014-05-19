@@ -36,6 +36,7 @@ import com.infox.common.util.NumberUtils;
 import com.infox.common.util.RandomUtils;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
+import com.infox.common.web.page.LoginInfoSession;
 import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.asynms.send.MailMessageSenderI;
 import com.infox.project.entity.OvertimeEntity;
@@ -940,11 +941,55 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
+		DataGrid datagrid = new DataGrid();
+		
+		Set<ProjectMainEntity> set = new HashSet<ProjectMainEntity>() ;
+		List<ProjectMainEntity> singleList = new ArrayList<ProjectMainEntity>() ;
+		
+		List<ProjectMainEntity> find = this.find(form) ;
+		LoginInfoSession sessionInfo = Constants.getSessionInfo() ;
+		
+		if("Y".equals(form.getViewType())) {
+			datagrid.setTotal(this.total(form));
+			datagrid.setRows(this.changeModel(this.find(form)));
+		} else {
+			//是否部长
+			if(null != sessionInfo.getEmp().getIsLeader() && "Y".equals(sessionInfo.getEmp().getIsLeader())) {
+				form.setDeptid(form.getDeptid()) ;
+				datagrid.setTotal(this.total(form));
+				datagrid.setRows(this.changeModel(this.find(form)));
+			} else {
+				for (ProjectMainEntity project : find) {
+					Set<ProjectMailListEntity> projectmails = project.getProjectmails() ;
+					for (ProjectMailListEntity projectMailListEntity : projectmails) {
+						//System.out.println(project.getName()+"=="+projectMailListEntity.getEmployee().getId() +"===="+projectMailListEntity.getEmployee().getTruename());
+						if(sessionInfo.getEmp().getId().equals(projectMailListEntity.getEmployee().getId())) {
+							set.add(project) ;
+		 				}
+					}
+					Set<ProjectEmpWorkingEntity> pwe2 = project.getPwe() ;
+					for (ProjectEmpWorkingEntity projectEmpWorkingEntity : pwe2) {
+						//System.out.println(project.getName()+"=="+projectEmpWorkingEntity.getEmp().getId()+"==="+projectEmpWorkingEntity.getEmp().getTruename());
+						if(sessionInfo.getEmp().getId().equals(projectEmpWorkingEntity.getEmp().getId())) {
+							set.add(project) ;
+		 				}
+					}
+					if(sessionInfo.getEmp().getId().equals(project.getEmp().getId())) {
+						set.add(project) ;
+					}
+				}
+				for (ProjectMainEntity projectMainEntity : set) {
+					singleList.add(projectMainEntity) ;
+				}
+				
+				datagrid.setTotal(((Integer)singleList.size()).longValue());
+				datagrid.setRows(this.changeModel(singleList));
+			}
+		}
+		
 		form.setSort("startDate") ;
 		form.setOrder("asc") ;
-		DataGrid datagrid = new DataGrid();
-		datagrid.setTotal(this.total(form));
-		datagrid.setRows(this.changeModel(this.find(form)));
+		
 		return datagrid;
 	}
 

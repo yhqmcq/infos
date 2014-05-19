@@ -167,6 +167,13 @@ public class ProjectMain extends BaseController {
 		return this.projectService.datagrid(form) ;
 	}
 	
+	@RequestMapping("/datagrid_leader.do")
+	@ResponseBody
+	public DataGrid datagrid_leader(ProjectMainForm form) throws Exception {
+		form.setViewType("Y") ;
+		return this.projectService.datagrid(form) ;
+	}
+	
 	@RequestMapping("/addMailList.do")
 	@ResponseBody
 	synchronized public Json addMailList(ProjectMailListForm form) throws Exception {

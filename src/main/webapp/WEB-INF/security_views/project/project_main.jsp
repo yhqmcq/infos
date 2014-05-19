@@ -91,6 +91,9 @@
 		 	onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
 		        dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');
+		        if(data.rows.length < 1) {
+		        	$.messager.alert("您暂时未有参与的项目！<br><br>您可以点击【经理专用】按钮试试。"); 
+		        }
 		    },
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
 	        enableHeaderContextMenu: true,      //此属性开启表头列名称右键点击菜单
@@ -243,6 +246,10 @@
 		}
 	}
 	
+	function leader() {
+		dataGrid.datagrid({url:yhq.basePath+"/project/project_main/datagrid_leader.do?notInStatus=5"});
+	}
+	
 	function importProjectInfo() {
 		$.easyui.showDialog({
             title: "上传文件",
@@ -305,6 +312,7 @@
 	                     -->
                 	</div>
                     <a id="btn2" onClick="project_member_overtime();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">加班状况</a>
+                    <a id="btn2" onClick="leader();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">经理专用</a>
                 </div>
 			</div>
 		</div>

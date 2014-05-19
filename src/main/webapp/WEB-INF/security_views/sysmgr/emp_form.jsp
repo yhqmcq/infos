@@ -18,11 +18,16 @@
 	    });
 		$("#dbmType").combobox({
 			valueField: 'label', textField: 'value', required: true,
-			data: [{ label: '1', value: '新增' },{ label: '2', value: '转入' },{ label: '3', value: '在职' },{ label: '4', value: '新人培训' },{ label: '5', value: '停薪留职返回' }],
+			data: [{ label: '1', value: '新增' },{ label: '2', value: '转入' },{ label: '3', value: '在职' },{ label: '4', value: '试用' },{ label: '5', value: '停薪留职' },{ label: '6', value: '返聘' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				//新增
 				if(node.label == 1) {
+					$("#dbmDate").datebox({"required": true, "disabled": false});
+					$("#dbmDate").datebox("setValue", new Date().format("YYYY-MM-dd"));
+				}
+				//返聘
+				if(node.label == 6) {
 					$("#dbmDate").datebox({"required": true, "disabled": false});
 					$("#dbmDate").datebox("setValue", new Date().format("YYYY-MM-dd"));
 				}
@@ -31,7 +36,12 @@
 					$("#dbmDate").datebox({"required": true, "disabled": false});
 					$("#dbmDate").datebox("setValue", new Date().format("YYYY-MM-dd"));
 				}
-				//停薪留职返回
+				//试用
+				if(node.label == 4) {
+					$("#dbmDate").datebox({"required": true, "disabled": false});
+					$("#dbmDate").datebox("setValue", new Date().format("YYYY-MM-dd"));
+				}
+				//停薪留职
 				if(node.label == 5) {
 					$("#dbmDate").datebox({"required": true, "disabled": false});
 					$("#dbmDate").datebox("setValue", new Date().format("YYYY-MM-dd"));
