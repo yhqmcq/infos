@@ -96,7 +96,7 @@
 			    { field: 'positionDate', title: '岗位变更实施日期', width: 120, sortable: true },
 			    { field: 'dbmType', title: '到部门类型', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value != undefined) {
-				    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "新人培训";}else if(value == "5"){return "停薪留职返回";}
+				    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "试用";}else if(value == "5"){return "停薪留职返回";}else if(value == "6"){return "返聘";}
 			    	} else {return "" ;}  
 			    }},
 			    { field: 'dbmDate', title: '到部门日期', width: 100, sortable: true, formatter:function(value,row){

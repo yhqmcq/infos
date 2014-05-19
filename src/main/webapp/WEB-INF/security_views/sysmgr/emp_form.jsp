@@ -18,7 +18,7 @@
 	    });
 		$("#dbmType").combobox({
 			valueField: 'label', textField: 'value', required: true,
-			data: [{ label: '1', value: '新增' },{ label: '2', value: '转入' },{ label: '3', value: '在职' },{ label: '4', value: '试用' },{ label: '5', value: '停薪留职' },{ label: '6', value: '返聘' }],
+			data: [{ label: '1', value: '新增' },{ label: '2', value: '转入' },{ label: '3', value: '在职' },{ label: '4', value: '试用' },{ label: '5', value: '停薪留职返回' },{ label: '6', value: '返聘' }],
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				//新增
