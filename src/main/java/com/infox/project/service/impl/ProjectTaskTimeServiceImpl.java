@@ -14,10 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infox.common.dao.BaseDaoI;
+import com.infox.common.util.Constants;
 import com.infox.common.util.DateCal;
 import com.infox.common.util.DateUtil;
 import com.infox.common.util.NumberUtils;
 import com.infox.common.web.page.DataGrid;
+import com.infox.common.web.page.LoginInfoSession;
 import com.infox.common.web.springmvc.RealPathResolver;
 import com.infox.project.entity.OvertimeEntity;
 import com.infox.project.entity.ProjectEmpWorkingEntity;
@@ -28,6 +30,7 @@ import com.infox.project.web.form.ProjectTaskTimeForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.OrgDeptTreeEntity;
+import com.infox.sysmgr.web.form.EmployeeForm;
 
 @Service
 @Transactional
@@ -2000,6 +2003,28 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 	}
 
 	private List<EmployeeEntity> find(ProjectTaskTimeForm form) {
+		
+		LoginInfoSession sessionInfo = Constants.getSessionInfo() ;
+		EmployeeForm emp = sessionInfo.getEmp() ;
+		
+		//如果不是经理专用按钮，则根据用户的ID，或是否部长来进行查询
+		if(!"".equals(form.getViewType()) && "Y".equals(form.getViewType())) {
+			
+		} else {
+			//是否部长
+			if(null != emp.getIsLeader() && "Y".equals(emp.getIsLeader())) {
+				EmployeeEntity eee = this.basedaoEmployee.get(EmployeeEntity.class, emp.getId()) ;
+				if(null != eee.getOrg()) {
+					form.setDept_id(eee.getOrg().getId()) ;
+					System.out.println("=部门ID==="+eee.getOrg().getId()); 
+				}
+			} else {
+				form.setEmp_id(emp.getId()) ;
+			}
+		}
+		
+		//form.setEmp_id("0993") ;
+		//form.setDept_id("649496") ;
 		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select t from EmployeeEntity t where 1=1";
 		hql = addWhere(hql, form, params) + addOrdeby(form);

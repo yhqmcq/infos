@@ -151,6 +151,18 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	private Float month11 = new Float(0) ;
 	private Float month12 = new Float(0) ;
 	
+	
+	private String viewType ;	//查询类型
+	
+	
+
+	public String getViewType() {
+		return viewType;
+	}
+
+	public void setViewType(String viewType) {
+		this.viewType = viewType;
+	}
 
 	public String getYear() {
 		return year;

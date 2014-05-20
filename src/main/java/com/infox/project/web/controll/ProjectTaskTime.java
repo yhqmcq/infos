@@ -49,6 +49,14 @@ public class ProjectTaskTime extends BaseController {
 		return this.projectTaskTimeService.datagrid(form) ;
 	}
 	
+	@RequestMapping("/employeeTaskTimeReport_leader.do")
+	@ResponseBody
+	public DataGrid employeeTaskTimeReport_leader(ProjectTaskTimeForm form, HttpServletRequest request) throws Exception {
+		form.setViewType("Y") ;
+		request.getSession().setAttribute("ViewType", "Y") ;
+		return this.projectTaskTimeService.datagrid(form) ;
+	}
+	
 	@RequestMapping("/getMemberInfoList.do")
 	@ResponseBody
 	public DataGrid getMemberInfoList(ProjectTaskTimeForm form) throws Exception {

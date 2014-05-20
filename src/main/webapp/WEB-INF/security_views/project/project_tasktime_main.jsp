@@ -168,23 +168,17 @@
 				}
 			}
 	    });
-		/* $("#select2").combobox({
-			width: 100, valueField: 'label', textField: 'value', value: new Date().format("YYYY"),
-			data: [{ label: '2013', value: '2013' },{ label: '2014', value: '2014' },{ label: '2015', value: '2015' } ],
-			panelHeight:'auto', editable:false, autoShowPanel: true,
-			onSelect:function(node){
-				dataGrid.datagrid("load",{"year": node.value});
-			}
-	    }); */
 	    
 		var searchOpts = $("#topSearchbox").searchbox("options"), searcher = searchOpts.searcher;
         searchOpts.searcher = function (value, name) {
             if ($.isFunction(searcher)) { searcher.apply(this, arguments); }
             var o = {} ;
             o[name] = value ;
-            console.info(o) ;
             dataGrid.datagrid("load",o);
         };
+        //如果是部长或个人的级别进行查询，将不可以进行部门或工号查询
+        $("#select1").combotree({disabled: true});
+    	$(".searchbox").hide();
 	});
 	
 	
@@ -201,7 +195,14 @@
 	}
 	
 	function leader() {
-		
+		dataGrid.datagrid({
+			url:yhq.basePath+"/project/project_report/employeeTaskTimeReport_leader.do?notInStatus=9999"+("${ViewType}" != ""?"&viewType=Y":""),
+			onLoadSuccess: function(data) {
+		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
+		        $("#select1").combotree({disabled: false});
+				$(".searchbox").show();
+			}
+		});
 	}
 </script>
 
@@ -215,17 +216,13 @@
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
                     <a onclick="leader()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">经理专用</a>
 					部门：<input id="select1" name="pid" />
-					<!-- 查询年份：<input id="select2" name="year" /> --> 
-                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_cancel'">取消筛选</a>
-                    
                     <input id="topSearchbox" class="easyui-searchbox" data-options="width: 280, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
                     <div id="topSearchboxMenu" style="width: 85px;"> 
                         <div data-options="name:'emp_id', iconCls: 'icon-hamburg-zoom'">工号查询</div>
                         <div data-options="name:'truename', iconCls: 'icon-hamburg-zoom'">姓名查询</div>
                         <div data-options="name:'email', iconCls: 'icon-hamburg-zoom'">邮件查询</div>
                     </div>
-                    <!-- 
-                     -->
+                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_cancel'">取消筛选</a>
                 </div>
 			</div>
 		</div>
