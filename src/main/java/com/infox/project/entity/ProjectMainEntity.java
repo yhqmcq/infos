@@ -115,6 +115,9 @@ public class ProjectMainEntity implements Serializable {
 	/** 项目描述 */
 	private String project_desc ;
 	
+	/** 财务结算状态 */
+	private String jiesuan ;
+	
 	/** 创建时间 */
 	private Date created = new Date() ;
 	
@@ -190,6 +193,18 @@ public class ProjectMainEntity implements Serializable {
 	@JoinColumn(name = "PROJECT_PID")
 	public ProjectMainEntity getProject() {
 		return project;
+	}
+
+	public String getJiesuan() {
+		return jiesuan;
+	}
+
+	public void setJiesuan(String jiesuan) {
+		this.jiesuan = jiesuan;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public void setProject(ProjectMainEntity project) {

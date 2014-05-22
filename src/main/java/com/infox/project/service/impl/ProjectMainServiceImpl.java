@@ -941,6 +941,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
+		
 		DataGrid datagrid = new DataGrid();
 		
 		Set<ProjectMainEntity> set = new HashSet<ProjectMainEntity>() ;
@@ -955,21 +956,39 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		} else {
 			//是否部长
 			if(null != sessionInfo.getEmp().getIsLeader() && "Y".equals(sessionInfo.getEmp().getIsLeader())) {
-				form.setDeptid(form.getDeptid()) ;
+				form.setDeptid(sessionInfo.getEmp().getOrgid()) ;
 				datagrid.setTotal(this.total(form));
 				datagrid.setRows(this.changeModel(this.find(form)));
+				
+			} else if(null != sessionInfo.getEmp().getIsLeader() && "YY".equals(sessionInfo.getEmp().getIsLeader())) {
+				//本部长
+				String deptid = sessionInfo.getEmp().getOrgid() ;
+				OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, deptid) ;
+				Set<OrgDeptTreeEntity> orgs = orgDeptTreeEntity.getOrgs() ;
+				StringBuffer sb = new StringBuffer() ;
+				//sb.append(deptid+",") ;
+				if(null != orgs && orgs.size() > 0) {
+					for (OrgDeptTreeEntity ds : orgs) {
+						sb.append(ds.getId()+",") ;
+					}
+					if(sb.length() > 0) {
+						sb.deleteCharAt(sb.length() -1) ;
+					}
+					form.setNotInStatus(null) ;
+					form.setDeptsView(sb.toString()) ;
+					datagrid.setTotal(this.total(form));
+					datagrid.setRows(this.changeModel(this.find(form)));
+				}
 			} else {
 				for (ProjectMainEntity project : find) {
 					Set<ProjectMailListEntity> projectmails = project.getProjectmails() ;
 					for (ProjectMailListEntity projectMailListEntity : projectmails) {
-						//System.out.println(project.getName()+"=="+projectMailListEntity.getEmployee().getId() +"===="+projectMailListEntity.getEmployee().getTruename());
 						if(sessionInfo.getEmp().getId().equals(projectMailListEntity.getEmployee().getId())) {
 							set.add(project) ;
 		 				}
 					}
 					Set<ProjectEmpWorkingEntity> pwe2 = project.getPwe() ;
 					for (ProjectEmpWorkingEntity projectEmpWorkingEntity : pwe2) {
-						//System.out.println(project.getName()+"=="+projectEmpWorkingEntity.getEmp().getId()+"==="+projectEmpWorkingEntity.getEmp().getTruename());
 						if(sessionInfo.getEmp().getId().equals(projectEmpWorkingEntity.getEmp().getId())) {
 							set.add(project) ;
 		 				}
@@ -1193,6 +1212,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					states[i] = Integer.parseInt(split[i]);
 				}
 				params.put("notInStatus", states);
+			}
+			if (null != form.getDeptsView() && !"".equals(form.getDeptsView())) {
+				hql += " and t.dept.id in (:depts)";
+				String[] split = form.getDeptsView().split(",");
+				
+				params.put("depts", split);
+				System.out.println(hql);
 			}
 		}
 		return hql;

@@ -58,6 +58,7 @@
 						'project_bjscx' : result.project_bjscx,
 						'project_ydscx' : result.project_ydscx,
 						'project_clrl' : result.project_clrl,
+						'jiesuan' : result.jiesuan,
 						'leader_name' : result.leader_name
 					});
 					//$("input[name=projectNum]").attr("readonly","readonly") ;
@@ -194,6 +195,13 @@
 			<tr>
 				<th>预定生产性：</th>
 				<td colspan="3"><input class="easyui-validatebox" name="project_ydscx" /> Ks/人月</td>
+			</tr>
+			<tr>
+				<th>财务结算状态：</th>
+				<td colspan="3"><input class="easyui-combobox" style="width:157px;" name="jiesuan" data-options="
+					valueField: 'label', textField: 'value', editable: false, value : '0',
+					data: [{ label: '0', value: '未结算' },{ label: '1', value: '结算中' },{ label: '2', value: '已结算' }],
+					panelHeight:'auto', editable:false" /></td>
 			</tr>
 		</table>
 	</div>

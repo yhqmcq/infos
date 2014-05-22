@@ -81,6 +81,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 生产性目标 */
 	private String project_scx;
 	
+	/** 财务结算状态 */
+	private String jiesuan ;
+	
 	/** 报价总人月 */
 	private String project_bjzry;
 	/** 预计投入总人月 */
@@ -130,6 +133,16 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 查询的类型 */
 	private String viewType = "N" ;
 	
+	private String deptsView ;
+	
+	public String getDeptsView() {
+		return deptsView;
+	}
+
+	public void setDeptsView(String deptsView) {
+		this.deptsView = deptsView;
+	}
+
 	public String getViewType() {
 		return viewType;
 	}
@@ -143,6 +156,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	
 	public String getFilepath() {
 		return filepath;
+	}
+
+	public String getJiesuan() {
+		return jiesuan;
+	}
+
+	public void setJiesuan(String jiesuan) {
+		this.jiesuan = jiesuan;
 	}
 
 	public void setFilepath(String filepath) {

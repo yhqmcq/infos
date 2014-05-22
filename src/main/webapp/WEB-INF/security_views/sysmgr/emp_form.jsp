@@ -224,7 +224,7 @@
 			<td>
 				<input class="easyui-combobox" style="width:198px;" name="isLeader" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : 'N',
-					data: [{ label: 'N', value: '否' },{ label: 'Y', value: '是' }],
+					data: [{ label: 'N', value: '否' },{ label: 'Y', value: '开发部经理' },{ label: 'YY', value: '开发本部总经理' }],
 					panelHeight:'auto', editable:false" />
 			</td>
 		</tr>

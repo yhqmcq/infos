@@ -21,7 +21,7 @@
 			    { field: 'emp_name', title: '姓名', width: 70 }
 			]],
 			columns: [[
-			    { field: 'dept_name', title: '部门', width: 80 },
+			    { field: 'dept_name', title: '部门', width: 80, sortable: true },
 			    /* { field: 'totalTaskYear', title: '总月数', width: 80, formatter: function(value, row){
 			    	if(undefined == value) {
 			    		return "" ;
@@ -97,7 +97,7 @@
 		        }
 		        
 		        if(data.rows.length < 1) {
-		        	$.messager.alert("你如果已获得授权！<br><br>可以点击【经理专用】按钮试试。"); 
+		        	$.messager.alert("你如果已获得授权！<br><br>可以点击【总裁专用】按钮试试。"); 
 		        }
 		    },
 		 	onDblClickRow : function(rowIndex, rowData) { getMemberInfoList(rowData.emp_id, rowData.emp_name) ; },
@@ -168,7 +168,7 @@
 			<div id="d1">
 				<div id="buttonbar">
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
-                    <a onclick="leader()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">经理专用</a>
+                    <a onclick="leader()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">总裁专用</a>
                     <span id="jl_bar">
 					部门：<input id="select1" name="pid" />
                     <input id="topSearchbox" class="easyui-searchbox" data-options="width: 280, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />

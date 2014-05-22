@@ -665,6 +665,9 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		EmployeeEntity t = this.basedaoEmployee.get("from EmployeeEntity t where t.account = :account and t.password = :password", params);
 		if (t != null) {
 			BeanUtils.copyProperties(t, user);
+			if(null != t.getOrg()) {
+				user.setOrgid(t.getOrg().getId()) ;
+			}
 		} else {
 			user = null;
 		}

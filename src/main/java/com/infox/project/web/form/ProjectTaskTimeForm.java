@@ -154,7 +154,16 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private String viewType ;	//查询类型
 	
+	private String deptsView ; //部长,本部长
 	
+
+	public String getDeptsView() {
+		return deptsView;
+	}
+
+	public void setDeptsView(String deptsView) {
+		this.deptsView = deptsView;
+	}
 
 	public String getViewType() {
 		return viewType;

@@ -83,6 +83,7 @@
 			    		return "历史" ; 
 			    	}
 			    } },
+			    { field: 'jiesuan', title: '财务结算状态', width: 100, sortable: true },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
 			]],
 		 	onDblClickRow : function(rowIndex, rowData) {
@@ -92,7 +93,7 @@
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
 		        dataGrid.datagrid('clearSelections');dataGrid.datagrid('clearChecked');
 		        if(data.rows.length < 1) {
-		        	$.messager.alert("您暂时未有参与的项目！<br><br>您可以点击【经理专用】按钮试试。"); 
+		        	$.messager.alert("您暂时未有参与的项目！<br><br>您可以点击【总裁专用】按钮试试。"); 
 		        }
 		    },
 			enableHeaderClickMenu: true,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
@@ -312,7 +313,7 @@
 	                     -->
                 	</div>
                     <a id="btn2" onClick="project_member_overtime();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">加班状况</a>
-                    <a id="btn2" onClick="leader();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">经理专用</a>
+                    <a id="btn2" onClick="leader();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">总裁专用</a>
                 </div>
 			</div>
 		</div>

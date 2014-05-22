@@ -2016,7 +2016,26 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 				EmployeeEntity eee = this.basedaoEmployee.get(EmployeeEntity.class, emp.getId()) ;
 				if(null != eee.getOrg()) {
 					form.setDept_id(eee.getOrg().getId()) ;
-					System.out.println("=部门ID==="+eee.getOrg().getId()); 
+				}
+			} else if(null != emp.getIsLeader() && "YY".equals(emp.getIsLeader())) {	//本部长
+				EmployeeEntity eee = this.basedaoEmployee.get(EmployeeEntity.class, emp.getId()) ;
+				OrgDeptTreeEntity org = eee.getOrg() ;
+				if(null != org) {
+					//本部长
+					OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, org.getId()) ;
+					Set<OrgDeptTreeEntity> orgs = orgDeptTreeEntity.getOrgs() ;
+					StringBuffer sb = new StringBuffer() ;
+					//sb.append(org.getId()+",") ;
+					if(null != orgs && orgs.size() > 0) {
+						for (OrgDeptTreeEntity ds : orgs) {
+							sb.append(ds.getId()+",") ;
+						}
+						if(sb.length() > 0) {
+							sb.deleteCharAt(sb.length() -1) ;
+						}
+						
+						form.setDeptsView(sb.toString()) ;
+					}
 				}
 			} else {
 				form.setEmp_id(emp.getId()) ;
@@ -2093,6 +2112,14 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 					states[i] = Integer.parseInt(split[i]);
 				}
 				params.put("workStatus", states);
+			}
+			
+			if (null != form.getDeptsView() && !"".equals(form.getDeptsView())) {
+				hql += " and t.org.id in (:depts)";
+				String[] split = form.getDeptsView().split(",");
+				
+				params.put("depts", split);
+				System.out.println(hql);
 			}
 		}
 		return hql;
