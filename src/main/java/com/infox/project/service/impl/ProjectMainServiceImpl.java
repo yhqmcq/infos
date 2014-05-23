@@ -1678,12 +1678,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         			j.setMsg("该部门不存在【"+p_dept+"】，请检查！") ;
     				return j;
         		}
+        		/*####
         		int wdcc = DateUtil.compare_date2(p_sd, DateUtil.formatG(new Date())) ;
         		if(wdcc == -1) {
         			j.setMsg("项目的开始日期不能小于当前日期！") ;
     				return j;
         		}
-        		
+        		*/
         		ProjectMainForm p = new ProjectMainForm() ;
         		p.setProjectNum(p_id) ;
         		p.setName(p_name) ;

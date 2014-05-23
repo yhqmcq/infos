@@ -29,7 +29,7 @@
 			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd") ;
 			    	return sed ;
 			    } },
-			    { field: 'totalMonth', title: '月数', width: 60, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>个月</div>" ;} },
+			    { field: 'totalMonth', title: '月数', width: 90, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>个月</div>" ;} },
 			    //{ field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return infosUtil.numberf(value,2)+"&nbsp;人月";} },
 			    { field: 'dateDiff', title: '总天数', width: 60, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
 			    { field: 'lastdateDiff', title: '剩余天数', width: 70, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
@@ -41,7 +41,7 @@
 			    { field: 'project_type', title: '项目类型', width: 90, sortable: true}, 
 			    { field: 'taskScope', title: '作业范围', width: 80, sortable: true, tooltip: true },
 			    { field: 'project_gm', title: '项目规模', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
-			    	return (undefined != value?value:"") + "&nbsp;Ks" ;
+			    	return (undefined != value&&0 != value?value:"") + "&nbsp;Ks" ;
 			    } },
 			    { field: 'project_buglv', title: '顾客反馈BUG率目标', width: 120, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:"") + "&nbsp;件/Ks" ;
@@ -63,13 +63,6 @@
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    { field: 'contractNum', title: '案件编号', width: 90, sortable: true }, 
-			    { field: 'shouzhu', title: '合同受注状况', width: 100, sortable: true, formatter:function(value,row){
-			    	if(value == 0){ 
-			    		return "<font color='red'>未受注</font>" ; 
-			    	} else if(value == 1) { 
-			    		return "<font color='green'>已受注</font>" ; 
-			    	}
-			    } },
 			    { field: 'status', title: '状态', width: 60, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='blue'>未开始</font>" ; 
@@ -83,7 +76,20 @@
 			    		return "历史" ; 
 			    	}
 			    } },
-			    { field: 'jiesuan', title: '财务结算状态', width: 100, sortable: true },
+			    { field: 'shouzhu', title: '合同受注状况', width: 100, sortable: true, formatter:function(value,row){
+			    	if(value == 0){ 
+			    		return "<font color='red'>未受注</font>" ; 
+			    	} else if(value == 1) { 
+			    		return "<font color='green'>已受注</font>" ; 
+			    	}
+			    } },
+			    { field: 'jiesuan', title: '财务结算状态', width: 100, sortable: true, formatter:function(value,row){
+			    	if(undefined == value || value == ""){ 
+			    		return "<font color='#666'>未结算</font>" ; 
+			    	} else { 
+			    		return "<font color='orange'>"+value+"</font>" ; 
+			    	}
+			    } },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
 			]],
 		 	onDblClickRow : function(rowIndex, rowData) {

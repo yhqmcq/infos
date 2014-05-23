@@ -185,7 +185,7 @@
 		<table>
 		<tr>
 			<th>工号：</th>
-			<td><input name="id" style="width:190px;" validType="length[4,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
+			<td><input name="id" style="width:190px;" validType="length[1,4]" invalidMessage="工号只能由4个数字组成"  value="${id}" class="easyui-validatebox" type="text" data-options="required:true, prompt: '工号'" /></td>
 			<th>账号状态：</th>
 			<td>
 				<input class="easyui-combobox" style="width:198px;" name="status" data-options="
