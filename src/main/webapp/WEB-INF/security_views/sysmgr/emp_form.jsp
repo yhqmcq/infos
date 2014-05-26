@@ -189,7 +189,7 @@
 			<th>账号状态：</th>
 			<td>
 				<input class="easyui-combobox" style="width:198px;" name="status" data-options="
-					valueField: 'label', textField: 'value', editable: false, value : 'N',
+					valueField: 'label', textField: 'value', editable: false, value : 'Y',
 					data: [{ label: 'Y', value: '激活' },{ label: 'N', value: '禁用' }],
 					panelHeight:'auto', editable:false" />
 			</td>
