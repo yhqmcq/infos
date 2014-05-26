@@ -941,6 +941,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
+		form.setSort("startDate") ;
+		form.setOrder("asc") ;
 		
 		DataGrid datagrid = new DataGrid();
 		
@@ -1005,9 +1007,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				datagrid.setRows(this.changeModel(singleList));
 			}
 		}
-		
-		form.setSort("startDate") ;
-		form.setOrder("asc") ;
 		
 		return datagrid;
 	}

@@ -93,6 +93,8 @@
 				    		return "<font color='green'>结算中</font>" ;
 				    	} else  if(value == 2) {
 				    		return "<font color='orange'>已结算</font>" ;
+				    	} else  if(value == 3) {
+				    		return "-" ;
 				    	}
 			    	}
 			    } },

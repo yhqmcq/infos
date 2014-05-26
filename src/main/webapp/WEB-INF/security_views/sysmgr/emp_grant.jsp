@@ -24,12 +24,11 @@
             if ($.isFunction(searcher)) { searcher.apply(this, arguments); }
             var o = {} ;
             o[name] = value ;
-            console.info(o) ;
             dataGrid.datagrid("load",o);
         };
 		dataGrid = $("#d1").datagrid({
 			title: '用户授权',
-			method: "get",
+			method: "post",
 			url: yhq.basePath+"/sysmgr/employee/datagrid.do?notInStatus=9999",
 			idField: 'id',
 			fit: true,
@@ -141,6 +140,7 @@
 					<input id="topSearchbox" class="easyui-searchbox" data-options="width: 250, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
                     <div id="topSearchboxMenu" style="width: 85px;">
                         <div data-options="name:'id', iconCls: 'icon-hamburg-zoom'">工号查询</div>
+                        <div data-options="name:'account', iconCls: 'icon-hamburg-zoom'">用户账号</div>
                         <div data-options="name:'truename', iconCls: 'icon-hamburg-zoom'">姓名查询</div>
                         <div data-options="name:'email', iconCls: 'icon-hamburg-zoom'">邮件查询</div>
                     </div>

@@ -264,22 +264,26 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		
 		
 		Set<EmpJobEntity> ejidAfter = entity.getEmpjobs() ;
-		String str2After = "" ;
-		for (EmpJobEntity ej : ejidAfter) {
-			str2After = ej.getJob_name() ;
-		}
-		
-		if(null != form.getJobids() && !"".equals(form.getJobids())) {
-			if(!str1.equals(form.getJobids())) {
-				String remark = "岗位变更历史[变更前岗位：" + str2 + "    变更后岗位："+str2After+"    实施日期："+form.getPositionDate()+"]" + (null!=ClobUtil.getString(entity.getRemark())?","+ClobUtil.getString(entity.getRemark())+",":",") ;
-				entity.setRemark(ClobUtil.getClob(remark.substring(0,remark.length()-1))) ;
+		if(null != ejidAfter) {
+			String str2After = "" ;
+			for (EmpJobEntity ej : ejidAfter) {
+				str2After = ej.getJob_name() ;
+			}
+			
+			if(null != form.getJobids() && !"".equals(form.getJobids())) {
+				if(!str1.equals(form.getJobids())) {
+					String remark = "岗位变更历史[变更前岗位：" + str2 + "    变更后岗位："+str2After+"    实施日期："+form.getPositionDate()+"]" + (null!=ClobUtil.getString(entity.getRemark())?","+ClobUtil.getString(entity.getRemark())+",":",") ;
+					entity.setRemark(ClobUtil.getClob(remark.substring(0,remark.length()-1))) ;
+				}
 			}
 		}
 		
 		
 		this.basedaoEmployee.update(entity);
 		
-		modifyDeptMemNum(entity.getOrg().getId()) ;
+		if(null != entity.getOrg()) {
+			modifyDeptMemNum(entity.getOrg().getId()) ;
+		}
 		
 		j.setMsg("编辑成功！") ;
 		j.setStatus(true) ;
@@ -475,6 +479,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select t from EmployeeEntity t where 1=1";
 		hql = addWhere(hql, form, params) + addOrdeby(form);
+		
 		return this.basedaoEmployee.find(hql, params, form.getPage(), form.getRows());
 	}
 
