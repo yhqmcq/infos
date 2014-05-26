@@ -121,7 +121,6 @@
 	    		&diams;已共享 Chrome、Firefox浏览器，地址：\\192.168.2.206\浏览器\
     		</font>
     		<br><br>
-    		<h2 style="color:red;">注意：系统登录权限开放时间为：2014-05-26</h2>
     	</div>
     	
     	<div class="footer">

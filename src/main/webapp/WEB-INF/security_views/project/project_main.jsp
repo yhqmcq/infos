@@ -87,7 +87,13 @@
 			    	if(undefined == value || value == ""){ 
 			    		return "<font color='#666'>未结算</font>" ; 
 			    	} else { 
-			    		return "<font color='orange'>"+value+"</font>" ; 
+			    		if(value == 0){ 
+				    		return "<font color='blue'>未结算</font>" ; 
+				    	} else  if(value == 1) {
+				    		return "<font color='green'>结算中</font>" ;
+				    	} else  if(value == 2) {
+				    		return "<font color='orange'>已结算</font>" ;
+				    	}
 			    	}
 			    } },
 			    { field: 'created', title: '创建日期', width: 140, sortable: true }
