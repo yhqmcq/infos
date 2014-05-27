@@ -63,7 +63,7 @@
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    //{ field: 'project_scx', title: '生产性目标', width: 200, sortable: true, tooltip: true },
 			    { field: 'contractNum', title: '案件编号', width: 90, sortable: true }, 
-			    { field: 'status', title: '状态', width: 60, sortable: true, formatter:function(value,row){
+			    { field: 'status', title: '项目状态', width: 60, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='blue'>未开始</font>" ; 
 			    	} else  if(value == 1) {
@@ -76,7 +76,20 @@
 			    		return "历史" ; 
 			    	}
 			    } },
-			    { field: 'shouzhu', title: '合同受注状况', width: 100, sortable: true, formatter:function(value,row){
+			    { field: 'xmpjzt', title: '合同评审状态', width: 100, sortable: true, formatter:function(value,row){
+			    	if(undefined == value || value == ""){ 
+			    		return "<font color='#666'>未评审</font>" ; 
+			    	} else { 
+			    		if(value == 0){ 
+				    		return "<font color='blue'>未评审</font>" ; 
+				    	} else  if(value == 1) {
+				    		return "<font color='green'>已评审</font>" ;
+				    	} else  if(value == 2) {
+				    		return "-" ;
+				    	}
+			    	}
+			    } },
+			    { field: 'shouzhu', title: '合同受注状态', width: 100, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ 
 			    		return "<font color='red'>未受注</font>" ; 
 			    	} else if(value == 1) { 

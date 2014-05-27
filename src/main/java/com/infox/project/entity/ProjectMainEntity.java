@@ -118,6 +118,9 @@ public class ProjectMainEntity implements Serializable {
 	/** 财务结算状态 */
 	private String jiesuan ;
 	
+	/** 项目评审状态 */
+	private String xmpjzt ;
+	
 	/** 创建时间 */
 	private Date created = new Date() ;
 	
@@ -287,6 +290,14 @@ public class ProjectMainEntity implements Serializable {
 
 	public String getCreaterId() {
 		return createrId;
+	}
+
+	public String getXmpjzt() {
+		return xmpjzt;
+	}
+
+	public void setXmpjzt(String xmpjzt) {
+		this.xmpjzt = xmpjzt;
 	}
 
 	public void setCreaterId(String createrId) {

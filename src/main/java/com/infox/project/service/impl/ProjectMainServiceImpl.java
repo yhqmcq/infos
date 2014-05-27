@@ -3,6 +3,7 @@ package com.infox.project.service.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -529,12 +531,16 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					pf.setTotalAllHourLV(nt.format((pf.getTotalHour()/(dateDiff*8)))) ;
 					pf.setTotalCurrentHourLV(nt.format((pf.getTotalHour()/(lastdateDiff*8)))) ;
 					
+					
 					////System.out.println(nt.format((pf.getTotalHour()/(dateDiff*8))));
 					////System.out.println((pf.getTotalHour()/(dateDiff*8)));
 					
 					allTotalHour += pf.getTotalHour() ;
 					allTotalHourLv += (pf.getTotalHour()/(dateDiff*8)) ;
 					totalCurrentHourLV += (pf.getTotalHour()/(lastdateDiff*8)) ;
+					
+					pf.setTotalHour(NumberUtils.formatNum((oe.getNormalHour()+oe.getWeekendHour()+oe.getHolidaysHour()))) ;
+					
 				}
 				
 				//if(p.getEmp().getTruename().equals("陈嘉雯")) {
@@ -852,6 +858,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					pf.setSum1(oe.getNormalHour()-oe.getNormalHour1()) ;
 					pf.setSum2(oe.getWeekendHour()-oe.getWeekendHour1()) ;
 					pf.setSum3(oe.getHolidaysHour()-oe.getHolidaysHour1()) ;
+					
 					
 					pf.setTotalHour(oe.getHour()) ;
 					pf.setOtStartDate(oe.getStartDate()) ;

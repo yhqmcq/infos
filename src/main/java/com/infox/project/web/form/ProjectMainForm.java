@@ -118,6 +118,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 总月数(实际工作天数除以当月的有效天数) */
 	private Float totalMonth = new Float(0) ;
 	
+	/** 项目评审状态 */
+	private String xmpjzt ;
+	
 	/** 项目总人月 */
 	private float mm ;
 
@@ -224,6 +227,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public String getProject_bjzry() {
 		return project_bjzry;
+	}
+
+	public String getXmpjzt() {
+		return xmpjzt;
+	}
+
+	public void setXmpjzt(String xmpjzt) {
+		this.xmpjzt = xmpjzt;
 	}
 
 	public void setProject_bjzry(String project_bjzry) {

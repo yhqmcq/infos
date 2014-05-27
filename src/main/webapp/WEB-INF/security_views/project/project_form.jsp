@@ -59,6 +59,7 @@
 						'project_ydscx' : result.project_ydscx,
 						'project_clrl' : result.project_clrl,
 						'jiesuan' : result.jiesuan,
+						'xmpjzt' : result.xmpjzt,
 						'leader_name' : result.leader_name
 					});
 					//$("input[name=projectNum]").attr("readonly","readonly") ;
@@ -162,7 +163,7 @@
 			<tr>
 				<th>项目类型：</th>
 				<td><input class="easyui-validatebox" name="project_type" style="width:250px;" /></td>
-				<th>合同受注状况：</th>
+				<th>合同受注状态：</th>
 				<td><input class="easyui-combobox" style="width:157px;" name="shouzhu" data-options="
 					valueField: 'label', textField: 'value', editable: false, value : '0',
 					data: [{ label: '0', value: '未受注' },{ label: '1', value: '已受注' }],
@@ -194,7 +195,12 @@
 			</tr>
 			<tr>
 				<th>预定生产性：</th>
-				<td colspan="3"><input class="easyui-validatebox" name="project_ydscx" /> Ks/人月</td>
+				<td><input class="easyui-validatebox" name="project_ydscx" /> Ks/人月</td>
+				<th>合同评审状态：</th>
+				<td><input class="easyui-combobox" style="width:157px;" name="xmpjzt" data-options="
+					valueField: 'label', textField: 'value', editable: false, value : '0',
+					data: [{ label: '0', value: '未评审' },{ label: '1', value: '已评审' },{ label: '2', value: '-' }],
+					panelHeight:'auto', editable:false" /></td>
 			</tr>
 			<tr>
 				<th>财务结算状态：</th>
@@ -202,6 +208,7 @@
 					valueField: 'label', textField: 'value', editable: false, value : '0',
 					data: [{ label: '0', value: '未结算' },{ label: '1', value: '结算中' },{ label: '2', value: '已结算' },{ label: '3', value: '-' }],
 					panelHeight:'auto', editable:false" /></td>
+				
 			</tr>
 		</table>
 	</div>
