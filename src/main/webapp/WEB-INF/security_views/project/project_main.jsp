@@ -54,6 +54,7 @@
 			    { field: 'project_ydscx', title: '预定生产性', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:"") + "&nbsp;Ks/人月" ;
 			    } },
+			    { field: 'ydjbHour', title: '预定加班小时', width: 80},
 			    { field: 'project_clrl', title: '初始粗利润率', width: 80, sortable: true, tooltip: true, formatter:function(value,row){
 			    	return (undefined != value?value:"") + "&nbsp;%" ;
 			    } },

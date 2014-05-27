@@ -121,6 +121,9 @@ public class ProjectMainEntity implements Serializable {
 	/** 项目评审状态 */
 	private String xmpjzt ;
 	
+	/** 预定加班小时 */
+	private String ydjbHour ;
+	
 	/** 创建时间 */
 	private Date created = new Date() ;
 	
@@ -182,6 +185,14 @@ public class ProjectMainEntity implements Serializable {
 
 	public String getTaskScope() {
 		return taskScope;
+	}
+
+	public String getYdjbHour() {
+		return ydjbHour;
+	}
+
+	public void setYdjbHour(String ydjbHour) {
+		this.ydjbHour = ydjbHour;
 	}
 
 	public void setTaskScope(String taskScope) {

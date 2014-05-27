@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50518
 File Encoding         : 65001
 
-Date: 2014-05-27 13:41:23
+Date: 2014-05-27 15:04:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -108,10 +108,8 @@ INSERT INTO `infox_project_maillist` VALUES ('056194', '0317', '675005');
 INSERT INTO `infox_project_maillist` VALUES ('088647', '0317', '930788');
 INSERT INTO `infox_project_maillist` VALUES ('103266', '0100', '844509');
 INSERT INTO `infox_project_maillist` VALUES ('110434', '0317', '570315');
-INSERT INTO `infox_project_maillist` VALUES ('115719', '1300', '834643');
 INSERT INTO `infox_project_maillist` VALUES ('155211', '0449', '570315');
 INSERT INTO `infox_project_maillist` VALUES ('228069', '0190', '484656');
-INSERT INTO `infox_project_maillist` VALUES ('266286', '0100', '834643');
 INSERT INTO `infox_project_maillist` VALUES ('299322', '0449', '930788');
 INSERT INTO `infox_project_maillist` VALUES ('302320', '1300', '675005');
 INSERT INTO `infox_project_maillist` VALUES ('316416', '1300', '259235');
@@ -132,12 +130,10 @@ INSERT INTO `infox_project_maillist` VALUES ('567547', '0449', '259235');
 INSERT INTO `infox_project_maillist` VALUES ('567987', '1300', '844509');
 INSERT INTO `infox_project_maillist` VALUES ('570104', '1300', '264706');
 INSERT INTO `infox_project_maillist` VALUES ('610174', '0449', '264706');
-INSERT INTO `infox_project_maillist` VALUES ('614431', '0449', '834643');
 INSERT INTO `infox_project_maillist` VALUES ('616800', '0190', '669576');
 INSERT INTO `infox_project_maillist` VALUES ('626371', '0449', '800184');
 INSERT INTO `infox_project_maillist` VALUES ('626398', '0449', '484656');
 INSERT INTO `infox_project_maillist` VALUES ('645199', '0449', '903080');
-INSERT INTO `infox_project_maillist` VALUES ('657012', '0190', '834643');
 INSERT INTO `infox_project_maillist` VALUES ('658563', '0817', '844509');
 INSERT INTO `infox_project_maillist` VALUES ('674160', '0449', '232261');
 INSERT INTO `infox_project_maillist` VALUES ('674703', '1300', '930788');
@@ -148,7 +144,6 @@ INSERT INTO `infox_project_maillist` VALUES ('768918', '0100', '232261');
 INSERT INTO `infox_project_maillist` VALUES ('774524', '0100', '264706');
 INSERT INTO `infox_project_maillist` VALUES ('800909', '0449', '669576');
 INSERT INTO `infox_project_maillist` VALUES ('867541', '0817', '570315');
-INSERT INTO `infox_project_maillist` VALUES ('874752', '0317', '834643');
 INSERT INTO `infox_project_maillist` VALUES ('879516', '0100', '259235');
 INSERT INTO `infox_project_maillist` VALUES ('880921', '1300', '484656');
 INSERT INTO `infox_project_maillist` VALUES ('907238', '0100', '570315');
@@ -279,7 +274,6 @@ INSERT INTO `infox_project_project` VALUES ('570315', null, '091118-1-38', '2014
 INSERT INTO `infox_project_project` VALUES ('669576', null, '131219-1-1', '2014-05-27 09:27:23', '0449', '符晓燕', null, '2014-01-10 00:00:00', '2014-05-27 09:27:23', 'DLR车辆展示系统', '131219-1-1', '', '', '', '', '', null, '0', null, null, null, '项目委托', '', '', '1', '0', '2013-11-16 00:00:00', '1', '', null, '548996', '1223', null, '2');
 INSERT INTO `infox_project_project` VALUES ('675005', null, '120611-1-16', '2014-05-27 09:29:59', '0317', '黄丽嫦', null, '2014-02-14 00:00:00', '2014-05-27 09:29:59', 'AD機能改善（料金共通）２月', '120611-1-16', '', '4.5', '0.15', '', '', null, '0', null, null, null, '项目委托', '', '', '1', '1', '2013-12-16 00:00:00', '1', 'DD~CT', null, '723327', '0428', null, '');
 INSERT INTO `infox_project_project` VALUES ('800184', null, '130919-1-2', '2014-05-27 09:28:56', '0317', '黄丽嫦', null, '2014-02-21 00:00:00', '2014-05-27 09:28:56', 'ADWORLD福祉系统开发', '130919-1-2', '', '4.3', '0.20', '', '', null, '0', null, null, null, '项目委托', '', '', '1', '1', '2013-12-10 00:00:00', '1', '詳細設計～ＵＴ', null, '723327', '0520', null, '');
-INSERT INTO `infox_project_project` VALUES ('834643', null, '090923-1', '2014-05-27 13:41:01', null, null, null, '2014-02-28 00:00:00', '2014-05-27 13:41:01', 'e-CRB系统应用维护', '090923-1', null, null, null, null, null, null, '0', null, null, null, null, null, null, '1', '0', '2013-01-01 00:00:00', '0', null, null, '548996', '049', null, null);
 INSERT INTO `infox_project_project` VALUES ('844509', null, '120731-1-14', '2014-05-27 09:28:21', '0317', '黄丽嫦', null, '2014-02-12 00:00:00', '2014-05-27 09:28:21', 'ADWORLD国民年金系统开发', '120731-1-14', '', '0.8', '0.15', '', '', null, '0', null, null, null, '项目委托', '', '', '1', '1', '2013-12-02 00:00:00', '1', 'DD~CT', null, '723327', '1084', null, '');
 INSERT INTO `infox_project_project` VALUES ('903080', null, '131209-1-1', '2014-05-27 09:30:32', '0317', '黄丽嫦', null, '2014-02-28 00:00:00', '2014-05-27 09:30:32', '日立粉末冶金様　資材システム開発', '131209-1-1', '1.10', '5.77', '0.25', '', '33.3%', null, '6.36', null, null, null, '项目委托', '0.82', '7.77', '1', '1', '2013-12-12 00:00:00', '1', 'DD~CT', null, '702229', '0027', null, '');
 INSERT INTO `infox_project_project` VALUES ('930788', null, '140110-1-1', '2014-05-27 09:41:05', '0449', '符晓燕', null, '2014-01-27 00:00:00', '2014-05-27 09:41:05', 'ADAM機能追加iOS７対応', '140110-1-1', '', '1.62', '', '', '', null, '0', null, null, null, '项目委托', '', '', '1', '1', '2014-01-13 00:00:00', '1', '', null, '548996', '1046', null, '0');

@@ -84,6 +84,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 财务结算状态 */
 	private String jiesuan ;
 	
+	/** 预定加班小时 */
+	private String ydjbHour ;
+	
 	/** 报价总人月 */
 	private String project_bjzry;
 	/** 预计投入总人月 */
@@ -275,6 +278,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setContractNum(String contractNum) {
 		this.contractNum = contractNum;
+	}
+
+	public String getYdjbHour() {
+		return ydjbHour;
+	}
+
+	public void setYdjbHour(String ydjbHour) {
+		this.ydjbHour = ydjbHour;
 	}
 
 	public String getProject_manyidu() {
