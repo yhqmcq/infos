@@ -394,7 +394,8 @@
 										{ label: 'PG', value: 'PG' },
 										{ label: '初级PG1', value: '初级PG1' },
 										{ label: '初级PG2', value: '初级PG2' },
-										{ label: '初级PG3', value: '初级PG3' }
+										{ label: '初级PG3', value: '初级PG3' },
+										{ label: 'BSE', value: 'BSE' }
 										],
 										panelHeight:'auto', editable:false" />
 									<a onclick="setMemberRole()" class="easyui-linkbutton" data-options="plain: false, iconCls: 'icon-standard-user-gray'">设置角色</a>
