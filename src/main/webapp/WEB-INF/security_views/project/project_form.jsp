@@ -140,7 +140,7 @@
 				<th>项目编号：</th>
 				<td><input type="text" name="projectNum" style="width:250px;" class="easyui-validatebox"  data-options="required:true, prompt: '项目编号'" ></td>
 				<th>案件编号：</th>
-				<td><input type="text" name="contractNum" class="easyui-validatebox"  data-options="required:true, prompt: '合同编号'" ></td>
+				<td><input type="text" name="contractNum" class="easyui-validatebox"  data-options="prompt: '合同编号'" ></td>
 			</tr>
 			<tr> 
 				<th>项目名称：</th>

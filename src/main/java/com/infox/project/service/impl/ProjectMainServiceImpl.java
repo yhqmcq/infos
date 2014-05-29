@@ -3,12 +3,13 @@ package com.infox.project.service.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -122,7 +122,16 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 			entity.setStatus(0);
 			
-			return this.basedaoProject.save(entity);
+			Serializable ser = this.basedaoProject.save(entity);
+			
+			//将项目创建人设置为参与人员
+			LoginInfoSession sessionInfo = Constants.getSessionInfo() ;
+			ProjectMailListForm fm = new ProjectMailListForm() ;
+			fm.setIds(sessionInfo.getEmp().getId()) ;
+			fm.setProjectid(ser.toString()) ;
+			this.addMailList(fm) ;
+			
+			return ser ;
 		} else {
 			throw new Exception("该项目已存在！ ");
 		}
@@ -950,11 +959,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
 		form.setSort("startDate") ;
 		form.setOrder("asc") ;
+		form.setRows(1000) ;
 		
 		DataGrid datagrid = new DataGrid();
 		
 		Set<ProjectMainEntity> set = new HashSet<ProjectMainEntity>() ;
 		List<ProjectMainEntity> singleList = new ArrayList<ProjectMainEntity>() ;
+		
 		
 		List<ProjectMainEntity> find = this.find(form) ;
 		LoginInfoSession sessionInfo = Constants.getSessionInfo() ;
@@ -1006,6 +1017,23 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						set.add(project) ;
 					}
 				}
+				
+				// 按点击数倒序  
+		        Collections.sort(singleList, new Comparator<ProjectMainEntity>() {  
+		            public int compare(ProjectMainEntity arg0, ProjectMainEntity arg1) {  
+		                Date created = arg0.getCreated();  
+		                Date created2 = arg1.getCreated();  
+		                
+		                if (DateUtil.compare_datetime2(created, created2) > 0) {  
+		                    return 1;  
+		                } else if (DateUtil.compare_datetime2(created, created2) == 0) {  
+		                    return 0;  
+		                } else {  
+		                    return -1;  
+		                }  
+		            }  
+		        });  
+		        
 				for (ProjectMainEntity projectMainEntity : set) {
 					singleList.add(projectMainEntity) ;
 				}
@@ -1028,19 +1056,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				BeanUtils.copyProperties(project, uf);
 				
 				uf.setLeader_name(project.getEmp().getTruename()) ;
-				
-				
-				
-				Set<ProjectMailListEntity> projectmails = project.getProjectmails() ;
-				for (ProjectMailListEntity projectMailListEntity : projectmails) {
-					//System.out.println(projectMailListEntity.getEmployee().getId() +"===="+projectMailListEntity.getEmployee().getTruename());
-				}
-				Set<ProjectEmpWorkingEntity> pwe2 = project.getPwe() ;
-				for (ProjectEmpWorkingEntity projectEmpWorkingEntity : pwe2) {
-					//System.out.println(projectEmpWorkingEntity.getEmp().getId()+"==="+projectEmpWorkingEntity.getEmp().getTruename());
-				}
-				
-				
 				
 				//部门
 				if (null != project.getDept()) {

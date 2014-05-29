@@ -283,6 +283,23 @@ public class DateUtil {
 	 * @param enddate
 	 * @return 返回-1、0、1（小于、相等、大于）
 	 */
+	public static int compare_datetime2(Date fristDate, Date enddate) {
+		try {
+			int ss = fristDate.compareTo(enddate);
+			return ss;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	/**
+	 * 比较两个日期大小和时间
+	 * 
+	 * @param fristDate
+	 * @param enddate
+	 * @return 返回-1、0、1（小于、相等、大于）
+	 */
 	public static int compare_date2(String fristDate, String enddate) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
