@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql
-Source Server Version : 50522
-Source Host           : localhost:3306
+Source Server         : 192.168.2.206
+Source Server Version : 50518
+Source Host           : 192.168.2.206:3306
 Source Database       : infos
 
 Target Server Type    : MYSQL
-Target Server Version : 50522
+Target Server Version : 50518
 File Encoding         : 65001
 
-Date: 2014-02-26 13:22:47
+Date: 2014-05-30 10:57:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,6 +31,18 @@ CREATE TABLE `infox_sysmgr_org_dept` (
   `iconCls` varchar(255) DEFAULT NULL,
   `lastmod` datetime DEFAULT NULL,
   `modifyer` varchar(255) DEFAULT NULL,
+  `month1` int(11) NOT NULL,
+  `month10` int(11) NOT NULL,
+  `month11` int(11) NOT NULL,
+  `month12` int(11) NOT NULL,
+  `month2` int(11) NOT NULL,
+  `month3` int(11) NOT NULL,
+  `month4` int(11) NOT NULL,
+  `month5` int(11) NOT NULL,
+  `month6` int(11) NOT NULL,
+  `month7` int(11) NOT NULL,
+  `month8` int(11) NOT NULL,
+  `month9` int(11) NOT NULL,
   `pname` varchar(255) DEFAULT NULL,
   `sname` varchar(255) DEFAULT NULL,
   `tel` varchar(255) DEFAULT NULL,
@@ -44,7 +56,29 @@ CREATE TABLE `infox_sysmgr_org_dept` (
 -- ----------------------------
 -- Records of infox_sysmgr_org_dept
 -- ----------------------------
-INSERT INTO `infox_sysmgr_org_dept` VALUES ('498779', 'JD1-2', '2014-02-26 13:15:37', null, '开发二部', 'JD1-2', '', '开发二部', null, '2014-02-26 13:15:37', null, '广州华智科技有限公司', 'JD1-2', '', 'D', '983784');
-INSERT INTO `infox_sysmgr_org_dept` VALUES ('705624', 'JD1-1', '2014-02-26 13:16:11', null, '开发一部', 'JD1-1', '', '开发一部', null, '2014-02-26 13:16:11', null, '广州华智科技有限公司', 'JD1-1', '', 'O', '983784');
-INSERT INTO `infox_sysmgr_org_dept` VALUES ('979739', 'JD1-3', '2014-02-26 13:16:04', null, '开发三部', 'JD1-3', '', '开发三部', null, '2014-02-26 13:16:04', null, '广州华智科技有限公司', 'JD1-3', '', 'D', '983784');
-INSERT INTO `infox_sysmgr_org_dept` VALUES ('983784', '000231211', '2014-02-26 13:14:10', null, '广州华智科技有限公司', 'whizen', '020654321', '广州华智科技有限公司', null, '2014-02-26 13:14:10', null, '', '华智', '020123456', 'O', null);
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('009014', null, '2014-04-17 10:26:58', null, '', null, null, '其它', null, '2014-04-17 10:26:58', null, '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '华智', '其它', null, 'O', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('126300', null, '2014-05-14 15:52:24', null, '', null, null, '第二开发本部开发二部', null, '2014-05-14 15:52:24', null, '0', '0', '0', '0', '0', '0', '0', '35', '0', '0', '0', '0', 'JD2本部', 'JD2-2', null, 'D', '917489');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('131621', null, '2014-05-14 15:54:56', null, '', null, null, '项目管理部', null, '2014-05-14 15:54:56', null, '0', '0', '0', '0', '0', '0', '0', '3', '0', '0', '0', '0', '华智', '项目管理部', null, 'D', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('188927', null, '2014-05-14 15:51:29', null, '', null, null, '第一开发本部', null, '2014-05-14 15:51:29', null, '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '华智', 'JD1本部', null, 'D', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('203102', null, '2014-05-29 10:57:04', null, '', null, null, '日本支社', null, '2014-05-29 10:57:04', null, '0', '0', '0', '0', '0', '0', '0', '6', '0', '0', '0', '0', '广东华智科技有限公司', '日本支社', null, 'D', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('300199', null, '2014-05-26 10:23:44', null, '', null, null, '总裁办', null, '2014-05-26 10:23:44', null, '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '广东华智科技有限公司', '总裁办', null, 'D', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('398250', null, '2014-05-14 15:50:21', null, '', null, null, '第一开发本部开发二部', null, '2014-05-14 15:50:21', null, '0', '0', '0', '0', '0', '0', '0', '31', '0', '0', '0', '0', 'JD1', 'JD1-2', null, 'D', '188927');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('400771', null, '2014-04-21 13:11:31', null, '', null, null, '财务部', null, '2014-04-21 13:11:31', null, '0', '0', '0', '0', '0', '0', '0', '3', '0', '0', '0', '0', '综合管理部', '财务部', null, 'D', '682781');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('429710', null, '2014-05-15 09:31:53', null, '', null, null, '品质保证部', null, '2014-05-15 09:31:53', null, '0', '0', '0', '0', '0', '0', '0', '12', '0', '0', '0', '0', '华智', '品质保证部', null, 'D', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('461023', null, '2014-05-14 15:50:50', null, '', null, null, '第一开发本部开发三部', null, '2014-05-14 15:50:50', null, '0', '0', '0', '0', '0', '0', '0', '18', '0', '0', '0', '0', 'JD1', 'JD1-3', null, 'D', '188927');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('473615', null, '2014-05-28 16:09:04', null, '', null, null, '北京管理部', null, '2014-05-28 16:09:04', null, '0', '0', '0', '0', '0', '0', '0', '2', '0', '0', '0', '0', '北京支社', '北京管理部', null, 'D', '526169');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('474835', null, '2014-04-21 13:11:48', null, '', null, null, '采购部', null, '2014-04-21 13:11:48', null, '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '综合管理部', '采购部', null, 'D', '682781');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('526169', null, '2014-05-19 10:42:34', null, '', null, null, '北京支社', null, '2014-05-19 10:42:34', null, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '广东华智科技有限公司', '北京支社', null, 'O', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('548996', null, '2014-05-14 15:52:01', null, '', null, null, '第二开发本部开发一部', null, '2014-05-14 15:52:01', null, '0', '0', '0', '0', '0', '0', '0', '40', '0', '0', '0', '0', 'JD2本部', 'JD2-1', null, 'D', '917489');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('634670', null, '2014-05-19 10:42:16', null, '', null, null, '苏州软件开发部', null, '2014-05-19 10:42:16', null, '0', '0', '0', '0', '0', '0', '0', '43', '0', '0', '0', '0', '苏州支社', '苏州软件开发部', null, 'D', '886155');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('647431', null, '2014-05-14 15:59:46', null, '', null, null, '系统集成部', null, '2014-05-14 15:59:46', null, '0', '0', '0', '0', '0', '0', '0', '17', '0', '0', '0', '0', '华智', '系统集成部', null, 'D', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('682781', null, '2014-05-14 15:58:38', null, '', null, null, '综合管理本部', null, '2014-05-14 15:58:38', null, '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '华智', '综合管理本部', null, 'D', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('702229', null, '2014-05-14 15:52:53', null, '', null, null, '第二开发本部开发三部', null, '2014-05-14 15:52:53', null, '0', '0', '0', '0', '0', '0', '0', '35', '0', '0', '0', '0', 'JD2本部', 'JD2-3', null, 'D', '917489');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('723327', null, '2014-05-14 15:49:45', null, '', null, null, '第一开发本部开发一部', null, '2014-05-14 15:49:45', null, '0', '0', '0', '0', '0', '0', '0', '55', '0', '0', '0', '0', 'JD1', 'JD1-1', null, 'D', '188927');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('853418', null, '2014-05-14 15:59:28', null, '', null, null, '人力资源部', null, '2014-05-14 15:59:28', null, '0', '0', '0', '0', '0', '0', '0', '3', '0', '0', '0', '0', '综合管理本部', '人力资源部', null, 'D', '682781');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('886155', null, '2014-05-19 10:42:02', null, '', null, null, '苏州支社', null, '2014-05-19 10:42:02', null, '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '广东华智科技有限公司', '苏州支社', null, 'O', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('917489', null, '2014-05-14 15:51:19', null, '', null, null, '第二开发本部', null, '2014-05-14 15:51:19', null, '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '华智', 'JD2本部', null, 'D', '973758');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('943553', null, '2014-05-14 15:55:22', null, '', null, null, '北京开发部', null, '2014-05-14 15:55:22', null, '0', '0', '0', '0', '0', '0', '0', '13', '0', '0', '0', '0', '北京分公司', '北京开发部', null, 'D', '526169');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('947868', null, '2014-05-14 15:58:58', null, '', null, null, '总务部', null, '2014-05-14 15:58:58', null, '0', '0', '0', '0', '0', '0', '0', '6', '0', '0', '0', '0', '综合管理本部', '总务部', null, 'D', '682781');
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('973758', null, '2014-04-03 13:18:02', null, '', null, null, '广东华智科技有限公司', null, '2014-04-03 13:18:02', null, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '华智', null, 'O', null);
+INSERT INTO `infox_sysmgr_org_dept` VALUES ('978275', null, '2014-05-28 16:09:23', null, '', null, null, '北京市场部', null, '2014-05-28 16:09:23', null, '0', '0', '0', '0', '0', '0', '0', '2', '0', '0', '0', '0', '北京支社', '北京市场部', null, 'D', '526169');
