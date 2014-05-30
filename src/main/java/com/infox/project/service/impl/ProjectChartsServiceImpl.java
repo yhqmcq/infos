@@ -57,6 +57,7 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 	
 	@Override
 	public String projectStatusTotal(ProjectChartsForm form) throws Exception {
+		
 		/*form.setInStatus("1,3") ;
 		int month = Calendar.getInstance().get(Calendar.MONTH)+1 ;
 		
