@@ -299,7 +299,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					currentMembers.add(p) ;
 				}
 			}
-			
+			/*##########
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -323,7 +323,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_delay_mail.ftl", model, 
 					exportPath, "project_delay_mail_"+htmlId+".html") ;
-			
+			*/
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -373,7 +373,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					currentMembers.add(p) ;
 				}
 			}
-			
+			/*#########
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -397,7 +397,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_contextChange_mail.ftl", model, 
 					exportPath, "project_contextChange_mail_"+htmlId+".html") ;
-			
+			*/
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -1018,11 +1018,11 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					}
 				}
 				
-				// 按点击数倒序  
+				// 倒序  
 		        Collections.sort(singleList, new Comparator<ProjectMainEntity>() {  
 		            public int compare(ProjectMainEntity arg0, ProjectMainEntity arg1) {  
-		                Date created = arg0.getCreated();  
-		                Date created2 = arg1.getCreated();  
+		                Date created = arg0.getStartDate();  
+		                Date created2 = arg1.getStartDate();  
 		                
 		                if (DateUtil.compare_datetime2(created, created2) > 0) {  
 		                    return 1;  
@@ -1516,7 +1516,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					currentMembers.add(p) ;
 				}
 			}
-			
+			/*###########
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -1541,7 +1541,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_status_mail.ftl", model, 
 					exportPath, "project_status_mail_"+htmlId+".html") ;
-			
+			*/
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -1622,7 +1622,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
 			}
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_notify.ftl", model)) ;
-			this.mailMessageSend.sendMail(mail) ;
+			//##########
+			//this.mailMessageSend.sendMail(mail) ;
 			
 
 			//生成HTML

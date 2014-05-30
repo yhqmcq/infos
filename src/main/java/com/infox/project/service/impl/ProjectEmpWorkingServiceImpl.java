@@ -275,7 +275,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				}
 			}
 			
-			
+			/*################	
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -301,7 +301,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member_date.ftl", model, 
 					exportPath, "project_member_date_"+htmlId+".html") ;
-			
+			*/
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -399,7 +399,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					currentMembers.add(p) ;
 				}
 			}
-			
+			/*########
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -425,6 +425,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member_exit.ftl", model, 
 					exportPath, "project_member_exit_"+htmlId+".html") ;
 			
+			*/
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -731,7 +732,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				projectMailsForm.add(pmf) ;
 			}
 			
-			
+			/*#####
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -757,7 +758,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_member_notify_exit.ftl", model, 
 					exportPath, "project_member_notify_exit_"+htmlId+".html") ;
-			
+			*/
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
