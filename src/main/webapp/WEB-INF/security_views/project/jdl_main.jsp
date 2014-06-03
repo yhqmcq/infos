@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>人员稼动率管理</title>
+<title>部门稼动率Test</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 
@@ -11,10 +11,10 @@
 	var s1 ;
 	$(function() {
 		dataGrid = $("#d1").datagrid({
-			title: '部门稼动率Test', fitColumns: false,
-			url: yhq.basePath+"/project/jdl/jdl_report.do?notInStatus=9999",
+			title: '部门稼动率Test', fitColumns: false, //view: detailview,
+			url: yhq.basePath+"/project/jdl/employeeTaskTimeReport.do?notInStatus=9999",
 			idField: 'emp_id', fit: true, border: false, method: "post",showFooter: true, singleSelect: true,
-			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 20,pageList: [10,20,30,50],
+			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 50,pageList: [10,20,30,50,100,200],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'emp_id', title: '工号', width: 60 },
@@ -105,7 +105,7 @@
 	function getMemberInfoList(id,name) {
 		var dialog = $.easyui.showDialog({
             title: "员工稼动率详细列表&nbsp;&nbsp;[<font color='red'>"+name+"</font>]",
-            href: yhq.basePath+"/project/project_report/getMemberInfoListDialog.do?id="+id,
+            href: yhq.basePath+"/project/jdl/getMemberInfoListDialog.do?id="+id,
             iniframe: true, width: 1000, height: 600, topMost: true, maximizable: true, autoRestore: true,
             enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel",
             onSave: function() {
@@ -116,7 +116,7 @@
 	
 	function leader() {
 		$("#d1").datagrid({
-			url:yhq.basePath+"/project/jdl/jdl_report_leader.do?notInStatus=9999"+("${ViewType}" != ""?"&viewType=Y":""),
+			url:yhq.basePath+"/project/jdl/employeeTaskTimeReport_leader.do?notInStatus=9999"+("${ViewType}" != ""?"&viewType=Y":""),
 			onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
 				$("#jl_bar").show();

@@ -25,17 +25,25 @@ public class DeptJDL extends BaseController {
 		return  Constants.PROJECT + "jdl_main" ;
 	}
 	
-	@RequestMapping("/jdl_report.do")
+	
+	@RequestMapping("/getMemberInfoListDialog.do")
+	public String getMemberInfoListDialog(ProjectTaskTimeForm form, HttpServletRequest request) throws Exception {
+		request.setAttribute("id", form.getId()) ;
+		return  Constants.PROJECT + "project_tasktime_infoDialog" ;
+	}
+	
+	@RequestMapping("/employeeTaskTimeReport.do")
 	@ResponseBody
-	public DataGrid jdl_report(ProjectTaskTimeForm form) throws Exception {
+	public DataGrid employeeTaskTimeReport(ProjectTaskTimeForm form) throws Exception {
 		return this.jdlService.datagrid(form) ;
 	}
 	
-	@RequestMapping("/jdl_report_leader.do")
+	@RequestMapping("/employeeTaskTimeReport_leader.do")
 	@ResponseBody
-	public DataGrid jdl_report_leader(ProjectTaskTimeForm form, HttpServletRequest request) throws Exception {
+	public DataGrid employeeTaskTimeReport_leader(ProjectTaskTimeForm form, HttpServletRequest request) throws Exception {
 		form.setViewType("Y") ;
 		request.getSession().setAttribute("ViewType", "Y") ;
 		return this.jdlService.datagrid(form) ;
 	}
+	
 }
