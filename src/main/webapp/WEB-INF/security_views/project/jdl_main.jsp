@@ -12,7 +12,7 @@
 	$(function() {
 		dataGrid = $("#d1").datagrid({
 			title: '部门稼动率Test', fitColumns: false, //view: detailview,
-			url: yhq.basePath+"/project/jdl/employeeTaskTimeReport.do?notInStatus=9999",
+			url: yhq.basePath+"/project/jdl/employeeTaskTimeReport.do?notInStatus=9999", rownumbers :true,
 			idField: 'emp_id', fit: true, border: false, method: "post",showFooter: true, singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 50,pageList: [10,20,30,50,100,200],
 			frozenColumns: [[
