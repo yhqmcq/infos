@@ -958,7 +958,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 	@Override
 	public DataGrid datagrid(ProjectMainForm form) throws Exception {
 		form.setSort("startDate") ;
-		form.setOrder("asc") ;
+		form.setOrder("desc") ;
 		form.setRows(1000) ;
 		
 		DataGrid datagrid = new DataGrid();
@@ -1728,17 +1728,20 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         		List<Object> list = new ArrayList<Object>() ;
         		int count = 0 ;
         		for(int i=10;i<lastRowNum;i++) {
+        			
         			Map<String, Object> m = new HashMap<String, Object>() ;
         			
         			count=i ;
-        			if(null == sheet.getRow(i)) {
+        			if(null == sheet.getRow(i) || "".equals(sheet.getRow(i).getCell(0).toString().trim())) {
         				break ;
         			}
+        			
         			String e_id = getCellValue(sheet.getRow(i).getCell(0)) ;
         			String e_name = getCellValue(sheet.getRow(i).getCell(1)) ;
         			String pj_role = getCellValue(sheet.getRow(i).getCell(2)) ;
         			String e_sd = getCellValue(sheet.getRow(i).getCell(3)) ;
         			String e_ed = getCellValue(sheet.getRow(i).getCell(4)) ;
+        			
         			EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
         			
         			if(null != e) {
