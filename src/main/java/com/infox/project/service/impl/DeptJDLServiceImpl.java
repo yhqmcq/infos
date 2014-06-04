@@ -1525,14 +1525,48 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 					
 					//3：在职
 					if(emp.getDbmType() == 3) {
+						Calendar now = Calendar.getInstance() ;		//当前的年和月
+						now.setTime(new Date()) ; now.set(Calendar.MONTH, month-1) ;
+						
 						Calendar start = Calendar.getInstance() ;	//本月的第一天
 						start.setTime(new Date()) ; start.set(Calendar.MONTH, month-1) ; start.set(Calendar.DAY_OF_MONTH, 1) ;
-						Calendar end = Calendar.getInstance() ;		//本月的最后一天
-						end.setTime(new Date()) ; end.set(Calendar.MONTH, month-1) ; end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH)) ;
-						int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
-						totalDay += wd ;
 						
-						System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+						//判断,如果离部门类型不为空,则不能按该月的最后一天来设置,应该按离开部门的日期来设置
+						if(null != emp.getLbmType() && !"".equals(emp.getLbmType())) {
+							//2：转出-到非开发部、3：离职、4：停薪留职（计算方式一样，按离开部门的日期设置）
+							if(emp.getLbmType() == 2 || emp.getLbmType() == 3 || emp.getLbmType() == 4) {
+								Calendar lbmDate = Calendar.getInstance() ;	//离部门的日期
+								lbmDate.setTime(DateUtil.formatGG(emp.getLbmDate())) ; 
+								
+								
+								//如果本月与离部门的月份相同,则将日期设置为离部门的日期
+								if(now.get(Calendar.MONTH) == lbmDate.get(Calendar.MONTH)) {
+									Calendar end = Calendar.getInstance() ;	
+									end.setTime(DateUtil.formatGG(emp.getLbmDate())) ; 
+									
+									int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
+									totalDay += wd ;
+									System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+								}
+								if((month-1) < lbmDate.get(Calendar.MONTH)) {
+									Calendar end = Calendar.getInstance() ;	
+									end.setTime(start.getTime()) ; 
+									end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH)) ;
+									
+									int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
+									totalDay += wd ;
+									System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+									
+								}
+							}
+						} else {
+							Calendar end = Calendar.getInstance() ;		//本月的最后一天
+							end.setTime(new Date()) ; end.set(Calendar.MONTH, month-1) ; end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH)) ;
+							int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
+							totalDay += wd ;
+							
+							System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+						}
 					}
 					
 					//1：新增、2：转入、4：试用、5：停薪留职返回、6、 返聘
@@ -1547,6 +1581,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 						if(dbmDate.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
 							//在判断该月是否和到部门的月相同,如果相同则计算,如果不相同则不计算天数. 天数返回0
 							if(now.get(Calendar.MONTH) == dbmDate.get(Calendar.MONTH)) {
+								
 								Calendar start = Calendar.getInstance() ;	//部门的日期
 								start.setTime(dbmDate.getTime()) ;
 								
@@ -1571,6 +1606,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 									if(emp.getLbmType() == 2 || emp.getLbmType() == 3 || emp.getLbmType() == 4) {
 										Calendar lbmDate = Calendar.getInstance() ;	//离部门的日期
 										lbmDate.setTime(DateUtil.formatGG(emp.getLbmDate())) ; 
+										
 										
 										//如果本月与离部门的月份相同,则将日期设置为离部门的日期
 										if(now.get(Calendar.MONTH) == lbmDate.get(Calendar.MONTH)) {
