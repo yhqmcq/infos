@@ -122,32 +122,32 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		Float m_days12 = new Float(0);
 		
 		//参与项目的人员工作天数
-		Set<String> totalJDLDay1 = new HashSet<String>() ;
-		Set<String> totalJDLDay2 = new HashSet<String>() ;
-		Set<String> totalJDLDay3 = new HashSet<String>() ;
-		Set<String> totalJDLDay4 = new HashSet<String>() ;
-		Set<String> totalJDLDay5 = new HashSet<String>() ;
-		Set<String> totalJDLDay6 = new HashSet<String>() ;
-		Set<String> totalJDLDay7 = new HashSet<String>() ;
-		Set<String> totalJDLDay8 = new HashSet<String>() ;
-		Set<String> totalJDLDay9 = new HashSet<String>() ;
-		Set<String> totalJDLDay10 = new HashSet<String>() ;
-		Set<String> totalJDLDay11 = new HashSet<String>() ;
-		Set<String> totalJDLDay12 = new HashSet<String>() ;
+		List<String> totalJDLDay1 = new ArrayList<String>() ;
+		List<String> totalJDLDay2 = new ArrayList<String>() ;
+		List<String> totalJDLDay3 = new ArrayList<String>() ;
+		List<String> totalJDLDay4 = new ArrayList<String>() ;
+		List<String> totalJDLDay5 = new ArrayList<String>() ;
+		List<String> totalJDLDay6 = new ArrayList<String>() ;
+		List<String> totalJDLDay7 = new ArrayList<String>() ;
+		List<String> totalJDLDay8 = new ArrayList<String>() ;
+		List<String> totalJDLDay9 = new ArrayList<String>() ;
+		List<String> totalJDLDay10 = new ArrayList<String>() ;
+		List<String> totalJDLDay11 = new ArrayList<String>() ;
+		List<String> totalJDLDay12 = new ArrayList<String>() ;
 		
 		//为参与的人员
-		Set<String> noTotalJDLDay1 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay2 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay3 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay4 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay5 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay6 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay7 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay8 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay9 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay10 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay11 = new HashSet<String>() ;
-		Set<String> noTotalJDLDay12 = new HashSet<String>() ;
+		List<String> noTotalJDLDay1 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay2 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay3 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay4 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay5 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay6 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay7 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay8 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay9 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay10 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay11 = new ArrayList<String>() ;
+		List<String> noTotalJDLDay12 = new ArrayList<String>() ;
 		
 		
 		int step = 1;
@@ -1416,7 +1416,16 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		System.out.println(totalJDLDay11);
 		System.out.println(totalJDLDay12);
 		
-		System.out.println(noTotalJDLDay1.size());
+		System.out.println(noTotalJDLDay1);
+		
+		for (int i = 0; i < totalJDLDay3.size(); i++) {
+			String temp = totalJDLDay3.get(i);
+			if(noTotalJDLDay1.contains(temp)) {
+				noTotalJDLDay1.remove(temp) ;
+			}
+		}
+		System.out.println(totalJDLDay1.size()+"=="+totalJDLDay1);
+		System.out.println(noTotalJDLDay1.size()+"=="+noTotalJDLDay1);
 		
 		/*System.out.println("1月总实际工作天数：" + m_days1);
 		System.out.println("2月总实际工作天数：" + m_days2);
