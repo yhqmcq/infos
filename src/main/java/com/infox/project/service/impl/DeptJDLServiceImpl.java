@@ -1656,7 +1656,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		for (int i = 0; i < l2.size(); i++) {
 			String temp = l2.get(i);
 			if(list1.contains(temp)) {
-				list1.remove(temp) ;
+				//list1.remove(temp) ;
 			}
 		}
 		return list1;
