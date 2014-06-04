@@ -1468,21 +1468,18 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		Integer npDate12 = getNoProjectDate(removeList12, 12) ;	//为参加项目人员的实际工作天数累加
 		System.out.println("总天数：" + npDate12+"\t需统计的人：" + removeList12.size()+"=="+removeList12+"\n");
 		
-		System.out.println("[1月]总实际工作天数\t" + "有项目人员天数累加:["+m_days1+"] \t无项目人员天数累加：["+npDate1+"] \t计算:(m_days1/(npDate))="+nt.format(((m_days1/360))));
-		System.out.println("[2月]总实际工作天数\t" + "有项目人员天数累加:["+m_days2+"] \t无项目人员天数累加：["+npDate2+"] \t计算:(m_days2/(npDate))="+nt.format(((m_days2/npDate2))));
-		System.out.println("[3月]总实际工作天数\t" + "有项目人员天数累加:["+m_days3+"] \t无项目人员天数累加：["+npDate3+"] \t计算:(m_days3/(npDate))="+((m_days3/(npDate3))));
-		System.out.println((m_days2/npDate2));
-		/*System.out.println("2月总实际工作天数：" + m_days2);
-		System.out.println("3月总实际工作天数：" + m_days3);
-		System.out.println("4月总实际工作天数：" + m_days4);
-		System.out.println("5月总实际工作天数：" + m_days5);
-		System.out.println("6月总实际工作天数：" + m_days6);
-		System.out.println("7月总实际工作天数：" + m_days7);
-		System.out.println("8月总实际工作天数：" + m_days8);
-		System.out.println("9月总实际工作天数：" + m_days9);
-		System.out.println("10月总实际工作天数：" + m_days10);
-		System.out.println("11月总实际工作天数：" + m_days11);
-		System.out.println("12月总实际工作天数：" + m_days12);*/
+		System.out.println("[1月]总实际工作天数\t" + "有项目人员天数累加:["+m_days1+"] \t无项目人员天数累加：["+npDate1+"] \t计算:(m_days1/npDate)="+nt.format(m_days1/npDate1));
+		System.out.println("[2月]总实际工作天数\t" + "有项目人员天数累加:["+m_days2+"] \t无项目人员天数累加：["+npDate2+"] \t计算:(m_days2/npDate)="+nt.format(m_days2/npDate2));
+		System.out.println("[3月]总实际工作天数\t" + "有项目人员天数累加:["+m_days3+"] \t无项目人员天数累加：["+npDate3+"] \t计算:(m_days3/npDate)="+nt.format(m_days3/npDate3));
+		System.out.println("[4月]总实际工作天数\t" + "有项目人员天数累加:["+m_days4+"] \t无项目人员天数累加：["+npDate4+"] \t计算:(m_days3/npDate)="+nt.format(m_days4/npDate4));
+		System.out.println("[5月]总实际工作天数\t" + "有项目人员天数累加:["+m_days5+"] \t无项目人员天数累加：["+npDate5+"] \t计算:(m_days3/npDate)="+nt.format(m_days5/npDate5));
+		System.out.println("[6月]总实际工作天数\t" + "有项目人员天数累加:["+m_days6+"] \t无项目人员天数累加：["+npDate6+"] \t计算:(m_days3/npDate)="+nt.format(m_days6/npDate6));
+		System.out.println("[7月]总实际工作天数\t" + "有项目人员天数累加:["+m_days7+"] \t无项目人员天数累加：["+npDate7+"] \t计算:(m_days3/npDate)="+nt.format(m_days7/npDate7));
+		System.out.println("[8月]总实际工作天数\t" + "有项目人员天数累加:["+m_days8+"] \t无项目人员天数累加：["+npDate8+"] \t计算:(m_days8/npDate)="+nt.format(m_days8/npDate8));
+		System.out.println("[9月]总实际工作天数\t" + "有项目人员天数累加:["+m_days9+"] \t无项目人员天数累加：["+npDate9+"] \t计算:(m_days9/npDate)="+nt.format(m_days9/npDate9));
+		System.out.println("[10月]总实际工作天数\t" + "有项目人员天数累加:["+m_days10+"] \t无项目人员天数累加：["+npDate10+"] \t计算:(m_days10/npDate)="+nt.format(m_days10/npDate10));
+		System.out.println("[11月]总实际工作天数\t" + "有项目人员天数累加:["+m_days11+"] \t无项目人员天数累加：["+npDate11+"] \t计算:(m_days3/npDate)="+nt.format(m_days11/npDate11));
+		System.out.println("[12月]总实际工作天数\t" + "有项目人员天数累加:["+m_days12+"] \t无项目人员天数累加：["+npDate12+"] \t计算:(m_days12/npDate)="+nt.format(m_days12/npDate12));
 		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
