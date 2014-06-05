@@ -62,9 +62,6 @@ public class OrgDeptTreeEntity implements Serializable {
 	/** 父组织名称 */
 	private String pname ;
 	
-	/** 是否计算部门稼动率 */
-	private Integer compute = new Integer(0) ;
-	
 	private int month1 ;
 	private int month2 ;
 	private int month3 ;
@@ -96,14 +93,6 @@ public class OrgDeptTreeEntity implements Serializable {
 
 	public void setUsers(Set<EmployeeEntity> users) {
 		this.users = users;
-	}
-
-	public Integer getCompute() {
-		return compute;
-	}
-
-	public void setCompute(Integer compute) {
-		this.compute = compute;
 	}
 
 	public static long getSerialversionuid() {

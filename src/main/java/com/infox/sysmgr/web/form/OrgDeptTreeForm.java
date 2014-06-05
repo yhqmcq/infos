@@ -64,17 +64,6 @@ public class OrgDeptTreeForm {
 	private String iconCls;
 	private String pid;
 
-	/** 是否计算部门稼动率 */
-	private Integer compute = new Integer(0) ;
-	
-	public Integer getCompute() {
-		return compute;
-	}
-
-	public void setCompute(Integer compute) {
-		this.compute = compute;
-	}
-
 	public String getFullname() {
 		return fullname;
 	}

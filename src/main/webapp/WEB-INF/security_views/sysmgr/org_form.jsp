@@ -23,11 +23,6 @@
 			}
 	    });
 		
-		$("#compute").combobox({
-			width: 157, valueField: 'label', textField: 'value', value: '0', required: false,
-			data: [{ label: '0', value: '计算' },{ label: '1', value: '不计算' }],
-			panelHeight:'auto', editable:false, autoShowPanel: true
-	    });
 		
 		//编辑，加载表单数据
 		if($('input[name=id]').val().length > 0) {
@@ -93,10 +88,6 @@
 			<td><input name="fullname" class="easyui-validatebox" type="text" data-options="required: true,prompt: '名称'" /></td>
 			<th>简称：</th>
 			<td><input name="sname" class="easyui-validatebox" type="text" data-options="" /></td>
-		</tr>
-		<tr>
-			<th>计算稼动率：</th>
-			<td colspan="3"><input id="compute" name="compute" /></td>
 		</tr>
 		
 		<!-- 
