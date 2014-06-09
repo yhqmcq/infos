@@ -164,7 +164,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				emp.setWorkStatus(0) ;
 				this.basedaoEmployee.update(emp) ;
 				delPwe(p) ;
-			}
+			} 
 		}
 		
 		//删除员工邮件列表
