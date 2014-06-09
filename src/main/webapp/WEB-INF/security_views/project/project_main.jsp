@@ -25,8 +25,12 @@
 		    	}}
 		    ]],
 			columns: [[
-			    { field: 'sedate', title: '项目起止日期', width: 170, sortable: true, formatter:function(value,row){
-			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd") ;
+			    { field: 'startDate', title: '开始日期', width: 80, sortable: true, formatter:function(value,row){
+			    	var sed = $.date.format($.string.toDate(value), "yyyy-MM-dd") ;
+			    	return sed ;
+			    } },
+			    { field: 'endDate', title: '结束日期', width: 80, sortable: true, formatter:function(value,row){
+			    	var sed = $.date.format($.string.toDate(value), "yyyy-MM-dd");
 			    	return sed ;
 			    } },
 			    { field: 'totalMonth', title: '月数', width: 90, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>个月</div>" ;} },
