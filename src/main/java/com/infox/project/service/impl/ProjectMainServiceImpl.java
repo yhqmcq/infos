@@ -150,6 +150,12 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 		}
 		
+		//删除员工加班信息
+		List<OvertimeEntity> ot = this.basedaoOvertime.find("select t from OvertimeEntity t where t.project.id='"+entity.getId()+"'") ;
+		for (OvertimeEntity o : ot) {
+			this.basedaoOvertime.delete(o) ;
+		}
+		
 		//删除员工在项目的工作时间
 		Set<ProjectEmpWorkingEntity> pwe = entity.getPwe() ;
 		if(null != pwe && !pwe.isEmpty()) {
@@ -168,6 +174,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				this.basedaoMailList.delete(p) ;
 			}
 		}
+		
 		
 		this.basedaoProject.delete(entity);
 	}
