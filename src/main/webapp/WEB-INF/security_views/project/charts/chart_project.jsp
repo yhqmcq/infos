@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EasyUI Administrator</title>
+<title>项目状态统计</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 
@@ -49,7 +49,7 @@ $(function () {
             plotShadow: false
         },
         title: {
-            text: '2014年华智项目状态统计'
+            text: '华智项目状态统计'
         },
         tooltip: {
     	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

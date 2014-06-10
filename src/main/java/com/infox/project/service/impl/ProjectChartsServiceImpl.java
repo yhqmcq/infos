@@ -114,8 +114,8 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
         ca.add(Calendar.MONTH, (12-month));
         ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
         ////System.out.println("当前月最后一天:"+DateUtil.formatG(ca.getTime()));
-        form.setStartDate(c.getTime()) ;
-		form.setEndDate(ca.getTime()) ;
+        //form.setStartDate(c.getTime()) ;
+		//form.setEndDate(ca.getTime()) ;
 		
 		int run = 0 ;
 		int close = 0 ;
