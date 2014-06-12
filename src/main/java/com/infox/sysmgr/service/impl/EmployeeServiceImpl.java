@@ -255,10 +255,11 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		if(null == entity.getWorkStatus()) {
 			entity.setWorkStatus(0) ;
 		}
-		if(null != entity.getLbmType() && 3 == entity.getLbmType()) {
+		
+		if(null != form.getLbmType() && 3 == form.getLbmType()) {
 			entity.setWorkStatus(3) ;
 		}
-		if(null != entity.getLbmType() && 4 == entity.getLbmType()) {
+		if(null != form.getLbmType() && 4 == form.getLbmType()) {
 			entity.setWorkStatus(4) ;
 		}
 		

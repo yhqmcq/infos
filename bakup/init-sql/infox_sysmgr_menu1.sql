@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50518
 File Encoding         : 65001
 
-Date: 2014-06-12 08:39:13
+Date: 2014-06-12 09:31:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -61,12 +61,15 @@ INSERT INTO `infox_sysmgr_menu` VALUES ('502906', null, '2014-03-07 10:40:32', n
 INSERT INTO `infox_sysmgr_menu` VALUES ('510303', null, '2014-05-15 11:03:39', null, 'sysmgr/role/getPermission.do', '', '2014-05-15 11:03:39', null, '角色资源关联', '1', null, null, 'O', '878344', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('518167', null, '2014-05-23 10:11:57', null, 'project/project_main/get_ProjectDevList.do', '', '2014-05-23 10:11:57', null, '开发人员详细信息查询内容', '1', null, null, 'O', '361454', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('527852', null, '2014-03-07 15:21:26', null, 'sysmgr/empjob/empjob_main.do', 'icon-standard-user-red', '2014-03-07 15:21:26', null, '公司岗位', '1', null, null, 'F', '876715', 'Y');
+INSERT INTO `infox_sysmgr_menu` VALUES ('533865', null, '2014-06-12 09:30:32', null, 'project/jdl/employeeTaskTimeReport_leader.do', '', '2014-06-12 09:30:32', null, '总裁专用（新）', '1', null, null, 'O', '502906', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('547345', null, '2014-02-22 00:50:30', null, 'sysmgr/employee/emp_main.do', 'icon-hamburg-my-account', '2014-02-22 00:50:30', null, '员工管理', '1', null, null, 'F', '876715', 'Y');
+INSERT INTO `infox_sysmgr_menu` VALUES ('559824', null, '2014-06-12 09:28:36', null, 'project/jdl/getMemberInfoListDialog.do', '', '2014-06-12 09:28:36', null, '稼动率查询（新）', '1', null, null, 'O', '502906', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('643077', null, '2014-05-15 11:04:27', null, 'sysmgr/employee/getPermission.do', 'icon-standard-application-view-tile', '2014-05-15 11:04:27', null, '用户角色关联', '1', null, null, 'O', '068671', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('643154', null, '2014-05-29 08:28:16', null, 'project/pwe_emp_working/datagrid.do', '', '2014-05-29 08:28:16', null, '开发人员设置查询', '1', null, null, 'O', '361454', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('668356', null, '2014-05-19 11:15:30', null, 'project/project_main/upload.do', '', '2014-05-19 11:15:30', null, '导入项目信息', '1', null, null, 'O', '361454', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('670332', null, '2014-05-19 11:16:58', null, 'project/project_main/import_project_info.do', '', '2014-05-19 11:16:58', null, '导入Excel', '1', null, null, 'O', '361454', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('675303', null, '2014-02-18 14:50:50', null, 'sysmgr/filemanager/file_main.do', 'icon-standard-folder-database', '2014-02-18 14:50:50', null, '文件管理', '1', null, null, 'F', '876715', 'Y');
+INSERT INTO `infox_sysmgr_menu` VALUES ('685540', null, '2014-06-12 09:29:19', null, 'project/jdl/getMemberInfoListDialog.do', '', '2014-06-12 09:29:19', null, '个人详细稼动率（新）', '1', null, null, 'O', '502906', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('699829', null, '2014-05-23 08:37:18', null, 'project/project_main/datagrid_leader.do', '', '2014-05-23 08:37:18', null, '项目总裁专用', '1', null, null, 'O', '361454', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('707850', null, '2014-05-26 13:54:49', null, 'sysmgr/employee/upload.do', '', '2014-05-26 13:54:49', null, '人员信息上传页面', '1', null, null, 'O', '547345', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('716776', null, '2014-03-24 16:03:50', null, 'project/project_main/addMailList.do', 'icon-standard-layout-header', '2014-03-24 16:03:50', null, '添加邮件列表操作', '1', null, null, 'O', '361454', 'Y');
