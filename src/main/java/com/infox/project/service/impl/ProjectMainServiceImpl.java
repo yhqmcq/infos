@@ -983,9 +983,55 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		} else {
 			//是否部长
 			if(null != sessionInfo.getEmp().getIsLeader() && "Y".equals(sessionInfo.getEmp().getIsLeader())) {
+				
 				form.setDeptid(sessionInfo.getEmp().getOrgid()) ;
 				datagrid.setTotal(this.total(form));
 				datagrid.setRows(this.changeModel(this.find(form)));
+				
+				
+				//是部长，但该项目部属于该部门，所以无法查询到项目， 则查询该员工参与的项目
+				if(datagrid.getRows() != null || datagrid.getRows().isEmpty()) {
+					for (ProjectMainEntity project : find) {
+						Set<ProjectMailListEntity> projectmails = project.getProjectmails() ;
+						for (ProjectMailListEntity projectMailListEntity : projectmails) {
+							if(sessionInfo.getEmp().getId().equals(projectMailListEntity.getEmployee().getId())) {
+								set.add(project) ;
+			 				}
+						}
+						Set<ProjectEmpWorkingEntity> pwe2 = project.getPwe() ;
+						for (ProjectEmpWorkingEntity projectEmpWorkingEntity : pwe2) {
+							if(sessionInfo.getEmp().getId().equals(projectEmpWorkingEntity.getEmp().getId())) {
+								set.add(project) ;
+			 				}
+						}
+						if(sessionInfo.getEmp().getId().equals(project.getEmp().getId())) {
+							set.add(project) ;
+						}
+					}
+					
+					// 倒序  
+			        Collections.sort(singleList, new Comparator<ProjectMainEntity>() {  
+			            public int compare(ProjectMainEntity arg0, ProjectMainEntity arg1) {  
+			                Date created = arg0.getStartDate();  
+			                Date created2 = arg1.getStartDate();  
+			                
+			                if (DateUtil.compare_datetime2(created, created2) > 0) {  
+			                    return 1;  
+			                } else if (DateUtil.compare_datetime2(created, created2) == 0) {  
+			                    return 0;  
+			                } else {  
+			                    return -1;  
+			                }  
+			            }  
+			        });  
+			        
+					for (ProjectMainEntity projectMainEntity : set) {
+						singleList.add(projectMainEntity) ;
+					}
+					
+					datagrid.setTotal(((Integer)singleList.size()).longValue());
+					datagrid.setRows(this.changeModel(singleList));
+				}
 				
 			} else if(null != sessionInfo.getEmp().getIsLeader() && "YY".equals(sessionInfo.getEmp().getIsLeader())) {
 				//本部长
@@ -993,7 +1039,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, deptid) ;
 				Set<OrgDeptTreeEntity> orgs = orgDeptTreeEntity.getOrgs() ;
 				StringBuffer sb = new StringBuffer() ;
-				//sb.append(deptid+",") ;
 				if(null != orgs && orgs.size() > 0) {
 					for (OrgDeptTreeEntity ds : orgs) {
 						sb.append(ds.getId()+",") ;
