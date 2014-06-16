@@ -227,7 +227,7 @@ public class EmployeeServiceImpl implements EmployeeServiceI {
 		
 		EmployeeEntity entity = this.basedaoEmployee.get(EmployeeEntity.class, form.getId());
 		
-		BeanUtils.copyProperties(form, entity ,new String[]{"creater","remark","account"});
+		BeanUtils.copyProperties(form, entity ,new String[]{"creater","remark","account","password"});
 		entity.setTruename(StringUtil.replaceAllSpace(form.getTruename())) ;
 
 		if (form.getOrgid() != null && !"".equalsIgnoreCase(form.getOrgid())) {
