@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>部门稼动率Test</title>
+<title>部门稼动率</title>
 <%@ include file="/common/base/meta.jsp"%>
 <%@ include file="/common/base/script.jsp"%>
 
@@ -11,7 +11,7 @@
 	var s1 ;
 	$(function() {
 		dataGrid = $("#d1").datagrid({
-			title: '部门稼动率Test', fitColumns: false, //view: detailview,
+			title: '部门稼动率', fitColumns: false, //view: detailview,
 			url: yhq.basePath+"/project/jdl/employeeTaskTimeReport.do?notInStatus=9999", rownumbers :true,
 			idField: 'emp_id', fit: true, border: false, method: "post",showFooter: true, singleSelect: true,
 			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 200,pageList: [10,20,30,50,100,200,500],
