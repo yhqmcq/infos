@@ -78,6 +78,21 @@
 			}
 	    });
 		
+		$("#state").combobox({
+			valueField: 'label', textField: 'value',
+			data: [{ label: '0', value: '在职人员' },{ label: '1', value: '待机人员' },{ label: '2', value: '在项目人员' },{ label: '3', value: '离职人员' },{ label: '4', value: '停薪留职' }],
+			panelHeight:'auto', editable:false, autoShowPanel: true,
+			onSelect: function(node) {
+				var data = {} ;
+				if(node.label == 0) { data["notInStatus"] = "9999,3" ; }
+				if(node.label == 1) { data["notInStatus"] = "9999,1,3,4" ; }
+				if(node.label == 2) { data["notInStatus"] = "9999,0,3,4" ; }
+				if(node.label == 3) { data["notInStatus"] = "9999,0,1,4" ; }
+				if(node.label == 4) { data["notInStatus"] = "9999,0,1,2,3" ; }
+				dataGrid.datagrid("load",data);
+			}
+	    });
+		
 		var searchOpts = $("#topSearchbox").searchbox("options"), searcher = searchOpts.searcher;
         searchOpts.searcher = function (value, name) {
             if ($.isFunction(searcher)) { searcher.apply(this, arguments); }
@@ -187,6 +202,7 @@
                     <a onClick="form_edit('E');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">编辑</a>
                     <a onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
+					状态：<input id="state" name="state" /> 
 					部门：<input id="select1" name="pid" />
 					<input id="topSearchbox" class="easyui-searchbox" data-options="width: 250, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
                     <div id="topSearchboxMenu" style="width: 85px;">

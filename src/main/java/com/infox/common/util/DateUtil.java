@@ -602,7 +602,33 @@ public class DateUtil {
 		return cron ;
 	}
 	
+	public static Float getMonthWorkDay(int month) {
+		try {
+			Calendar fristDay = Calendar.getInstance();
+			fristDay.setTime(new SimpleDateFormat("yyyy").parse(new SimpleDateFormat("yyyy").format(new Date())));
+			fristDay.add(Calendar.MONTH, month-1 );
+			fristDay.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
+			
+			Calendar lastDay = Calendar.getInstance();
+			lastDay.setTime(new SimpleDateFormat("yyyy").parse(new SimpleDateFormat("yyyy").format(new Date())));
+			lastDay.add(Calendar.MONTH, month-1 );
+			lastDay.set(Calendar.DAY_OF_MONTH, lastDay.getActualMaximum(Calendar.DAY_OF_MONTH));
+			
+			int diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
+			
+			return (float)diff;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return 0f ;
+	}
+	
+	
 	public static void main(String[] args) throws ParseException {
+		
+		System.out.println(getMonthWorkDay(2));
+		
 		//String datetime = "2014-03-4 12:46:00" ;
 		
 		//String[] dateCron = getDateCron(datetime, 2) ;

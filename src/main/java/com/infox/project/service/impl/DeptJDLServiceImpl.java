@@ -78,6 +78,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		Float month11 = new Float(0);
 		Float month12 = new Float(0);
 		
+		
 		//汇总（当月所以人员的总有效天数）
 		Float allyxts1 = new Float(0);
 		Float allyxts2 = new Float(0);
@@ -379,6 +380,9 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 									
 									// 如果是第一个月，并且不是最后一个月
 									if (i == 0 && m2 != 0) {
+										
+										
+										
 										//开始日期和当前日期不在同一个月才进行就是,如果开始日期和当前日期是在同一个月则由下面的当月进行计算
 										if(!ym11.equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
 											
@@ -394,6 +398,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													}
 												}
 											}
+											
 											lastEndDate.add(DateUtil.formatG(ew.getEndDate())) ;
 											int wd = DateCal.getWorkingDays(DateUtil.formatG(ary11.getTime()), DateUtil.formatG(lastDay.getTime()));
 											fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -405,6 +410,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											allTotalDays += wd ;
 											System.out.println(DateUtil.formatG(ary11.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  1稼动率"+quot);
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+											
 										}
 										
 										
@@ -684,6 +690,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  2稼动率1="+quot);
 											
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+											
 										} else {
 											int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lastDay.getTime()));
 											fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -696,6 +703,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  2稼动率2="+quot);
 											
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+											
 										}
 										
 										
@@ -797,6 +805,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼0动率"+quot);
 											
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+											
 										}
 										
 										//并且不是已退出项目的
@@ -852,6 +861,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼1动率"+quot);
 													
 													month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+													
 												} else {
 													int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
 													fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -863,6 +873,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼2动率"+quot);
 													
 													month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+													
 												}
 											} else {
 												int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
@@ -876,6 +887,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼3动率"+quot);
 												
 												month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+												
 											}
 										}
 										
@@ -994,6 +1006,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼1动率"+quot);
 											
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+											
+											
 										} else {
 											int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
 											fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -1066,6 +1080,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  5稼动率"+quot);
 												
 												month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+												
 											} else {
 												int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
 												fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -1079,6 +1094,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  5稼动率"+quot);
 												
 												month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+												
 											}
 										}
 										
@@ -1097,6 +1113,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(new Date())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  --6稼动率"+quot);
 											
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
+											
 										}
 										//allyxts4 = 152f;
 										
@@ -1289,6 +1306,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month1 += uf.getMonth1();
 										allyxts1 += sjyxts ;
 										allgzts1 += sjgzts ;
+										
+										
 										break;
 									case 2:
 										totalJDLDay2.add(e.getTruename()) ;
@@ -1299,6 +1318,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month2 += uf.getMonth2();
 										allyxts2 += sjyxts ;
 										allgzts2 += sjgzts ;
+										
+										
 										break;
 									case 3:
 										totalJDLDay3.add(e.getTruename()) ;
@@ -1309,6 +1330,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month3 += uf.getMonth3() ;
 										allyxts3 += sjyxts ;
 										allgzts3 += sjgzts ;
+										
 										break;
 									case 4:
 										totalJDLDay4.add(e.getTruename()) ;
@@ -1321,6 +1343,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month4 += uf.getMonth4();
 										allyxts4 += sjyxts ;
 										allgzts4 += sjgzts ;
+										
 										break;
 									case 5:
 										totalJDLDay5.add(e.getTruename()) ;
@@ -1331,6 +1354,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month5 += uf.getMonth5();
 										allyxts5 += sjyxts ;
 										allgzts5 += sjgzts ;
+										
+										
 										break;
 									case 6:
 										totalJDLDay6.add(e.getTruename()) ;
@@ -1341,6 +1366,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month6 += uf.getMonth6();
 										allyxts6 += sjyxts ;
 										allgzts6 += sjgzts ;
+										
+										
 										break;
 									case 7:
 										totalJDLDay7.add(e.getTruename()) ;
@@ -1351,6 +1378,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month7 += uf.getMonth7();
 										allyxts7 += sjyxts ;
 										allgzts7 += sjgzts ;
+										
+										
 										break;
 									case 8:
 										totalJDLDay8.add(e.getTruename()) ;
@@ -1361,6 +1390,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month8 += uf.getMonth8();
 										allyxts8 += sjyxts ;
 										allgzts8 += sjgzts ;
+										
 										break;
 									case 9:
 										totalJDLDay9.add(e.getTruename()) ;
@@ -1371,6 +1401,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month9 += uf.getMonth9();
 										allyxts9 += sjyxts ;
 										allgzts9 += sjgzts ;
+										
+										
 										break;
 									case 10:
 										totalJDLDay10.add(e.getTruename()) ;
@@ -1381,6 +1413,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month10 += uf.getMonth10();
 										allyxts10 += sjyxts ;
 										allgzts10 += sjgzts ;
+										
+										
 										break;
 									case 11:
 										totalJDLDay11.add(e.getTruename()) ;
@@ -1391,6 +1425,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month11 += uf.getMonth11();
 										allyxts11 += sjyxts ;
 										allgzts11 += sjgzts ;
+										
 										break;
 									case 12:
 										totalJDLDay12.add(e.getTruename()) ;
@@ -1401,6 +1436,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										month12 += uf.getMonth12();
 										allyxts12 += sjyxts ;
 										allgzts12 += sjgzts ;
+										
 										break;
 									default:
 										break;
@@ -1423,6 +1459,19 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 					uf.setWeekendHour(allWeekendHour); // 周末加班
 					uf.setHolidaysHour(allHolidaysHour); // 节假日加班
 					forms.add(uf);
+					
+					/*freeTime1 = 0f ;
+					freeTime2 = 0f ;
+					freeTime3 = 0f ;
+					freeTime4 = 0f ;
+					freeTime5 = 0f ;
+					freeTime6 = 0f ;
+					freeTime7 = 0f ;
+					freeTime8 = 0f ;
+					freeTime9 = 0f ;
+					freeTime10 = 0f ;
+					freeTime11 = 0f ;
+					freeTime12 = 0f ;*/
 				
 				}
 		}
@@ -1431,7 +1480,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		datagrid.setRows(forms);
 		
 		
-		System.out.println(totalJDLDay1);
+		/*System.out.println(totalJDLDay1);
 		System.out.println(totalJDLDay2);
 		System.out.println(totalJDLDay3);
 		System.out.println(totalJDLDay4);
@@ -1442,7 +1491,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		System.out.println(totalJDLDay9);
 		System.out.println(totalJDLDay10);
 		System.out.println(totalJDLDay11);
-		System.out.println(totalJDLDay12);
+		System.out.println(totalJDLDay12);*/
 		
 		System.out.println("所有人："+allUsers.size()+"=="+allUsers);
 		System.out.println("-----------------------------------------------------------------------");

@@ -14,7 +14,7 @@
 			title: '部门稼动率Test', fitColumns: false, //view: detailview,
 			url: yhq.basePath+"/project/jdl/employeeTaskTimeReport.do?notInStatus=9999", rownumbers :true,
 			idField: 'emp_id', fit: true, border: false, method: "post",showFooter: true, singleSelect: true,
-			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 50,pageList: [10,20,30,50,100,200],
+			remoteSort: false, toolbar: '#buttonbar', striped:true, pagination: true,pageSize: 200,pageList: [10,20,30,50,100,200,500],
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
 			    { field: 'emp_id', title: '工号', width: 60 },
@@ -31,18 +31,20 @@
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>" ;
 			    	}
 			    } },
-			    { field: 'month1', title: '一月', width: 60 },
-			    { field: 'month2', title: '二月', width: 60 },
-			    { field: 'month3', title: '三月', width: 60 },
-			    { field: 'month4', title: '四月', width: 60 },
-			    { field: 'month5', title: '五月', width: 60 },
-			    { field: 'month6', title: '六月', width: 60 },
-			    { field: 'month7', title: '七月', width: 60 },
-			    { field: 'month8', title: '八月', width: 60 },
-			    { field: 'month9', title: '九月', width: 60 },
-			    { field: 'month10', title: '十月', width: 60 },
-			    { field: 'month11', title: '十一月', width: 60 },
-			    { field: 'month12', title: '十二月', width: 60 },
+			    { field: 'month1', title: '一月', width: 60 }, 
+			    { field: 'month2', title: '二月', width: 60 }, 
+			    { field: 'month3', title: '三月', width: 60 }, 
+			    { field: 'month4', title: '四月', width: 60 }, 
+			    { field: 'month5', title: '五月', width: 60 }, 
+			    { field: 'month6', title: '六月', width: 60 }, 
+			    { field: 'month7', title: '七月', width: 60 }, 
+			    { field: 'month8', title: '八月', width: 60 }, 
+			    { field: 'month9', title: '九月', width: 60 }, 
+			    { field: 'month10', title: '十月', width: 60 }, 
+			    { field: 'month11', title: '十一月', width: 60 }, 
+			    { field: 'month12', title: '十二月', width: 60 }, 
+			    
+			    
 			    { field: 'dbmType', title: '到部门类型', width: 100, formatter:function(value,row){
 			    	if(value != undefined) {
 				    	if(value == "1"){return "新增";}else if(value == "2"){return "转入";}else if(value == "3"){return "在职";}else if(value == "4"){return "试用";}else if(value == "5"){return "停薪留职返回";}else if(value == "6"){return "返聘";}
@@ -75,6 +77,7 @@
 		        if(data.rows.length < 1) {
 		        	$.messager.alert("你如果已获得授权！<br><br>可以点击【总裁专用】按钮试试。"); 
 		        }
+		        
 		    },
 		 	onDblClickRow : function(rowIndex, rowData) { getMemberInfoList(rowData.emp_id, rowData.emp_name) ; },
 			enableHeaderClickMenu: true, enableHeaderContextMenu: true, selectOnRowContextMenu: false, pagingMenu: { submenu: false }     	
