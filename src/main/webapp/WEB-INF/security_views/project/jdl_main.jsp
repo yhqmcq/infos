@@ -83,7 +83,7 @@
 			enableHeaderClickMenu: true, enableHeaderContextMenu: true, selectOnRowContextMenu: false, pagingMenu: { submenu: false }     	
 	    });
 		s1 = $("#select1").combotree({
-			url : yhq.basePath+"/sysmgr/org/treegrid.do",
+			//url : yhq.basePath+"/sysmgr/org/treegrid.do",
 			width:157, idFiled:'pid', textFiled:'sname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
@@ -105,6 +105,7 @@
         if("${_LOGIN_EMP_KEY.emp.isLeader}" == "YY") {
         	s1.combotree("reload", yhq.basePath+"/sysmgr/org/treegrid.do?id=${_LOGIN_EMP_KEY.emp.orgid}") ;
         } else {
+        	s1.combotree("reload", yhq.basePath+"/sysmgr/org/treegrid.do") ;
         	//如果是部长或个人的级别进行查询，将不可以进行部门或工号查询
 	    	$("#jl_bar").hide() ;
         }

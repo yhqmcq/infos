@@ -11,10 +11,16 @@
 	$(function() {
 		
 		dept = $("#dept").tree({
-			url : yhq.basePath+"/sysmgr/org/doNotNeedAuth_org_treeCompute.do",
+			//url : yhq.basePath+"/sysmgr/org/doNotNeedAuth_org_treeCompute.do",
 			width:157, idFiled:'pid', textFiled:'sname', editable: false,
 			lines:true,checkbox:true
 	    });
+		if("${_LOGIN_EMP_KEY.emp.isLeader}" == "YY") {
+        	dept.tree("load", yhq.basePath+"/sysmgr/org/doNotNeedAuth_org_treeCompute.do?id=${_LOGIN_EMP_KEY.emp.orgid}") ;
+        } else {
+        	dept.tree("load", yhq.basePath+"/sysmgr/org/doNotNeedAuth_org_treeCompute.do") ;
+        }
+		
 		
 		dg = $("#d1").datagrid({
 			url:yhq.basePath+"/project/jdl/doNotNeedAuth_jdl_group.do",
