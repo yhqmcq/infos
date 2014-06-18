@@ -17,34 +17,55 @@
 	    });
 		
 		dg = $("#d1").datagrid({
-			url:yhq.basePath+"/project/project_report/getMemberInfoList.do?emp_id=${id}",
+			url:yhq.basePath+"/project/jdl/doNotNeedAuth_jdl_group.do",
 			idField: 'emp_id', fit: true, fitColumns: false, border: false, method: "post",
 			remoteSort: false, striped:true, rownumbers: true,
 			frozenColumns: [[
 			    { field: 'id', title: '工号', hidden: true, width: 60 }
 			]],
 			columns:[[
-					{ field: 'month1', title: '一月', width: 60 }, 
-					{ field: 'month2', title: '二月', width: 60 }, 
-					{ field: 'month3', title: '三月', width: 60 }, 
-					{ field: 'month4', title: '四月', width: 60 }, 
-					{ field: 'month5', title: '五月', width: 60 }, 
-					{ field: 'month6', title: '六月', width: 60 }, 
-					{ field: 'month7', title: '七月', width: 60 }, 
-					{ field: 'month8', title: '八月', width: 60 }, 
-					{ field: 'month9', title: '九月', width: 60 }, 
-					{ field: 'month10', title: '十月', width: 60 }, 
-					{ field: 'month11', title: '十一月', width: 60 }, 
-					{ field: 'month12', title: '十二月', width: 60 }
+					{ field: 'dept_name', title: '部门', width: 110 }, 
+					{ field: 'smonth1', title: '一月', width: 60 }, 
+					{ field: 'smonth2', title: '二月', width: 60 }, 
+					{ field: 'smonth3', title: '三月', width: 60 }, 
+					{ field: 'smonth4', title: '四月', width: 60 }, 
+					{ field: 'smonth5', title: '五月', width: 60 }, 
+					{ field: 'smonth6', title: '六月', width: 60 }, 
+					{ field: 'smonth7', title: '七月', width: 60 }, 
+					{ field: 'smonth8', title: '八月', width: 60 }, 
+					{ field: 'smonth9', title: '九月', width: 60 }, 
+					{ field: 'smonth10', title: '十月', width: 60 }, 
+					{ field: 'smonth11', title: '十一月', width: 60 }, 
+					{ field: 'smonth12', title: '十二月', width: 60 }
 			]],
 			onLoadSuccess: function(data) {
 		        $.fn.datagrid.extensions.onLoadSuccess.apply(this, arguments);  //这句一定要加上。
+		        
+				$(dg.datagrid('getColumnDom',"smonth"+(new Date().getMonth()+1))).css("background","#55BF3B");
+		        
+		        for(var i=1;i<=(new Date().getMonth()+1)-1;i++){
+			        $(dg.datagrid('getColumnDom',"smonth"+i)).css("background","#ddd");
+		        }
+		        for(var i=(new Date().getMonth()+1)+1;i<=12;i++){
+			        $(dg.datagrid('getColumnDom',"smonth"+i)).css("background","#DF5353");
+		        }
 		    }
 	    });
 	});
 	
 	function groupFunc() {
-		console.info(dept.tree("getChecked")) ;
+		var t = dept.tree("getChecked") ;
+		var ids = [] ;
+		if(t.length > 0) {
+			$.each(t, function(i, p) {
+				ids.push(p.id) ;
+			});
+			dg.datagrid("load", {ids: ids.join(",")}) ;
+		} else {
+			alert("请选中要筛选的部门！") ;
+		}
+		
+		
 	}
 </script>
 

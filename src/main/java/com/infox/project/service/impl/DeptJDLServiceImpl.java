@@ -55,6 +55,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 
 	@Override
 	public DataGrid datagrid(ProjectTaskTimeForm form) throws Exception {
+		
 		DataGrid datagrid = new DataGrid();
 
 		List<ProjectTaskTimeForm> forms = new ArrayList<ProjectTaskTimeForm>();
@@ -137,19 +138,6 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		
 		//部门所有人员
 		List<String> allUsers = new ArrayList<String>() ;
-		//为参与的人员
-		List<String> noTotalJDLDay1 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay2 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay3 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay4 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay5 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay6 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay7 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay8 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay9 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay10 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay11 = new ArrayList<String>() ;
-		List<String> noTotalJDLDay12 = new ArrayList<String>() ;
 		
 		
 		int step = 1;
@@ -354,6 +342,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 								int month_for = startDateMonth - currentMonth ;
 								for (int i = 0; i <= m2; i++) {
 									//人月
+									@SuppressWarnings("unused")
 									Float fc = new Float(0);
 									//当前月的实际有效天数
 									Float sjyxts = new Float(0) ;
@@ -1493,57 +1482,57 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		System.out.println(totalJDLDay11);
 		System.out.println(totalJDLDay12);*/
 		
-		System.out.println("所有人："+allUsers.size()+"=="+allUsers);
-		System.out.println("-----------------------------------------------------------------------");
+		//System.out.println("所有人："+allUsers.size()+"=="+allUsers);
+		//System.out.println("-----------------------------------------------------------------------");
 		
 		List<String> removeList1 = removeList(allUsers, totalJDLDay1) ;
 		Integer npDate1 = getNoProjectDate(removeList1, 1) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate1+"\t需统计的人：" + removeList1.size()+"=="+removeList1+"\n");
+		//System.out.println("总天数：" + npDate1+"\t需统计的人：" + removeList1.size()+"=="+removeList1+"\n");
 		
 		List<String> removeList2 = removeList(allUsers, totalJDLDay2) ;
 		Integer npDate2 = getNoProjectDate(removeList2, 2) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate2+"\t需统计的人：" + removeList2.size()+"=="+removeList2+"\n");
+		//System.out.println("总天数：" + npDate2+"\t需统计的人：" + removeList2.size()+"=="+removeList2+"\n");
 		
 		List<String> removeList3 = removeList(allUsers, totalJDLDay3) ;
 		Integer npDate3 = getNoProjectDate(removeList3, 3) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate3+"\t需统计的人：" + removeList3.size()+"=="+removeList3+"\n");
+		//System.out.println("总天数：" + npDate3+"\t需统计的人：" + removeList3.size()+"=="+removeList3+"\n");
 		
 		List<String> removeList4 = removeList(allUsers, totalJDLDay4) ;
 		Integer npDate4 = getNoProjectDate(removeList4, 4) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate4+"\t需统计的人：" + removeList4.size()+"=="+removeList4+"\n");
+		//System.out.println("总天数：" + npDate4+"\t需统计的人：" + removeList4.size()+"=="+removeList4+"\n");
 		
 		List<String> removeList5 = removeList(allUsers, totalJDLDay5) ;
 		Integer npDate5 = getNoProjectDate(removeList5, 5) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate5+"\t需统计的人：" + removeList5.size()+"=="+removeList5+"\n");
+		//System.out.println("总天数：" + npDate5+"\t需统计的人：" + removeList5.size()+"=="+removeList5+"\n");
 		
 		List<String> removeList6 = removeList(allUsers, totalJDLDay6) ;
 		Integer npDate6 = getNoProjectDate(removeList6, 6) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate6+"\t需统计的人：" + removeList6.size()+"=="+removeList6+"\n");
+		//System.out.println("总天数：" + npDate6+"\t需统计的人：" + removeList6.size()+"=="+removeList6+"\n");
 		
 		List<String> removeList7 = removeList(allUsers, totalJDLDay7) ;
 		Integer npDate7 = getNoProjectDate(removeList7, 7) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate7+"\t需统计的人：" + removeList7.size()+"=="+removeList7+"\n");
+		//System.out.println("总天数：" + npDate7+"\t需统计的人：" + removeList7.size()+"=="+removeList7+"\n");
 		
 		List<String> removeList8 = removeList(allUsers, totalJDLDay8) ;
 		Integer npDate8 = getNoProjectDate(removeList8, 8) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate8+"\t需统计的人：" + removeList8.size()+"=="+removeList8+"\n");
+		//System.out.println("总天数：" + npDate8+"\t需统计的人：" + removeList8.size()+"=="+removeList8+"\n");
 		
 		List<String> removeList9 = removeList(allUsers, totalJDLDay9) ;
 		Integer npDate9 = getNoProjectDate(removeList9, 9) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate9+"\t需统计的人：" + removeList9.size()+"=="+removeList9+"\n");
+		//System.out.println("总天数：" + npDate9+"\t需统计的人：" + removeList9.size()+"=="+removeList9+"\n");
 		
 		List<String> removeList10 = removeList(allUsers, totalJDLDay10) ;
 		Integer npDate10 = getNoProjectDate(removeList10, 10) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate10+"\t需统计的人：" + removeList10.size()+"=="+removeList10+"\n");
+		//System.out.println("总天数：" + npDate10+"\t需统计的人：" + removeList10.size()+"=="+removeList10+"\n");
 		
 		List<String> removeList11 = removeList(allUsers, totalJDLDay11) ;
 		Integer npDate11 = getNoProjectDate(removeList11, 11) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate11+"\t需统计的人：" + removeList11.size()+"=="+removeList11+"\n");
+		//System.out.println("总天数：" + npDate11+"\t需统计的人：" + removeList11.size()+"=="+removeList11+"\n");
 		
 		List<String> removeList12 = removeList(allUsers, totalJDLDay12) ;
 		Integer npDate12 = getNoProjectDate(removeList12, 12) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate12+"\t需统计的人：" + removeList12.size()+"=="+removeList12+"\n");
-		
+		//System.out.println("总天数：" + npDate12+"\t需统计的人：" + removeList12.size()+"=="+removeList12+"\n");
+		/*
 		System.out.println("[1月]总实际工作天数\t" + "有项目人员天数累加:["+m_days1+"] \t无项目人员天数累加：["+npDate1+"] \t计算:(m_days1/npDate)="+nt.format(m_days1/npDate1));
 		System.out.println("[2月]总实际工作天数\t" + "有项目人员天数累加:["+m_days2+"] \t无项目人员天数累加：["+npDate2+"] \t计算:(m_days2/npDate)="+nt.format(m_days2/npDate2));
 		System.out.println("[3月]总实际工作天数\t" + "有项目人员天数累加:["+m_days3+"] \t无项目人员天数累加：["+npDate3+"] \t计算:(m_days3/npDate)="+nt.format(m_days3/npDate3));
@@ -1556,7 +1545,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		System.out.println("[10月]总实际工作天数\t" + "有项目人员天数累加:["+m_days10+"] \t无项目人员天数累加：["+npDate10+"] \t计算:(m_days10/npDate)="+nt.format(m_days10/npDate10));
 		System.out.println("[11月]总实际工作天数\t" + "有项目人员天数累加:["+m_days11+"] \t无项目人员天数累加：["+npDate11+"] \t计算:(m_days3/npDate)="+nt.format(m_days11/npDate11));
 		System.out.println("[12月]总实际工作天数\t" + "有项目人员天数累加:["+m_days12+"] \t无项目人员天数累加：["+npDate12+"] \t计算:(m_days12/npDate)="+nt.format(m_days12/npDate12));
-		
+		*/
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -1789,40 +1778,46 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		LoginInfoSession sessionInfo = Constants.getSessionInfo() ;
 		EmployeeForm emp = sessionInfo.getEmp() ;
 		
-		//如果不是经理专用按钮，则根据用户的ID，或是否部长来进行查询
-		if(!"".equals(form.getViewType()) && "Y".equals(form.getViewType())) {
+		
+		if(form.getDept_reportIds() != null) {
 			
 		} else {
-			//是否部长
-			if(null != emp.getIsLeader() && "Y".equals(emp.getIsLeader())) {
-				EmployeeEntity eee = this.basedaoEmployee.get(EmployeeEntity.class, emp.getId()) ;
-				if(null != eee.getOrg()) {
-					form.setDept_id(eee.getOrg().getId()) ;
-				}
-			} else if(null != emp.getIsLeader() && "YY".equals(emp.getIsLeader())) {	//本部长
-				EmployeeEntity eee = this.basedaoEmployee.get(EmployeeEntity.class, emp.getId()) ;
-				OrgDeptTreeEntity org = eee.getOrg() ;
-				if(null != org) {
-					//本部长
-					OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, org.getId()) ;
-					Set<OrgDeptTreeEntity> orgs = orgDeptTreeEntity.getOrgs() ;
-					StringBuffer sb = new StringBuffer() ;
-					//sb.append(org.getId()+",") ;
-					if(null != orgs && orgs.size() > 0) {
-						for (OrgDeptTreeEntity ds : orgs) {
-							sb.append(ds.getId()+",") ;
-						}
-						if(sb.length() > 0) {
-							sb.deleteCharAt(sb.length() -1) ;
-						}
-						
-						form.setDeptsView(sb.toString()) ;
-					}
-				}
+			//如果不是经理专用按钮，则根据用户的ID，或是否部长来进行查询
+			if(!"".equals(form.getViewType()) && "Y".equals(form.getViewType())) {
+				
 			} else {
-				form.setEmp_id(emp.getId()) ;
+				//是否部长
+				if(null != emp.getIsLeader() && "Y".equals(emp.getIsLeader())) {
+					EmployeeEntity eee = this.basedaoEmployee.get(EmployeeEntity.class, emp.getId()) ;
+					if(null != eee.getOrg()) {
+						form.setDept_id(eee.getOrg().getId()) ;
+					}
+				} else if(null != emp.getIsLeader() && "YY".equals(emp.getIsLeader())) {	//本部长
+					EmployeeEntity eee = this.basedaoEmployee.get(EmployeeEntity.class, emp.getId()) ;
+					OrgDeptTreeEntity org = eee.getOrg() ;
+					if(null != org) {
+						//本部长
+						OrgDeptTreeEntity orgDeptTreeEntity = this.basedaoOrg.get(OrgDeptTreeEntity.class, org.getId()) ;
+						Set<OrgDeptTreeEntity> orgs = orgDeptTreeEntity.getOrgs() ;
+						StringBuffer sb = new StringBuffer() ;
+						//sb.append(org.getId()+",") ;
+						if(null != orgs && orgs.size() > 0) {
+							for (OrgDeptTreeEntity ds : orgs) {
+								sb.append(ds.getId()+",") ;
+							}
+							if(sb.length() > 0) {
+								sb.deleteCharAt(sb.length() -1) ;
+							}
+							
+							form.setDeptsView(sb.toString()) ;
+						}
+					}
+				} else {
+					form.setEmp_id(emp.getId()) ;
+				}
 			}
 		}
+		
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select t from EmployeeEntity t where 1=1";
@@ -1857,6 +1852,10 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 			if (null != form.getDept_id() && !"".equals(form.getDept_id())) {
 				hql += " and t.org.id=:dept_id";
 				params.put("dept_id", form.getDept_id());
+			}
+			if (null != form.getDept_reportIds() && !"".equals(form.getDept_reportIds())) {
+				hql += " and t.org.id=:dept_reportIds";
+				params.put("dept_reportIds", form.getDept_reportIds());
 			}
 			if (null != form.getProject_id() && !"".equals(form.getProject_id())) {
 				hql += " and t.project.id=:project_id";
@@ -1908,9 +1907,40 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 	@Override
 	public List<ProjectTaskTimeForm> jdlGroupReport(ProjectTaskTimeForm form) throws Exception {
 		
+		List<ProjectTaskTimeForm> list = new ArrayList<ProjectTaskTimeForm>() ;
 		
+		if(form.getIds() != null) {
+			String[] split = form.getIds().split(",") ;
+			for(int i=0; i<split.length; i++) {
+				
+				form.setDept_reportIds(split[i]) ;
+				DataGrid dg = this.datagrid(form) ;
+				
+				List<?> footer = dg.getFooter() ;
+				for (Object o : footer) {
+					@SuppressWarnings("unchecked")
+					HashMap<String, Object> map = (HashMap<String, Object>) o ;
+					ProjectTaskTimeForm f = new ProjectTaskTimeForm() ;
+					f.setDept_name(((ProjectTaskTimeForm)dg.getRows().get(0)).getDept_name()) ;
+					f.setSmonth1(map.get("month1").toString()) ;
+					f.setSmonth2(map.get("month2").toString()) ;
+					f.setSmonth3(map.get("month3").toString()) ;
+					f.setSmonth4(map.get("month4").toString()) ;
+					f.setSmonth5(map.get("month5").toString()) ;
+					f.setSmonth6(map.get("month6").toString()) ;
+					f.setSmonth7(map.get("month7").toString()) ;
+					f.setSmonth8(map.get("month8").toString()) ;
+					f.setSmonth9(map.get("month9").toString()) ;
+					f.setSmonth10(map.get("month10").toString()) ;
+					f.setSmonth11(map.get("month11").toString()) ;
+					f.setSmonth12(map.get("month12").toString()) ;
+					list.add(f) ;
+				}
+				
+			}
+		}
 		
-		return null;
+		return list;
 	}
 
 }

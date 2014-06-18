@@ -99,7 +99,7 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	/** 剩余节假日加班 */
 	private Float sum3 = new Float(0) ;
 	
-	
+	private String dept_reportIds ;
 	
 	/** 开始和结束日期，字符串 */
 	private String sd ;
@@ -151,12 +151,129 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	private Float month11 = new Float(0) ;
 	private Float month12 = new Float(0) ;
 	
+	private String smonth1 ;
+	private String smonth2 ;
+	private String smonth3 ;
+	private String smonth4 ;
+	private String smonth5 ;
+	private String smonth6 ;
+	private String smonth7 ;
+	private String smonth8 ;
+	private String smonth9 ;
+	private String smonth10 ;
+	private String smonth11 ;
+	private String smonth12 ;
+	
 	
 	private String viewType ;	//查询类型
 	
 	private String deptsView ; //部长,本部长
 	
 
+
+	public String getSmonth1() {
+		return smonth1;
+	}
+
+	public void setSmonth1(String smonth1) {
+		this.smonth1 = smonth1;
+	}
+
+	public String getSmonth2() {
+		return smonth2;
+	}
+
+	public void setSmonth2(String smonth2) {
+		this.smonth2 = smonth2;
+	}
+
+	public String getSmonth3() {
+		return smonth3;
+	}
+
+	public void setSmonth3(String smonth3) {
+		this.smonth3 = smonth3;
+	}
+
+	public String getSmonth4() {
+		return smonth4;
+	}
+
+	public void setSmonth4(String smonth4) {
+		this.smonth4 = smonth4;
+	}
+
+	public String getSmonth5() {
+		return smonth5;
+	}
+
+	public void setSmonth5(String smonth5) {
+		this.smonth5 = smonth5;
+	}
+
+	public String getSmonth6() {
+		return smonth6;
+	}
+
+	public void setSmonth6(String smonth6) {
+		this.smonth6 = smonth6;
+	}
+
+	public String getSmonth7() {
+		return smonth7;
+	}
+
+	public void setSmonth7(String smonth7) {
+		this.smonth7 = smonth7;
+	}
+
+	public String getSmonth8() {
+		return smonth8;
+	}
+
+	public void setSmonth8(String smonth8) {
+		this.smonth8 = smonth8;
+	}
+
+	public String getSmonth9() {
+		return smonth9;
+	}
+
+	public void setSmonth9(String smonth9) {
+		this.smonth9 = smonth9;
+	}
+
+	public String getSmonth10() {
+		return smonth10;
+	}
+
+	public void setSmonth10(String smonth10) {
+		this.smonth10 = smonth10;
+	}
+
+	public String getSmonth11() {
+		return smonth11;
+	}
+
+	public void setSmonth11(String smonth11) {
+		this.smonth11 = smonth11;
+	}
+
+	public String getSmonth12() {
+		return smonth12;
+	}
+
+	public void setSmonth12(String smonth12) {
+		this.smonth12 = smonth12;
+	}
+
+	public String getDept_reportIds() {
+		return dept_reportIds;
+	}
+
+	public void setDept_reportIds(String dept_reportIds) {
+		this.dept_reportIds = dept_reportIds;
+	}
 
 	public String getDeptsView() {
 		return deptsView;
