@@ -85,5 +85,17 @@ public class OrgDeptTree extends BaseController {
 	public List<OrgDeptTreeForm> treegrid(OrgDeptTreeForm form ,String mode) throws Exception {
 		return this.orgservice.org_treegrid(form ,mode) ;
 	}
+	
+	@RequestMapping("/doNotNeedAuth_treegrid.do")
+	@ResponseBody
+	public List<OrgDeptTreeForm> doNotNeedAuth_treegrid(OrgDeptTreeForm form ,String mode) throws Exception {
+		return this.orgservice.org_treegrid(form ,mode) ;
+	}
+	
+	@RequestMapping("/doNotNeedAuth_org_treeCompute.do")
+	@ResponseBody
+	public List<OrgDeptTreeForm> doNotNeedAuth_org_treeCompute(OrgDeptTreeForm form ,String mode) throws Exception {
+		return this.orgservice.org_treeCompute(form ,mode) ;
+	}
 
 }

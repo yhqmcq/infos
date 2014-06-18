@@ -22,6 +22,11 @@
 				}
 			}
 	    });
+		$("#compute").combobox({
+			width: 157, valueField: 'label', textField: 'value', value: 'N', required: false,
+			data: [{ label: 'N', value: '不计算' },{ label: 'Y', value: '计算' }],
+			panelHeight:'auto', editable:false
+	    });
 		
 		
 		//编辑，加载表单数据
@@ -40,6 +45,7 @@
 						'description' : result.description,
 						'pid' : result.pid,
 						'type' : result.type,
+						'compute' : result.compute,
 						'pname' : result.pname
 					});
 				}
@@ -88,6 +94,10 @@
 			<td><input name="fullname" class="easyui-validatebox" type="text" data-options="required: true,prompt: '名称'" /></td>
 			<th>简称：</th>
 			<td><input name="sname" class="easyui-validatebox" type="text" data-options="" /></td>
+		</tr>
+		<tr>
+			<th>稼动率：</th>
+			<td colspan="3"><input name="compute" id="compute" /></td>
 		</tr>
 		
 		<!-- 

@@ -1905,4 +1905,12 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		return hql;
 	}
 
+	@Override
+	public List<ProjectTaskTimeForm> jdlGroupReport(ProjectTaskTimeForm form) throws Exception {
+		
+		
+		
+		return null;
+	}
+
 }

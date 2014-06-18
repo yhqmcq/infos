@@ -15,5 +15,7 @@ public interface OrgDeptTreeServiceI {
 	public OrgDeptTreeForm get(String id) throws Exception ;
 	
 	public List<OrgDeptTreeForm> org_treegrid(OrgDeptTreeForm form ,String mode) throws Exception ;
+	
+	public List<OrgDeptTreeForm> org_treeCompute(OrgDeptTreeForm form ,String mode) throws Exception ;
 
 }

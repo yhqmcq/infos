@@ -18,9 +18,9 @@
 			    { field: 'ck', checkbox: true },
 			    { field: 'id', title: 'ID', width: 80, sortable: true, hidden: true },
 			    { field: 'projectNum', title: '项目编号', width: 80, sortable: true }, 
-			    { field: 'name', title: '项目名称', width: 200, sortable: true, tooltip: true, formatter:function(value,row,index){
+			    { field: 'name', title: '项目名称', width: 250, sortable: true, tooltip: true, formatter:function(value,row,index){
 		    		//var opa = $.string.format("<p><a href='javascript:;' onclick='project_detail(\"{0}\")'>{1}</a><p/>", row.id, value);
-		    		var opa = $.string.format("<p><a href='javascript:;' onclick='getDevList(\"{0}\",\"{1}\")'>{1}</a><p/>", row.id, value, value);
+		    		var opa = $.string.format("<p><a href='javascript:;' onclick='getDevList(\"{0}\")'>{1}</a><p/>", row.id, value);
 		    		return opa ;
 		    	}}
 		    ]],
@@ -218,9 +218,9 @@
 		dialog.dialog('close') ;
 	}
 	
-	function getDevList(id,name) {
+	function getDevList(id) {
 		var dialog = $.easyui.showDialog({
-            title: "开发人员详细列表&nbsp;&nbsp;[<font color='red'>"+name+"</font>]",
+            title: "开发人员详细列表",
             href: yhq.basePath+"/project/project_main/project_Devdetail.do?id="+id,
             iniframe: true, width: 950, height: 600, maximizable: true, topMost: true, autoVCenter: true, autoHCenter: true,
             enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel"

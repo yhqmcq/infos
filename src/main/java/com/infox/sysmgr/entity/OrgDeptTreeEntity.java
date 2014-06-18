@@ -62,6 +62,8 @@ public class OrgDeptTreeEntity implements Serializable {
 	/** 父组织名称 */
 	private String pname ;
 	
+	private String compute ;
+	
 	private int month1 ;
 	private int month2 ;
 	private int month3 ;
@@ -90,6 +92,20 @@ public class OrgDeptTreeEntity implements Serializable {
 	public Set<EmployeeEntity> getUsers() {
 		return users;
 	}
+	
+	
+
+	public String getCompute() {
+		return compute;
+	}
+
+
+
+	public void setCompute(String compute) {
+		this.compute = compute;
+	}
+
+
 
 	public void setUsers(Set<EmployeeEntity> users) {
 		this.users = users;

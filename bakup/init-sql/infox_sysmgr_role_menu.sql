@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.2.206
+Source Server         : mysql
 Source Server Version : 50518
-Source Host           : 192.168.2.206:3306
+Source Host           : localhost:3306
 Source Database       : infos
 
 Target Server Type    : MYSQL
 Target Server Version : 50518
 File Encoding         : 65001
 
-Date: 2014-05-30 10:57:54
+Date: 2014-06-18 09:49:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -65,6 +65,7 @@ INSERT INTO `infox_sysmgr_role_menu` VALUES ('770063', '335051');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '335051');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('037908', '361454');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('348694', '361454');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('367248', '361454');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('390547', '361454');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '361454');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '361454');
@@ -73,6 +74,7 @@ INSERT INTO `infox_sysmgr_role_menu` VALUES ('390547', '412653');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('770063', '412653');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '412653');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('037908', '443543');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('367248', '443543');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '443543');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '443543');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '450915');
@@ -88,6 +90,7 @@ INSERT INTO `infox_sysmgr_role_menu` VALUES ('933556', '502906');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '510303');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('037908', '518167');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('348694', '518167');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('367248', '518167');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('390547', '518167');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '518167');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '518167');
@@ -98,12 +101,17 @@ INSERT INTO `infox_sysmgr_role_menu` VALUES ('367248', '527852');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '527852');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('770063', '527852');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '527852');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('390547', '533865');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '533865');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('037908', '547345');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('348694', '547345');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('367248', '547345');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '547345');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('770063', '547345');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '547345');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('390547', '559824');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '559824');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '567670');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '643077');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('037908', '643154');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '643154');
@@ -118,6 +126,8 @@ INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '670332');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '670332');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('933556', '670332');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '675303');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('390547', '685540');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '685540');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('348694', '699829');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '699829');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('933556', '699829');
@@ -283,6 +293,7 @@ INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '786776');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('933556', '786776');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('037908', '796575');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('348694', '796575');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('367248', '796575');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('390547', '796575');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '796575');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '796575');
@@ -309,6 +320,7 @@ INSERT INTO `infox_sysmgr_role_menu` VALUES ('687798', '814262');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '814262');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('933556', '814262');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('037908', '825118');
+INSERT INTO `infox_sysmgr_role_menu` VALUES ('367248', '825118');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '825118');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('933556', '825118');
 INSERT INTO `infox_sysmgr_role_menu` VALUES ('921908', '837844');

@@ -1,5 +1,7 @@
 package com.infox.project.web.controll;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,11 @@ public class DeptJDL extends BaseController {
 		return  Constants.PROJECT + "jdl_main" ;
 	}
 	
+	@RequestMapping("/jdl_group_page.do")
+	public String jdl_group_page() {
+		return  Constants.PROJECT + "jdl_group_page" ;
+	}
+	
 	
 	@RequestMapping("/getMemberInfoListDialog.do")
 	public String getMemberInfoListDialog(ProjectTaskTimeForm form, HttpServletRequest request) throws Exception {
@@ -44,6 +51,12 @@ public class DeptJDL extends BaseController {
 		form.setViewType("Y") ;
 		request.getSession().setAttribute("ViewType", "Y") ;
 		return this.jdlService.datagrid(form) ;
+	}
+	
+	@RequestMapping("/doNotNeedAuth_jdl_group.do")
+	@ResponseBody
+	public List<ProjectTaskTimeForm> doNotNeedAuth_jdl_group(ProjectTaskTimeForm form, HttpServletRequest request) throws Exception {
+		return this.jdlService.jdlGroupReport(form) ;
 	}
 	
 }

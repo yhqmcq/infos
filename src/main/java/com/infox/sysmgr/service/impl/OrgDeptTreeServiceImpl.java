@@ -119,6 +119,27 @@ public class OrgDeptTreeServiceImpl implements OrgDeptTreeServiceI {
 	public List<OrgDeptTreeForm> org_treegrid(OrgDeptTreeForm form ,String mode) throws Exception {
 		String hql = "select t from OrgDeptTreeEntity t where t.org is null order by created desc" ;
 		
+		if(null != form.getId()) {
+			hql = "select t from OrgDeptTreeEntity t where t.org.id='"+form.getId()+"' and t.compute='Y' order by created desc" ;
+		}
+		List<OrgDeptTreeEntity> entitys = this.basedaoOrg.find(hql) ;
+		
+		List<OrgDeptTreeForm> orgsform = new ArrayList<OrgDeptTreeForm>() ;
+		
+		for (OrgDeptTreeEntity menuEntity : entitys) {
+			orgsform.add(recursiveNode(menuEntity ,mode)) ;
+		}
+		
+		return orgsform ;
+	}
+	
+	@Override
+	public List<OrgDeptTreeForm> org_treeCompute(OrgDeptTreeForm form ,String mode) throws Exception {
+		String hql = "select t from OrgDeptTreeEntity t where t.compute='Y' order by created desc" ;
+		
+		if(null != form.getId()) {
+			hql = "select t from OrgDeptTreeEntity t where t.org.id='"+form.getId()+"' and t.compute='Y' order by created desc" ;
+		}
 		List<OrgDeptTreeEntity> entitys = this.basedaoOrg.find(hql) ;
 		
 		List<OrgDeptTreeForm> orgsform = new ArrayList<OrgDeptTreeForm>() ;

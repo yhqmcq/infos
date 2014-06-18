@@ -29,7 +29,7 @@
 			    	if(value == "O"){return "<font color='red'>公司</font>";}else{return "<font color='green'>部门</font>";}
 			    }},
 			    { field: 'compute', title: '计算稼动率', width: 70, align: 'center', formatter:function(value,row){
-			    	if(value == "0"){return "<font color='red'>计算</font>";}else{return "<font color='green'>不计算</font>";}
+			    	if(value == "Y"){return "<font color='green'>计算</font>";}else if(value == "N"){return "<font color='red'>不计算</font>";}
 			    }},
 			    { field: 'fullname', title: '名称', width: 180, sortable: true },
 			    //{ field: 'code', title: '代码', width: 180, sortable: true },

@@ -50,6 +50,8 @@ public class OrgDeptTreeForm {
 	private int month11 ;
 	private int month12 ;
 	
+	private String compute ;
+	
 	private Date created = new Date() ;
 	
 	private Date lastmod = new Date();
@@ -63,6 +65,16 @@ public class OrgDeptTreeForm {
 	private List<OrgDeptTreeForm> children;
 	private String iconCls;
 	private String pid;
+	
+	
+
+	public String getCompute() {
+		return compute;
+	}
+
+	public void setCompute(String compute) {
+		this.compute = compute;
+	}
 
 	public String getFullname() {
 		return fullname;

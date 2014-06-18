@@ -100,8 +100,14 @@
             o[name] = value ;
             dataGrid.datagrid("load",o);
         };
-        //如果是部长或个人的级别进行查询，将不可以进行部门或工号查询
-    	$("#jl_bar").hide() ;
+        
+        //如果是本部长将显示该部门下的所以部门
+        if("${_LOGIN_EMP_KEY.emp.isLeader}" == "YY") {
+        	s1.combotree("reload", yhq.basePath+"/sysmgr/org/treegrid.do?id=${_LOGIN_EMP_KEY.emp.orgid}") ;
+        } else {
+        	//如果是部长或个人的级别进行查询，将不可以进行部门或工号查询
+	    	$("#jl_bar").hide() ;
+        }
 	});
 	
 	
@@ -117,7 +123,7 @@
         });
 	}
 	
-	function leader() {
+	function leader() { 
 		$("#d1").datagrid({
 			url:yhq.basePath+"/project/jdl/employeeTaskTimeReport_leader.do?notInStatus=9999"+("${ViewType}" != ""?"&viewType=Y":""),
 			onLoadSuccess: function(data) {
@@ -137,6 +143,15 @@
 			}
 		});
 	}
+	
+	function groupReport() {
+		$.easyui.showDialog({
+            title: "多部门汇总",
+            href: yhq.basePath+"/project/jdl/jdl_group_page.do",
+            iniframe: true, width: 1000, height: 600, topMost: true, maximizable: true, autoRestore: true,
+            enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel"
+        });
+	}
 </script>
 
 </head>
@@ -148,6 +163,7 @@
 				<div id="buttonbar">
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
                     <a onclick="leader()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">总裁专用</a>
+                    <a onclick="groupReport()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">多部门汇总</a>
                     <span id="jl_bar">
 					部门：<input id="select1" name="pid" />
                     <input id="topSearchbox" class="easyui-searchbox" data-options="width: 280, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
