@@ -119,7 +119,6 @@ public class OrgDeptTreeServiceImpl implements OrgDeptTreeServiceI {
 	public List<OrgDeptTreeForm> org_treegrid(OrgDeptTreeForm form ,String mode) throws Exception {
 		String hql = "select t from OrgDeptTreeEntity t where t.org is null order by created desc" ;
 		
-		System.out.println(form.getId()+"======================ssssssssssssssssss");
 		if(null != form.getId()) {
 			hql = "select t from OrgDeptTreeEntity t where t.org.id='"+form.getId()+"' order by created desc" ;
 		}
