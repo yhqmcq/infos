@@ -1061,9 +1061,11 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					}
 					Set<ProjectEmpWorkingEntity> pwe2 = project.getPwe() ;
 					for (ProjectEmpWorkingEntity projectEmpWorkingEntity : pwe2) {
-						if(sessionInfo.getEmp().getId().equals(projectEmpWorkingEntity.getEmp().getId())) {
-							set.add(project) ;
-		 				}
+						if(null != projectEmpWorkingEntity.getEmp()) {
+							if(sessionInfo.getEmp().getId().equals(projectEmpWorkingEntity.getEmp().getId())) {
+								set.add(project) ;
+							}
+						}
 					}
 					if(sessionInfo.getEmp().getId().equals(project.getEmp().getId())) {
 						set.add(project) ;
