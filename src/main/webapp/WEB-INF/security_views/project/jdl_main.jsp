@@ -147,7 +147,7 @@
 	
 	function groupReport() {
 		$.easyui.showDialog({
-            title: "多部门汇总",
+            title: "多部门汇总",modal: false,
             href: yhq.basePath+"/project/jdl/jdl_group_page.do",
             iniframe: true, width: 1120, height: 600, topMost: true, maximizable: true, autoRestore: true,
             enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel"
