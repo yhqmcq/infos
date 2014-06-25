@@ -240,6 +240,25 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 					
 					if(null != pews && pews.size() > 0) {
 						for (ProjectEmpWorkingEntity ew : pews) {
+							
+							/**begin************************如果该原因的结束日期的年份大于今天,则只计算到今天的最后一天。可删除，但会后面的月份加到今天的月份中，百分比不对**************************/
+							Date endDate = ew.getEndDate() ;
+							Calendar bigYear = Calendar.getInstance() ;
+							bigYear.setTime(endDate) ;
+							
+							Calendar curyearLast = Calendar.getInstance();  
+							curyearLast.clear();  
+					        curyearLast.set(Calendar.YEAR, cyear.get(Calendar.YEAR));  
+					        curyearLast.roll(Calendar.DAY_OF_YEAR, -1);  
+					        Date currYearLast = curyearLast.getTime();
+							if(bigYear.get(Calendar.YEAR) > cyear.get(Calendar.YEAR)) {
+								System.out.println("+++"+DateUtil.formatG(bigYear.getTime()));
+								System.out.println("+111++"+DateUtil.formatG(currYearLast));
+								ew.setEndDate(currYearLast) ;
+							}  
+							/**end************************如果该原因的结束日期的年份大于今天,则只计算到今天的最后一天**************************/
+							
+							
 							// 计算有效天数（减去周六日）(工作多少天就加多少天)
 							
 							//////System.out.println("******************************begin计算总人月**************************************");
@@ -837,8 +856,10 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											
 											//如果这个月等于当前月
 											if((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)).equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
+												
 												//判断当前日期是否小于结束日期，如果小于则按当前日期来计算，否则按结束日期来计算
 												int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(ew.getEndDate())) ;
+												
 												if(cdd1 == -1) {
 													int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date()));
 													fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -865,6 +886,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													
 												}
 											} else {
+												
 												int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
 												fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 												

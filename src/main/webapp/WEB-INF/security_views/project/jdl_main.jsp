@@ -84,7 +84,7 @@
 	    });
 		s1 = $("#select1").combotree({
 			//url : yhq.basePath+"/sysmgr/org/treegrid.do",
-			width:157, idFiled:'pid', textFiled:'sname', editable: false,
+			width:250, idFiled:'pid', textFiled:'sname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
 				if("D" == node.type) {
@@ -157,7 +157,7 @@
 
 </head>
 
-<body style="padding: 0px; margin: 0px;">
+<body style="padding: 0px; margin: 0px;"> 
 	<div class="easyui-layout" data-options="fit: true">
 		<div data-options="region: 'center', border: false" style="overflow: hidden;">
 			<div id="d1">
@@ -167,7 +167,7 @@
                     <a onclick="groupReport()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">多部门汇总</a>
                     <span id="jl_bar">
 					部门：<input id="select1" name="pid" />
-                    <input id="topSearchbox" class="easyui-searchbox" data-options="width: 280, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
+                    <input id="topSearchbox" class="easyui-searchbox" data-options="width: 200, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
                     <div id="topSearchboxMenu" style="width: 85px;"> 
                         <div data-options="name:'emp_id', iconCls: 'icon-hamburg-zoom'">工号查询</div>
                     </div>
