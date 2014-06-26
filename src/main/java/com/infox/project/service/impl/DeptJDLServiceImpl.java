@@ -417,7 +417,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											sjyxts = ((Integer)diff).floatValue() ;
 											sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 											
-											quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
+											quot = (((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue() ;
 											allTotalDays += wd ;
 											System.out.println(DateUtil.formatG(ary11.getTime())+"=="+DateUtil.formatG(lastDay.getTime())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  1稼动率"+quot);
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
@@ -809,7 +809,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											sjyxts = ((Integer)diff).floatValue() ;
 											sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 											
-											quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
+											quot = (((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue() ;
 											
 											lastEndDate.add(DateUtil.formatG(lllDate)) ;
 											allTotalDays += wd ;
@@ -1029,8 +1029,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											sjyxts = ((Integer)diff).floatValue() ;
 											sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 											
-											quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-											
+											quot = (((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue() ;
+											System.out.println(quot+"====sss");
 											allTotalDays += wd ;
 											System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼2动率"+quot);
 											
@@ -1316,7 +1316,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====1===="+quot+"====="+month_days);
 										m_days1 += month_days ;
 										
-										uf.setMonth1(NumberUtils.formatNum(uf.getMonth1() + quot));
+										uf.setMonth1(uf.getMonth1() + quot);
 										month1 += uf.getMonth1();
 										allyxts1 += sjyxts ;
 										allgzts1 += sjgzts ;
@@ -1328,7 +1328,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====2===="+quot+"====="+month_days);
 										m_days2 += month_days ;
 										
-										uf.setMonth2(NumberUtils.formatNum(uf.getMonth2() + quot));
+										uf.setMonth2(uf.getMonth2() + quot);
 										month2 += uf.getMonth2();
 										allyxts2 += sjyxts ;
 										allgzts2 += sjgzts ;
@@ -1340,7 +1340,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====3===="+quot+"====="+month_days);
 										m_days3 += month_days ;
 										
-										uf.setMonth3(NumberUtils.formatNum(uf.getMonth3() + quot));
+										uf.setMonth3(uf.getMonth3() + quot);
 										month3 += uf.getMonth3() ;
 										allyxts3 += sjyxts ;
 										allgzts3 += sjgzts ;
@@ -1353,7 +1353,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										
 										//System.out.println("------" + e.getTruename());
 										
-										uf.setMonth4(NumberUtils.formatNum(uf.getMonth4() + quot));
+										uf.setMonth4(uf.getMonth4() + quot);
 										month4 += uf.getMonth4();
 										allyxts4 += sjyxts ;
 										allgzts4 += sjgzts ;
@@ -1364,7 +1364,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====5===="+quot+"====="+month_days);
 										m_days5 += month_days ;
 										
-										uf.setMonth5(NumberUtils.formatNum(uf.getMonth5() + quot));
+										uf.setMonth5(uf.getMonth5() + quot);
 										month5 += uf.getMonth5();
 										allyxts5 += sjyxts ;
 										allgzts5 += sjgzts ;
@@ -1376,7 +1376,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====6===="+quot+"====="+month_days);
 										m_days6 += month_days ;
 										
-										uf.setMonth6(NumberUtils.formatNum(uf.getMonth6() + quot));
+										uf.setMonth6(uf.getMonth6() + quot);
 										month6 += uf.getMonth6();
 										allyxts6 += sjyxts ;
 										allgzts6 += sjgzts ;
@@ -1388,7 +1388,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====7===="+quot+"====="+month_days);
 										m_days7 += month_days ;
 										
-										uf.setMonth7(NumberUtils.formatNum(uf.getMonth7() + quot));
+										uf.setMonth7(uf.getMonth7() + quot);
 										month7 += uf.getMonth7();
 										allyxts7 += sjyxts ;
 										allgzts7 += sjgzts ;
@@ -1400,7 +1400,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====8===="+quot+"====="+month_days);
 										m_days8 += month_days ;
 										
-										uf.setMonth8(NumberUtils.formatNum(uf.getMonth8() + quot));
+										uf.setMonth8(uf.getMonth8() + quot);
 										month8 += uf.getMonth8();
 										allyxts8 += sjyxts ;
 										allgzts8 += sjgzts ;
@@ -1411,7 +1411,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====9===="+quot+"====="+month_days);
 										m_days9 += month_days ;
 										
-										uf.setMonth9(NumberUtils.formatNum(uf.getMonth9() + quot));
+										uf.setMonth9(uf.getMonth9() + quot);
 										month9 += uf.getMonth9();
 										allyxts9 += sjyxts ;
 										allgzts9 += sjgzts ;
@@ -1423,7 +1423,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====10===="+quot+"====="+month_days);
 										m_days10 += month_days ;
 										
-										uf.setMonth10(NumberUtils.formatNum(uf.getMonth10() + quot));
+										uf.setMonth10(uf.getMonth10() + quot);
 										month10 += uf.getMonth10();
 										allyxts10 += sjyxts ;
 										allgzts10 += sjgzts ;
@@ -1435,7 +1435,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====11===="+quot+"====="+month_days);
 										m_days11 += month_days ;
 										
-										uf.setMonth11(NumberUtils.formatNum(uf.getMonth11() + quot));
+										uf.setMonth11(uf.getMonth11() + quot);
 										month11 += uf.getMonth11();
 										allyxts11 += sjyxts ;
 										allgzts11 += sjgzts ;
@@ -1446,7 +1446,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										//System.out.println("====12===="+quot+"====="+month_days);
 										m_days12 += month_days ;
 										
-										uf.setMonth12(NumberUtils.formatNum(uf.getMonth12() + quot));
+										uf.setMonth12(uf.getMonth12() + quot);
 										month12 += uf.getMonth12();
 										allyxts12 += sjyxts ;
 										allgzts12 += sjgzts ;
@@ -1472,6 +1472,20 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 					uf.setNormalHour(allNormalHour); // 平时加班
 					uf.setWeekendHour(allWeekendHour); // 周末加班
 					uf.setHolidaysHour(allHolidaysHour); // 节假日加班
+					
+					uf.setMonth1(NumberUtils.formatNum(uf.getMonth1())) ;
+					uf.setMonth2(NumberUtils.formatNum(uf.getMonth2())) ;
+					uf.setMonth3(NumberUtils.formatNum(uf.getMonth3())) ;
+					uf.setMonth4(NumberUtils.formatNum(uf.getMonth4())) ;
+					uf.setMonth5(NumberUtils.formatNum(uf.getMonth5())) ;
+					uf.setMonth6(NumberUtils.formatNum(uf.getMonth6())) ;
+					uf.setMonth7(NumberUtils.formatNum(uf.getMonth7())) ;
+					uf.setMonth8(NumberUtils.formatNum(uf.getMonth8())) ;
+					uf.setMonth9(NumberUtils.formatNum(uf.getMonth9())) ;
+					uf.setMonth10(NumberUtils.formatNum(uf.getMonth10())) ;
+					uf.setMonth11(NumberUtils.formatNum(uf.getMonth11())) ;
+					uf.setMonth12(NumberUtils.formatNum(uf.getMonth12())) ;
+					
 					forms.add(uf);
 					
 					/*freeTime1 = 0f ;
