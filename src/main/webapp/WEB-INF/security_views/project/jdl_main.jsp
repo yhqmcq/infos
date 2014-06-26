@@ -31,18 +31,42 @@
 				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>" ;
 			    	}
 			    } },
-			    { field: 'month1', title: '一月', width: 60 }, 
-			    { field: 'month2', title: '二月', width: 60 }, 
-			    { field: 'month3', title: '三月', width: 60 }, 
-			    { field: 'month4', title: '四月', width: 60 }, 
-			    { field: 'month5', title: '五月', width: 60 }, 
-			    { field: 'month6', title: '六月', width: 60 }, 
-			    { field: 'month7', title: '七月', width: 60 }, 
-			    { field: 'month8', title: '八月', width: 60 }, 
-			    { field: 'month9', title: '九月', width: 60 }, 
-			    { field: 'month10', title: '十月', width: 60 }, 
-			    { field: 'month11', title: '十一月', width: 60 }, 
-			    { field: 'month12', title: '十二月', width: 60 }, 
+			    { field: 'month1', title: '一月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month2', title: '二月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month3', title: '三月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month4', title: '四月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month5', title: '五月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month6', title: '六月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month7', title: '七月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month8', title: '八月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month9', title: '九月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month10', title: '十月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month11', title: '十一月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
+			    { field: 'month12', title: '十二月', width: 60, formatter: function(value, row){
+			    	return pad(value+"") ;
+ 			    } },
 			    
 			    
 			    { field: 'dbmType', title: '到部门类型', width: 100, formatter:function(value,row){
@@ -153,6 +177,19 @@
             enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel"
         });
 	}
+	
+	function pad(num) {
+		if(num.indexOf(".") != -1) {
+			var s = num.substring(num.indexOf(".")+1).length ;
+			if(s==1) {
+				return num+"0" ;
+			} else {
+				return num ;
+			}
+		} else {
+			return num ;
+		}
+	}	
 </script>
 
 </head>
