@@ -241,8 +241,10 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 					if(null != pews && pews.size() > 0) {
 						for (ProjectEmpWorkingEntity ew : pews) {
 							
+							Date lllDate = ew.getEndDate() ;
+							
 							/**begin************************如果该原因的结束日期的年份大于今天,则只计算到今天的最后一天。可删除，但会后面的月份加到今天的月份中，百分比不对**************************/
-							Date endDate = ew.getEndDate() ;
+							Date endDate = lllDate ;
 							Calendar bigYear = Calendar.getInstance() ;
 							bigYear.setTime(endDate) ;
 							
@@ -254,7 +256,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 							if(bigYear.get(Calendar.YEAR) > cyear.get(Calendar.YEAR)) {
 								System.out.println("+++"+DateUtil.formatG(bigYear.getTime()));
 								System.out.println("+111++"+DateUtil.formatG(currYearLast));
-								ew.setEndDate(currYearLast) ;
+								//ew.setEndDate(currYearLast) ;
+								lllDate = currYearLast ;
 							}  
 							/**end************************如果该原因的结束日期的年份大于今天,则只计算到今天的最后一天**************************/
 							
@@ -268,7 +271,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 							String ym1 = ary1.get(Calendar.YEAR) + "" + ary1.get(Calendar.MONTH);
 							
 							Calendar ary2 = Calendar.getInstance();
-							ary2.setTime(DateUtil.formatGG(DateUtil.formatG(ew.getEndDate())));
+							ary2.setTime(DateUtil.formatGG(DateUtil.formatG(lllDate)));
 							String ym2 = ary2.get(Calendar.YEAR) + "" + ary2.get(Calendar.MONTH);
 							
 							Calendar cd = Calendar.getInstance();
@@ -306,15 +309,15 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 								}
 								// 最后一个月，但开始和结束不是在同一个月
 								if (i == m && !ym1.equals(ym2)) {
-									int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
+									int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lllDate));
 									zry += NumberUtils.formatNum(uf.getMonth10() + ((Integer) wd).floatValue() / diff);
-									//////System.out.println("end======"+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+									//////System.out.println("end======"+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate)+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
 								}
 								// 开始和结束是在同一个月
 								if (ym1.equals(ym2)) {
-									int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
+									int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(lllDate));
 									zry += NumberUtils.formatNum(uf.getMonth10() + ((Integer) wd).floatValue() / diff);
-									//////System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
+									//////System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(lllDate)+"  天数："+wd+"=="+NumberUtils.formatNum(uf.getMonth10()+((Integer)wd).floatValue()/diff));
 								}
 							}
 							
@@ -334,7 +337,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 							String ym11 = ary11.get(Calendar.YEAR) + "" + (ary11.get(Calendar.MONTH)+1);
 							
 							Calendar ary22 = Calendar.getInstance();
-							ary22.setTime(DateUtil.formatGG(DateUtil.formatG(ew.getEndDate())));
+							ary22.setTime(DateUtil.formatGG(DateUtil.formatG(lllDate)));
 							String ym22 = ary22.get(Calendar.YEAR) + "" + (ary22.get(Calendar.MONTH)+1);
 							
 							Calendar cd1 = Calendar.getInstance();
@@ -348,7 +351,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 								ary11.set(Calendar.DAY_OF_MONTH, 1) ;
 							}
 							
-							int wdcc = DateUtil.compare_date2(DateUtil.formatG(ew.getEndDate()), DateUtil.formatG(cyear1.getTime())) ;
+							int wdcc = DateUtil.compare_date2(DateUtil.formatG(lllDate), DateUtil.formatG(cyear1.getTime())) ;
 							if(wdcc == 1) {
 								
 								int m2 = (ary22.get(Calendar.MONTH) + 1) - (ary11.get(Calendar.MONTH) + 1);
@@ -407,7 +410,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												}
 											}
 											
-											lastEndDate.add(DateUtil.formatG(ew.getEndDate())) ;
+											lastEndDate.add(DateUtil.formatG(lllDate)) ;
 											int wd = DateCal.getWorkingDays(DateUtil.formatG(ary11.getTime()), DateUtil.formatG(lastDay.getTime()));
 											fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 											
@@ -782,7 +785,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										if(ew.getStatus() == 4) {
 											EmployeeEntity emp = ew.getEmp() ;
 											
-											int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
+											int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lllDate));
 											fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 											
 											//判断员工是否有元以下状态
@@ -808,9 +811,9 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											
 											quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 											
-											lastEndDate.add(DateUtil.formatG(ew.getEndDate())) ;
+											lastEndDate.add(DateUtil.formatG(lllDate)) ;
 											allTotalDays += wd ;
-											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼0动率"+quot);
+											System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼0动率"+quot);
 											
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 											
@@ -827,8 +830,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													//离开部门（转出-到开发部，但还在开发部，并且还是在当前项目中，计算稼动率则按当前项目的结束时间来计算）
 													dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
 													if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
-														diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
-														System.out.println(".......离部门（转出-开发部，但还在项目中）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate()));
+														diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lllDate));
+														System.out.println(".......离部门（转出-开发部，但还在项目中）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate));
 													}
 												}
 												
@@ -847,7 +850,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													
 													
 													//如果离部门时间小于项目的结束时间，则按离部门时间计算，并修改项目的结束时间为离部门时间
-													int cdd1 = DateUtil.compare_date2(emp.getLbmDate(), DateUtil.formatG(ew.getEndDate())) ;
+													int cdd1 = DateUtil.compare_date2(emp.getLbmDate(), DateUtil.formatG(lllDate)) ;
 													if(cdd1 == -1) {
 														ew.setEndDate(DateUtil.formatGG(emp.getLbmDate())) ;
 													}
@@ -858,7 +861,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											if((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)).equals((cd.get(Calendar.YEAR) + "" + (cd.get(Calendar.MONTH) + 1)))) {
 												
 												//判断当前日期是否小于结束日期，如果小于则按当前日期来计算，否则按结束日期来计算
-												int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(ew.getEndDate())) ;
+												int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(lllDate)) ;
 												
 												if(cdd1 == -1) {
 													int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date()));
@@ -868,26 +871,26 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 													
 													quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-													System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼1动率"+quot);
+													System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼1动率"+quot);
 													
 													month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 													
 												} else {
-													int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
+													int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lllDate));
 													fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 													
 													sjyxts = ((Integer)diff).floatValue() ;
 													sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 													allTotalDays += wd ;
 													quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-													System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼2动率"+quot);
+													System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼2动率"+quot);
 													
 													month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 													
 												}
 											} else {
 												
-												int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
+												int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lllDate));
 												fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 												
 												sjyxts = ((Integer)diff).floatValue() ;
@@ -895,7 +898,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												
 												quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 												allTotalDays += wd ;
-												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼3动率"+quot);
+												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  3稼3动率"+quot);
 												
 												month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 												
@@ -963,7 +966,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 									
 									// 开始和结束是在同一个月
 									if (ym11.equals(ym22)) {
-										lastEndDate.add(DateUtil.formatG(ew.getEndDate())) ;
+										lastEndDate.add(DateUtil.formatG(lllDate)) ;
 										EmployeeEntity emp = ew.getEmp() ;
 										//判断该员工的到部门类型是否新增或转入
 										if(null != emp.getDbmType() && !"".equals(emp.getDbmType())) {
@@ -982,8 +985,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												Calendar dbc = Calendar.getInstance() ;
 												dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
 												if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
-													diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
-													System.out.println("离部门（转出-开发部）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate()));
+													diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lllDate));
+													System.out.println("离部门（转出-开发部）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate));
 												}
 											}
 											if(emp.getLbmType() == 2 || emp.getLbmType() == 3 || emp.getLbmType() == 4) {
@@ -994,7 +997,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													System.out.println("离部门（转出-非开发部，离职，停薪留职）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+emp.getLbmDate());
 													
 													//如果离部门时间小于项目的结束时间，则按离部门时间计算，并修改项目的结束时间为离部门时间
-													int cdd1 = DateUtil.compare_date2(emp.getLbmDate(), DateUtil.formatG(ew.getEndDate())) ;
+													int cdd1 = DateUtil.compare_date2(emp.getLbmDate(), DateUtil.formatG(lllDate)) ;
 													if(cdd1 == -1) {
 														ew.setEndDate(DateUtil.formatGG(emp.getLbmDate())) ;
 													}
@@ -1003,7 +1006,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										}
 										
 										//判断当前日期是否小于结束日期，如果小于则按当前日期来计算，否则按结束日期来计算
-										int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(ew.getEndDate())) ;
+										int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(lllDate)) ;
 										if(cdd1 == -1) {
 											int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(new Date()));
 											fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -1014,13 +1017,13 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 											
 											allTotalDays += wd ;
-											System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼1动率"+quot);
+											System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼1动率"+quot);
 											
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 											
 											
 										} else {
-											int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(ew.getEndDate()));
+											int wd = DateCal.getWorkingDays(DateUtil.formatG(ew.getStartDate()), DateUtil.formatG(lllDate));
 											fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 											
 											sjyxts = ((Integer)diff).floatValue() ;
@@ -1029,7 +1032,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 											
 											allTotalDays += wd ;
-											System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼2动率"+quot);
+											System.out.println(DateUtil.formatG(ew.getStartDate())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  4稼2动率"+quot);
 											
 											month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 										}
@@ -1056,8 +1059,8 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												Calendar dbc = Calendar.getInstance() ;
 												dbc.setTime(DateUtil.formatGG(emp.getLbmDate())) ;
 												if((dbc.get(Calendar.YEAR) + "" + (dbc.get(Calendar.MONTH) + 1)).equals((fristDay.get(Calendar.YEAR) + "" + (fristDay.get(Calendar.MONTH) + 1)))) {
-													diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
-													System.out.println("离部门（转出-开发部）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate()));
+													diff = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lllDate));
+													System.out.println("离部门（转出-开发部）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate));
 												}
 											}
 											if(emp.getLbmType() == 2 || emp.getLbmType() == 3 || emp.getLbmType() == 4) {
@@ -1068,7 +1071,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 													System.out.println("离部门（转出-非开发部，离职，停薪留职）-标准天数：" + diff +"=="+DateUtil.formatG(fristDay.getTime())+"=="+emp.getLbmDate());
 													
 													//如果离部门时间小于项目的结束时间，则按离部门时间计算，并修改项目的结束时间为离部门时间
-													int cdd1 = DateUtil.compare_date2(emp.getLbmDate(), DateUtil.formatG(ew.getEndDate())) ;
+													int cdd1 = DateUtil.compare_date2(emp.getLbmDate(), DateUtil.formatG(lllDate)) ;
 													if(cdd1 == -1) {
 														ew.setEndDate(DateUtil.formatGG(emp.getLbmDate())) ;
 													}
@@ -1079,7 +1082,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										// 表示该人员已退出项目，按退出时间来计算
 										if (ew.getStatus() == 4) {
 											//判断当前日期是否小于结束日期，如果小于则按当前日期来计算，否则按结束日期来计算
-											int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(ew.getEndDate())) ;
+											int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(lllDate)) ;
 											if(cdd1 == -1) {
 												int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date()));
 												fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
@@ -1088,12 +1091,12 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												sjgzts = ((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 												
 												quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
-												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  5稼动率"+quot);
+												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  5稼动率"+quot);
 												
 												month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 												
 											} else {
-												int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(ew.getEndDate()));
+												int wd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(lllDate));
 												fc = NumberUtils.formatNum(((Integer) wd).floatValue() / diff);
 												
 												sjyxts = ((Integer)diff).floatValue() ;
@@ -1102,7 +1105,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 												quot = NumberUtils.formatNum((((Integer) wd).floatValue() * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f))/((Integer)diff).floatValue()) ;
 												
 												allTotalDays += wd ;
-												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(ew.getEndDate())+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  5稼动率"+quot);
+												System.out.println(DateUtil.formatG(fristDay.getTime())+"=="+DateUtil.formatG(lllDate)+ew.getEmp().getTruename() +"  项目："+ ew.getProject().getName() + "  当月有效天数"+diff  + "  实际工作天数"+wd  + "  系数"+(null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) +"  5稼动率"+quot);
 												
 												month_days = (float) wd * (null != ew.getProject().getQuot()?ew.getProject().getQuot():0f) ;
 												
