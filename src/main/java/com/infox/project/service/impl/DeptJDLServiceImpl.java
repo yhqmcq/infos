@@ -1675,30 +1675,13 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 								Calendar lbmDate = Calendar.getInstance() ;	//离部门的日期
 								lbmDate.setTime(DateUtil.formatGG(emp.getLbmDate())) ; 
 								
-								//如果该员工的离职年份不是当前年，则不计算该员工的标准工作天数
-								if(emp.getLbmType() == 3 && lbmDate.get(Calendar.YEAR)<now.get(Calendar.YEAR)) {
-									System.out.println("该员工离职日期为2013年份，不作为计算.....");
-									continue ;
-								}
+								Calendar end = Calendar.getInstance() ;	
+								end.setTime(start.getTime()) ; 
+								end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH)) ;
 								
-								//如果本月与离部门的月份相同,则将日期设置为离部门的日期
-								if(now.get(Calendar.MONTH) == lbmDate.get(Calendar.MONTH)) {
-									Calendar end = Calendar.getInstance() ;	
-									end.setTime(DateUtil.formatGG(emp.getLbmDate())) ; 
-									
-									int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
-									totalDay += wd ;
-									System.out.println(emp.getTruename() + "\t到部1门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
-								}
-								if((month-1) < lbmDate.get(Calendar.MONTH)) {
-									Calendar end = Calendar.getInstance() ;	
-									end.setTime(start.getTime()) ; 
-									end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH)) ;
-									
-									int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
-									totalDay += wd ;
-									System.out.println(emp.getTruename() + "\t到部2门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
-								}
+								int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
+								totalDay += wd ;
+								System.out.println(emp.getTruename() + "\t到部2门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
 							}
 							
 						} else {
