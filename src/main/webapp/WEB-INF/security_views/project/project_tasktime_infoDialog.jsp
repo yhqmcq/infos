@@ -11,7 +11,7 @@
 	$(function() {
 		dataGrid1 = $("#d1").datagrid({
 			url:yhq.basePath+"/project/project_report/getMemberInfoList.do?emp_id=${id}",
-			idField: 'emp_id', fit: true, fitColumns: true, border: false, method: "post",
+			idField: 'emp_id', fit: true, fitColumns: false, border: false, method: "post",
 			remoteSort: false, striped:true, 
 			frozenColumns: [[
 			    { field: 'ck', checkbox: true },
@@ -50,6 +50,7 @@
 			    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
 			    	return infosUtil.numberf(value, 2) ;
 			    }},
+			    { field: 'totalHour', title: '加班小时', width: 80, sortable: true },
 			    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
 			    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 			    }}

@@ -23,23 +23,28 @@
 			columns: [[
 			    { field: 'dept_name', title: '部门', width: 80, sortable: true },
 			    { field: 'totalTaskYear', title: '总月数', width: 80, sortable: true, formatter: function(value, row){
-			    	return infosUtil.numberf(value, 2) +"&nbsp;月" ;
+			    	return "<div style='float:left'>"+infosUtil.numberf(value, 2)+"</div><div style='float:right'>月</div>" ;
 			    } },
 			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true, formatter: function(value, row){
-			    	return value +"&nbsp;天" ;
+			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>" ;
 			    } },
-			    { field: 'm1', title: '一月', width: 60, sortable: true },
-			    { field: 'm2', title: '二月', width: 60, sortable: true },
-			    { field: 'm3', title: '三月', width: 60, sortable: true },
-			    { field: 'm4', title: '四月', width: 60, sortable: true },
-			    { field: 'm5', title: '五月', width: 60, sortable: true },
-			    { field: 'm6', title: '六月', width: 60, sortable: true },
-			    { field: 'm7', title: '七月', width: 60, sortable: true },
-			    { field: 'm8', title: '八月', width: 60, sortable: true },
-			    { field: 'm9', title: '九月', width: 60, sortable: true },
-			    { field: 'm10', title: '十月', width: 60, sortable: true },
-			    { field: 'm11', title: '十一月', width: 60, sortable: true },
-			    { field: 'm12', title: '十二月', width: 60, sortable: true }
+			    { field: 'totalHour', title: '加班小时', width: 100, sortable: true, formatter: function(value, row){
+			    	if(undefined != value) {
+				    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+			    	}
+			    } },
+			    { field: 'month1', title: '一月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month2', title: '二月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month3', title: '三月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month4', title: '四月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month5', title: '五月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month6', title: '六月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month7', title: '七月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month8', title: '八月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month9', title: '九月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month10', title: '十月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month11', title: '十一月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} },
+			    { field: 'month12', title: '十二月', width: 60, sortable: true, formatter: function(value, row){return infosUtil.numberf(value, 2);} }
 			]],
 			detailFormatter:function(index,row){
 			 	return '<div class="ddv" style="padding:5px 0"></div>';
@@ -84,6 +89,11 @@
 				    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
 				    	return infosUtil.numberf(value, 2) ;
 				    }},
+				    { field: 'totalHour', title: '加班小时', width: 100, sortable: true, formatter: function(value, row){
+				    	if(undefined != value) {
+					    	return "<div style='float:left'>"+value+"</div><div style='float:right'>小时</div>" ;
+				    	}
+				    } },
 				    { field: 'status', title: '状态', width: 80, sortable: true, formatter: function(value,row){
 				    	if(value == 1) {return "<font color='green'>在项目中</font>";} else if(value == 4) {return "<font color='red'>已退出项目</font>";} 
 				    }}
@@ -124,15 +134,8 @@
 		var dialog = $.easyui.showDialog({
             title: "员工稼动率详细列表&nbsp;&nbsp;[<font color='red'>"+name+"</font>]",
             href: yhq.basePath+"/project/project_report/getMemberInfoListDialog.do?id="+id,
-            iniframe: true,
-            width: 950, height: 600,
-            topMost: true,
-            autoVCenter: true,
-            autoHCenter: true,
-            enableApplyButton: false,
-            enableSaveButton: false,
-            enableCloseButton: true,
-            saveButtonIconCls: "ext_cancel",
+            iniframe: true, width: 1000, height: 600, topMost: true,  maximizable: true, autoRestore: true,
+            enableApplyButton: false, enableSaveButton: false, enableCloseButton: true, saveButtonIconCls: "ext_cancel",
             onSave: function() {
             	return $.easyui.parent.submitForm(dialog, dataGrid);
             }
