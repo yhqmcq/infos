@@ -74,7 +74,22 @@
 			width:180, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
-				dataGrid.datagrid("load",{"orgid": node.id, "notInStatus": "9999"});
+				var data = {} ;
+				var pos = $("#select2").combobox("getValue");
+				if(pos == 0) { data["notInStatus"] = "9999,3" ; }
+				if(pos == 1) { data["notInStatus"] = "9999,1,3,4" ; }
+				if(pos == 2) { data["notInStatus"] = "9999,0,3,4" ; }
+				if(pos == 3) { data["notInStatus"] = "9999,0,1,4" ; }
+				if(pos == 4) { data["notInStatus"] = "9999,0,1,2,3" ; }
+				
+				data["orgid"] = node.id ;
+				if(pos=="") {
+					data["notInStatus"] = 9999 ;
+				}
+				
+				dataGrid.datagrid("load",data);
+				
+				//dataGrid.datagrid("load",{"orgid": node.id, "notInStatus": "9999"});
 			}
 	    });
 		
@@ -84,6 +99,11 @@
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				var data = {} ;
+				var orgid = $("#select1").combotree("getValue");
+				if(orgid != "") {
+					data["orgid"] = orgid ;
+				}
+				
 				if(node.label == 0) { data["notInStatus"] = "9999,3" ; }
 				if(node.label == 1) { data["notInStatus"] = "9999,1,3,4" ; }
 				if(node.label == 2) { data["notInStatus"] = "9999,0,3,4" ; }
@@ -98,7 +118,6 @@
             if ($.isFunction(searcher)) { searcher.apply(this, arguments); }
             var o = {} ;
             o[name] = value ;
-            console.info(o) ;
             dataGrid.datagrid("load",o);
         };
 	});
@@ -121,7 +140,7 @@
                         <div data-options="name:'truename', iconCls: 'icon-hamburg-zoom'">姓名查询</div>
                         <div data-options="name:'email', iconCls: 'icon-hamburg-zoom'">邮件查询</div>
                     </div>
-                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-disconnect'">取消筛选</a>
+                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','');s2.combobox('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-disconnect'">取消筛选</a>
                 </div>
 			</div>
 		</div>

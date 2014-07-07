@@ -75,12 +75,12 @@
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
 				var data = {} ;
-				/* var pos = $("#state").combobox("getValue");
+				var pos = $("#state").combobox("getValue");
 				if(pos == 0) { data["notInStatus"] = "9999,3" ; }
 				if(pos == 1) { data["notInStatus"] = "9999,1,3,4" ; }
 				if(pos == 2) { data["notInStatus"] = "9999,0,3,4" ; }
 				if(pos == 3) { data["notInStatus"] = "9999,0,1,4" ; }
-				if(pos == 4) { data["notInStatus"] = "9999,0,1,2,3" ; } */
+				if(pos == 4) { data["notInStatus"] = "9999,0,1,2,3" ; }
 				
 				data["orgid"] = node.id ;
 				if(pos=="") {
@@ -229,7 +229,7 @@
                         <div data-options="name:'truename', iconCls: 'icon-hamburg-zoom'">姓名查询</div>
                         <div data-options="name:'email', iconCls: 'icon-hamburg-zoom'">邮件查询</div>
                     </div>
-                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','')" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-disconnect'">取消筛选</a>
+                    <a onclick="dataGrid.datagrid('load',{});s1.combotree('setValue','');$('#state').combobox('setValue','');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-disconnect'">取消筛选</a>
                     
                     <a href="javascript:;" class="easyui-menubutton" data-options="menu:'#navMenu_toggleMenu',iconCls:'ext_settings'">功能操作</a>
                     <div id="navMenu_toggleMenu" class="easyui-menu">
