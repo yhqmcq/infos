@@ -74,7 +74,20 @@
 			width:180, idFiled:'pid', textFiled:'fullname', editable: false,
 			lines:true, autoShowPanel: true,
 			onSelect:function(node){
-				dataGrid.datagrid("load",{"orgid": node.id, "notInStatus":9999});
+				var data = {} ;
+				/* var pos = $("#state").combobox("getValue");
+				if(pos == 0) { data["notInStatus"] = "9999,3" ; }
+				if(pos == 1) { data["notInStatus"] = "9999,1,3,4" ; }
+				if(pos == 2) { data["notInStatus"] = "9999,0,3,4" ; }
+				if(pos == 3) { data["notInStatus"] = "9999,0,1,4" ; }
+				if(pos == 4) { data["notInStatus"] = "9999,0,1,2,3" ; } */
+				
+				data["orgid"] = node.id ;
+				if(pos=="") {
+					data["notInStatus"] = 9999 ;
+				}
+				
+				dataGrid.datagrid("load",data);
 			}
 	    });
 		
@@ -84,6 +97,11 @@
 			panelHeight:'auto', editable:false, autoShowPanel: true,
 			onSelect: function(node) {
 				var data = {} ;
+				var orgid = $("#select1").combotree("getValue");
+				if(orgid != "") {
+					data["orgid"] = orgid ;
+				}
+				
 				if(node.label == 0) { data["notInStatus"] = "9999,3" ; }
 				if(node.label == 1) { data["notInStatus"] = "9999,1,3,4" ; }
 				if(node.label == 2) { data["notInStatus"] = "9999,0,3,4" ; }
@@ -202,8 +220,8 @@
                     <a onClick="form_edit('E');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_edit'">编辑</a>
                     <a onClick="del();" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_remove'">删除</a>
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
-					状态：<input id="state" name="state" /> 
 					部门：<input id="select1" name="pid" />
+                   	 状态：<input id="state" name="state" /> 
 					<input id="topSearchbox" class="easyui-searchbox" data-options="width: 250, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
                     <div id="topSearchboxMenu" style="width: 85px;">
                         <div data-options="name:'id', iconCls: 'icon-hamburg-zoom'">工号查询</div>

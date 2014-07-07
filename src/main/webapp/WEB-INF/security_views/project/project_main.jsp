@@ -101,6 +101,7 @@
 			    		return "<font color='green'>已受注</font>" ; 
 			    	}
 			    } },
+			    { field: 'cwydwcjssj', title: '财务预定完成结算时间', width: 140, sortable: true },
 			    { field: 'jiesuan', title: '财务结算状态', width: 100, sortable: true, formatter:function(value,row){
 			    	if(undefined == value || value == ""){ 
 			    		return "<font color='#666'>未结算</font>" ; 

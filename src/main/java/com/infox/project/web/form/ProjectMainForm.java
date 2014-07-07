@@ -100,6 +100,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 当前粗利润率 */
 	private String project_cclrl;
 	
+	/** 财务预定完成结算时间 */
+	private String cwydwcjssj ;
+	
 	/** 项目目标 */
 	private String project_target;
 
@@ -155,6 +158,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 
 	public void setViewType(String viewType) {
 		this.viewType = viewType;
+	}
+
+	public String getCwydwcjssj() {
+		return cwydwcjssj;
+	}
+
+	public void setCwydwcjssj(String cwydwcjssj) {
+		this.cwydwcjssj = cwydwcjssj;
 	}
 
 	/** 导入数据的文件路径 */

@@ -60,6 +60,7 @@
 						'project_clrl' : result.project_clrl,
 						'jiesuan' : result.jiesuan,
 						'xmpjzt' : result.xmpjzt,
+						'cwydwcjssj' : result.cwydwcjssj,
 						'leader_name' : result.leader_name
 					});
 					//$("input[name=projectNum]").attr("readonly","readonly") ;
@@ -208,10 +209,12 @@
 					valueField: 'label', textField: 'value', editable: false, value : '0',
 					data: [{ label: '0', value: '未结算' },{ label: '1', value: '结算中' },{ label: '2', value: '已结算' },{ label: '3', value: '-' }],
 					panelHeight:'auto', editable:false" /></td>
-				
 				<th>预定加班小时：</th>
 				<td><input class="easyui-validatebox" name="ydjbHour" style="width:250px;" /></td>
-				
+			</tr>
+			<tr>
+				<th>财务预定完成结算时间：</th>
+				<td colspan="3"><input class="easyui-datebox" name="cwydwcjssj" /></td>
 			</tr>
 		</table>
 	</div>

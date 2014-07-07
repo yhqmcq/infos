@@ -118,6 +118,9 @@ public class ProjectMainEntity implements Serializable {
 	/** 财务结算状态 */
 	private String jiesuan ;
 	
+	/** 财务预定完成结算时间 */
+	private String cwydwcjssj ;
+	
 	/** 项目评审状态 */
 	private String xmpjzt ;
 	
@@ -193,6 +196,14 @@ public class ProjectMainEntity implements Serializable {
 
 	public void setYdjbHour(String ydjbHour) {
 		this.ydjbHour = ydjbHour;
+	}
+
+	public String getCwydwcjssj() {
+		return cwydwcjssj;
+	}
+
+	public void setCwydwcjssj(String cwydwcjssj) {
+		this.cwydwcjssj = cwydwcjssj;
 	}
 
 	public void setTaskScope(String taskScope) {
