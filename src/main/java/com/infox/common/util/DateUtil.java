@@ -627,6 +627,8 @@ public class DateUtil {
 	
 	public static void main(String[] args) throws ParseException {
 		
+		System.out.println(compare_date2("013-10-21","013-10-21"));
+		
 		System.out.println(getMonthWorkDay(2));
 		
 		//String datetime = "2014-03-4 12:46:00" ;

@@ -306,7 +306,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					currentMembers.add(p) ;
 				}
 			}
-			/*##########
+			/*##########*/
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -330,7 +330,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_delay_mail.ftl", model, 
 					exportPath, "project_delay_mail_"+htmlId+".html") ;
-			*/
+			
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -380,7 +380,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					currentMembers.add(p) ;
 				}
 			}
-			/*#########
+			/*#########*/
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -404,7 +404,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_contextChange_mail.ftl", model, 
 					exportPath, "project_contextChange_mail_"+htmlId+".html") ;
-			*/
+			
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -1354,8 +1354,10 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			f.setEmpjobname(sb.toString()) ;
 			f.setEmpname(p.getEmployee().getTruename()) ;
 			f.setEmail(p.getEmployee().getEmail()) ;
-			
-			f.setDeptname(p.getEmployee().getOrg().getSname()) ;
+			OrgDeptTreeEntity org = p.getEmployee().getOrg() ;
+			if(null!= org) {
+				f.setDeptname(org.getSname()) ;
+			}
 			
 			f.setProject_name(p.getProjectmain().getName()) ;
 			
@@ -1399,7 +1401,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					entity.setStatus(1); // 开始状态
 					json.setMsg("项目开启成功！");
 					json.setStatus(true);
-					/*########
+					/*########*/
 					//项目的结束日期大于当前日期,才设置定时器
 					int compare_date2 = DateUtil.compare_date2(DateUtil.formatG(entity.getEndDate()), DateUtil.formatG(new Date())) ;
 					if(compare_date2 == 1) {
@@ -1444,7 +1446,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							}
 						}
 					}
-					*/
+					
 				} else {
 					json.setMsg("项目未设置参与人员邮件列表，请设置后再开始项目。");
 				}
@@ -1512,7 +1514,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		//发送异步消息（项目信息邮件）
 		if(json.isStatus()) {
-			//########this.status(entity) ;
+			//########
+			this.status(entity) ;
 		}
 
 		return json;
@@ -1570,7 +1573,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					currentMembers.add(p) ;
 				}
 			}
-			/*###########
+			/*###########*/
 			String htmlId = DateUtil.getCurrentDateTimes() ;
 			model.put("project", project) ;//项目信息
 			model.put("projectmails", projectMailsForm) ;//项目参与人员
@@ -1595,7 +1598,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			String exportPath = this.realPathResolver.getParentDir()+File.separator+Constants.WWWROOT_RELAESE+"/report_mail/" ;
 			FreeMarkerToHtmlUtil.exportHtml(rootPath, "project_status_mail.ftl", model, 
 					exportPath, "project_status_mail_"+htmlId+".html") ;
-			*/
+			
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -1677,7 +1680,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_notify.ftl", model)) ;
 			//##########
-			//this.mailMessageSend.sendMail(mail) ;
+			this.mailMessageSend.sendMail(mail) ;
 			
 
 			//生成HTML
@@ -1754,13 +1757,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         			j.setMsg("该部门不存在【"+p_dept+"】，请检查！") ;
     				return j;
         		}
-        		/*####
-        		int wdcc = DateUtil.compare_date2(p_sd, DateUtil.formatG(new Date())) ;
+        		
+        		/*int wdcc = DateUtil.compare_date2(p_sd, DateUtil.formatG(new Date())) ;
         		if(wdcc == -1) {
         			j.setMsg("项目的开始日期不能小于当前日期！") ;
     				return j;
-        		}
-        		*/
+        		}*/
+        		
         		ProjectMainForm p = new ProjectMainForm() ;
         		p.setProjectNum(p_id) ;
         		p.setName(p_name) ;
@@ -1799,6 +1802,34 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         			EmployeeEntity e = this.basedaoEmployee.get(EmployeeEntity.class, e_id) ;
         			
         			if(null != e) {
+        				//员工的入职时间不能大于员工在项目作业的开始时间
+        				if(1==DateUtil.compare_date2(DateUtil.formatG(e.getRzsj()),e_sd)) {
+        					m.put("id", e_id) ;
+        					m.put("name", e_name) ;
+        					m.put("e_sd", e_sd) ;
+        					m.put("e_ed", e_ed) ;
+        					m.put("pj_role", pj_role) ;
+        					m.put("msg", false) ;
+        					m.put("info", "员工的入职时间不能大于员工在项目作业的开始时间") ;
+        					
+        					list.add(m) ;
+        					continue ;
+        				}
+        				
+        				//员工的入职时间不能大于员工在项目作业的开始时间
+            			if(-1==DateUtil.compare_date2(e_sd,DateUtil.formatG(p.getStartDate()))) {
+            				m.put("id", e_id) ;
+            				m.put("name", e_name) ;
+            				m.put("e_sd", e_sd) ;
+            				m.put("e_ed", e_ed) ;
+            				m.put("pj_role", pj_role) ;
+            				m.put("msg", false) ;
+            				m.put("info", "开始作业时间不能小于项目开始时间") ;
+            				
+            				list.add(m) ;
+            				continue ;
+            			}
+            			
         				m.put("id", e.getId()) ;
         				m.put("name", e.getTruename()) ;
         				m.put("e_sd", e_sd) ;

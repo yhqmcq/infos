@@ -14,6 +14,8 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	/** 员工名称 */
 	private String truename ;
 	
+	private Date rzsj ;
+	
 	/** 员工部门 */
 	private String orgname ;
 	
@@ -55,6 +57,18 @@ public class ProjectEmpWorkingForm extends PageHelper implements Serializable {
 	
 	public String getInStatus() {
 		return inStatus;
+	}
+
+	public Date getRzsj() {
+		return rzsj;
+	}
+
+	public void setRzsj(Date rzsj) {
+		this.rzsj = rzsj;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public void setInStatus(String inStatus) {

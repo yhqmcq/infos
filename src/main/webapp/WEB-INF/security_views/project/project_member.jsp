@@ -79,6 +79,7 @@
 			]],
 			columns: [[
 			    { field: 'truename', title: '姓名', width: 70 },
+			    { field: 'rzsj', title: '入职时间', width: 70 },
 			    { field: 'orgname', title: '部门', width: 80 },
 			    { field: 'project_role', title: '项目角色', width: 80},
 			    { field: 'startDate', title: '起始日期', width:110, formatter:function(value,row){
@@ -189,9 +190,17 @@
 	function setMemberDate() {
 		var rows = dataGrid2.datagrid('getChecked');
 		var ids = [];
+		var list = [] ;
 		if (rows.length > 0) {
+			
 			for ( var i = 0; i < rows.length; i++) {
 				ids.push(rows[i].id);
+				var s = {
+					"truename": rows[i].truename,	
+					"rzsj": infosUtil.str2date(rows[i].rzsj).format("YYYY-MM-dd")
+				};
+				list.push(s) ;
+				
 			}
 			if($('#dateform').form('validate')) {
 				$.easyui.loading({ msg: "数据提交中，请稍等..." });
@@ -204,9 +213,28 @@
 				//人员的结束日期不能大于项目的结束日期
 				var projectEndDate = "${project.endDate}" ;
 				var memberEndDate = $("#cendDate").datebox("getValue") ;
-				//console.info(memberEndDate +"==" + infosUtil.str2date(projectEndDate).format("YYYY-MM-dd")) ;
 				
-				//if(sd == ed) {
+				//人员的作业结束时间，不能大于项目结束时间
+				if(!infosUtil.compareCalendar(memberEndDate, infosUtil.str2date(projectEndDate).format("YYYY-MM-dd"))) {
+					$.easyui.messager.show({ icon: "info", msg: "人员的作业结束时间不能大于项目结束时间。" });
+					$.easyui.loaded();
+					return ;
+				}
+				
+				var flag = true ;
+				$.each(list, function(i,p){
+					if(!infosUtil.compareCalendar(p.rzsj, infosUtil.str2date(data.startDate).format("YYYY-MM-dd"))) {
+						$.easyui.messager.show({ icon: "info", msg: "入职时间不能大于作业的开始时间。" });
+						$.easyui.loaded();
+						flah = false ;
+						return false ;
+					}
+				});
+				if(!flag) {
+					return ;
+				}
+				
+				if(sd == ed) {
 					$.post(yhq.basePath+"/project/pwe_emp_working/set_workdate.do", data, function(result) {
 						if (result.status) {
 							$("#bgMembers").val(result.obj.bgMembers) ;
@@ -218,10 +246,10 @@
 							$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期失败。" });
 						}
 					}, 'json');
-				//} else {
-				//	$.easyui.loaded();
-				//	$.messager.alert("开始日期和结束日期的取值范围<br>必须是在[<font color='red'>"+sd+"</font>]年内"); 
-				//}
+				} else {
+					$.easyui.loaded();
+					$.messager.alert("开始日期和结束日期的取值范围<br>必须是在[<font color='red'>"+sd+"</font>]年内"); 
+				}
 			} else {$.easyui.loaded();}
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });
@@ -255,24 +283,36 @@
 	}
 	
 	function sendmail() {
-		var flag = true ;
-		var rows = dataGrid2.datagrid('getRows');
-		if (rows.length > 0) {
-			for ( var i = 0; i < rows.length; i++) {
-				if(undefined == rows[i].startDate) {
-					flag = false ;
-					break ;
+		if($('#dateform').form('validate')) {
+			
+			//人员的结束日期不能大于项目的结束日期
+			var projectEndDate = "${project.endDate}" ;
+			var memberEndDate = $("#cendDate").datebox("getValue") ;
+			if(!infosUtil.compareCalendar(memberEndDate, infosUtil.str2date(projectEndDate).format("YYYY-MM-dd"))) {
+				$.easyui.messager.show({ icon: "info", msg: "人员的作业结束时间，不能大于项目结束时间。" });
+				$.easyui.loaded();
+				return ;
+			}
+			
+			var flag = true ;
+			var rows = dataGrid2.datagrid('getRows');
+			if (rows.length > 0) {
+				for ( var i = 0; i < rows.length; i++) {
+					if(undefined == rows[i].startDate) {
+						flag = false ;
+						break ;
+					}
 				}
-			}
-			if(flag) {
-				sd() ;
+				if(flag) {
+					sd() ;
+				} else {
+					$.messager.confirm("未设置起止日期的开发人员将恢复空闲状态，是否继续发送邮件？", function (c) {
+						if(c) { sd() ; }
+					});
+				}
 			} else {
-				$.messager.confirm("未设置起止日期的开发人员将恢复空闲状态，是否继续发送邮件？", function (c) {
-					if(c) { sd() ; }
-				});
+				$.messager.alert("未添加开发人员", "warning");
 			}
-		} else {
-			$.messager.alert("未添加开发人员", "warning");
 		}
 	}
 	function sd() {

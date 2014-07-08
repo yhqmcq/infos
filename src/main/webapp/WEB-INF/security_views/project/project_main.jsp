@@ -287,7 +287,7 @@
 	function importProjectInfo() {
 		$.easyui.showDialog({
             title: "上传文件",
-            width: 595, height: 395,
+            width: 805, height: 505,
             topMost: false,
             href: yhq.basePath+"/project/project_main/upload.do?path=/project_info&parent=true&dateFolder=true",
             iniframe: false,

@@ -79,8 +79,8 @@ function export_data(data) {
 				_infolist.append("<span style='width:60px;display:block;float:left;'>"+p.id+"</span><span style='width:100px;display:block;float:left;'>"+p.name+"</span>"+
 						"<span style='width:100px;display:block;float:left;'>"+p.e_sd+"</span>"+
 						"<span style='width:100px;display:block;float:left;'>"+p.e_ed+"</span>"+
-						"<span style='width:100px;display:block;float:left;'>"+p.pj_role+"</span>"+
-						"<span style='width:50px;display:block;float:left;'>"+(p.msg==true?"[<font color='green'>成功</font>]":"[<font color='red'>失败</font>]")+"</span><br>") ;
+						"<span style='width:80px;display:block;float:left;'>"+p.pj_role+"</span>"+
+						"<span style='width:320px;display:block;float:left;'>"+(p.msg==true?"[<font color='green'>成功</font>]":"[<font color='red'>失败</font>]"+p.info+"")+"</span><br>") ;
 			});
 			
 			
@@ -112,14 +112,14 @@ function export_data(data) {
 	margin: 12px 10px;
 }
 #browse_div .info{
-	width:450px;
+	width:650px;
 	height: 50px;
 	float:left;
 	line-height: 50px;
 }
 #infolist {
 	width:100% ;
-	height:305px;
+	height:415px;
 	background: #999;
 	overflow: scroll;
 }
