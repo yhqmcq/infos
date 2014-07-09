@@ -988,6 +988,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				datagrid.setTotal(this.total(form));
 				datagrid.setRows(this.changeModel(this.find(form)));
 				
+				System.out.println(datagrid.getRows());
 				
 				//是部长，但该项目部属于该部门，所以无法查询到项目， 则查询该员工参与的项目
 				if(datagrid.getRows() != null || datagrid.getRows().isEmpty()) {
