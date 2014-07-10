@@ -54,6 +54,7 @@ import com.infox.project.web.form.ProjectTaskTimeForm;
 import com.infox.sysmgr.entity.EmpJobEntity;
 import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.OrgDeptTreeEntity;
+import com.infox.sysmgr.entity.TaskEntity;
 import com.infox.sysmgr.service.TaskSchedulerServiceI;
 import com.infox.sysmgr.web.form.TaskForm;
 
@@ -212,6 +213,39 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 		}
 		
+		//项目当前状态为挂起状态，如果日期变更的话则进行项目激活
+		if(2==entity.getStatus()) {
+			//如果两个结束日期不相等则为条件成立
+			if (!DateUtil.formatF(form.getEndDate()).equals(DateUtil.formatF(entity.getEndDate()))) {
+				//判断结束日期是否大于或等于当前日期，如果小于则不激活
+				int dif = DateUtil.compare_date2(DateUtil.formatF(form.getEndDate()), DateUtil.formatF(new Date())) ;
+				if (dif>0 || dif==0) {
+					System.out.println("日期大于当前日期，可以激活");
+					
+					//设置定时任务
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:59:00", 3) ;
+					if(dateCron.length > 1) {
+						for (int i = 0; i < dateCron.length; i++) {
+							TaskForm task = new TaskForm() ;
+							task.setTask_type("system") ;
+							task.setTask_type_name("项目结束定时邮件") ;
+							task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+							task.setTask_enable("Y") ;
+							task.setTask_name("项目结束日期提醒") ;
+							task.setRelationOperate(entity.getId() +":" + i) ;
+							task.setCron_expression(dateCron[i]) ; 
+							System.out.println(dateCron[i]);
+							this.taskScheduler.add(task) ;
+						}
+					}
+					entity.setStatus(1) ;
+				} else {
+					System.out.println("日期小于当前日期，不可激活");
+				}
+				
+			}
+		}
+		
 		
 		BeanUtils.copyProperties(form, entity, new String[]{ "creater", "status"});
 		
@@ -225,6 +259,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		if (null != form.getLeader_id() && !"".equals(form.getLeader_id())) {
 			entity.setEmp(this.basedaoEmployee.get(EmployeeEntity.class, form.getLeader_id()));
 		}
+		
 		this.basedaoProject.update(entity);
 		
 		if(flag) {
@@ -256,10 +291,11 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			this.delay(entity) ;
 		}
 		
+		
 		//项目为开始状态才进行邮件发送
 		if(entity.getStatus() == 1) {
 			//发送项目参数变更邮件
-			//this.contentChange(entity) ;
+			this.contentChange(entity) ;
 		}
 	}
 	
@@ -1379,7 +1415,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		json.setStatus(false);
 
 		ProjectMainEntity entity = this.basedaoProject.get(ProjectMainEntity.class, form.getId());
-		
+		System.out.println("==状态: "+ entity.getStatus());
 		// 开始项目（进行中）
 		if (null != form.getStatus() && form.getStatus() == 1) {
 			if(1 == entity.getStatus()) {
@@ -1468,6 +1504,17 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				json.setMsg("项目挂起成功！");
 				json.setStatus(true) ;
 				
+				//状态为挂起，讲之前已经设定好的定时器进行删除，激活后再重新设定定时器
+				TaskForm task = new TaskForm() ;
+				task.setRelationOperates(entity.getId()) ;
+				List<TaskEntity> taskForms = this.taskScheduler.find(task) ;
+				if(null != taskForms) {
+					for (TaskEntity t : taskForms) {
+						this.taskScheduler.delete(t.getId()) ;
+						System.out.println(t.getId() + "==" +t.getRelationOperate());
+					}
+				}
+				
 				// 邮件通知
 			} else {
 				json.setMsg("项目的状态已经是挂起状态！");
@@ -1483,9 +1530,38 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				json.setMsg("该项目已结束，无法激活，请建立新的项目！"); return json ;
 			}
 			if(form.getStatus() != entity.getStatus()) {
-				entity.setStatus(1); // 激活项目，将状态改为进行中（1）
-				json.setMsg("项目激活成功！");
-				json.setStatus(true) ;
+				//判断结束日期是否大于或等于当前日期则激活，如果小于则不激活
+				int dif = DateUtil.compare_date2(DateUtil.formatF(entity.getEndDate()), DateUtil.formatF(new Date())) ;
+				if (dif>0 || dif==0) {
+					System.out.println("日期大于当前日期，可以激活");
+					
+					//设置定时任务
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:59:00", 3) ;
+					if(dateCron.length > 1) {
+						for (int i = 0; i < dateCron.length; i++) {
+							TaskForm task = new TaskForm() ;
+							task.setTask_type("system") ;
+							task.setTask_type_name("项目结束定时邮件") ;
+							task.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+							task.setTask_enable("Y") ;
+							task.setTask_name("项目结束日期提醒") ;
+							task.setRelationOperate(entity.getId() +":" + i) ;
+							task.setCron_expression(dateCron[i]) ; 
+							System.out.println(dateCron[i]);
+							this.taskScheduler.add(task) ;
+						}
+					}
+					
+					entity.setStatus(1); 				// 激活项目，将状态改为进行中（1）
+					json.setMsg("项目激活成功！");
+					json.setStatus(true) ;
+				} else {
+					System.out.println("无法激活项目，项目结束日期小于当前日期，更改结束日期后自动激活！");
+					json.setMsg("无法激活项目，项目结束日期小于当前日期，更改结束日期后自动激活！");
+					json.setStatus(true) ;
+				}
+				
+				
 				
 				// 邮件通知
 			} else {
@@ -1616,7 +1692,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		String endDate = sdf.format(entity.getEndDate()) ;
 		
 		boolean flag = false ;
-		//判断当前日期是否和结束日期相等,相等的话,则是项目结束，否则未结束，将提交两天发送邮件通知该项目还剩余的时间
+		//判断当前日期是否和结束日期相等,相等的话,则是项目结束，否则未结束，将提前两天发送邮件通知该项目还剩余的时间
 		if(currentDate.equals(endDate)) {
 			flag = true ;
 		} else {
