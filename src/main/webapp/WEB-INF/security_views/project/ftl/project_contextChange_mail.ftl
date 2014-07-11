@@ -182,20 +182,6 @@
     				<td>${project.createrName}</td>
     			</tr>
     			<tr>
-    				<th width="140px">项目参与人员：</th>
-    				<td class="devlist">
-    					<ul>
-							<#list projectmails as c>
-								<li>${c.empname}</li>
-								<#if !c_has_next >
-	    							<li>${projectmails?size}（人） </li>
-	    						</#if>
-							</#list>
-							<#if (projectmails?size lt 1) >
-								<li>项目暂无参与人员</li>
-							</#if>
-						</ul>
-    				</td>
     				<th colspan="2" style="padding:0px;">
     					<table width="100%" height="100%">
     						<tr>
@@ -216,6 +202,20 @@
     						</tr>
     					</table>
     				</th>
+    				<th width="140px">项目参与人员：</th>
+    				<td class="devlist">
+    					<ul>
+							<#list projectmails as c>
+								<li>${c.empname}</li>
+								<#if !c_has_next >
+	    							<li>${projectmails?size}（人） </li>
+	    						</#if>
+							</#list>
+							<#if (projectmails?size lt 1) >
+								<li>项目暂无参与人员</li>
+							</#if>
+						</ul>
+    				</td>
     			</tr>
     		</table>
     	</div>

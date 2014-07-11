@@ -156,15 +156,6 @@
     		</table>
     	</div>
     	
-    	<div style="width:width:980px;border:1px solid red; margin:5px 0px;display:block;float:left;"> 
-    		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">项目参与人员：</div>
-    		<#list projectmails as c>
-				<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.empname}</div>
-			</#list>
-			<#if (projectmails?size lt 1) >
-				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">项目暂无参与人员</div>
-			</#if>
-    	</div> 
     	
     	<div style="width:width:980px;border:1px solid red; margin:5px 0px;display:block;float:left;"> 
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">开发人员：</div>
@@ -176,6 +167,16 @@
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">目前暂无开发人员</div>
 			</#if>
     	</div>
+    	
+    	<div style="width:width:980px;border:1px solid red; margin:5px 0px;display:block;float:left;"> 
+    		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">项目参与人员：</div>
+    		<#list projectmails as c>
+				<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.empname}</div>
+			</#list>
+			<#if (projectmails?size lt 1) >
+				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">项目暂无参与人员</div>
+			</#if>
+    	</div> 
     	
     	<div class="footer">
     		<div class="zy">
