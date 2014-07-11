@@ -221,12 +221,13 @@
 					return ;
 				}
 				
+				//入职时间不能大于作业的开始时间
 				var flag = true ;
 				$.each(list, function(i,p){
 					if(!infosUtil.compareCalendar(p.rzsj, infosUtil.str2date(data.startDate).format("YYYY-MM-dd"))) {
 						$.easyui.messager.show({ icon: "info", msg: "入职时间不能大于作业的开始时间。" });
 						$.easyui.loaded();
-						flah = false ;
+						flag = false ;
 						return false ;
 					}
 				});
