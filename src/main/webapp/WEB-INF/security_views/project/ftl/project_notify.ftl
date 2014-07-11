@@ -105,13 +105,13 @@
     		<table>
     			<tr>
     				<th width="140">项目编号：</th>
-    				<td width="320">${project.projectNum}</td>
+    				<td width="320">${project.projectNum?default('')}</td>
     				<th width="140">案件编号：</th>
-    				<td width="320">${project.contractNum}</td>
+    				<td width="320">${project.contractNum?default('')}</td>
     			</tr>
     			<tr>
     				<th width="140">项目名称：</th>
-    				<td width="320">${project.name}</td>
+    				<td width="320">${project.name?default('')}</td>
     				<th>合同受注状况：</th>
     				<td>
     					<#if project.shouzhu == 0>
@@ -131,9 +131,9 @@
     			</tr>
     			<tr>
     				<th>所属部门：</th>
-    				<td>${project.deptname}</td>
+    				<td>${project.deptname?default('')}</td>
     				<th>项目负责人：</th>
-    				<td>${project.leader_name}</td>
+    				<td>${project.leader_name?default('')}</td>
     			</tr>
     			<tr>
     				<th>项目规模：</th>
