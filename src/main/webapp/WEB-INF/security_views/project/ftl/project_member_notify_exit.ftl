@@ -156,7 +156,7 @@
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">当天退出人员：</div>
     		
     		<#list exitProjectMembers as c>
-				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
+				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename?default('')}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
 			</#list>
 			<#if (exitProjectMembers?size lt 1) >
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">暂无人员退出项目</div>
@@ -167,7 +167,7 @@
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">即将到期人员：</div>
     		
     		<#list notifyMembers as c>
-				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
+				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename?default('')}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
 			</#list>
 			<#if (notifyMembers?size lt 1) >
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">暂无即将到期人员</div>
@@ -178,7 +178,7 @@
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">目前开发人员：</div>
     		
     		<#list currentMembers as c>
-				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
+				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename?default('')}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
 			</#list>
 			<#if (currentMembers?size lt 1) >
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">目前暂无开发人员</div>
@@ -188,7 +188,7 @@
     	<div style="width:width:980px;border:1px solid red; margin:5px 0px;display:block;float:left;"> 
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">项目参与人员：</div>
     		<#list projectmails as c>
-				<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.empname}</div>
+				<div style="width:150px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.empname?default('')}</div>
 			</#list>
 			<#if (projectmails?size lt 1) >
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">项目暂无参与人员</div>

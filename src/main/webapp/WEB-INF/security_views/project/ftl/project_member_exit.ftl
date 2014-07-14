@@ -157,7 +157,7 @@
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">退出人员：</div>
     		
     		<#list exitProjectMembers as c>
-				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
+				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename?default('')}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
 			</#list>
 			<#if (exitProjectMembers?size lt 1) >
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">暂无人员退出项目</div>
@@ -168,7 +168,7 @@
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">开发人员：</div>
     		
     		<#list currentMembers as c>
-				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
+				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename?default('')}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
 			</#list>
 			<#if (currentMembers?size lt 1) >
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">暂无开发人员</div>

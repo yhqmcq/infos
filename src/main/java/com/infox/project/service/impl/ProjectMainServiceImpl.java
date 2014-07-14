@@ -294,8 +294,8 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		//项目为开始状态才进行邮件发送
 		if(entity.getStatus() == 1) {
-			//发送项目参数变更邮件
-			this.contentChange(entity) ;
+			//########发送项目参数变更邮件（功能正常，但是取消该功能）
+			//this.contentChange(entity) ;
 		}
 	}
 	
