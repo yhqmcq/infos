@@ -151,6 +151,21 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			}
 		}
 		
+		//删除定时器
+		try {
+			TaskForm task = new TaskForm() ;
+			task.setRelationOperates(entity.getId()) ;
+			List<TaskEntity> taskForms = this.taskScheduler.find(task) ;
+			if(null != taskForms) {
+				for (TaskEntity t : taskForms) {
+					this.taskScheduler.delete(t.getId()) ;
+					System.out.println(t.getId() + "==" +t.getRelationOperate());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		//删除员工加班信息
 		List<OvertimeEntity> ot = this.basedaoOvertime.find("select t from OvertimeEntity t where t.project.id='"+entity.getId()+"'") ;
 		for (OvertimeEntity o : ot) {
@@ -262,31 +277,33 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		this.basedaoProject.update(entity);
 		
-		if(flag) {
-			//定时任务（重新设定项目的触发时间）
-			String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:35:30", 3) ;
-			if(dateCron.length > 1) {
-				for (int i = 0; i < dateCron.length; i++) {
-					//先删除原有的触发器,在建立新的触发器
-					TaskForm task = new TaskForm() ;
-					task.setRelationOperate(entity.getId()+":"+i) ;
-					TaskForm taskForm = this.taskScheduler.get(task) ;
-					if(null != taskForm) {
-						this.taskScheduler.delete(taskForm.getId()) ;
-					}
-					
-					TaskForm taskadd = new TaskForm() ;
-					taskadd.setTask_type("system") ;
-					taskadd.setTask_type_name("项目结束定时邮件") ;
-					taskadd.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
-					taskadd.setTask_enable("Y") ;
-					taskadd.setTask_name("项目结束日期提醒") ;
-					taskadd.setRelationOperate(entity.getId() +":" + i) ;
-					taskadd.setCron_expression(dateCron[i]) ; 
-					this.taskScheduler.add(taskadd) ;
+		//定时任务（重新设定项目的触发时间）
+		String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:35:30", 3) ;
+		if(dateCron.length > 1) {
+			for (int i = 0; i < dateCron.length; i++) {
+				//先删除原有的触发器,在建立新的触发器
+				TaskForm task = new TaskForm() ;
+				task.setRelationOperate(entity.getId()+":"+i) ;
+				TaskForm taskForm = this.taskScheduler.get(task) ;
+				if(null != taskForm) {
+					this.taskScheduler.delete(taskForm.getId()) ;
 				}
+				
+				TaskForm taskadd = new TaskForm() ;
+				taskadd.setTask_type("system") ;
+				taskadd.setTask_type_name("项目结束定时邮件") ;
+				taskadd.setTask_job_class("com.infox.project.job.ProjectSchedulerEmail") ;
+				taskadd.setTask_enable("Y") ;
+				taskadd.setTask_name("项目结束日期提醒") ;
+				taskadd.setRelationOperate(entity.getId() +":" + i) ;
+				taskadd.setCron_expression(dateCron[i]) ; 
+				this.taskScheduler.add(taskadd) ;
 			}
 			
+			memberSchedulerReset(entity) ;
+		}
+		
+		if(flag) {
 			//延期（发送邮件通知）
 			this.delay(entity) ;
 		}
@@ -297,6 +314,49 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			//########发送项目参数变更邮件（功能正常，但是取消该功能）
 			//this.contentChange(entity) ;
 		}
+	}
+	
+	public void memberSchedulerReset(ProjectMainEntity p) {
+		// 定时任务，人员日期延期（重新设定人员期满的触发时间）
+		try {
+			// 查询该项目下所有人员期满触发时间
+			TaskForm taskForm = new TaskForm();
+			taskForm.setRelationOperates(p.getId() + ":M");
+			List<TaskEntity> find = this.taskScheduler.find(taskForm);
+			for (TaskEntity taskEntity : find) {
+				// 先删除现有的触发时间，在重新设定触发时间
+				this.taskScheduler.delete(taskEntity.getId());
+			}
+
+			// 项目开发人员期满定时器
+			Set<String> dateGroup = new HashSet<String>();
+			Set<ProjectEmpWorkingEntity> pwes = p.getPwe();
+			for (ProjectEmpWorkingEntity member : pwes) {
+				if (member.getStatus() == 1) {
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(
+							member.getEndDate()) + " 08:35:30", 2);
+					for (int i = 0; i < dateCron.length; i++) {
+						// 将相同日期的归为一组，进行定时
+						dateGroup.add(dateCron[i]);
+					}
+				}
+			}
+			int i = 0;
+			for (String date : dateGroup) {
+				TaskForm task = new TaskForm();
+				task.setTask_type("system");
+				task.setTask_type_name("开发人员期满邮件提醒");
+				task.setTask_job_class("com.infox.project.job.ProjectMemberWorkSchedulerEmail");
+				task.setTask_enable("Y");
+				task.setTask_name("开发人员期满邮件提醒");
+				task.setRelationOperate(p.getId() + ":M" + i++);
+				task.setCron_expression(date);
+				this.taskScheduler.add(task);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	//延期（发送邮件通知）
@@ -352,7 +412,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			model.put("currentdate", new Date()) ;
 			
 			MailVO mail = new MailVO() ;
-			mail.setSubject("项目延期-["+entity.getName()+"]") ;
+			mail.setSubject("项目作业时间变更-["+entity.getName()+"]") ;
 			if(null != devMemberBuf && !"".equals(devMemberBuf.toString())) {
 				mail.setRecipientTO(devMemberBuf.deleteCharAt(devMemberBuf.length()-1).toString()) ;
 				mail.setRecipientCC(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
@@ -1852,6 +1912,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
         		p.setContractNum(p_num) ;
         		
         		Serializable projectid = this.add(p) ;
+        		
         		p.setDeptname(p_dept) ;
         		p.setDeptLeader(p_pm) ;
         		map.put("project", p) ;
