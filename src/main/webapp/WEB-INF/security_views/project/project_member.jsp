@@ -246,7 +246,9 @@
 							$.easyui.loaded();
 							$.easyui.messager.show({ icon: "info", msg: "设置开发人员起止日期失败。" });
 						}
-					}, 'json');
+					}, 'json').error(function() {
+						$.easyui.loaded();
+					});
 				} else {
 					$.easyui.loaded();
 					$.messager.alert("开始日期和结束日期的取值范围<br>必须是在[<font color='red'>"+sd+"</font>]年内"); 

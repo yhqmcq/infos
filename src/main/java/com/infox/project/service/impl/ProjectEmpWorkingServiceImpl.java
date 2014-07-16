@@ -37,6 +37,7 @@ import com.infox.sysmgr.entity.EmployeeEntity;
 import com.infox.sysmgr.entity.OrgDeptTreeEntity;
 import com.infox.sysmgr.entity.TaskEntity;
 import com.infox.sysmgr.service.TaskSchedulerServiceI;
+import com.infox.sysmgr.web.form.EmployeeForm;
 import com.infox.sysmgr.web.form.TaskForm;
 
 @Service
@@ -193,7 +194,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			for (ProjectEmpWorkingEntity member : pwes) {
 				if (member.getStatus() == 1) {
 					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(
-							member.getEndDate()) + " 08:35:30", 2);
+							member.getEndDate()) + " 23:59:30", 3);
 					for (int i = 0; i < dateCron.length; i++) {
 						// 将相同日期的归为一组，进行定时
 						dateGroup.add(dateCron[i]);
@@ -687,17 +688,18 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					BeanUtils.copyProperties(pwe, exitProjectMembersForm) ;
 					exitProjectMembers.add(exitProjectMembersForm) ;            
 					
-					/** 这里不修改人的状态(空闲)，通过项目结束定时来设置 */
-					/*
+					
 					//将员工设为空闲人员
 					EmployeeEntity emp = pwe.getEmp() ;
 					emp.setWorkStatus(0) ;
 					this.basedaoEmployee.update(emp);
 					
-					pwe.setStatus(4) ;//修改状态为退出
-					pwe.setCreated(new Date()) ;//修改退出的时间	
-					this.basedaoProjectEW.update(pwe);
-					*/
+					//修改人员在项目中的状态为退出项目状态
+					ProjectEmpWorkingEntity ppp = pwe ;
+					ppp.setStatus(4) ;//修改状态为退出
+					ppp.setCreated(new Date()) ;//修改退出的时间	
+					this.basedaoProjectEW.update(ppp);
+					
 				} else {
 					//如果开发人员的结束日期不是今天，则装入集合，后续判断，进行邮件提醒
 					ProjectEmpWorkingForm unExitProjectMembersForm = new ProjectEmpWorkingForm() ;

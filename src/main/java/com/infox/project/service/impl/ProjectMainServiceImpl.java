@@ -278,7 +278,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		this.basedaoProject.update(entity);
 		
 		//定时任务（重新设定项目的触发时间）
-		String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 08:35:30", 3) ;
+		String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:59:30", 3) ;
 		if(dateCron.length > 1) {
 			for (int i = 0; i < dateCron.length; i++) {
 				//先删除原有的触发器,在建立新的触发器
@@ -334,7 +334,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			for (ProjectEmpWorkingEntity member : pwes) {
 				if (member.getStatus() == 1) {
 					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(
-							member.getEndDate()) + " 08:35:30", 2);
+							member.getEndDate()) + " 23:59:30", 3);
 					for (int i = 0; i < dateCron.length; i++) {
 						// 将相同日期的归为一组，进行定时
 						dateGroup.add(dateCron[i]);
@@ -1752,7 +1752,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		String endDate = sdf.format(entity.getEndDate()) ;
 		
 		boolean flag = false ;
-		//判断当前日期是否和结束日期相等,相等的话,则是项目结束，否则未结束，将提前两天发送邮件通知该项目还剩余的时间
+		//判断当前日期是否和结束日期相等,相等的话,则是项目结束，否则未结束，将提前3天发送邮件通知该项目还剩余的时间
 		if(currentDate.equals(endDate)) {
 			flag = true ;
 		} else {
@@ -1764,6 +1764,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		BeanUtils.copyProperties(entity, project);
 		
+		project.setStatus(3) ;
 		project.setDeptname(entity.getDept().getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		
