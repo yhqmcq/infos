@@ -676,6 +676,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		//获取项目开发人员列表（状态为1）
 		Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
 		for (ProjectEmpWorkingEntity pwe : pwes) {
+			
 			if(pwe.getStatus() == 1) {
 				ProjectEmpWorkingForm allMembersForm = new ProjectEmpWorkingForm() ;
 				BeanUtils.copyProperties(pwe, allMembersForm) ;
@@ -686,8 +687,8 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 				if(currentDate.equals(sdf.format(pwe.getEndDate()))) {
 					ProjectEmpWorkingForm exitProjectMembersForm = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwe, exitProjectMembersForm) ;
+					exitProjectMembersForm.setTruename(pwe.getEmp().getTruename()) ;
 					exitProjectMembers.add(exitProjectMembersForm) ;            
-					
 					
 					//将员工设为空闲人员
 					EmployeeEntity emp = pwe.getEmp() ;
@@ -704,6 +705,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					//如果开发人员的结束日期不是今天，则装入集合，后续判断，进行邮件提醒
 					ProjectEmpWorkingForm unExitProjectMembersForm = new ProjectEmpWorkingForm() ;
 					BeanUtils.copyProperties(pwe, unExitProjectMembersForm) ;
+					unExitProjectMembersForm.setTruename(pwe.getEmp().getTruename()) ;
 					currentMembers.add(unExitProjectMembersForm) ;
 				}
 			}
@@ -754,6 +756,9 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			} else {
 				mail.setRecipientTO(strBuf.deleteCharAt(strBuf.length()-1).toString()) ;
 			}
+			
+			//String t = FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member_notify_exit.ftl", model) ;
+			//System.out.println(t);
 			mail.setContent(FreeMarkerToMailTemplateUtil.MailTemplateToString(rootPath, "project_member_notify_exit.ftl", model)) ;
 			this.mailMessageSend.sendMail(mail) ;
 			

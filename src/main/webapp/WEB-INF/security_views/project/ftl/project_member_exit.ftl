@@ -105,13 +105,13 @@
     		<table>
     			<tr>
     				<th width="140">项目编号：</th>
-    				<td width="320">${project.projectNum?default('')}</td>
+    				<td width="320">${project.projectNum!}</td>
     				<th width="140">案件编号：</th>
-    				<td width="320">${project.contractNum?default('')}</td>
+    				<td width="320">${project.contractNum!}</td>
     			</tr>
     			<tr>
     				<th width="140">项目名称：</th>
-    				<td width="320">${project.name?default('')}</td>
+    				<td width="320">${project.name!}</td>
     				<th>合同受注状况：</th>
     				<td>
     					<#if project.shouzhu == 0>
@@ -131,9 +131,9 @@
     			</tr>
     			<tr>
     				<th>所属部门：</th>
-    				<td>${project.deptname?default('')}</td>
+    				<td>${project.deptname!}</td>
     				<th>项目负责人：</th>
-    				<td>${project.leader_name?default('')}</td>
+    				<td>${project.leader_name!}</td>
     			</tr>
     			<tr>
     				<th>项目状态：</th>
@@ -157,7 +157,7 @@
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">退出人员：</div>
     		
     		<#list exitProjectMembers as c>
-				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
+				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename!}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
 			</#list>
 			<#if (exitProjectMembers?size lt 1) >
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">暂无人员退出项目</div>
@@ -168,7 +168,7 @@
     		<div style="width:980px;height:25px;border-bottom:1px solid red;line-height:25px;font-weight:bold;">开发人员：</div>
     		
     		<#list currentMembers as c>
-				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
+				<div style="width:300px;height:25px;float:left;text-indent:30px;line-height:25px;">${c.truename!}[${c.startDate?string("yyyy-MM-dd")} - ${c.endDate?string("yyyy-MM-dd")}]</div>
 			</#list>
 			<#if (currentMembers?size lt 1) >
 				<div style="width:350px;height:25px;float:left;text-indent:30px;line-height:25px;">暂无开发人员</div>

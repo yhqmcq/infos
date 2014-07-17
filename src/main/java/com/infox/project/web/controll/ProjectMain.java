@@ -11,6 +11,7 @@ import com.infox.common.util.Constants;
 import com.infox.common.web.BaseController;
 import com.infox.common.web.page.DataGrid;
 import com.infox.common.web.page.Json;
+import com.infox.project.service.ProjectEmpWorkingServiceI;
 import com.infox.project.service.ProjectMainServiceI;
 import com.infox.project.web.form.ProjectMailListForm;
 import com.infox.project.web.form.ProjectMainForm;
@@ -22,6 +23,9 @@ public class ProjectMain extends BaseController {
 	
 	@Autowired
 	private ProjectMainServiceI projectService ;
+	
+	@Autowired
+	private ProjectEmpWorkingServiceI projectEWService ;
 	
 	@RequestMapping("/project_main.do")
 	public String project_main() throws Exception {
