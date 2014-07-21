@@ -1960,9 +1960,11 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 			if (null != form.getDeptsView() && !"".equals(form.getDeptsView())) {
 				hql += " and t.org.id in (:depts)";
 				String[] split = form.getDeptsView().split(",");
-				
 				params.put("depts", split);
-				System.out.println(hql);
+			}
+			if (null != form.getExportDept() && "all".equals(form.getExportDept())) {
+				hql += " and t.org.compute=:exportDept";
+				params.put("exportDept", "Y");
 			}
 		}
 		return hql;

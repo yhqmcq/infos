@@ -169,7 +169,16 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	
 	private String deptsView ; //部长,本部长
 	
+	private String exportDept ;	//过滤生产部门的稼动率
 
+
+	public String getExportDept() {
+		return exportDept;
+	}
+
+	public void setExportDept(String exportDept) {
+		this.exportDept = exportDept;
+	}
 
 	public String getSmonth1() {
 		return smonth1;

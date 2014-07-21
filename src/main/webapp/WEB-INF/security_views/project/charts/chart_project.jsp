@@ -77,7 +77,7 @@ $(function () {
 		var j = $.parseJSON(result) ;
 		var chart = $('#container').highcharts();
 		chart.series[0].setData(j);
-		$("#info").html("<font color='green'>进行中：</font>"+j[0].y+"个<br><font color='red'>已结束：</font>"+j[1].y+"个");
+		$("#info").html("<font color='green'>进行中：</font>"+j[0].y+"&nbsp;&nbsp;个<br><font color='orange'>已挂起：</font>"+j[2].y+"&nbsp;&nbsp;个<br><font color='red'>已结束：</font>"+j[1].y+"&nbsp;&nbsp;个");
 	}, 'json');
 });
 </script>

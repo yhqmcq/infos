@@ -104,6 +104,7 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 		
 		Object[] data1 = new Object[2] ;
 		Object[] data2 = new Object[2] ;
+		Object[] data3 = new Object[2] ;
 		int month = Calendar.getInstance().get(Calendar.MONTH)+1 ;
 		Calendar c = Calendar.getInstance(); 
         c.add(Calendar.MONTH, (0-month+1));
@@ -119,6 +120,7 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 		
 		int run = 0 ;
 		int close = 0 ;
+		int gq = 0 ;
 		List<ProjectMainEntity> find = this.find(form) ;
 		for (ProjectMainEntity p : find) {
 			
@@ -126,16 +128,21 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 				run ++ ;
 			} else if(p.getStatus() == 3) {
 				close ++ ;
+			} else if(p.getStatus() == 2) {
+				gq ++ ;
 			}
 		}
 		data1[0] = "进行中" ;
 		data1[1] = run ;
 		data2[0] = "已关闭" ;
 		data2[1] = close ;
+		data3[0] = "挂起" ;
+		data3[1] = gq ;
 		
 		List<Object[]> list = new ArrayList<Object[]>() ;
 		list.add(data1) ;
 		list.add(data2) ;
+		list.add(data3) ;
 		
 		
 		return JSON.toJSONString(list) ;
