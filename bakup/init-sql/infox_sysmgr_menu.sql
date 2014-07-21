@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql
+Source Server         : 192.168.2.206
 Source Server Version : 50518
-Source Host           : localhost:3306
+Source Host           : 192.168.2.206:3306
 Source Database       : infos
 
 Target Server Type    : MYSQL
 Target Server Version : 50518
 File Encoding         : 65001
 
-Date: 2014-06-25 09:47:29
+Date: 2014-07-21 10:29:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -63,6 +63,7 @@ INSERT INTO `infox_sysmgr_menu` VALUES ('518167', null, '2014-05-23 10:11:57', n
 INSERT INTO `infox_sysmgr_menu` VALUES ('527852', null, '2014-03-07 15:21:26', null, 'sysmgr/empjob/empjob_main.do', 'icon-standard-user-red', '2014-03-07 15:21:26', null, '公司岗位', '1', null, null, 'F', '876715', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('533865', null, '2014-06-12 09:30:32', null, 'project/jdl/employeeTaskTimeReport_leader.do', '', '2014-06-12 09:30:32', null, '总裁专用（新）', '1', null, null, 'O', '502906', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('547345', null, '2014-02-22 00:50:30', null, 'sysmgr/employee/emp_main.do', 'icon-hamburg-my-account', '2014-02-22 00:50:30', null, '员工管理', '1', null, null, 'F', '876715', 'Y');
+INSERT INTO `infox_sysmgr_menu` VALUES ('559654', null, '2014-07-11 09:13:30', null, 'project/pwe_emp_working/delTempRow.do', '', '2014-07-11 09:13:30', null, '添加开发人员-取消或关闭', '1', null, null, 'O', '361454', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('559824', null, '2014-06-12 09:41:36', null, 'project/jdl/employeeTaskTimeReport.do', '', '2014-06-12 09:41:36', null, '稼动率查询（新）', '1', null, null, 'O', '502906', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('567670', null, '2014-06-18 08:51:44', null, 'project/jdl/jdl_group_page.do', '', '2014-06-18 08:51:44', null, '稼动率多部门汇总（新）', '1', null, null, 'O', '502906', 'Y');
 INSERT INTO `infox_sysmgr_menu` VALUES ('643077', null, '2014-05-15 11:04:27', null, 'sysmgr/employee/getPermission.do', 'icon-standard-application-view-tile', '2014-05-15 11:04:27', null, '用户角色关联', '1', null, null, 'O', '068671', 'Y');
