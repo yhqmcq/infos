@@ -194,7 +194,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 			for (ProjectEmpWorkingEntity member : pwes) {
 				if (member.getStatus() == 1) {
 					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(
-							member.getEndDate()) + " 23:59:30", 3);
+							member.getEndDate()) + " 23:58:30", 3);
 					for (int i = 0; i < dateCron.length; i++) {
 						// 将相同日期的归为一组，进行定时
 						dateGroup.add(dateCron[i]);
@@ -655,7 +655,7 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d") ;
 		String currentDate = sdf.format(new Date()) ;
 		
-		//通过当前触发触日期加上2天获得开发人员期满的日期，来作为条件检索日期
+		//通过当前触发触日期加上3天获得开发人员期满的日期，来作为条件检索日期
 		Calendar sc = Calendar.getInstance() ;
 		sc.setTime(sdf.parse(currentDate)) ;
 		sc.set(Calendar.DAY_OF_MONTH, sc.get(Calendar.DAY_OF_MONTH)+3);

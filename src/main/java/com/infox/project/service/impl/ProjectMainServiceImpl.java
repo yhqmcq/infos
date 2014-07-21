@@ -238,7 +238,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					System.out.println("日期大于当前日期，可以激活");
 					
 					//设置定时任务
-					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:59:00", 3) ;
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:58:30", 3) ;
 					if(dateCron.length > 1) {
 						for (int i = 0; i < dateCron.length; i++) {
 							TaskForm task = new TaskForm() ;
@@ -278,7 +278,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		this.basedaoProject.update(entity);
 		
 		//定时任务（重新设定项目的触发时间）
-		String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:59:30", 3) ;
+		String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:58:30", 3) ;
 		if(dateCron.length > 1) {
 			for (int i = 0; i < dateCron.length; i++) {
 				//先删除原有的触发器,在建立新的触发器
@@ -334,7 +334,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			for (ProjectEmpWorkingEntity member : pwes) {
 				if (member.getStatus() == 1) {
 					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(
-							member.getEndDate()) + " 23:59:30", 3);
+							member.getEndDate()) + " 23:58:30", 3);
 					for (int i = 0; i < dateCron.length; i++) {
 						// 将相同日期的归为一组，进行定时
 						dateGroup.add(dateCron[i]);
@@ -1506,7 +1506,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						Set<String> dateGroup = new HashSet<String>() ;
 						Set<ProjectEmpWorkingEntity> pwes = entity.getPwe() ;
 						for (ProjectEmpWorkingEntity member : pwes) {
-							String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 23:59:30", 3) ;
+							String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(member.getEndDate()) + " 23:58:30", 3) ;
 							for (int i = 0; i < dateCron.length; i++) {
 								//将相同日期的归为一组，进行定时
 								dateGroup.add(dateCron[i]) ;
@@ -1527,7 +1527,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						
 						
 						//设置定时任务
-						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:59:00", 3) ;
+						String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:58:30", 3) ;
 						if(dateCron.length > 1) {
 							for (int i = 0; i < dateCron.length; i++) {
 								TaskForm task = new TaskForm() ;
@@ -1596,7 +1596,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					System.out.println("日期大于当前日期，可以激活");
 					
 					//设置定时任务
-					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:59:00", 3) ;
+					String[] dateCron = DateUtil.getDateCron(DateUtil.formatG(entity.getEndDate()) + " 23:58:30", 3) ;
 					if(dateCron.length > 1) {
 						for (int i = 0; i < dateCron.length; i++) {
 							TaskForm task = new TaskForm() ;
@@ -1764,7 +1764,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 		
 		BeanUtils.copyProperties(entity, project);
 		
-		project.setStatus(3) ;
+		
 		project.setDeptname(entity.getDept().getSname()) ;
 		project.setLeader_name(entity.getEmp().getTruename()) ;
 		

@@ -51,7 +51,7 @@
 	}
 	.content table th{
 		text-align: left;
-		padding:8px 5px;
+		padding:2px 5px;
 	}
 	.content table td{
 		padding:0px;
