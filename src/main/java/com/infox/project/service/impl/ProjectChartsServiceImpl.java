@@ -134,7 +134,7 @@ public class ProjectChartsServiceImpl implements ProjectChartsServiceI {
 		}
 		data1[0] = "进行中" ;
 		data1[1] = run ;
-		data2[0] = "已关闭" ;
+		data2[0] = "已结束" ;
 		data2[1] = close ;
 		data3[0] = "挂起" ;
 		data3[1] = gq ;
