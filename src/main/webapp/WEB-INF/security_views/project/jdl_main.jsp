@@ -67,7 +67,18 @@
 			    { field: 'month12', title: '十二月', width: 60, formatter: function(value, row){
 			    	return pad(value+"") ;
  			    } },
-			    
+ 			    { field: 'bzts1', title: '一月', width: 60},
+ 			    { field: 'bzts2', title: '二月', width: 60},
+ 			    { field: 'bzts3', title: '三月', width: 60},
+ 			    { field: 'bzts4', title: '四月', width: 60},
+ 			    { field: 'bzts5', title: '五月', width: 60},
+ 			    { field: 'bzts6', title: '六月', width: 60},
+ 			    { field: 'bzts7', title: '七月', width: 60},
+ 			    { field: 'bzts8', title: '八月', width: 60},
+ 			    { field: 'bzts9', title: '九月', width: 60},
+ 			    { field: 'bzts10', title: '十月', width: 60},
+ 			    { field: 'bzts11', title: '十一月', width: 60},
+ 			    { field: 'bzts12', title: '十二月', width: 60},
 			    
 			    { field: 'dbmType', title: '到部门类型', width: 100, formatter:function(value,row){
 			    	if(value != undefined) {
@@ -226,9 +237,7 @@
                     <a onclick="leader()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">总裁专用</a>
                     <a onclick="groupReport()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">多部门汇总</a>
                     <span id="jl_bar">
-                    	<!-- 
-	                    <a onclick="exportDept()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-application-form-magnify'">过滤生产部门</a>
-                    	 -->
+	                    <a onclick="exportDept()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-application-form-magnify'">公司生产部门稼动率</a>
 						部门：<input id="select1" name="pid" />
 	                    <input id="topSearchbox" class="easyui-searchbox" data-options="width: 200, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
 	                    <div id="topSearchboxMenu" style="width: 85px;"> 

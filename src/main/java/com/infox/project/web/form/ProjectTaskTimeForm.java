@@ -165,12 +165,122 @@ public class ProjectTaskTimeForm extends PageHelper implements Serializable {
 	private String smonth12 ;
 	
 	
+	//标准天数
+	int bzts1 ;
+	int bzts2 ;
+	int bzts3 ;
+	int bzts4 ;
+	int bzts5 ;
+	int bzts6 ;
+	int bzts7 ;
+	int bzts8 ;
+	int bzts9 ;
+	int bzts10 ;
+	int bzts11 ;
+	int bzts12 ;
+	
 	private String viewType ;	//查询类型
 	
 	private String deptsView ; //部长,本部长
 	
 	private String exportDept ;	//过滤生产部门的稼动率
 
+
+	public int getBzts1() {
+		return bzts1;
+	}
+
+	public void setBzts1(int bzts1) {
+		this.bzts1 = bzts1;
+	}
+
+	public int getBzts2() {
+		return bzts2;
+	}
+
+	public void setBzts2(int bzts2) {
+		this.bzts2 = bzts2;
+	}
+
+	public int getBzts3() {
+		return bzts3;
+	}
+
+	public void setBzts3(int bzts3) {
+		this.bzts3 = bzts3;
+	}
+
+	public int getBzts4() {
+		return bzts4;
+	}
+
+	public void setBzts4(int bzts4) {
+		this.bzts4 = bzts4;
+	}
+
+	public int getBzts5() {
+		return bzts5;
+	}
+
+	public void setBzts5(int bzts5) {
+		this.bzts5 = bzts5;
+	}
+
+	public int getBzts6() {
+		return bzts6;
+	}
+
+	public void setBzts6(int bzts6) {
+		this.bzts6 = bzts6;
+	}
+
+	public int getBzts7() {
+		return bzts7;
+	}
+
+	public void setBzts7(int bzts7) {
+		this.bzts7 = bzts7;
+	}
+
+	public int getBzts8() {
+		return bzts8;
+	}
+
+	public void setBzts8(int bzts8) {
+		this.bzts8 = bzts8;
+	}
+
+	public int getBzts9() {
+		return bzts9;
+	}
+
+	public void setBzts9(int bzts9) {
+		this.bzts9 = bzts9;
+	}
+
+	public int getBzts10() {
+		return bzts10;
+	}
+
+	public void setBzts10(int bzts10) {
+		this.bzts10 = bzts10;
+	}
+
+	public int getBzts11() {
+		return bzts11;
+	}
+
+	public void setBzts11(int bzts11) {
+		this.bzts11 = bzts11;
+	}
+
+	public int getBzts12() {
+		return bzts12;
+	}
+
+	public void setBzts12(int bzts12) {
+		this.bzts12 = bzts12;
+	}
 
 	public String getExportDept() {
 		return exportDept;
