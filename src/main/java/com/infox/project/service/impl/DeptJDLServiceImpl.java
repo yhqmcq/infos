@@ -1532,51 +1532,53 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		
 		List<String> removeList1 = removeList(allUsers, totalJDLDay1) ;
 		Integer npDate1 = getNoProjectDate(removeList1, 1) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate1+"\t需统计的人：" + removeList1.size()+"=="+removeList1+"\n");
+		System.out.println("总天数：" + npDate1+"\t需统计的人：" + removeList1.size()+"=="+removeList1+"\n");
 		
 		List<String> removeList2 = removeList(allUsers, totalJDLDay2) ;
 		Integer npDate2 = getNoProjectDate(removeList2, 2) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate2+"\t需统计的人：" + removeList2.size()+"=="+removeList2+"\n");
+		System.out.println("总天数：" + npDate2+"\t需统计的人：" + removeList2.size()+"=="+removeList2+"\n");
 		
 		List<String> removeList3 = removeList(allUsers, totalJDLDay3) ;
 		Integer npDate3 = getNoProjectDate(removeList3, 3) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate3+"\t需统计的人：" + removeList3.size()+"=="+removeList3+"\n");
+		System.out.println("总天数：" + npDate3+"\t需统计的人：" + removeList3.size()+"=="+removeList3+"\n");
 		
 		List<String> removeList4 = removeList(allUsers, totalJDLDay4) ;
+		
 		Integer npDate4 = getNoProjectDate(removeList4, 4) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate4+"\t需统计的人：" + removeList4.size()+"=="+removeList4+"\n");
+		System.out.println("总天数：" + npDate4+"\t需统计的人：" + removeList4.size()+"=="+removeList4+"\n");
 		
 		List<String> removeList5 = removeList(allUsers, totalJDLDay5) ;
 		Integer npDate5 = getNoProjectDate(removeList5, 5) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate5+"\t需统计的人：" + removeList5.size()+"=="+removeList5+"\n");
+		System.out.println("总天数：" + npDate5+"\t需统计的人：" + removeList5.size()+"=="+removeList5+"\n");
 		
 		List<String> removeList6 = removeList(allUsers, totalJDLDay6) ;
 		Integer npDate6 = getNoProjectDate(removeList6, 6) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate6+"\t需统计的人：" + removeList6.size()+"=="+removeList6+"\n");
+		System.out.println("总天数：" + npDate6+"\t需统计的人：" + removeList6.size()+"=="+removeList6+"\n");
+		
 		
 		List<String> removeList7 = removeList(allUsers, totalJDLDay7) ;
 		Integer npDate7 = getNoProjectDate(removeList7, 7) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate7+"\t需统计的人：" + removeList7.size()+"=="+removeList7+"\n");
+		System.out.println("总天数：" + npDate7+"\t需统计的人：" + removeList7.size()+"=="+removeList7+"\n");
 		
 		List<String> removeList8 = removeList(allUsers, totalJDLDay8) ;
 		Integer npDate8 = getNoProjectDate(removeList8, 8) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate8+"\t需统计的人：" + removeList8.size()+"=="+removeList8+"\n");
+		System.out.println("总天数：" + npDate8+"\t需统计的人：" + removeList8.size()+"=="+removeList8+"\n");
 		
 		List<String> removeList9 = removeList(allUsers, totalJDLDay9) ;
 		Integer npDate9 = getNoProjectDate(removeList9, 9) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate9+"\t需统计的人：" + removeList9.size()+"=="+removeList9+"\n");
+		System.out.println("总天数：" + npDate9+"\t需统计的人：" + removeList9.size()+"=="+removeList9+"\n");
 		
 		List<String> removeList10 = removeList(allUsers, totalJDLDay10) ;
 		Integer npDate10 = getNoProjectDate(removeList10, 10) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate10+"\t需统计的人：" + removeList10.size()+"=="+removeList10+"\n");
+		System.out.println("总天数：" + npDate10+"\t需统计的人：" + removeList10.size()+"=="+removeList10+"\n");
 		
 		List<String> removeList11 = removeList(allUsers, totalJDLDay11) ;
 		Integer npDate11 = getNoProjectDate(removeList11, 11) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate11+"\t需统计的人：" + removeList11.size()+"=="+removeList11+"\n");
+		System.out.println("总天数：" + npDate11+"\t需统计的人：" + removeList11.size()+"=="+removeList11+"\n");
 		
 		List<String> removeList12 = removeList(allUsers, totalJDLDay12) ;
 		Integer npDate12 = getNoProjectDate(removeList12, 12) ;	//为参加项目人员的实际工作天数累加
-		//System.out.println("总天数：" + npDate12+"\t需统计的人：" + removeList12.size()+"=="+removeList12+"\n");
+		System.out.println("总天数：" + npDate12+"\t需统计的人：" + removeList12.size()+"=="+removeList12+"\n" + "==" + m_days12+"=="+npDate12);
 		/*
 		System.out.println("[1月]总实际工作天数\t" + "有项目人员天数累加:["+m_days1+"] \t无项目人员天数累加：["+npDate1+"] \t计算:(m_days1/npDate)="+nt.format(m_days1/npDate1));
 		System.out.println("[2月]总实际工作天数\t" + "有项目人员天数累加:["+m_days2+"] \t无项目人员天数累加：["+npDate2+"] \t计算:(m_days2/npDate)="+nt.format(m_days2/npDate2));
@@ -1881,15 +1883,22 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 									continue ;
 								}
 								
+								
+								//System.out.println(emp.getTruename()+"==比较的月份：【"+(start.get(Calendar.MONTH)+1)+"--"+(lbmDate.get(Calendar.MONTH)+1)+"】");
+								
 								//如果本月与离部门的月份相同,则将日期设置为离部门的日期
-								if(now.get(Calendar.MONTH) == lbmDate.get(Calendar.MONTH)) {
+								if((start.get(Calendar.MONTH)+1) == lbmDate.get(Calendar.MONTH)+1) {
 									Calendar end = Calendar.getInstance() ;	
 									end.setTime(DateUtil.formatGG(emp.getLbmDate())) ; 
 									
 									int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
 									totalDay += wd ;
-									System.out.println(emp.getTruename() + "\t到1部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+									
+									//System.out.println("====当前的开始日期：" + DateUtil.formatG(start.getTime())+"===离职日期："+DateUtil.formatG(end.getTime()));
+									
+									System.out.println(emp.getTruename() + "\t到1部门类型：" +emp.getDbmType()+"\t"+"当前的开始日期：" + DateUtil.formatG(start.getTime())+"离职日期："+DateUtil.formatG(end.getTime())+ "  实际工作天数：" + wd);
 								}
+								//System.out.println(DateUtil.formatG(start.getTime())+"---"+DateUtil.formatG(lbmDate.getTime()) +"==month=="+(month-1)+"==="+(lbmDate.get(Calendar.MONTH)+1));
 								if((month-1) < lbmDate.get(Calendar.MONTH)) {
 									Calendar end = Calendar.getInstance() ;	
 									end.setTime(start.getTime()) ; 
@@ -1957,7 +1966,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 								
 								int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
 								totalDay += wd ;
-								//System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+								System.out.println(emp.getTruename() + "\tNNNNNN到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
 							}
 							
 							//如果本月大于到部门的月,则按本月的一号开始设置
@@ -1990,7 +1999,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											
 											int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
 											totalDay += wd ;
-											//System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+											System.out.println(emp.getTruename() + "\t到部ZZZZZ门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
 											
 										}
 										
