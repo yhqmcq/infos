@@ -235,7 +235,7 @@
 					return ;
 				}
 				
-				if(sd == ed) {
+				//if(sd == ed) {
 					$.post(yhq.basePath+"/project/pwe_emp_working/set_workdate.do", data, function(result) {
 						if (result.status) {
 							$("#bgMembers").val(result.obj.bgMembers) ;
@@ -249,10 +249,10 @@
 					}, 'json').error(function() {
 						$.easyui.loaded();
 					});
-				} else {
-					$.easyui.loaded();
-					$.messager.alert("开始日期和结束日期的取值范围<br>必须是在[<font color='red'>"+sd+"</font>]年内"); 
-				}
+				//} else {
+				//	$.easyui.loaded();
+				//	$.messager.alert("开始日期和结束日期的取值范围<br>必须是在[<font color='red'>"+sd+"</font>]年内"); 
+				//}
 			} else {$.easyui.loaded();}
 		} else {
 			$.easyui.messager.show({ icon: "info", msg: "请选择一条记录！" });

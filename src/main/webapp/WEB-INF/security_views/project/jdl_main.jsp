@@ -235,8 +235,8 @@
 				<div id="buttonbar">
                     <a onclick="dataGrid.datagrid('reload');" class="easyui-linkbutton" data-options="plain: true, iconCls: 'ext_reload'">刷新</a>
                     <a onclick="leader()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">总裁专用</a>
-                    <a onclick="groupReport()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">多部门汇总</a>
                     <span id="jl_bar">
+	                    <a onclick="groupReport()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-user-suit'">多部门汇总</a>
 	                    <a onclick="exportDept()" class="easyui-linkbutton" data-options="plain: true, iconCls: 'icon-standard-application-form-magnify'">公司生产部门稼动率</a>
 						部门：<input id="select1" name="pid" />
 	                    <input id="topSearchbox" class="easyui-searchbox" data-options="width: 200, height: 26, prompt: '请输入您要查找的内容关键词', menu: '#topSearchboxMenu'" />
