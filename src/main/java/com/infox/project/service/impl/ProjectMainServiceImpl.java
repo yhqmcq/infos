@@ -1839,9 +1839,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					this.basedaoEmployee.update(emp);
 					
 					pwe.setStatus(4) ;//修改状态为退出
-					pwe.setEndDate(new Date()) ; //如果员工的结束日期大于项目的结束日期，则将员工的结束日期设置为当前项目的结束日期
 					pwe.setCreated(new Date()) ;//修改退出的时间	
-					this.basedaoProjectEW.update(pwe);
+					
+					//如果员工的结束日期大于项目的结束日期，则将员工的结束日期设置为当前项目的结束日期
+					int compare_date2 = DateUtil.compare_date2(DateUtil.formatG(pwe.getEndDate()), DateUtil.formatG(entity.getEndDate())) ;
+					if(compare_date2 == 1) {
+						pwe.setEndDate(new Date()) ; 
+					}
 				}
 				
 				
