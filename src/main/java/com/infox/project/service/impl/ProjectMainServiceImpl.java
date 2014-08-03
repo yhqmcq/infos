@@ -1637,6 +1637,30 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 			
 			if(form.getStatus() != entity.getStatus()) {
 				entity.setStatus(3); // 开始状态
+				
+				Set<ProjectEmpWorkingEntity> projectEmpWorkingEntity = entity.getPwe() ;
+				for (ProjectEmpWorkingEntity pwe : projectEmpWorkingEntity) {
+					
+					//将员工设为空闲人员
+					EmployeeEntity emp = pwe.getEmp() ;
+					emp.setWorkStatus(0) ;
+					this.basedaoEmployee.update(emp);
+					
+					pwe.setStatus(4) ;//修改状态为退出
+					pwe.setCreated(new Date()) ;//修改退出的时间	
+					
+					//如果员工的结束日期大于项目结束日期，则按当天日期来结束人员的结束时间
+					int compare_date22 = DateUtil.compare_date2(DateUtil.formatG(pwe.getEndDate()), DateUtil.formatG(entity.getEndDate())) ;
+					if(compare_date22 == 1 || compare_date22 == 0)  {
+						pwe.setEndDate(new Date()) ;
+					}
+					
+					
+					this.basedaoProjectEW.update(pwe) ;
+				}
+			
+				//项目结束时间
+				entity.setEndDate(new Date()) ; 
 				json.setMsg("项目结束！");
 				json.setStatus(true) ;
 				
@@ -1841,11 +1865,13 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					pwe.setStatus(4) ;//修改状态为退出
 					pwe.setCreated(new Date()) ;//修改退出的时间	
 					
-					//如果员工的结束日期大于项目的结束日期，则将员工的结束日期设置为当前项目的结束日期
-					int compare_date2 = DateUtil.compare_date2(DateUtil.formatG(pwe.getEndDate()), DateUtil.formatG(entity.getEndDate())) ;
-					if(compare_date2 == 1) {
-						pwe.setEndDate(new Date()) ; 
+					//如果员工的结束日期大于项目结束日期，则按当天日期来结束人员的结束时间
+					int compare_date22 = DateUtil.compare_date2(DateUtil.formatG(pwe.getEndDate()), DateUtil.formatG(entity.getEndDate())) ;
+					if(compare_date22 == 1 || compare_date22 == 0)  {
+						pwe.setEndDate(new Date()) ;
 					}
+					
+					this.basedaoProjectEW.update(pwe) ;
 				}
 				
 				
