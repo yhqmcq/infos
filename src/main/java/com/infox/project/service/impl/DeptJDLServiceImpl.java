@@ -1470,7 +1470,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 					
 					bzts(e, uf, map) ;
 					
-					allUsers.add(e.getTruename()) ;
+					allUsers.add(e.getId()) ;
 					
 					uf.setTotalTaskTime(allTotalDays); // 总天数
 					uf.setTotalTaskYear(NumberUtils.formatNum(allTotalYear)); // 总月数
@@ -1558,7 +1558,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		
 		List<String> removeList7 = removeList(allUsers, totalJDLDay7) ;
 		Integer npDate7 = getNoProjectDate(removeList7, 7) ;	//为参加项目人员的实际工作天数累加
-		System.out.println("总天数：" + npDate7+"\t需统计的人：" + removeList7.size()+"=="+removeList7+"\n");
+		System.out.println("总天数：" + npDate7+ "==="+m_days7+"\t需统计的人：" + removeList7.size()+"=="+removeList7+"\n");
 		
 		List<String> removeList8 = removeList(allUsers, totalJDLDay8) ;
 		Integer npDate8 = getNoProjectDate(removeList8, 8) ;	//为参加项目人员的实际工作天数累加
@@ -1850,7 +1850,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 		String[] split = splitType(list) ;
 		if(split!=null && split.length > 0) {
 			Map<String, Object> params = new HashMap<String, Object>() ;
-			String hql = "select t from EmployeeEntity t where t.truename in(:str)" ;
+			String hql = "select t from EmployeeEntity t where t.id in(:str)" ;
 			params.put("str", split) ;
 			List<EmployeeEntity> find = this.basedaoEmployee.find(hql, params) ;
 			
@@ -1893,8 +1893,6 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 									
 									int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
 									totalDay += wd ;
-									
-									//System.out.println("====当前的开始日期：" + DateUtil.formatG(start.getTime())+"===离职日期："+DateUtil.formatG(end.getTime()));
 									
 									System.out.println(emp.getTruename() + "\t到1部门类型：" +emp.getDbmType()+"\t"+"当前的开始日期：" + DateUtil.formatG(start.getTime())+"离职日期："+DateUtil.formatG(end.getTime())+ "  实际工作天数：" + wd);
 								}
@@ -1990,7 +1988,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 											
 											int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
 											totalDay += wd ;
-											//System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+											System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
 										}
 										if((month-1) < lbmDate.get(Calendar.MONTH)) {
 											Calendar end = Calendar.getInstance() ;	
@@ -2013,7 +2011,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 										
 										int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
 										totalDay += wd ;
-										//System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+										System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
 										
 									}
 									
@@ -2024,7 +2022,7 @@ public class DeptJDLServiceImpl implements DeptJDLServiceI {
 									
 									int wd = DateCal.getWorkingDays(DateUtil.formatG(start.getTime()), DateUtil.formatG(end.getTime()));  
 									totalDay += wd ;
-									//System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
+									System.out.println(emp.getTruename() + "\t到部门类型：" +emp.getDbmType()+"\t"+DateUtil.formatG(start.getTime())+"=="+DateUtil.formatG(end.getTime()) + "  实际工作天数：" + wd);
 								}
 							}
 							

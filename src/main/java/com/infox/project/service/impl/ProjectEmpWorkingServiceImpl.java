@@ -692,14 +692,22 @@ public class ProjectEmpWorkingServiceImpl implements ProjectEmpWorkingServiceI {
 					
 					//将员工设为空闲人员
 					EmployeeEntity emp = pwe.getEmp() ;
-					emp.setWorkStatus(0) ;
-					this.basedaoEmployee.update(emp);
+					//emp.setWorkStatus(0) ;
+					//this.basedaoEmployee.update(emp);
+					this.basedaoEmployee.executeHql("update EmployeeEntity t set t.workStatus=0 where id='"+emp.getId()+"'") ;
 					
 					//修改人员在项目中的状态为退出项目状态
-					ProjectEmpWorkingEntity ppp = pwe ;
-					ppp.setStatus(4) ;//修改状态为退出
-					ppp.setCreated(new Date()) ;//修改退出的时间	
-					this.basedaoProjectEW.update(ppp);
+					//ProjectEmpWorkingEntity ppp = pwe ;
+					//ppp.setStatus(4) ;//修改状态为退出
+					//ppp.setCreated(new Date()) ;//修改退出的时间	
+					//this.basedaoProjectEW.update(ppp);
+					
+					//为测试过，替换上面的
+					ProjectEmpWorkingEntity pppe = new ProjectEmpWorkingEntity() ;
+					BeanUtils.copyNotNullProperties(pwe, pppe) ;
+					pppe.setStatus(4) ;//修改状态为退出
+					pppe.setCreated(new Date()) ;//修改退出的时间	
+					this.basedaoProjectEW.update(pppe) ;
 					
 				} else {
 					//如果开发人员的结束日期不是今天，则装入集合，后续判断，进行邮件提醒
