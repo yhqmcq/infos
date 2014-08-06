@@ -1376,6 +1376,14 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 				hql += " and t.project.id=:pid";
 				params.put("pid", form.getPid());
 			}
+			if (form.getName() != null && !"".equals(form.getName())) {
+				hql += " and t.name=:name";
+				params.put("name", form.getName());
+			}
+			if (form.getProjectNum() != null && !"".equals(form.getProjectNum())) {
+				hql += " and t.projectNum=:projectNum";
+				params.put("projectNum", form.getProjectNum());
+			}
 			if (null != form.getNotInStatus() && !"".equals(form.getNotInStatus())) {
 				hql += " and t.status not in (:notInStatus)";
 				String[] split = form.getNotInStatus().split(",");
