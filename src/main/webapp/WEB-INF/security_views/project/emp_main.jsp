@@ -104,7 +104,7 @@
 					data["orgid"] = orgid ;
 				}
 				
-				if(node.label == 0) { data["notInStatus"] = "9999,3" ; }
+				if(node.label == 0) { data["notInStatus"] = "9999,3,4" ; }
 				if(node.label == 1) { data["notInStatus"] = "9999,1,3,4" ; }
 				if(node.label == 2) { data["notInStatus"] = "9999,0,3,4" ; }
 				if(node.label == 3) { data["notInStatus"] = "9999,0,1,4" ; }
