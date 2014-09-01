@@ -257,16 +257,36 @@ public class DateUtil {
 	}
 
 	/**
-	 * 比较两个日期大小
+	 * 比较两个日期大小和时间
 	 * 
-	 * @param finalDate
+	 * @param fristDate
 	 * @param enddate
 	 * @return 返回-1、0、1（小于、相等、大于）
 	 */
-	public static int compare_date2(String finalDate, String enddate) {
+	public static int compare_datetime2(String fristDate, String enddate) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			Date d1 = df.parse(finalDate);
+			Date d1 = df.parse(fristDate);
+			Date d2 = df.parse(enddate);
+			int ss = d1.compareTo(d2);
+			return ss;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	/**
+	 * 比较两个日期大小和时间
+	 * 
+	 * @param fristDate
+	 * @param enddate
+	 * @return 返回-1、0、1（小于、相等、大于）
+	 */
+	public static int compare_date2(String fristDate, String enddate) {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date d1 = df.parse(fristDate);
 			Date d2 = df.parse(enddate);
 			int ss = d1.compareTo(d2);
 			return ss;
@@ -591,8 +611,8 @@ public class DateUtil {
 		System.out.println(getBabyAge("1988-05-11"));
 		*/
 		
-		String strDateStart = "2013-12-02";
-		String strDateEnd = "2014-03-31";
+		String strDateStart = "2014-03-03";
+		String strDateEnd = "2014-05-26";
 		
 		//System.out.println(dateDiff(strDateStart, strDateEnd));
 		

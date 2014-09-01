@@ -66,6 +66,9 @@ public class ProjectMainForm extends PageHelper implements Serializable {
 	/** 剩余天数 */
 	private long lastdateDiff;
 	
+	/** 总月数(实际工作天数除以当月的有效天数) */
+	private Float totalMonth = new Float(0) ;
+	
 	/** 项目总人月 */
 	private float mm ;
 
@@ -90,6 +93,14 @@ public class ProjectMainForm extends PageHelper implements Serializable {
  
 	public String getPid() {
 		return pid;
+	}
+
+	public Float getTotalMonth() {
+		return totalMonth;
+	}
+
+	public void setTotalMonth(Float totalMonth) {
+		this.totalMonth = totalMonth;
 	}
 
 	public float getMm() {

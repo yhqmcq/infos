@@ -46,7 +46,7 @@
 			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd") ;
 			    	return sed ;
 			    } },
-			    { field: 'month', title: '月数', width: 60, sortable: true, formatter:function(value,row){return infosUtil.numberf(row.dateDiff/21,2)+"&nbsp;月";} },
+			    { field: 'totalMonth', title: '月数', width: 60, sortable: true, formatter:function(value,row){return infosUtil.numberf(value,2)+"&nbsp;月";} },
 			    //{ field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return infosUtil.numberf(value,2)+"&nbsp;人月";} },
 			    { field: 'dateDiff', title: '总天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
 			    { field: 'lastdateDiff', title: '剩余天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
