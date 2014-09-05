@@ -540,7 +540,7 @@ public class ProjectTaskTimeServiceImpl implements ProjectTaskTimeServiceI {
 								//总人月（实际工作天数除以当月的有效天数）
 								allTotalMM += (((Integer)day).floatValue()/((Long)diffDay).floatValue()) ;
 								
-								switch (i+1) {
+								switch (i+1) { 
 								case 1:
 									uf.setMonth1(NumberUtils.formatNum(uf.getMonth1()+((Integer)day).floatValue()/diffDay)) ;
 									break;
