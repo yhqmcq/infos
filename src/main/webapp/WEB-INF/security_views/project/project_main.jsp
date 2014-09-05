@@ -46,10 +46,10 @@
 			    	var sed = $.date.format($.string.toDate(row.startDate), "yyyy-MM-dd") + "&nbsp;&harr;&nbsp;" + $.date.format($.string.toDate(row.endDate), "yyyy-MM-dd") ;
 			    	return sed ;
 			    } },
-			    { field: 'totalMonth', title: '月数', width: 60, sortable: true, formatter:function(value,row){return infosUtil.numberf(value,2)+"&nbsp;月";} },
+			    { field: 'totalMonth', title: '月数', width: 80, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>个月</div>" ;} },
 			    //{ field: 'mm', title: '人月', width: 70, sortable: true, formatter:function(value,row){return infosUtil.numberf(value,2)+"&nbsp;人月";} },
-			    { field: 'dateDiff', title: '总天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
-			    { field: 'lastdateDiff', title: '剩余天数', width: 60, sortable: true, formatter:function(value,row){return value+"&nbsp;天";} },
+			    { field: 'dateDiff', title: '总天数', width: 80, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
+			    { field: 'lastdateDiff', title: '剩余天数', width: 80, sortable: true, formatter:function(value,row){return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>";} },
 			    { field: 'project_type', title: '项目类型', width: 120, sortable: true, formatter:function(value,row){
 			    	if(value == 0){ return "对日短期保守项目" ; } else  if(value == 1) { return "对日长期保守项目" ; } else  if(value == 2) { return "对日新规项目" ; } else  if(value == 3) { return "国内项目" ; } else { return "公司内部项目" ; }
 			    } },
