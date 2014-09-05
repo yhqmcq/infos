@@ -473,7 +473,6 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 					//时间有效工作天数
 					Integer day = new Integer(0) ;
 					
-					System.out.println(ym1.equals(ym2));
 					//第一个月
 					if(ym1.equals(frist) && !ym1.equals(ym2)) {
 						long diff = DateCal.getWorkingDays(sd, DateUtil.formatG(lastDay.getTime()));
@@ -490,6 +489,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						Calendar ho2 = Calendar.getInstance();
 						
 						int cdd1 = DateUtil.compare_date2(DateUtil.formatG(new Date()), DateUtil.formatG(lastDay.getTime())) ;
+						//System.out.println(cdd1);
 						if(cdd1 == 1) {
 							ho2.setTime(DateUtil.formatGG(DateUtil.formatG(lastDay.getTime()))) ;
 						} else {
@@ -497,7 +497,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						}
 						
 						int hocount = DateCal.getHolidays(ho1, ho2) ;
-						System.out.println("休息:" + hocount);
+						//System.out.println("休息:" + hocount);
 						
 						Calendar cc1 = Calendar.getInstance() ;
 						if(cdd1 == 1) {
@@ -511,9 +511,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						}
 						
 						int workingDays = DateCal.getWorkingDays(DateUtil.formatG(c1.getTime()), DateUtil.formatG(cc1.getTime())) ;
-						extMonth += ((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue() ;
+						extMonth += NumberUtils.formatNum(((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue()) ;
 						
-						System.out.println("开始："+DateUtil.formatG(c1.getTime())+"===结束："+DateUtil.formatG(cc1.getTime())+"===消耗人月："+extMonth);
+						System.out.println("开始："+DateUtil.formatG(c1.getTime())+"===结束："+DateUtil.formatG(cc1.getTime())+"===消耗人月："+extMonth+"-=="+((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue());
 						
 						System.out.println("***********************begin***********************\r\n");
 						
@@ -542,7 +542,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							}
 							
 							int hocount = DateCal.getHolidays(ho1, ho2) ;
-							System.out.println("休息:" + hocount);
+							//System.out.println("休息:" + hocount);
 							
 							Calendar cc1 = Calendar.getInstance() ;
 							if(cdd1 == 1) {
@@ -550,15 +550,15 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							} else {
 								//消耗的天数
 								int xhd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date())) ;
-								System.out.println(xhd+"消耗");
+								//System.out.println(xhd+"消耗");
 								cc1.setTime(DateUtil.formatGG(DateUtil.formatG(fristDay.getTime()))) ;
 								cc1.add(Calendar.DAY_OF_WEEK, xhd+hocount);
 							}
 							
 							int workingDays = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(cc1.getTime())) ;
-							extMonth += ((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue() ;
+							extMonth += NumberUtils.formatNum(((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue()) ;
 							
-							System.out.println("开始："+DateUtil.formatG(fristDay.getTime())+"===结束："+DateUtil.formatG(cc1.getTime())+"===消耗人月："+extMonth);
+							System.out.println("开始："+DateUtil.formatG(fristDay.getTime())+"===结束："+DateUtil.formatG(cc1.getTime())+"===消耗人月："+extMonth+"-=="+((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue());
 							
 							System.out.println("********************center**************************\r\n");
 							
@@ -588,7 +588,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							}
 							
 							int hocount = DateCal.getHolidays(ho1, ho2) ;
-							System.out.println("休息:" + hocount);
+							//System.out.println("休息:" + hocount);
 							
 							Calendar cc1 = Calendar.getInstance() ;
 							if(cdd1 == 1) {
@@ -596,15 +596,15 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 							} else {
 								//消耗的天数
 								int xhd = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(new Date())) ;
-								System.out.println(xhd+"消耗");
+								//System.out.println(xhd+"消耗");
 								cc1.setTime(DateUtil.formatGG(DateUtil.formatG(fristDay.getTime()))) ;
 								cc1.add(Calendar.DAY_OF_WEEK, xhd+hocount);
 							}
 							
 							int workingDays = DateCal.getWorkingDays(DateUtil.formatG(fristDay.getTime()), DateUtil.formatG(cc1.getTime())) ;
-							extMonth += ((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue() ;
+							extMonth += NumberUtils.formatNum(((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue()) ;
 							
-							System.out.println("开始："+DateUtil.formatG(fristDay.getTime())+"===结束："+DateUtil.formatG(cc1.getTime())+"===消耗人月："+extMonth);
+							System.out.println("开始："+DateUtil.formatG(fristDay.getTime())+"===结束："+DateUtil.formatG(cc1.getTime())+"===消耗人月："+extMonth+"-=="+((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue());
 							
 							System.out.println("**********************end************************\r\n");
 							
@@ -631,7 +631,7 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						}
 						
 						int hocount = DateCal.getHolidays(ho1, ho2) ;
-						System.out.println("休息:" + hocount);
+						//System.out.println("休息:" + hocount);
 						
 						Calendar cc1 = Calendar.getInstance() ;
 						if(cdd1 == 1) {
@@ -645,9 +645,9 @@ public class ProjectMainServiceImpl implements ProjectMainServiceI {
 						}
 						
 						int workingDays = DateCal.getWorkingDays(DateUtil.formatG(c1.getTime()), DateUtil.formatG(cc1.getTime())) ;
-						extMonth += ((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue() ;
+						extMonth += NumberUtils.formatNum(((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue()) ;
 						
-						System.out.println("开始："+DateUtil.formatG(c1.getTime())+"===结束："+DateUtil.formatG(cc1.getTime())+"===消耗人月："+extMonth);
+						System.out.println("开始："+DateUtil.formatG(c1.getTime())+"===结束："+DateUtil.formatG(cc1.getTime())+"===消耗人月："+extMonth+"-=="+((Integer)workingDays).floatValue() / ((Long)diffDay).floatValue());
 						
 						System.out.println("***********************equals***********************\r\n");
 					}

@@ -23,7 +23,7 @@
 			columns: [[
 			    { field: 'dept_name', title: '部门', width: 80, sortable: true },
 			    { field: 'totalTaskYear', title: '总月数', width: 80, sortable: true, formatter: function(value, row){
-			    	return "<div style='float:left'>"+infosUtil.numberf(value, 2)+"</div><div style='float:right'>月</div>" ;
+			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>月</div>" ;
 			    } },
 			    { field: 'totalTaskTime', title: '总天数', width: 80, sortable: true, formatter: function(value, row){
 			    	return "<div style='float:left'>"+value+"</div><div style='float:right'>天</div>" ;
@@ -87,7 +87,7 @@
 				    }},
 				    { field: 'expendDays', title: '已消耗天数', width: 80, sortable: true},
 				    { field: 'expendMM', title: '已消耗人月', width: 80, sortable: true, formatter: function(value,row){
-				    	return infosUtil.numberf(value, 2) ;
+				    	return value ;
 				    }},
 				    { field: 'totalHour', title: '加班小时', width: 100, sortable: true, formatter: function(value, row){
 				    	if(undefined != value) {
